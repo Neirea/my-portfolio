@@ -12,13 +12,31 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"@sendgrid/mail": "^7.7.0",
+		"axios": "^0.27.2",
+		"cloudinary": "^1.30.0",
+		"cookie-parser": "^1.4.6",
+		"cors": "^2.8.5",
 		"dotenv": "^16.0.1",
 		"express": "^4.18.1",
-		"mongoose": "^6.3.5"
+		"express-async-errors": "^3.1.1",
+		"express-fileupload": "^1.4.0",
+		"express-mongo-sanitize": "^2.2.0",
+		"express-rate-limit": "^6.4.0",
+		"helmet": "^5.1.0",
+		"http-status-codes": "^2.2.0",
+		"mongoose": "^6.3.5",
+		"morgan": "^1.10.0",
+		"sanitize-html": "^2.7.0"
 	},
 	"devDependencies": {
+		"@types/cookie-parser": "^1.4.3",
+		"@types/cors": "^2.8.12",
 		"@types/express": "^4.17.13",
+		"@types/express-fileupload": "^1.2.2",
+		"@types/morgan": "^1.9.3",
 		"@types/node": "^17.0.40",
+		"@types/sanitize-html": "^2.6.2",
 		"nodemon": "^2.0.16",
 		"ts-node": "^10.8.1",
 		"typescript": "^4.7.3"
