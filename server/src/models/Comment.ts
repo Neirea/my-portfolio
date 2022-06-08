@@ -17,7 +17,7 @@ function isMessageRequired(this: Comment) {
 }
 const CommentSchema = new Schema(
 	{
-		article: {
+		articleId: {
 			type: Types.ObjectId,
 			ref: "Article",
 			required: true,

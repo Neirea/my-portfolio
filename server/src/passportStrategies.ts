@@ -25,7 +25,7 @@ const loginGithub = async (
 			platform_name: username,
 			platform_type: "github",
 			name: displayName || "User1337",
-			role: isFirstAccount ? "admin" : "user",
+			roles: isFirstAccount ? ["admin", "user"] : ["user"],
 			avatar_url: _json.avatar_url,
 		});
 	}
