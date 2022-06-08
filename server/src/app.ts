@@ -7,25 +7,17 @@ import cors from "cors";
 import fileUpload from "express-fileupload";
 import mongoSanitize from "express-mongo-sanitize";
 import cookieParser from "cookie-parser";
-import cloudinary from "cloudinary";
-import dotenv from "dotenv";
-/* routers */
+import session from "express-session";
+import passport from "passport";
+/* user stuff */
 import userRouter from "./routes/userRouter";
 import authRouter from "./routes/authRouter";
-/* test */
-import session from "express-session";
-import MongoStore from "connect-mongo";
-import passport from "passport";
-// import { Strategy as GitHubStrategy } from "passport-github2";
-// import { loginGithub } from "./passportStrategies";
-// import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-
-dotenv.config();
-cloudinary.v2.config({
-	cloud_name: process.env.CLDNRY_NAME,
-	api_key: process.env.CLDNRY_API_KEY,
-	api_secret: process.env.CLDNRY_API_SECRET,
-});
+import articleRouter from "./routes/articleRouter";
+import actionRouter from "./routes/actionRouter";
+import commentRouter from "./routes/commentRouter";
+import errorHandlerMiddleware from "./middleware/error-handle";
+import notFoundMiddleware from "./middleware/not-found";
+import { sessionStore } from "./config";
 
 const app = express();
 /* routers */
@@ -38,21 +30,22 @@ app.use(
 	cors({
 		origin:
 			process.env.NODE_ENV === "production"
-				? "my production url"
+				? process.env.PRODUCTION_URL
 				: "http://localhost:3000",
 	})
-); //check if any other requests are coming
+);
 app.use(fileUpload({ useTempFiles: true }));
 app.use(express.json());
 app.use(mongoSanitize());
 app.use(cookieParser(process.env.JWT_SECRET));
 //add csrf middleware from csurf?
 
-const sessionStore = new MongoStore({
-	mongoUrl: process.env.MONGO_URL,
-	collectionName: "sessions",
-});
-//session middleware
+if (process.env.NODE_ENV !== "production") {
+	const morgan = require("morgan");
+	app.use(morgan("tiny"));
+}
+
+/* session middleware */
 app.use(
 	session({
 		secret: process.env.SESSION_SECRET!,
@@ -73,9 +66,12 @@ app.use(passport.initialize()); //passport init
 /* use routers */
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/article", articleRouter);
+app.use("/api/comment", commentRouter);
+app.use("/api/action", actionRouter);
 
-/* ----- */
-
-/* Error handling */
+/* error middleware */
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware);
 
 export default app;

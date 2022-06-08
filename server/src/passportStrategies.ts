@@ -9,26 +9,27 @@ interface GithubUserProfile extends Profile {
 	};
 }
 const loginGithub = async (
-	accessToken: any,
-	refreshToken: any,
+	accessToken: string | undefined,
+	refreshToken: string | undefined,
 	profile: GithubUserProfile,
 	done: any
 ) => {
 	//check if user is in DB, if not -> create one
-	let user = await User.findOne({ github_id: profile.id });
+	let user = await User.findOne({ id: profile.id, type: "github" });
 	if (!user) {
 		console.log("new User");
 
-		const { id, displayName, _json } = profile;
+		const { username, displayName, _json } = profile;
 		const isFirstAccount = (await User.countDocuments({})) === 0;
 		user = await User.create({
-			github_id: id,
+			platform_name: username,
+			platform_type: "github",
 			name: displayName || "User1337",
 			role: isFirstAccount ? "admin" : "user",
 			avatar_url: _json.avatar_url,
 		});
 	}
-
+	console.log("login");
 	done(null, { user, accessToken, refreshToken });
 };
 

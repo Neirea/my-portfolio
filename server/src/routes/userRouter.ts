@@ -1,13 +1,12 @@
 import { Router } from "express";
+import { isAuthenticated, authorizePermissions } from "../middleware/auth";
+import { showMe, banUser } from "../controllers/userController";
 
 const router = Router();
 
-router.get("/showMe", (req, res) => {
-	// console.log(req.headers);
-	/* get info about user */
-	console.log(req.headers);
+router.get("/showMe", isAuthenticated, showMe);
+router.delete("/:id", isAuthenticated, authorizePermissions("admin"), banUser);
 
-	res.status(200);
-});
+/* delete account route? */
 
 export default router;

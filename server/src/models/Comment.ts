@@ -22,7 +22,7 @@ const CommentSchema = new Schema(
 			ref: "Article",
 			required: true,
 		},
-		parent: {
+		parentId: {
 			type: Types.ObjectId,
 			ref: "Comment",
 			default: null,

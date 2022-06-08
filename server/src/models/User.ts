@@ -2,8 +2,13 @@ import { Schema, model } from "mongoose";
 
 /* mb need more fields */
 const UserSchema = new Schema({
-	github_id: {
+	platform_name: {
 		type: String,
+		required: true,
+	},
+	platform_type: {
+		type: String,
+		enum: ["github", "google"],
 	},
 	name: {
 		type: String,

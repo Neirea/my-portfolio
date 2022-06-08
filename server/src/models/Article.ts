@@ -1,5 +1,7 @@
 import { Schema, Types, model } from "mongoose";
 
+export const categories = ["blog", "project"];
+
 const ArticleSchema = new Schema(
 	{
 		title: {
@@ -16,7 +18,7 @@ const ArticleSchema = new Schema(
 		category: {
 			type: String,
 			required: [true, "Please provide category"],
-			enum: ["blog", "project"],
+			enum: categories,
 		},
 		code_languages: [{ type: String }],
 		source_link: {
