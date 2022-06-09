@@ -7,6 +7,12 @@ import CustomError from "../errors";
 import { Request, Response } from "express";
 import { UploadedFile } from "express-fileupload";
 
+interface ArticleDataType {
+	title: string;
+	category: string;
+	_id: number;
+}
+
 export const getAllArticles = async (req: Request, res: Response) => {
 	//gets category based on url of get request
 	let getCategory = req.url.toString().replace("/", "");
@@ -116,13 +122,14 @@ export const deleteArticleImage = async (req: Request, res: Response) => {
 };
 
 export const getCategoryValues = async (req: Request, res: Response) => {
-	// const enumValues = ((await Article.schema.path("category")) as any)
-	// 	.enumValues;
 	res.status(StatusCodes.OK).json({ categories });
 };
 export const getArticlesData = async (req: Request, res: Response) => {
 	const articles = await Article.find({}, { category: 1, title: 1 });
-	let articlesData = { blogs: [] as any, projects: [] as any[] };
+	let articlesData = {
+		blogs: [] as ArticleDataType[],
+		projects: [] as ArticleDataType[],
+	};
 
 	articles.forEach((elem) => {
 		if (elem.category === "project") {

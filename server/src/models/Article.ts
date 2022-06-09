@@ -1,5 +1,22 @@
 import { Schema, Types, model } from "mongoose";
 
+interface IArticle {
+	title: string;
+	content: string;
+	category: string;
+	code_languages: string[];
+	source_link: string | undefined;
+	demo_link: string | undefined;
+	tags: string[];
+	image: string;
+	img_id: string;
+	userId: number;
+	_id: number;
+	createdAt: Date;
+	updatedAt: Date;
+	__v: number;
+}
+
 export const categories = ["blog", "project"];
 
 const ArticleSchema = new Schema(
@@ -20,14 +37,14 @@ const ArticleSchema = new Schema(
 			required: [true, "Please provide category"],
 			enum: categories,
 		},
-		code_languages: [{ type: String }],
+		code_languages: { type: [{ type: String }], default: [] },
 		source_link: {
 			type: String,
 		},
 		demo_link: {
 			type: String,
 		},
-		tags: [{ type: String }],
+		tags: { type: [{ type: String }], default: [] },
 		image: {
 			type: String,
 			required: [true, "Please provide main image"],
@@ -57,4 +74,4 @@ ArticleSchema.pre("remove", async function () {
 	await this.model("Comment").deleteMany({ article: this._id });
 });
 
-export default model("Article", ArticleSchema);
+export default model<IArticle>("Article", ArticleSchema);

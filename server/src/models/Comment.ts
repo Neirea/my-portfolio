@@ -1,18 +1,22 @@
 import mongoose, { Schema, model, Types, Query } from "mongoose";
 
-interface Comment {
-	article: Types.ObjectId;
-	parent: Types.ObjectId;
+export interface IComment {
+	articleId: number;
+	parentId: number;
 	message: string;
-	replies: [Types.ObjectId];
+	replies: number[];
 	user: {
-		id: Types.ObjectId;
-		name: string;
-		isBanned: boolean;
+		id: number;
+		name?: string;
+		isBanned?: boolean;
 	};
+	_id: number;
+	createdAt: Date;
+	updatedAt: Date;
+	__v: number;
 }
 
-function isMessageRequired(this: Comment) {
+function isMessageRequired(this: IComment) {
 	return typeof this.message === "string" ? false : true;
 }
 const CommentSchema = new Schema(
@@ -51,12 +55,12 @@ const CommentSchema = new Schema(
 );
 
 //middleware to populate replies of top level comments in recursive way
-function autoPopulateReplies(this: Query<Comment, Comment>) {
+function autoPopulateReplies(this: Query<IComment, IComment>) {
 	this.populate("replies");
 }
-CommentSchema.pre<Query<Comment, Comment>>("find", autoPopulateReplies).pre(
+CommentSchema.pre<Query<IComment, IComment>>("find", autoPopulateReplies).pre(
 	"findOne",
 	autoPopulateReplies
 );
 
-export default model("Comment", CommentSchema);
+export default model<IComment>("Comment", CommentSchema);

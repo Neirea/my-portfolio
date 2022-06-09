@@ -6,12 +6,6 @@ import CustomError from "../errors";
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 
-interface CommentModel extends mongoose.Document {
-	user: number;
-	message: string;
-	parentId: number;
-}
-
 //gets all top level comments
 export const getAllComments = async (req: Request, res: Response) => {
 	const { article: articleId } = req.params;
@@ -68,10 +62,12 @@ export const createComment = async (
 
 	const comment = await Comment.create(newComment);
 	//update parent's replies property
-	if (comment.parent) {
-		const updateParent = await Comment.findOne({ _id: comment.parent });
-		updateParent.replies = [...updateParent.replies, comment._id];
-		await updateParent.save();
+	if (comment.parentId) {
+		const updateParent = await Comment.findOne({ _id: comment.parentId });
+		if (updateParent) {
+			updateParent.replies = [...updateParent.replies, comment._id];
+			await updateParent.save();
+		}
 	}
 
 	res.status(StatusCodes.CREATED).json({ comment });
@@ -82,7 +78,7 @@ export const updateComment = async (req: Request, res: Response) => {
 	const { message } = req.body;
 
 	const comment = await Comment.findOne({ _id: commentId });
-	if (comment.user.isBanned) {
+	if (comment?.user.isBanned) {
 		throw new CustomError.BadRequestError(
 			"You are currently suspended from posting comments"
 		);
@@ -99,7 +95,7 @@ export const deleteComment = async (req: Request, res: Response) => {
 	const { id: commentId } = req.params;
 
 	const comment = await Comment.findOne({ _id: commentId });
-	if (comment.user.isBanned) {
+	if (comment?.user.isBanned) {
 		throw new CustomError.BadRequestError(
 			"You are currently suspended from posting comments"
 		);
