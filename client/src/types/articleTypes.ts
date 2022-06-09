@@ -88,7 +88,7 @@ export interface ArticleContextValues {
 	loading: boolean;
 	setLoading: Dispatch<SetStateAction<boolean>>;
 	articleId: string | null;
-	article: IArticle;
+	article: IArticle | null;
 	comments: IJsxComment[];
 	setComments: Dispatch<SetStateAction<IJsxComment[]>>;
 	commentState: ICommentState;

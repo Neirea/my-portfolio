@@ -1,7 +1,7 @@
 export type ThemeType = typeof lightTheme;
 
 export const lightTheme = {
-	mainBgColor: "rgb(245, 245, 245)",
+	mainBgColor: "rgb(250, 250, 250)",
 	mainTextColor: "rgba(0, 0, 0,0.87)",
 	fadedTextColor: "rgb(0,0,0,0.54)",
 	headerBgColor: "rgb(255, 255, 255)",

@@ -10,17 +10,19 @@ export const Button = styled.button`
 	letter-spacing: var(--letter-spacing);
 	text-transform: capitalize;
 	font-size: 1rem;
+	opacity: 0.8;
 	cursor: pointer;
 
 	&:disabled {
 		opacity: 0.3;
 		cursor: not-allowed;
 	}
+
 	@media (hover: hover) and (pointer: fine) {
 		&:hover:enabled,
 		.btn:focus:enabled {
 			transition: 0.15s linear;
-			opacity: 0.8;
+			opacity: 1;
 		}
 	}
 `;
@@ -38,6 +40,28 @@ export const ReadButton = styled(Button)`
 			opacity: 1;
 			background-color: var(--button-color);
 			color: white;
+		}
+	}
+`;
+
+export const LoginButton = styled(Button)`
+	display: flex;
+	gap: 0.5rem;
+	justify-content: center;
+	padding: 1rem;
+	min-width: 10rem;
+	font-size: 1.1rem;
+	opacity: 1;
+	transition: box-shadow var(--transition);
+
+	&:disabled {
+		opacity: 0.3;
+		cursor: not-allowed;
+	}
+	@media (hover: hover) and (pointer: fine) {
+		&:hover,
+		&:focus {
+			box-shadow: 0 0 0.5rem 0rem var(--main-text-color);
 		}
 	}
 `;

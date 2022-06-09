@@ -37,7 +37,7 @@ const SingleArticleProvider = ({ children }: any) => {
 	const articleId = query.get("a");
 
 	const { alert, showAlert, hideAlert, loading, setLoading } = useLocalState();
-	const [article, setArticle] = useState<IArticle>({} as IArticle);
+	const [article, setArticle] = useState<IArticle | null>(null);
 	const [articlesData, setArticlesData] = useState<IArticleData[]>([]);
 	const [comments, setComments] = useState<IJsxComment[]>([]);
 	//action types: reply,edit,none

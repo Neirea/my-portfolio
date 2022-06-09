@@ -39,6 +39,12 @@ export const ArticlePageWrapper = styled.main`
 			display: block;
 		}
 	}
+	.article-aside-container {
+		background: var(--article-bg-color);
+		padding: 1rem;
+		border-radius: var(--border-radius);
+		box-shadow: var(--shadow-1);
+	}
 `;
 
 export const ArticleContentWrapper = styled.section`

@@ -38,7 +38,7 @@ const SingleArticle = () => {
 		hideAlert();
 		setLoading(true);
 		try {
-			const route = articleId ? `/${article.category}` : "/";
+			const route = articleId ? `/${article?.category}` : "/";
 			await axios.delete(`/api/article/${articleId}`);
 
 			navigate(route);
