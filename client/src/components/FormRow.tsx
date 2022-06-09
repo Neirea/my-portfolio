@@ -12,6 +12,7 @@ interface FormRowProps {
 	isRequired?: boolean;
 	title?: string;
 	pattern?: string;
+	placeholder?: string;
 }
 
 const FormRow = ({

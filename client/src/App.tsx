@@ -21,7 +21,7 @@ import { lightTheme, darkTheme } from "./styles/theme";
 import { useGlobalContext } from "./store/AppContext";
 import { SingleArticleProvider } from "./store/SingleArticleContext";
 
-import { userRoles } from "./store/AppContext";
+import { userRoles } from "./types/appTypes";
 
 function App() {
 	const { isLoading, darkMode } = useGlobalContext();

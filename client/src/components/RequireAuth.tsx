@@ -1,5 +1,6 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
-import { useGlobalContext, userRoles } from "../store/AppContext";
+import { useGlobalContext } from "../store/AppContext";
+import { userRoles } from "../types/appTypes";
 
 interface RequireAuthProps {
 	allowedRoles: userRoles[];

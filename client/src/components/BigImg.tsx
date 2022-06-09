@@ -2,6 +2,8 @@ import { useState } from "react";
 
 interface BigImgProps {
 	alt: string;
+	src: string;
+	className?: string;
 }
 
 const BigImg = ({ alt, ...props }: BigImgProps) => {

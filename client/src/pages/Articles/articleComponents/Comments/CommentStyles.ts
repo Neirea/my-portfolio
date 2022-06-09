@@ -4,6 +4,10 @@ interface StyledCommentsProps {
 	step: number;
 	depth: number;
 }
+interface ReplyFormProps {
+	step?: number;
+	depth?: number;
+}
 
 export const CommentsWrapper = styled.section`
 	display: flex;
@@ -128,8 +132,10 @@ export const SingleCommentContainer = styled.div<StyledCommentsProps>`
 	}
 `;
 
-export const ReplyFormWrapper = styled.form<StyledCommentsProps>`
+export const ReplyFormWrapper = styled.form<ReplyFormProps>`
 	position: relative;
-	margin-left: ${(props) => props.depth * props.step || 0}%;
-	width: ${(props) => 100 - props.depth * props.step || 100}%;
+	margin-left: ${(props) =>
+		(props.depth && props.step && props.depth * props.step) || 0}%;
+	width: ${(props) =>
+		(props.depth && props.step && 100 - props.depth * props.step) || 100}%;
 `;

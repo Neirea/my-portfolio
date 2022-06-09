@@ -1,56 +1,28 @@
-import {
-	useContext,
-	useState,
-	useEffect,
-	createContext,
-	Dispatch,
-	SetStateAction,
-} from "react";
+import { useContext, useState, useEffect, createContext } from "react";
 import { useQuery } from "../utils/useQuery";
 import useLocalState from "../utils/useLocalState";
 import axios from "axios";
 import { handleHtmlString } from "../utils/handleHtmlString";
-
-interface AppContextValues {
-	alert: {
-		show: boolean;
-		text: string;
-		type: string;
-	};
-	showAlert: ({
-		text,
-		type,
-	}: {
-		text: string;
-		type?: string | undefined;
-	}) => void;
-	hideAlert: () => void;
-	loading: boolean;
-	setLoading: Dispatch<SetStateAction<boolean>>;
-	articleId: string | null;
-	article: any;
-	comments: any;
-	setComments: Dispatch<SetStateAction<any>>;
-	commentState: any;
-	setCommentState: Dispatch<SetStateAction<any>>;
-	articlesData: any;
-}
+import {
+	IArticle,
+	IArticleData,
+	IComment,
+	ArticleContextValues,
+	IJsxComment,
+	ICommentState,
+	ACTIONS,
+} from "../types/articleTypes";
 
 //export for testing purposes
-export const SingleArticleContext = createContext({} as AppContextValues);
+export const SingleArticleContext = createContext({} as ArticleContextValues);
 
 //list of actions for commentState
-export enum ACTIONS {
-	reply = "reply",
-	edit = "edit",
-	none = "none",
-}
 
 //fills array out of infinetely nested comment object(that has replies field) with depth values
 export const parseComments = async (
-	comments: any[],
+	comments: IComment[],
 	depth: number,
-	array: any[]
+	array: IJsxComment[]
 ) => {
 	for (let i = 0; i < comments?.length; i++) {
 		if (!i) depth++;
@@ -65,11 +37,11 @@ const SingleArticleProvider = ({ children }: any) => {
 	const articleId = query.get("a");
 
 	const { alert, showAlert, hideAlert, loading, setLoading } = useLocalState();
-	const [article, setArticle] = useState(null);
-	const [articlesData, setArticlesData] = useState([]);
-	const [comments, setComments] = useState<any>(null);
+	const [article, setArticle] = useState<IArticle>({} as IArticle);
+	const [articlesData, setArticlesData] = useState<IArticleData[]>([]);
+	const [comments, setComments] = useState<IJsxComment[]>([]);
 	//action types: reply,edit,none
-	const [commentState, setCommentState] = useState({
+	const [commentState, setCommentState] = useState<ICommentState>({
 		type: ACTIONS.none,
 		id: null,
 		message: "",
@@ -103,7 +75,7 @@ const SingleArticleProvider = ({ children }: any) => {
 				setArticle(articleResult);
 
 				const { data } = await axios.get(`api/v1/comment/${articleId}`);
-				const commentsArray: any[] = [];
+				const commentsArray: IJsxComment[] = [];
 				//make styled code in content
 				parseComments(data.comments, -1, commentsArray);
 
