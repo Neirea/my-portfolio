@@ -48,7 +48,7 @@ const EditArticle = () => {
 	//get html from article id and put it into editor
 	useEffect(() => {
 		const getContent = async () => {
-			const { data } = await axios.get(`/api/v1/article/${articleId}`);
+			const { data } = await axios.get(`/api/article/${articleId}`);
 			//any contentBlocks ?
 			const contentState = ContentState.createFromBlockArray(
 				htmlToDraft(data.article.content).contentBlocks
@@ -69,7 +69,7 @@ const EditArticle = () => {
 			setTags(data.article.tags.join(" "));
 
 			//get list of categories
-			const response = await axios.get("/api/v1/article/articleCategories");
+			const response = await axios.get("/api/article/articleCategories");
 			setCategories(response.data.enumValues);
 		};
 		getContent();
@@ -92,11 +92,11 @@ const EditArticle = () => {
 			if (selectedImage) {
 				const data = new FormData();
 				data.append("image", selectedImage);
-				const response = await axios.post("/api/v1/article/upload", data);
+				const response = await axios.post("/api/article/upload", data);
 				updatedArticle.image = response.data.image.src;
 				updatedArticle.img_id = response.data.image.img_id;
 			}
-			await axios.patch(`/api/v1/article/${articleId}`, updatedArticle);
+			await axios.patch(`/api/article/${articleId}`, updatedArticle);
 			setSuccess(true);
 			showAlert({
 				text: "article was successfuly saved!",

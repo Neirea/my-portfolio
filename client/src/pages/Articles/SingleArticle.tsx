@@ -39,7 +39,7 @@ const SingleArticle = () => {
 		setLoading(true);
 		try {
 			const route = articleId ? `/${article.category}` : "/";
-			await axios.delete(`/api/v1/article/${articleId}`);
+			await axios.delete(`/api/article/${articleId}`);
 
 			navigate(route);
 		} catch (error) {
@@ -70,7 +70,7 @@ const SingleArticle = () => {
 								<div className="article-header">
 									<h3 className="article-title">{article.title}</h3>
 									<p className="article-date">
-										{handleDate(article.updatedAt.toString())}
+										{handleDate(article.updatedAt)}
 									</p>
 									<TagsGroup>
 										{article.tags &&

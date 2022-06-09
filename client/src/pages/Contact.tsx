@@ -76,10 +76,10 @@ const Contact = () => {
 			const token = await reCaptchaRef.current.executeAsync();
 			reCaptchaRef.current.reset();
 
-			await axios.post("/api/v1/action/testCaptcha", {
+			await axios.post("/api/action/testCaptcha", {
 				token,
 			});
-			await axios.post("/api/v1/action/sendContactMessage", contactMessage);
+			await axios.post("/api/action/sendContactMessage", contactMessage);
 			setValues({ name: "", email: "", message: "" });
 			showAlert({
 				text: `contact message was successfully sent!`,
@@ -117,7 +117,7 @@ const Contact = () => {
 						handleChange={handleChange}
 						isRequired={true}
 						title="Name must be letters (optionally followed by numbers)"
-						pattern="[a-zA-Z]+[0-9]+"
+						pattern="[a-zA-Z]+[0-9]*"
 					/>
 					<FormRow
 						type="email"

@@ -54,7 +54,7 @@ const ArticlePosts = ({ type }: { type: string }) => {
 			hideAlert();
 			setLoading(true);
 			try {
-				const { data } = await axios.get(`/api/v1/article/${type}`);
+				const { data } = await axios.get(`/api/article/${type}`);
 				setArticles(data.articles);
 				//gettings array of tags
 				if (data.articles) {
@@ -92,7 +92,7 @@ const ArticlePosts = ({ type }: { type: string }) => {
 		setLoading(true);
 
 		try {
-			await axios.delete(`/api/v1/article/${articleId}`);
+			await axios.delete(`/api/article/${articleId}`);
 			//1st way: update without additional http request
 			let items = localDeleteArticle(articleId);
 
@@ -145,7 +145,7 @@ const ArticlePosts = ({ type }: { type: string }) => {
 					<p>{alert.text}</p>
 					<Link to="/">Go back to Home page</Link>
 				</AlertContainer>
-			) : !articles ? (
+			) : !articles.length ? (
 				<LoadingSpinner />
 			) : (
 				<>

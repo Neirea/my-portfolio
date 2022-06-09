@@ -12,8 +12,8 @@ export interface IArticle {
 	img_id: string;
 	userId: number;
 	_id: number;
-	createdAt: Date;
-	updatedAt: Date;
+	createdAt: string;
+	updatedAt: string;
 	__v: number;
 }
 

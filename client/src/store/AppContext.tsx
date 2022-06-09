@@ -22,7 +22,7 @@ export const AppProvider = ({ children }: any) => {
 
 	const fetchUser = async () => {
 		try {
-			const { data } = await axios.get("/api/v1/user/showMe");
+			const { data } = await axios.get("/api/user/showMe");
 			if (data) setUser(data.user);
 		} catch (error) {
 			// handleError(error);
@@ -41,7 +41,7 @@ export const AppProvider = ({ children }: any) => {
 
 	const logoutUser = async () => {
 		try {
-			await axios.delete("/api/v1/auth/logout");
+			await axios.delete("/api/auth/logout");
 			setUser(null);
 		} catch (error) {}
 	};

@@ -44,7 +44,7 @@ const CreateArticle = () => {
 	useEffect(() => {
 		const getCategoryValues = async () => {
 			try {
-				const response = await axios.get("/api/v1/article/articleCategories");
+				const response = await axios.get("/api/article/articleCategories");
 				setCategories(response.data.enumValues);
 				setArticleValues((prevValue) => {
 					return {
@@ -71,7 +71,7 @@ const CreateArticle = () => {
 			const data = new FormData();
 			data.append("image", selectedImage.name);
 			//upload  image to server
-			const response = await axios.post("/api/v1/article/upload", data);
+			const response = await axios.post("/api/article/upload", data);
 
 			//to avoid setArticleValues between 2 depending await's
 			const createdArticle = {
@@ -83,7 +83,7 @@ const CreateArticle = () => {
 				userId: user!._id,
 				code_languages: languageDetector(editorHTML),
 			};
-			await axios.post("/api/v1/article/", createdArticle);
+			await axios.post("/api/article/", createdArticle);
 
 			setSuccess(true);
 			showAlert({

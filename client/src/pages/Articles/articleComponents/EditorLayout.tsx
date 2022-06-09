@@ -19,7 +19,7 @@ import {
 } from "../../../styles/StyledComponents";
 /* editor imports */
 import { Editor } from "react-draft-wysiwyg";
-import "../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import "../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { convertToRaw, EditorState } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 /* -------------- */

@@ -71,7 +71,7 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 		resetCommentState(comment._id);
 
 		try {
-			await axios.delete(`api/v1/comment/${articleId}/${comment._id}`);
+			await axios.delete(`api/comment/${articleId}/${comment._id}`);
 
 			const newComments = updateCommentsAfterDelete();
 			setComments(newComments);
@@ -91,10 +91,10 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 		resetCommentState(comment._id);
 
 		try {
-			await axios.delete(`api/v1/comment/${articleId}/d_all/${comment._id}`);
+			await axios.delete(`api/comment/${articleId}/d_all/${comment._id}`);
 			//additional request to update comments
 			const commentsArray: IJsxComment[] = [];
-			await axios.get(`api/v1/comment/${articleId}`).then((res) => {
+			await axios.get(`api/comment/${articleId}`).then((res) => {
 				parseComments(res.data.comments, -1, commentsArray);
 			});
 			setComments(commentsArray);
@@ -114,10 +114,10 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 		setLoading(true);
 
 		try {
-			await axios.delete(`api/v1/user/${comment.user.id}`);
+			await axios.delete(`api/user/${comment.user.id}`);
 			//additional request to update comments
 			const commentsArray: IJsxComment[] = [];
-			await axios.get(`api/v1/comment/${articleId}`).then((res) => {
+			await axios.get(`api/comment/${articleId}`).then((res) => {
 				parseComments(res.data.comments, -1, commentsArray);
 			});
 			setComments(commentsArray);

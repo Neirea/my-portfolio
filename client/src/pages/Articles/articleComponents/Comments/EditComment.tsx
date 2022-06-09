@@ -31,7 +31,7 @@ const EditComment = ({ index, comment, handleChange }: EditCommentProps) => {
 
 		try {
 			const { data } = await axios.patch(
-				`api/v1/comment/${articleId}/${comment._id}`,
+				`api/comment/${articleId}/${comment._id}`,
 				{ message: commentState.message }
 			);
 			const items = comments;

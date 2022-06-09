@@ -76,7 +76,7 @@ const Comments = () => {
 			const token = await reCaptchaRef.current.executeAsync();
 			reCaptchaRef.current.reset();
 
-			await axios.post("/api/v1/action/testCaptcha", {
+			await axios.post("/api/action/testCaptcha", {
 				token,
 			});
 
@@ -86,7 +86,7 @@ const Comments = () => {
 				parent: commentState.id,
 			};
 			const { data } = await axios.post(
-				`/api/v1/comment/${articleId}`,
+				`/api/comment/${articleId}`,
 				submitData
 			);
 			/* update local state of comments */
