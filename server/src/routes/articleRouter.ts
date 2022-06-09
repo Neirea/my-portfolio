@@ -11,12 +11,13 @@ import {
 	getCategoryValues,
 	getArticlesData,
 } from "../controllers/articleController";
+import { userRoles } from "../config";
 
 const router = Router();
 
 router
 	.route("/")
-	.post([isAuthenticated, authorizePermissions("admin")], createArticle)
+	.post([isAuthenticated, authorizePermissions(userRoles.admin)], createArticle)
 	.get(getAllArticles);
 
 router.get("/blog", getAllArticles);
@@ -24,25 +25,34 @@ router.get("/project", getAllArticles);
 
 router.get(
 	"/articleCategories",
-	[isAuthenticated, authorizePermissions("admin")],
+	[isAuthenticated, authorizePermissions(userRoles.admin)],
 	getCategoryValues
 );
 router.get("/getArticlesData", getArticlesData);
 
 router.delete(
 	"/deleteArticleImage",
-	[isAuthenticated, authorizePermissions("admin")],
+	[isAuthenticated, authorizePermissions(userRoles.admin)],
 	deleteArticleImage
 );
 
 router
 	.route("/upload")
-	.post([isAuthenticated, authorizePermissions("admin")], uploadArticleImage);
+	.post(
+		[isAuthenticated, authorizePermissions(userRoles.admin)],
+		uploadArticleImage
+	);
 
 router
 	.route("/:id")
 	.get(getSingleArticle)
-	.patch([isAuthenticated, authorizePermissions("admin")], updateArticle)
-	.delete([isAuthenticated, authorizePermissions("admin")], deleteArticle);
+	.patch(
+		[isAuthenticated, authorizePermissions(userRoles.admin)],
+		updateArticle
+	)
+	.delete(
+		[isAuthenticated, authorizePermissions(userRoles.admin)],
+		deleteArticle
+	);
 
 export default router;

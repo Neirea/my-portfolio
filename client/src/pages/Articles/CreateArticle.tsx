@@ -9,6 +9,7 @@ import useLocalState from "../../utils/useLocalState";
 import { handleError } from "../../utils/handleError";
 import EditorLayout from "./articleComponents/EditorLayout";
 import { languageDetector } from "../../utils/handleHtmlString";
+import { categoriesEnum } from "../../types/articleTypes";
 
 const CreateArticle = () => {
 	const navigate = useNavigate();
@@ -27,7 +28,7 @@ const CreateArticle = () => {
 	const [categories, setCategories] = useState<string[]>([]);
 	const [articleValues, setArticleValues] = useState({
 		title: "",
-		category: "",
+		category: categoriesEnum.blog,
 		demo_link: "",
 		source_link: "",
 	});

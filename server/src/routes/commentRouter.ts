@@ -8,6 +8,7 @@ import {
 	deleteComment,
 	deleteCommentsAdmin,
 } from "../controllers/commentController";
+import { userRoles } from "../config";
 
 const router = Router();
 
@@ -25,7 +26,7 @@ router
 router
 	.route("/:article/d_all/:id")
 	.delete(
-		[isAuthenticated, authorizePermissions("admin")],
+		[isAuthenticated, authorizePermissions(userRoles.admin)],
 		deleteCommentsAdmin
 	);
 

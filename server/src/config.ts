@@ -2,11 +2,16 @@ import { v2 as cloudinary } from "cloudinary";
 import dotenv from "dotenv";
 import MongoStore from "connect-mongo";
 
+export enum userRoles {
+	admin = "admin",
+	user = "user",
+}
+
 declare module "express-session" {
 	interface Session {
 		user: {
 			_id: string;
-			role: string;
+			roles: userRoles[];
 			platform_type: string;
 			platform_id: number;
 			name: string;

@@ -58,7 +58,7 @@ export const createComment = async (
 	if (!isValidProduct) {
 		throw new CustomError.NotFoundError(`No article with id : ${articleId}`);
 	}
-	newComment.article = articleId;
+	newComment.articleId = articleId;
 
 	const comment = await Comment.create(newComment);
 	//update parent's replies property

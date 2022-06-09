@@ -1,4 +1,4 @@
-import Article, { categories } from "../models/Article";
+import Article, { categories as categoriesEnum } from "../models/Article";
 import { StatusCodes } from "http-status-codes";
 import sanitizeHtml from "sanitize-html";
 import { v2 as cloudinary } from "cloudinary";
@@ -122,6 +122,7 @@ export const deleteArticleImage = async (req: Request, res: Response) => {
 };
 
 export const getCategoryValues = async (req: Request, res: Response) => {
+	const categories = Object.values(categoriesEnum);
 	res.status(StatusCodes.OK).json({ categories });
 };
 export const getArticlesData = async (req: Request, res: Response) => {

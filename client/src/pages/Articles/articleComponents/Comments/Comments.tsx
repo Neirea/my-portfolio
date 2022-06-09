@@ -46,9 +46,8 @@ const Comments = () => {
 		comment: IComment,
 		index: number | undefined
 	) => {
-		if (index === undefined) return comments;
 		const items = comments;
-		if (commentState.type === ACTIONS.reply) {
+		if (commentState.type === ACTIONS.reply && index !== undefined) {
 			//fills replies array of parent with new comment
 			items[index].comment.replies.push(comment);
 			//adds comment into new position
@@ -70,7 +69,7 @@ const Comments = () => {
 		setLoading(true);
 
 		try {
-			if (!user) throw new Error("There was an error");
+			if (!user) return;
 
 			// const token = await reCaptchaRef.current.getValue(); //recaptcha token for "i am not a robot"
 			const token = await reCaptchaRef.current.executeAsync();

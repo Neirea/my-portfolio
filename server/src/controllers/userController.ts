@@ -5,7 +5,8 @@ import CustomError from "../errors";
 import { StatusCodes } from "http-status-codes";
 
 export const showMe = (req: Request, res: Response) => {
-	res.status(StatusCodes.OK).json(req.session.user);
+	const user = req.session.user;
+	res.status(StatusCodes.OK).json({ user });
 };
 
 export const banUser = async (req: Request, res: Response) => {

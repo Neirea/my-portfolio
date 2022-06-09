@@ -10,6 +10,13 @@ export const UserMenuWrapper = styled(MenuItem)`
 			transition: color var(--transition);
 		}
 	}
+	.user-name {
+		display: none;
+		margin-right: 1rem;
+		@media (min-width: 640px) {
+			display: inline-block;
+		}
+	}
 
 	.toggle-user-menu {
 		display: flex;
@@ -23,9 +30,15 @@ export const UserMenuWrapper = styled(MenuItem)`
 			color: var(--main-text-color);
 		}
 		.user-menu-item {
+			display: flex;
+			align-items: center;
 			width: var(--icon-size);
 			height: 100%;
 			transition: transform var(--transition);
+
+			.user-avatar {
+				width: 100%;
+			}
 		}
 	}
 
@@ -35,7 +48,6 @@ export const UserMenuWrapper = styled(MenuItem)`
 
 		position: absolute;
 		top: 4rem;
-		right: -5rem;
 		padding: 0 0.5rem;
 
 		height: 0;

@@ -1,6 +1,26 @@
 import { Schema, model } from "mongoose";
+import { userRoles } from "../config";
 
-const roles = ["admin", "user"];
+enum platformEnum {
+	github = "github",
+	google = "google",
+}
+
+export interface IUser {
+	platform_name: string;
+	platfrom_type: platformEnum;
+	message: string;
+	replies: number[];
+	user: {
+		id: number;
+		name?: string;
+		isBanned?: boolean;
+	};
+	_id: number;
+	createdAt: Date;
+	updatedAt: Date;
+	__v: number;
+}
 
 /* mb need more fields */
 const UserSchema = new Schema(
@@ -11,7 +31,7 @@ const UserSchema = new Schema(
 		},
 		platform_type: {
 			type: String,
-			enum: ["github", "google"],
+			enum: Object.values(platformEnum),
 		},
 		name: {
 			type: String,
@@ -20,7 +40,7 @@ const UserSchema = new Schema(
 		roles: [
 			{
 				type: String,
-				enum: roles,
+				enum: Object.values(userRoles),
 				default: "user",
 			},
 		],

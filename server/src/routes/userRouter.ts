@@ -1,11 +1,17 @@
 import { Router } from "express";
 import { isAuthenticated, authorizePermissions } from "../middleware/auth";
 import { showMe, banUser } from "../controllers/userController";
+import { userRoles } from "../config";
 
 const router = Router();
 
 router.get("/showMe", isAuthenticated, showMe);
-router.delete("/:id", isAuthenticated, authorizePermissions("admin"), banUser);
+router.delete(
+	"/:id",
+	isAuthenticated,
+	authorizePermissions(userRoles.admin),
+	banUser
+);
 
 /* delete account route? */
 

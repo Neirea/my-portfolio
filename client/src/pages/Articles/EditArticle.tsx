@@ -10,7 +10,7 @@ import { useQuery } from "../../utils/useQuery";
 import { handleError } from "../../utils/handleError";
 import EditorLayout from "./articleComponents/EditorLayout";
 import { languageDetector } from "../../utils/handleHtmlString";
-import { IArticleValues } from "../../types/articleTypes";
+import { IArticleValues, categoriesEnum } from "../../types/articleTypes";
 
 const EditArticle = () => {
 	const navigate = useNavigate();
@@ -31,7 +31,7 @@ const EditArticle = () => {
 	const [articleValues, setArticleValues] = useState<IArticleValues>({
 		title: "",
 		content: "",
-		category: "",
+		category: categoriesEnum.blog,
 		image: "",
 		img_id: "",
 		userId: "",
@@ -70,7 +70,7 @@ const EditArticle = () => {
 
 			//get list of categories
 			const response = await axios.get("/api/article/articleCategories");
-			setCategories(response.data.enumValues);
+			setCategories(response.data.categories);
 		};
 		getContent();
 	}, [articleId]);

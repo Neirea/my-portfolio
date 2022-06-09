@@ -1,7 +1,6 @@
 import { useRef, useEffect, Dispatch, SetStateAction } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { BiChevronDown } from "react-icons/bi";
-import { FaUserCircle } from "react-icons/fa";
 import { ReadButton } from "../../styles/StyledComponents";
 import { UserMenuWrapper } from "./UserMenuStyles";
 import { StyledMenuLink } from "./HeaderStyles";
@@ -47,11 +46,9 @@ const UserMenu = ({ showUserMenu, setShowUserMenu }: UserMenuProps) => {
 	const toggleUserMenu = () => {
 		setShowUserMenu(!showUserMenu);
 	};
-	const handleMenuClose = () => {
-		showUserMenu && setShowUserMenu(false);
-	};
+
 	const handleLogout = () => {
-		handleMenuClose();
+		showUserMenu && setShowUserMenu(false);
 		logoutUser();
 	};
 
@@ -67,41 +64,39 @@ const UserMenu = ({ showUserMenu, setShowUserMenu }: UserMenuProps) => {
 					Sign in
 				</StyledMenuLink>
 			) : (
-				<div
-					className={userMenuStyle}
-					ref={toggleMenuRef}
-					onClick={toggleUserMenu}
-				>
+				<>
 					<div
-						className="user-menu-item"
-						placeholder="user name"
-						title={`${user.name}`}
+						className={userMenuStyle}
+						ref={toggleMenuRef}
+						onClick={toggleUserMenu}
 					>
-						<FaUserCircle size={"100%"} />
+						<p className="user-name">{user.platform_name}</p>
+						<div
+							className="user-menu-item"
+							placeholder="user name"
+							title={`${user.name}`}
+						>
+							<img
+								className="user-avatar"
+								src={user.avatar_url}
+								alt={user.name}
+							/>
+						</div>
+						<div className="user-menu-item">
+							<BiChevronDown size={"100%"} style={menuButtonStyle} />
+						</div>
 					</div>
-					<div className="user-menu-item">
-						<BiChevronDown size={"100%"} style={menuButtonStyle} />
+					<div className="user-menu-dropdown" ref={userMenuContainerRef}>
+						<NavLink
+							className="user-menu-link"
+							to={logoutUrl}
+							onClick={handleLogout}
+						>
+							<ReadButton>Logout</ReadButton>
+						</NavLink>
 					</div>
-				</div>
+				</>
 			)}
-			<div className="user-menu-dropdown" ref={userMenuContainerRef}>
-				<NavLink
-					className="user-menu-link"
-					to="/user-settings"
-					state={{ from: fromUrl }}
-					replace
-					onClick={handleMenuClose}
-				>
-					<ReadButton>Settings</ReadButton>
-				</NavLink>
-				<NavLink
-					className="user-menu-link"
-					to={logoutUrl}
-					onClick={handleLogout}
-				>
-					<ReadButton>Logout</ReadButton>
-				</NavLink>
-			</div>
 		</UserMenuWrapper>
 	);
 };

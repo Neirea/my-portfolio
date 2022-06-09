@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { UploadedFile } from "express-fileupload";
 import fs from "fs";
 import CustomError from "../errors";
+import { userRoles } from "../config";
 
 export const isAuthenticated = async (
 	req: Request,
@@ -24,9 +25,10 @@ export const isAuthenticated = async (
 
 /* authorize permissions */
 //checks for correct role (function gets invoked right away and returns callback function as middleware)
-export const authorizePermissions = (...roles: string[]) => {
+export const authorizePermissions = (...roles: userRoles[]) => {
 	return (req: Request, res: Response, next: NextFunction) => {
-		if (!roles.includes(req.session.user.role)) {
+		//roles.includes(req.session.user.roles)
+		if (!roles.some((item) => req.session.user.roles.includes(item))) {
 			throw new CustomError.UnauthorizedError(
 				"Unauthorized to access this route"
 			);

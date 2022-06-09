@@ -17,7 +17,10 @@ interface IArticle {
 	__v: number;
 }
 
-export const categories = ["blog", "project"];
+export enum categories {
+	blog = "blog",
+	project = "project",
+}
 
 const ArticleSchema = new Schema(
 	{
@@ -35,7 +38,7 @@ const ArticleSchema = new Schema(
 		category: {
 			type: String,
 			required: [true, "Please provide category"],
-			enum: categories,
+			enum: Object.values(categories),
 		},
 		code_languages: { type: [{ type: String }], default: [] },
 		source_link: {

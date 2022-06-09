@@ -55,9 +55,14 @@ export interface ICommentState {
 	message: string;
 }
 
+export enum categoriesEnum {
+	blog = "blog",
+	project = "project",
+}
+
 export interface IArticleValues {
 	title: string;
-	category: string;
+	category: categoriesEnum;
 	demo_link: string;
 	source_link: string;
 	content?: string;
