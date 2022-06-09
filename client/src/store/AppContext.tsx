@@ -1,6 +1,8 @@
 import { useContext, useState, useEffect, createContext } from "react";
 import axios from "axios";
+import { handleError } from "../utils/handleError";
 import { IUser, AppContextValues } from "../types/appTypes";
+import { mainBgLightColor, mainBgDarkColor } from "../styles/theme";
 
 export const AppContext = createContext({} as AppContextValues);
 
@@ -25,7 +27,7 @@ export const AppProvider = ({ children }: any) => {
 			const { data } = await axios.get("/api/user/showMe");
 			if (data) setUser(data.user);
 		} catch (error) {
-			// handleError(error);
+			handleError(error);
 		} finally {
 			setIsLoading(false);
 		}
@@ -37,6 +39,10 @@ export const AppProvider = ({ children }: any) => {
 
 	useEffect(() => {
 		localStorage.setItem("darkMode", darkMode ? "on" : "off");
+		// override index.html style
+		document.body.style.background = darkMode
+			? mainBgDarkColor
+			: mainBgLightColor;
 	}, [darkMode]);
 
 	const logoutUser = async () => {

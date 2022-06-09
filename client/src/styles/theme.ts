@@ -1,7 +1,10 @@
 export type ThemeType = typeof lightTheme;
 
+export const mainBgDarkColor = "rgb(25, 25, 25)";
+export const mainBgLightColor = "rgb(250,250,250)";
+
 export const lightTheme = {
-	mainBgColor: "rgb(250, 250, 250)",
+	mainBgColor: mainBgLightColor,
 	mainTextColor: "rgba(0, 0, 0,0.87)",
 	fadedTextColor: "rgb(0,0,0,0.54)",
 	headerBgColor: "rgb(255, 255, 255)",
@@ -31,7 +34,7 @@ export const lightTheme = {
 };
 
 export const darkTheme: ThemeType = {
-	mainBgColor: "rgb(25, 25, 25)",
+	mainBgColor: mainBgDarkColor,
 	mainTextColor: "rgb(225, 225, 225)",
 	fadedTextColor: "rgb(255,255,255,0.54)",
 	headerBgColor: "rgb(33, 33, 33)",
