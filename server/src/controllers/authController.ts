@@ -3,19 +3,12 @@ import { Profile } from "passport-github2";
 import CustomError from "../errors";
 import User from "../models/User";
 
-interface GithubUserProfile extends Profile {
-	_json: {
-		[key: string]: string;
-	};
-}
-
 export const failedLogin = (req: Request, res: Response) => {
 	console.log("failed");
-
-	res.status(401).json({
-		success: false,
-		message: "Authentication failed",
-	});
+	res
+		.status(401)
+		.json({ msg: "Failed to sign in" })
+		.redirect(`${process.env.CLIENT_URL}/login`);
 };
 
 export const logout = (req: Request, res: Response) => {
@@ -44,6 +37,12 @@ export const githubCallback = (req: Request, res: Response) => {
 	// Successful authentication, redirect to page where user specifies username
 	res.redirect(process.env.CLIENT_URL!);
 };
+
+interface GithubUserProfile extends Profile {
+	_json: {
+		[key: string]: string;
+	};
+}
 
 export const loginGithub = async (
 	accessToken: string | undefined,

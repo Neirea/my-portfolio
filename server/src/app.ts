@@ -13,6 +13,12 @@ import { v2 as cloudinary } from "cloudinary";
 import dotenv from "dotenv";
 import { buildCheckFunction } from "express-validator";
 import MongoStore from "connect-mongo";
+dotenv.config();
+cloudinary.config({
+	cloud_name: process.env.CLDNRY_NAME,
+	api_key: process.env.CLDNRY_API_KEY,
+	api_secret: process.env.CLDNRY_API_SECRET,
+});
 /* user stuff */
 import userRouter from "./routes/userRouter";
 import authRouter from "./routes/authRouter";
@@ -22,15 +28,9 @@ import commentRouter from "./routes/commentRouter";
 import errorHandlerMiddleware from "./middleware/error-handle";
 import notFoundMiddleware from "./middleware/not-found";
 import "./types/global";
+import "./passport";
 
 const app = express();
-
-dotenv.config();
-cloudinary.config({
-	cloud_name: process.env.CLDNRY_NAME,
-	api_key: process.env.CLDNRY_API_KEY,
-	api_secret: process.env.CLDNRY_API_SECRET,
-});
 
 /* middleware */
 app.set("trust proxy", 1);
