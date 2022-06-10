@@ -40,7 +40,7 @@ app.use(
 	cors({
 		origin:
 			process.env.NODE_ENV === "production"
-				? process.env.SERVER_URL
+				? process.env.CLIENT_URL
 				: "http://localhost:3000",
 	})
 );
