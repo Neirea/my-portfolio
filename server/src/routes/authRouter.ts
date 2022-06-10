@@ -23,7 +23,7 @@ router.get(
 	"/github/callback",
 	passport.authenticate("github", {
 		session: false,
-		failureRedirect: "/login/failed",
+		failureRedirect: "/api/auth/login/failed",
 	}),
 	githubCallback
 );

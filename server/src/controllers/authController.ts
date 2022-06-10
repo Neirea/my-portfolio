@@ -4,11 +4,9 @@ import CustomError from "../errors";
 import User from "../models/User";
 
 export const failedLogin = (req: Request, res: Response) => {
-	console.log("failed");
 	res
 		.status(401)
-		.json({ msg: "Failed to sign in" })
-		.redirect(`${process.env.CLIENT_URL}/login`);
+		.redirect(`${process.env.CLIENT_URL}/login?error=login_failed`);
 };
 
 export const logout = (req: Request, res: Response) => {
