@@ -1,4 +1,4 @@
-require("express-async-errors"); // see if it works
+import "express-async-errors"; // see if any errors popup
 import express from "express";
 //packages
 import rateLimiter from "express-rate-limit";
@@ -20,7 +20,6 @@ import notFoundMiddleware from "./middleware/not-found";
 import { sessionStore } from "./config";
 
 const app = express();
-/* routers */
 
 /* middleware */
 app.set("trust proxy", 1);
@@ -37,7 +36,8 @@ app.use(
 app.use(fileUpload({ useTempFiles: true }));
 app.use(express.json());
 app.use(mongoSanitize());
-app.use(cookieParser(process.env.JWT_SECRET));
+app.use(cookieParser());
+
 //add csrf middleware from csurf?
 
 if (process.env.NODE_ENV !== "production") {

@@ -5,6 +5,7 @@ import {
 	failedLogin,
 	logout,
 } from "../controllers/authController";
+import { isAuthenticated } from "../middleware/auth";
 
 const router = Router();
 
@@ -28,6 +29,6 @@ router.get(
 );
 
 //logout
-router.delete("/logout", logout);
+router.delete("/logout", isAuthenticated, logout);
 
 export default router;

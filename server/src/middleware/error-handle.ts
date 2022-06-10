@@ -10,9 +10,8 @@ const errorHandlerMiddleware = (
 	res: Response,
 	next: NextFunction
 ) => {
-	//custom error
+	// set default error
 	const customError = {
-		// set default
 		statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
 		msg: err.message || "Something went wrong try again later",
 	};
@@ -26,7 +25,7 @@ const errorHandlerMiddleware = (
 		customError.msg = `No item found with id : ${err.value}`;
 		customError.statusCode = 404;
 	}
-	//mongoDB error?
+	//mongoDB error? any
 	if (err.code && err.code === 11000) {
 		customError.msg = `This ${Object.keys(err.keyValue)} already exists`;
 		customError.statusCode = 400;

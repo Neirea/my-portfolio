@@ -82,7 +82,7 @@ const Comments = () => {
 			const submitData = {
 				user: user._id,
 				message: commentState.message,
-				parent: commentState.id,
+				parentId: commentState.id,
 			};
 			const { data } = await axios.post(
 				`/api/comment/${articleId}`,

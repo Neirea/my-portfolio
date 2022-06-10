@@ -12,7 +12,7 @@ export const getAllComments = async (req: Request, res: Response) => {
 
 	const comments = await Comment.find({
 		article: articleId,
-		parent: null,
+		parentId: null,
 	}).sort({ createdAt: "descending" });
 
 	res.status(StatusCodes.OK).json({ comments });
@@ -61,6 +61,7 @@ export const createComment = async (
 	newComment.articleId = articleId;
 
 	const comment = await Comment.create(newComment);
+
 	//update parent's replies property
 	if (comment.parentId) {
 		const updateParent = await Comment.findOne({ _id: comment.parentId });
@@ -78,14 +79,17 @@ export const updateComment = async (req: Request, res: Response) => {
 	const { message } = req.body;
 
 	const comment = await Comment.findOne({ _id: commentId });
-	if (comment?.user.isBanned) {
+
+	if (!comment) {
+		throw new CustomError.NotFoundError(`No comment with id : ${commentId}`);
+	}
+
+	if (comment.user.isBanned) {
 		throw new CustomError.BadRequestError(
 			"You are currently suspended from posting comments"
 		);
 	}
-	if (!comment) {
-		throw new CustomError.NotFoundError(`No comment with id : ${commentId}`);
-	}
+
 	comment.message = message;
 	await comment.save();
 	res.status(StatusCodes.OK).json({ comment });
@@ -95,7 +99,12 @@ export const deleteComment = async (req: Request, res: Response) => {
 	const { id: commentId } = req.params;
 
 	const comment = await Comment.findOne({ _id: commentId });
-	if (comment?.user.isBanned) {
+
+	if (!comment) {
+		throw new CustomError.NotFoundError(`No comment with id : ${commentId}`);
+	}
+
+	if (comment.user.isBanned) {
 		throw new CustomError.BadRequestError(
 			"You are currently suspended from posting comments"
 		);
@@ -128,13 +137,11 @@ export const deleteCommentsAdmin = async (req: Request, res: Response) => {
 			parseReplies(comments[i].replies, array);
 		}
 	};
-	let commentsArray = new Array();
-	const wrapped = [comment].flat(); //to wrap comment into array for parse function
-	parseReplies(wrapped, commentsArray);
-	//deletion
-	commentsArray.forEach(async (element) => {
-		await Comment.deleteOne({ _id: element });
-	});
+	let repliesArray: any[] = [];
+	parseReplies([comment], repliesArray);
+
+	//delete comment and its replies
+	await Comment.deleteMany({ _id: repliesArray });
 
 	res
 		.status(StatusCodes.OK)
