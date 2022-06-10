@@ -39,7 +39,7 @@ passport.use(
 		{
 			clientID: process.env.GITHUB_CLIENT_ID!,
 			clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-			callbackURL: `${process.env.SERVER_URL}/api/auth/github/callback`, //env var for base server url?
+			callbackURL: `${process.env.SERVER_URL}/api/auth/github/callback`,
 		},
 		loginGithub
 	)

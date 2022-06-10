@@ -1,4 +1,4 @@
-import "express-async-errors"; // see if any errors popup
+import "express-async-errors";
 import express from "express";
 //packages
 import rateLimiter from "express-rate-limit";
@@ -18,6 +18,7 @@ import commentRouter from "./routes/commentRouter";
 import errorHandlerMiddleware from "./middleware/error-handle";
 import notFoundMiddleware from "./middleware/not-found";
 import { sessionStore } from "./config";
+import { buildCheckFunction } from "express-validator";
 
 const app = express();
 
@@ -29,17 +30,17 @@ app.use(
 	cors({
 		origin:
 			process.env.NODE_ENV === "production"
-				? process.env.PRODUCTION_URL
+				? process.env.SERVER_URL
 				: "http://localhost:3000",
 	})
 );
 app.use(fileUpload({ useTempFiles: true }));
 app.use(express.json());
 app.use(mongoSanitize());
+app.use(buildCheckFunction(["body", "query", "params"])());
 app.use(cookieParser());
 
-//add csrf middleware from csurf?
-
+//dev middleware
 if (process.env.NODE_ENV !== "production") {
 	const morgan = require("morgan");
 	app.use(morgan("tiny"));
@@ -56,7 +57,7 @@ app.use(
 		cookie: {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === "production",
-			maxAge: 1000 * 60 * 60 * 24 * 365, //1 year
+			maxAge: 1000 * 60 * 60 * 24 * 30, //30 days
 		},
 	})
 );

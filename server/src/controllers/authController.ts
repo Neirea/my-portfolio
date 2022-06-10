@@ -1,14 +1,8 @@
 import { Request, Response } from "express";
-import mongoose from "mongoose";
 
 export const githubCallback = (req: any, res: Response) => {
 	// transform to object from mongoose and remove __v field from user
 	const { __v, ...user } = req.user.user.toObject();
-
-	//any: delete existing sessions
-	mongoose.connection
-		.collection("sessions")
-		.deleteMany({ "session.user._id": user._id });
 
 	if (req.session) {
 		req.session.user = user;
@@ -16,7 +10,7 @@ export const githubCallback = (req: any, res: Response) => {
 	}
 
 	// Successful authentication, redirect to page where user specifies username
-	res.redirect(process.env.ORIGIN_URL!);
+	res.redirect(process.env.CLIENT_URL!);
 };
 
 export const failedLogin = (req: Request, res: Response) => {
