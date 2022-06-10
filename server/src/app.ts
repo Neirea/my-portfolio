@@ -9,6 +9,10 @@ import mongoSanitize from "express-mongo-sanitize";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import passport from "passport";
+import { v2 as cloudinary } from "cloudinary";
+import dotenv from "dotenv";
+import { buildCheckFunction } from "express-validator";
+import MongoStore from "connect-mongo";
 /* user stuff */
 import userRouter from "./routes/userRouter";
 import authRouter from "./routes/authRouter";
@@ -17,10 +21,16 @@ import actionRouter from "./routes/actionRouter";
 import commentRouter from "./routes/commentRouter";
 import errorHandlerMiddleware from "./middleware/error-handle";
 import notFoundMiddleware from "./middleware/not-found";
-import { sessionStore } from "./config";
-import { buildCheckFunction } from "express-validator";
+import "./types/global";
 
 const app = express();
+
+dotenv.config();
+cloudinary.config({
+	cloud_name: process.env.CLDNRY_NAME,
+	api_key: process.env.CLDNRY_API_KEY,
+	api_secret: process.env.CLDNRY_API_SECRET,
+});
 
 /* middleware */
 app.set("trust proxy", 1);
@@ -46,6 +56,10 @@ if (process.env.NODE_ENV !== "production") {
 	app.use(morgan("tiny"));
 }
 
+const sessionStore = new MongoStore({
+	mongoUrl: process.env.MONGO_URL,
+	collectionName: "sessions",
+});
 /* session middleware */
 app.use(
 	session({
@@ -61,7 +75,7 @@ app.use(
 		},
 	})
 );
-import "./passportStrategies"; //use passport strategies
+
 app.use(passport.initialize()); //passport init
 
 /* use routers */

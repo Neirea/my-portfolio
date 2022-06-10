@@ -80,7 +80,7 @@ const Comments = () => {
 			});
 
 			const submitData = {
-				user: user._id,
+				userId: user._id,
 				message: commentState.message,
 				parentId: commentState.id,
 			};

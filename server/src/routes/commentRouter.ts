@@ -8,7 +8,7 @@ import {
 	deleteComment,
 	deleteCommentsAdmin,
 } from "../controllers/commentController";
-import { userRoles } from "../config";
+import { userRoles } from "../models/User";
 
 const router = Router();
 

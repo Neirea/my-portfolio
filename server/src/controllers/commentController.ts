@@ -1,10 +1,9 @@
 import Article from "../models/Article";
 import User from "../models/User";
-import Comment from "../models/Comment";
+import Comment, { IComment } from "../models/Comment";
 import { StatusCodes } from "http-status-codes";
 import CustomError from "../errors";
 import { Request, Response } from "express";
-import mongoose from "mongoose";
 
 //gets all top level comments
 export const getAllComments = async (req: Request, res: Response) => {
@@ -28,19 +27,17 @@ export const getSingleComment = async (req: Request, res: Response) => {
 	res.status(StatusCodes.OK).json({ comment });
 };
 
-export const createComment = async (
-	// req: Request<{ article: number }, {}, CommentModel>,
-	req: any,
-	res: Response
-) => {
-	// const newComment = ({ user, message, parentId } = req.body);
-	const { user, message, parentId } = req.body;
-	const newComment: any = { user, message, parentId };
+export const createComment = async (req: Request, res: Response) => {
+	const {
+		userId,
+		message,
+		parentId,
+	}: { userId: number; message: string; parentId: number } = req.body;
 	const { article: articleId } = req.params;
 
-	const author = await User.findOne({ _id: newComment.user });
+	const author = await User.findOne({ _id: userId });
 	if (!author) {
-		throw new CustomError.NotFoundError(`No user with id : ${newComment.user}`);
+		throw new CustomError.NotFoundError(`No user with id : ${userId}`);
 	}
 
 	if (author.isBanned) {
@@ -48,7 +45,8 @@ export const createComment = async (
 			"You are currently suspended from posting comments"
 		);
 	}
-	newComment.user = {
+
+	const commentUser = {
 		id: author._id,
 		name: author.name,
 		isBanned: author.isBanned,
@@ -58,7 +56,8 @@ export const createComment = async (
 	if (!isValidProduct) {
 		throw new CustomError.NotFoundError(`No article with id : ${articleId}`);
 	}
-	newComment.articleId = articleId;
+
+	const newComment = { articleId, commentUser, message, parentId };
 
 	const comment = await Comment.create(newComment);
 
@@ -66,7 +65,7 @@ export const createComment = async (
 	if (comment.parentId) {
 		const updateParent = await Comment.findOne({ _id: comment.parentId });
 		if (updateParent) {
-			updateParent.replies = [...updateParent.replies, comment._id];
+			updateParent.replies.push(comment);
 			await updateParent.save();
 		}
 	}
@@ -79,7 +78,6 @@ export const updateComment = async (req: Request, res: Response) => {
 	const { message } = req.body;
 
 	const comment = await Comment.findOne({ _id: commentId });
-
 	if (!comment) {
 		throw new CustomError.NotFoundError(`No comment with id : ${commentId}`);
 	}
@@ -99,7 +97,6 @@ export const deleteComment = async (req: Request, res: Response) => {
 	const { id: commentId } = req.params;
 
 	const comment = await Comment.findOne({ _id: commentId });
-
 	if (!comment) {
 		throw new CustomError.NotFoundError(`No comment with id : ${commentId}`);
 	}
@@ -109,9 +106,7 @@ export const deleteComment = async (req: Request, res: Response) => {
 			"You are currently suspended from posting comments"
 		);
 	}
-	if (!comment) {
-		throw new CustomError.NotFoundError(`No comment with id : ${commentId}`);
-	}
+
 	if (comment.replies.length === 0) {
 		await comment.remove();
 		res.status(StatusCodes.OK).json({ msg: "Success! Comment was deleted" });
@@ -131,13 +126,13 @@ export const deleteCommentsAdmin = async (req: Request, res: Response) => {
 	}
 
 	//adds all ids of nested elements to array
-	const parseReplies = (comments: any, array: any) => {
+	const parseReplies = (comments: IComment[], array: number[]) => {
 		for (let i = 0; i < comments.length; i++) {
 			array.push(comments[i]._id);
 			parseReplies(comments[i].replies, array);
 		}
 	};
-	let repliesArray: any[] = [];
+	let repliesArray: number[] = [];
 	parseReplies([comment], repliesArray);
 
 	//delete comment and its replies

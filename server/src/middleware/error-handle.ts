@@ -2,10 +2,8 @@ import { StatusCodes } from "http-status-codes";
 import { Request, Response, NextFunction } from "express";
 import { Error as MongooseError } from "mongoose";
 
-//test errors
-
 const errorHandlerMiddleware = (
-	err: MongooseError | any,
+	err: any,
 	req: Request,
 	res: Response,
 	next: NextFunction
@@ -25,7 +23,6 @@ const errorHandlerMiddleware = (
 		customError.msg = `No item found with id : ${err.value}`;
 		customError.statusCode = 404;
 	}
-	//mongoDB error? any
 	if (err.code && err.code === 11000) {
 		customError.msg = `This ${Object.keys(err.keyValue)} already exists`;
 		customError.statusCode = 400;

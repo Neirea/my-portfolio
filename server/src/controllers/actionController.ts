@@ -7,8 +7,13 @@ import CustomError from "../errors";
 
 /* RECAPTCHA */
 const validateRecaptcha = async (token: string | null) => {
+	interface validateResponseData {
+		success: boolean;
+		challenge_ts: string;
+		hostname: string;
+	}
 	const secret = process.env.RECAPTCHA_SECRET_KEY;
-	const response = await axios.post(
+	const response = await axios.post<validateResponseData>(
 		`https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${token}`
 	);
 	if (!response) {
@@ -16,7 +21,7 @@ const validateRecaptcha = async (token: string | null) => {
 			"Couldn't login to google captcha servers"
 		);
 	}
-	// returns true or false
+
 	return response.data.success;
 };
 
@@ -30,7 +35,7 @@ export const testRecaptcha = async (req: Request, res: Response) => {
 
 /* send contact message on email */
 export const sendContactMessage = async (req: Request, res: Response) => {
-	const { subject, msg } = req.body;
+	const { subject, msg }: { subject: string; msg: string } = req.body;
 	const cleanHtml = sanitizeHtml(msg);
 	const result = await sendEmail({
 		to: process.env.CONTACT_URL,

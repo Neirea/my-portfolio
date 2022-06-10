@@ -1,17 +1,13 @@
 import { Request, Response } from "express";
+import { Profile } from "passport-github2";
+import CustomError from "../errors";
+import User from "../models/User";
 
-export const githubCallback = (req: any, res: Response) => {
-	// transform to object from mongoose and remove __v field from user
-	const { __v, ...user } = req.user.user.toObject();
-
-	if (req.session) {
-		req.session.user = user;
-		req.session.accessToken = req.user.accessToken;
-	}
-
-	// Successful authentication, redirect to page where user specifies username
-	res.redirect(process.env.CLIENT_URL!);
-};
+interface GithubUserProfile extends Profile {
+	_json: {
+		[key: string]: string;
+	};
+}
 
 export const failedLogin = (req: Request, res: Response) => {
 	console.log("failed");
@@ -33,4 +29,41 @@ export const logout = (req: Request, res: Response) => {
 	}
 	res.clearCookie("sid");
 	res.status(200).json({ msg: "Log out" });
+};
+
+export const githubCallback = (req: Request, res: Response) => {
+	// transform to object from mongoose and remove __v field from user
+	if (!req.user) {
+		throw new CustomError.BadRequestError("Authentication error. User error!");
+	}
+	if (req.session) {
+		req.session.user = req.user.user;
+		req.session.accessToken = req.user.accessToken;
+	}
+
+	// Successful authentication, redirect to page where user specifies username
+	res.redirect(process.env.CLIENT_URL!);
+};
+
+export const loginGithub = async (
+	accessToken: string | undefined,
+	refreshToken: string | undefined,
+	profile: GithubUserProfile,
+	done: any
+) => {
+	//check if user is in DB, if not -> create one
+	let user = await User.findOne({ id: profile.id, type: "github" });
+	if (!user) {
+		const { username, displayName, _json } = profile;
+		const isFirstAccount = (await User.countDocuments({})) === 0;
+		user = await User.create({
+			platform_name: username,
+			platform_type: "github",
+			name: displayName || "User1337",
+			roles: isFirstAccount ? ["admin", "user"] : ["user"],
+			avatar_url: _json.avatar_url,
+		});
+	}
+	user = user.toObject();
+	done(null, { user, accessToken, refreshToken });
 };

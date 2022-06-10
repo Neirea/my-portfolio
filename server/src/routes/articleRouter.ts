@@ -11,7 +11,7 @@ import {
 	getCategoryValues,
 	getArticlesData,
 } from "../controllers/articleController";
-import { userRoles } from "../config";
+import { userRoles } from "../models/User";
 
 const router = Router();
 

@@ -4,11 +4,11 @@ export interface IComment {
 	articleId: number;
 	parentId: number;
 	message: string;
-	replies: number[];
+	replies: IComment[];
 	user: {
 		id: number;
-		name?: string;
-		isBanned?: boolean;
+		name: string;
+		isBanned: boolean;
 	};
 	_id: number;
 	createdAt: Date;

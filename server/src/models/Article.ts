@@ -1,6 +1,6 @@
 import { Schema, Types, model } from "mongoose";
 
-interface IArticle {
+export interface IArticle {
 	title: string;
 	content: string;
 	category: string;

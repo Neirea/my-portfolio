@@ -7,12 +7,6 @@ import CustomError from "../errors";
 import { Request, Response } from "express";
 import { UploadedFile } from "express-fileupload";
 
-interface ArticleDataType {
-	title: string;
-	category: string;
-	_id: number;
-}
-
 export const getAllArticles = async (req: Request, res: Response) => {
 	//gets category based on url of get request
 	let getCategory = req.url.toString().replace("/", "");
@@ -25,6 +19,7 @@ export const getAllArticles = async (req: Request, res: Response) => {
 	}
 	res.status(StatusCodes.OK).json({ articles });
 };
+
 export const getSingleArticle = async (req: Request, res: Response) => {
 	const { id: articleId } = req.params;
 	const article = await Article.findOne({ _id: articleId });
@@ -125,15 +120,22 @@ export const getCategoryValues = async (req: Request, res: Response) => {
 	const categories = Object.values(categoriesEnum);
 	res.status(StatusCodes.OK).json({ categories });
 };
+
 export const getArticlesData = async (req: Request, res: Response) => {
+	interface ArticleDataType {
+		title: string;
+		category: string;
+		_id: number;
+	}
 	const articles = await Article.find({}, { category: 1, title: 1 });
-	let articlesData = {
-		blogs: [] as ArticleDataType[],
-		projects: [] as ArticleDataType[],
-	};
+	let articlesData: { blogs: ArticleDataType[]; projects: ArticleDataType[] } =
+		{
+			blogs: [],
+			projects: [],
+		};
 
 	articles.forEach((elem) => {
-		if (elem.category === "project") {
+		if (elem.category === categoriesEnum.project) {
 			articlesData.projects.push(elem);
 		} else {
 			articlesData.blogs.push(elem);

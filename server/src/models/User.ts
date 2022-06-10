@@ -1,21 +1,22 @@
 import { Schema, model } from "mongoose";
-import { userRoles } from "../config";
 
-enum platformEnum {
+export enum platformEnum {
 	github = "github",
 	google = "google",
+}
+
+export enum userRoles {
+	admin = "admin",
+	user = "user",
 }
 
 export interface IUser {
 	platform_name: string;
 	platfrom_type: platformEnum;
-	message: string;
-	replies: number[];
-	user: {
-		id: number;
-		name?: string;
-		isBanned?: boolean;
-	};
+	name: string;
+	roles: userRoles[];
+	avatar_url: string;
+	isBanned: boolean;
 	_id: number;
 	createdAt: Date;
 	updatedAt: Date;
@@ -44,7 +45,6 @@ const UserSchema = new Schema(
 				default: "user",
 			},
 		],
-
 		avatar_url: {
 			type: String,
 		},
@@ -56,4 +56,4 @@ const UserSchema = new Schema(
 	{ timestamps: true }
 );
 
-export default model("User", UserSchema);
+export default model<IUser>("User", UserSchema);
