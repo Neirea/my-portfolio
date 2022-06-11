@@ -2,13 +2,16 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { recaptchaKey } from "../utils/data";
 import styled from "styled-components";
 import useLocalState from "../utils/useLocalState";
-import { LoginButton } from "../styles/StyledComponents";
+import { LoginButton, AlertMsg } from "../styles/StyledComponents";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import { LocationState } from "../types/appTypes";
+import { useQuery } from "../utils/useQuery";
 
 const Login = () => {
 	const location = useLocation<LocationState>();
+	const query = useQuery();
+	const errorQuery = query.get("error");
 	const fromLocation = location.state?.from;
 	const fromUrl =
 		fromLocation && fromLocation.pathname.length > 1
@@ -29,7 +32,7 @@ const Login = () => {
 		<LoginWrapper>
 			<div className="login-container">
 				<h4>Sign in with</h4>
-
+				{errorQuery === "login_failed" && <AlertMsg>Login failed</AlertMsg>}
 				<LoginButton className="btn-github" onClick={handleLoginGithub}>
 					<FaGithub />
 					<span>{"Github"}</span>
