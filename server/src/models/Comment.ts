@@ -12,47 +12,51 @@ export interface IComment {
 	};
 	_id: number;
 	createdAt: Date;
-	updatedAt: Date;
-	__v: number;
+	editedAt: Date;
 }
 
 function isMessageRequired(this: IComment) {
 	return typeof this.message === "string" ? false : true;
 }
-const CommentSchema = new Schema(
-	{
-		articleId: {
-			type: Types.ObjectId,
-			ref: "Article",
-			required: true,
-		},
-		parentId: {
+const CommentSchema = new Schema({
+	articleId: {
+		type: Types.ObjectId,
+		ref: "Article",
+		required: true,
+	},
+	parentId: {
+		type: Types.ObjectId,
+		ref: "Comment",
+		default: null,
+	},
+	message: {
+		type: String,
+		required: isMessageRequired,
+	},
+	replies: [
+		{
 			type: Types.ObjectId,
 			ref: "Comment",
-			default: null,
 		},
-		message: {
-			type: String,
-			required: isMessageRequired,
-		},
-		replies: [
-			{
-				type: Types.ObjectId,
-				ref: "Comment",
-			},
-		],
-		user: {
-			id: {
-				type: Types.ObjectId,
-				ref: "User",
-				required: true,
-			},
-			name: { type: String },
-			isBanned: { type: Boolean },
-		},
+	],
+	createdAt: {
+		type: Date,
+		default: () => new Date(),
 	},
-	{ timestamps: true }
-);
+	editedAt: {
+		type: Date,
+		default: () => new Date(),
+	},
+	user: {
+		id: {
+			type: Types.ObjectId,
+			ref: "User",
+			required: true,
+		},
+		name: { type: String },
+		isBanned: { type: Boolean },
+	},
+});
 
 //middleware to populate replies of top level comments in recursive way
 function autoPopulateReplies(this: Query<IComment, IComment>) {

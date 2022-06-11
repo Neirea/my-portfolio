@@ -28,11 +28,8 @@ export const getSingleComment = async (req: Request, res: Response) => {
 };
 
 export const createComment = async (req: Request, res: Response) => {
-	const {
-		userId,
-		message,
-		parentId,
-	}: { userId: number; message: string; parentId: number } = req.body;
+	const { userId, message, parentId } = req.body;
+
 	const { article: articleId } = req.params;
 
 	const author = await User.findOne({ _id: userId });
@@ -46,7 +43,7 @@ export const createComment = async (req: Request, res: Response) => {
 		);
 	}
 
-	const commentUser = {
+	const user = {
 		id: author._id,
 		name: author.name,
 		isBanned: author.isBanned,
@@ -57,7 +54,7 @@ export const createComment = async (req: Request, res: Response) => {
 		throw new CustomError.NotFoundError(`No article with id : ${articleId}`);
 	}
 
-	const newComment = { articleId, commentUser, message, parentId };
+	const newComment = { articleId, user, message, parentId };
 
 	const comment = await Comment.create(newComment);
 
@@ -87,7 +84,7 @@ export const updateComment = async (req: Request, res: Response) => {
 			"You are currently suspended from posting comments"
 		);
 	}
-
+	comment.editedAt = new Date();
 	comment.message = message;
 	await comment.save();
 	res.status(StatusCodes.OK).json({ comment });

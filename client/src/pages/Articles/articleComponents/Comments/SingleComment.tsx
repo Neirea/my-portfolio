@@ -108,7 +108,7 @@ const SingleComment = ({
 						<span className="comment-author">{comment.user.name}</span>
 						<span className="comment-date">
 							&nbsp;&nbsp;·&nbsp;&nbsp;
-							{handleDate(comment.updatedAt.toString())}
+							{handleDate(comment.createdAt.toString())}
 						</span>
 					</div>
 					{/* Toolbar for comment */}
