@@ -122,19 +122,18 @@ const Comments = () => {
 					<AlertMsg>You are currently suspended from posting comments</AlertMsg>
 				)}
 				{/* mapping through comments */}
-				{comments &&
-					comments.map((element, index) => {
-						return (
-							<Fragment key={index}>
-								<SingleComment
-									index={index}
-									commentElement={element}
-									handleChange={handleChange}
-									handleSubmit={handleSubmit}
-								/>
-							</Fragment>
-						);
-					})}
+				{comments.map((element, index) => {
+					return (
+						<Fragment key={index}>
+							<SingleComment
+								index={index}
+								commentElement={element}
+								handleChange={handleChange}
+								handleSubmit={handleSubmit}
+							/>
+						</Fragment>
+					);
+				})}
 			</>
 			<ReCAPTCHA
 				className="recaptcha"

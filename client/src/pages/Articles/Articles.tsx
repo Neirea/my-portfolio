@@ -178,7 +178,7 @@ const ArticlePosts = ({ type }: { type: string }) => {
 												<p className="article-date">
 													{handleDate(element.createdAt.toString())}
 												</p>
-												{element.tags && (
+												{element.tags.length > 0 && (
 													<TagsGroup>
 														{element.tags.map((tag, i) => {
 															return (

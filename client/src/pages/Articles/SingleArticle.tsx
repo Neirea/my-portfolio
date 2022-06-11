@@ -73,19 +73,15 @@ const SingleArticle = () => {
 										{handleDate(article.updatedAt)}
 									</p>
 									<TagsGroup>
-										{article.tags &&
-											article.tags.map((tag, i) => {
-												return (
-													<li key={`sa-${i}`}>
-														<NavLink
-															to={`/${article.category}`}
-															state={{ tag }}
-														>
-															{tag}
-														</NavLink>
-													</li>
-												);
-											})}
+										{article.tags.map((tag, i) => {
+											return (
+												<li key={`sa-${i}`}>
+													<NavLink to={`/${article.category}`} state={{ tag }}>
+														{tag}
+													</NavLink>
+												</li>
+											);
+										})}
 									</TagsGroup>
 									<BigImg
 										className="article-image"
@@ -130,7 +126,7 @@ const SingleArticle = () => {
 						</section>
 					</ArticleContentWrapper>
 
-					{articlesData && (
+					{articlesData.length > 0 && (
 						<ArticleSideMenuWrapper className="sidebar-single">
 							<div className="article-aside-container">
 								<h5>{`Read also:`}</h5>
