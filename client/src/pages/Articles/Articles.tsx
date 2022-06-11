@@ -12,8 +12,9 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 
 import { handleError } from "../../utils/handleError";
 import {
-	ReadButton,
 	AdminButton,
+	AdminButtonLink,
+	LinkButton,
 	AlertContainer,
 } from "../../styles/StyledComponents";
 import axios from "axios";
@@ -143,7 +144,9 @@ const ArticlePosts = ({ type }: { type: string }) => {
 			{alert.show ? (
 				<AlertContainer>
 					<p>{alert.text}</p>
-					<Link to="/">Go back to Home page</Link>
+					<Link className="alert-link" to="/">
+						Go back to Home page
+					</Link>
 				</AlertContainer>
 			) : !articles.length ? (
 				<LoadingSpinner />
@@ -183,12 +186,12 @@ const ArticlePosts = ({ type }: { type: string }) => {
 													<TagsGroup>
 														{element.tags.map((tag, i) => {
 															return (
-																<li
+																<button
 																	key={`article-tag-${i}`}
 																	onClick={() => filterTags(tag)}
 																>
 																	{tag}
-																</li>
+																</button>
 															);
 														})}
 													</TagsGroup>
@@ -201,28 +204,28 @@ const ArticlePosts = ({ type }: { type: string }) => {
 											</div>
 											<p className="article-text">{htmlContent}</p>
 											<div className="article-buttons-group">
-												<Link to={`/read?a=${element._id}`}>
-													<ReadButton>Read More</ReadButton>
-												</Link>
+												<LinkButton to={`/read?a=${element._id}`}>
+													Read More
+												</LinkButton>
 												<div className="article-links">
 													{element.source_link && (
-														<a href={element.source_link}>
-															<ReadButton>Source</ReadButton>
-														</a>
+														<LinkButton as="a" href={element.source_link}>
+															Source
+														</LinkButton>
 													)}
 													{element.demo_link && (
-														<a href={element.demo_link}>
-															<ReadButton>View Live</ReadButton>
-														</a>
+														<LinkButton as="a" href={element.demo_link}>
+															View Live
+														</LinkButton>
 													)}
 												</div>
 											</div>
 										</article>
 										{user && user.roles.includes(userRoles.admin) && (
 											<div className="admin-buttons">
-												<Link to={`/edit-article?id=${element._id}`}>
-													<AdminButton>Edit</AdminButton>
-												</Link>
+												<AdminButtonLink to={`/edit-article?id=${element._id}`}>
+													Edit
+												</AdminButtonLink>
 
 												<AdminButton
 													disabled={loading}

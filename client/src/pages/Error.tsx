@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom";
-import { AlertContainer, ReadButton } from "../styles/StyledComponents";
+import { AlertContainer, LinkButton } from "../styles/StyledComponents";
 
 const Error = () => {
 	return (
@@ -7,9 +6,7 @@ const Error = () => {
 			<b style={{ fontSize: "9rem" }}>404</b>
 			<h3>Page not found</h3>
 			<br />
-			<Link to="/">
-				<ReadButton>Back Home</ReadButton>
-			</Link>
+			<LinkButton to="/">Back Home</LinkButton>
 		</AlertContainer>
 	);
 };

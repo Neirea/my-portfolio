@@ -8,6 +8,7 @@ import {
 import BigImg from "../../components/BigImg";
 import {
 	AdminButton,
+	AdminButtonLink,
 	AlertContainer,
 	ReadButton,
 	StyledLoading,
@@ -56,7 +57,9 @@ const SingleArticle = () => {
 			{alert.show ? (
 				<AlertContainer>
 					<p>{alert.text}</p>
-					<Link to="/">Go back to Home page</Link>
+					<Link className="alert-link" to="/">
+						Go back to Home page
+					</Link>
 				</AlertContainer>
 			) : !article ? (
 				<StyledLoading as="div" darkMode={darkMode}>
@@ -75,11 +78,13 @@ const SingleArticle = () => {
 									<TagsGroup>
 										{article.tags.map((tag, i) => {
 											return (
-												<li key={`sa-${i}`}>
-													<NavLink to={`/${article.category}`} state={{ tag }}>
-														{tag}
-													</NavLink>
-												</li>
+												<NavLink
+													key={`sa-${i}`}
+													to={`/${article.category}`}
+													state={{ tag }}
+												>
+													{tag}
+												</NavLink>
 											);
 										})}
 									</TagsGroup>
@@ -97,22 +102,22 @@ const SingleArticle = () => {
 								/>
 								<div className="article-links">
 									{article.source_link && (
-										<a href={article.source_link}>
-											<ReadButton>Source</ReadButton>
-										</a>
+										<ReadButton as="a" href={article.source_link}>
+											Source
+										</ReadButton>
 									)}
 									{article.demo_link && (
-										<a href={article.demo_link}>
-											<ReadButton>View Live</ReadButton>
-										</a>
+										<ReadButton as="a" href={article.demo_link}>
+											View Live
+										</ReadButton>
 									)}
 								</div>
 							</article>
 							{user && user.roles.includes(userRoles.admin) && (
 								<div className="admin-buttons">
-									<Link to={`/edit-article?id=${article._id}`}>
-										<AdminButton>Edit</AdminButton>
-									</Link>
+									<AdminButtonLink to={`/edit-article?id=${article._id}`}>
+										Edit
+									</AdminButtonLink>
 
 									<AdminButton
 										disabled={loading}

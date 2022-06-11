@@ -96,7 +96,8 @@ export const StyledMenuLink = styled(NavLink)`
 		transition: var(--header-transition);
 	}
 	@media (hover: hover) and (pointer: fine) {
-		&:hover {
+		&:hover,
+		&:focus {
 			color: var(--main-text-color);
 			transition: color var(--transition);
 		}

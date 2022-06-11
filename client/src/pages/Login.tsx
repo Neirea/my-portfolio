@@ -67,8 +67,6 @@ const LoginWrapper = styled.main`
 		padding-top: 1rem;
 		gap: 1rem;
 
-		width: fit-content;
-
 		border-radius: var(--border-radius);
 		box-shadow: var(--shadow-1);
 		background-color: var(--header-bg-color);

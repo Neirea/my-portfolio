@@ -38,7 +38,8 @@ export const NavMenuItem = styled(MenuItem)`
 		opacity: 0;
 	}
 	@media (hover: hover) and (pointer: fine) {
-		&:hover::before {
+		&:hover::before,
+		&:focus-within::before {
 			opacity: 0.1;
 		}
 	}

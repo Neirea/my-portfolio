@@ -27,27 +27,27 @@ const ArticlePostsSideMenu = ({
 	}, [prevTag, setSelectedTags]);
 
 	return (
-		<div className="article-aside-container">
+		<section className="article-aside-container">
 			{tags.length > 0 && (
 				<>
 					<h5>{`Filter:`}</h5>
 					<TagsGroup>
 						{tags.map((elem, i) => {
 							return (
-								<li
+								<button
 									id={elem}
 									className="article-aside-list-item"
 									onClick={() => filterTags(elem)}
 									key={`tag-${i}`}
 								>
 									{elem}
-								</li>
+								</button>
 							);
 						})}
 					</TagsGroup>
 				</>
 			)}
-		</div>
+		</section>
 	);
 };
 

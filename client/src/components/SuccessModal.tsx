@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom";
-import { Button, PortalModal } from "../styles/StyledComponents";
+import { SuccessButton, PortalModal } from "../styles/StyledComponents";
 
 interface SuccessModalProps {
 	alert: {
@@ -16,9 +16,7 @@ const SuccessModal = ({ alert, hideAlert }: SuccessModalProps) => {
 		<PortalModal>
 			<section className="success-container">
 				<h4>Email was successfuly sent!</h4>
-				<Button className="success-button" onClick={() => hideAlert()}>
-					Continue
-				</Button>
+				<SuccessButton onClick={() => hideAlert()}>Continue</SuccessButton>
 			</section>
 		</PortalModal>,
 		document.getElementById("success-portal") as HTMLElement

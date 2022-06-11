@@ -77,14 +77,6 @@ const Contact = () => {
 			{alert.show && alert.type === "success" && (
 				<SuccessModal alert={alert} hideAlert={hideAlert} />
 			)}
-			{/* <AlertContainer>
-				<p>{alert.text}</p>
-				<Link to="/">
-					{timeLeft >= 0
-						? `Redirecting back to Home page in ${timeLeft}...`
-						: "Go back to Home page"}
-				</Link>
-			</AlertContainer> */}
 			<StyledForm onSubmit={onSubmit}>
 				<FormRow
 					focus={true}

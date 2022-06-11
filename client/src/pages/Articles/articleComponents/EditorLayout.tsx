@@ -113,7 +113,7 @@ const EditorLayout = ({
 			{success ? (
 				<AlertContainer>
 					<p>{alert.text}</p>
-					<Link to={`/${articleValues.category}`} className="article-link">
+					<Link to={`/${articleValues.category}`} className="alert-link">
 						{`Go back to ${articleValues.category} page`}
 					</Link>
 				</AlertContainer>
@@ -228,7 +228,7 @@ const EditorLayout = ({
 									<h3>{articleValues.title}</h3>
 									<TagsGroup>
 										{tags.split(" ").map((elem, i) => {
-											return <li key={`a-${i}`}>{elem}</li>;
+											return <button key={`a-${i}`}>{elem}</button>;
 										})}
 									</TagsGroup>
 									{preview && (

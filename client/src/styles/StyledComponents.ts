@@ -1,14 +1,15 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { Link, NavLink } from "react-router-dom";
 
-/* Buttons */
-export const Button = styled.button`
-	display: inline-block;
+const buttonCSS = css`
+	display: block;
 	border-radius: var(--border-radius);
 	background-color: var(--button-color);
 	color: white;
 	border: transparent;
 	letter-spacing: var(--letter-spacing);
 	text-transform: capitalize;
+	text-align: center;
 	font-size: 1rem;
 	opacity: 0.8;
 	cursor: pointer;
@@ -26,16 +27,20 @@ export const Button = styled.button`
 		}
 	}
 `;
-
-export const ReadButton = styled(Button)`
-	padding: 0.5rem 0.75rem;
+const ReadButtonCSS = css`
+	${buttonCSS}
+	padding: 0.25rem 0.5rem;
 	background-color: var(--main-bg-color);
 	box-shadow: 0 0 0.2rem var(--faded-text-color);
+	line-height: var(--line-height);
 	font-weight: 550;
 	color: var(--button-color);
-
+`;
+const LinkCSS = css`
+	${ReadButtonCSS}
 	@media (hover: hover) and (pointer: fine) {
-		&:hover:enabled {
+		&:hover,
+		&:focus {
 			transition: all var(--transition);
 			opacity: 1;
 			background-color: var(--button-color);
@@ -44,12 +49,39 @@ export const ReadButton = styled(Button)`
 	}
 `;
 
-export const LoginButton = styled(Button)`
+/* Buttons */
+export const ReadButton = styled.button`
+	${ReadButtonCSS}
+	@media (hover: hover) and (pointer: fine) {
+		&:hover:enabled,
+		&:focus:enabled {
+			transition: all var(--transition);
+			opacity: 1;
+			background-color: var(--button-color);
+			color: white;
+		}
+	}
+`;
+
+export const LinkButton = styled(Link)`
+	${LinkCSS}
+`;
+export const NavLinkButton = styled(NavLink)`
+	${LinkCSS}
+`;
+
+export const SuccessButton = styled.button`
+	${buttonCSS}
+	padding: 0.5rem 1rem;
+`;
+
+export const LoginButton = styled.button`
+	${buttonCSS}
 	display: flex;
 	gap: 0.5rem;
 	justify-content: center;
 	padding: 1rem;
-	min-width: 10rem;
+	width: 10rem;
 	font-size: 1.1rem;
 	opacity: 1;
 	transition: box-shadow var(--transition);
@@ -66,12 +98,20 @@ export const LoginButton = styled(Button)`
 	}
 `;
 
-export const AdminButton = styled(Button)`
+export const AdminButton = styled.button`
+	${buttonCSS}
 	min-width: 5rem;
 	padding: 1rem;
 `;
 
-export const BlockButton = styled(Button)`
+export const AdminButtonLink = styled(Link)`
+	${buttonCSS}
+	min-width: 5rem;
+	padding: 1rem;
+`;
+
+export const BlockButton = styled.button`
+	${buttonCSS}
 	margin: 1rem 0;
 	height: 1.5rem;
 	width: 100%;
@@ -87,7 +127,10 @@ export const AlertMsg = styled.p`
 `;
 
 export const AlertContainer = styled.div`
-	margin: 5rem auto 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 5rem;
 	color: var(--main-text-color);
 	border-color: transparent;
 
@@ -96,12 +139,16 @@ export const AlertContainer = styled.div`
 	& > *:not(h1, h2, h3, h4, h5, h6) {
 		font-size: 1.5rem;
 	}
-	& > a {
-		display: block;
+	& > .alert-link {
+		display: inline-block;
 		margin-left: 0.25rem;
 		color: var(--button-color);
 		text-transform: capitalize;
+		opacity: 0.9;
 		cursor: pointer;
+		&:hover {
+			opacity: 1;
+		}
 	}
 `;
 
@@ -196,8 +243,5 @@ export const PortalModal = styled.section`
 		border-radius: var(--border-radius);
 		background: var(--main-bg-color);
 		z-index: 10;
-		.success-button {
-			padding: 0.5rem 1rem;
-		}
 	}
 `;

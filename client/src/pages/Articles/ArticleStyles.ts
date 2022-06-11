@@ -63,7 +63,8 @@ export const ArticleContentWrapper = styled.section`
 			gap: 1rem;
 
 			@media (hover: hover) and (pointer: fine) {
-				.article-title:hover {
+				.article-title:hover,
+				.article-title:focus {
 					color: var(--button-color);
 					transition: var(--transition);
 				}
@@ -177,7 +178,8 @@ export const ArticleSideMenuWrapper = styled.aside`
 		font-size: 1.2rem;
 		/* text-decoration: underline; */
 		@media (hover: hover) and (pointer: fine) {
-			&:hover {
+			&:hover,
+			&:focus {
 				color: var(--main-text-color);
 			}
 		}
@@ -190,18 +192,24 @@ export const ArticleSideMenuWrapper = styled.aside`
 	}
 `;
 
-export const TagsGroup = styled.ul`
+export const TagsGroup = styled.div`
 	display: flex;
 	justify-content: flex-start;
 	flex-wrap: wrap;
 	gap: 0.5rem;
 	margin-right: auto;
 
-	& > li {
+	& > button,
+	& > a {
+		display: block;
+		height: 100%;
+		padding: 0 0.25rem;
+		background: none;
 		border: 1px solid var(--tag-color);
 		color: var(--faded-text-color);
 		border-radius: var(--border-radius);
-		padding: 0 0.25rem;
+		font-size: 1rem;
+		line-height: var(--line-height);
 		text-transform: capitalize;
 		user-select: none;
 
@@ -234,14 +242,6 @@ export const CUArticleWrapper = styled.main`
 		flex-direction: row;
 		align-items: flex-start;
 		justify-content: center;
-	}
-
-	.article-link {
-		display: inline-block;
-		margin-left: 0.25rem;
-		color: var(--button-color);
-		text-transform: capitalize;
-		cursor: pointer;
 	}
 `;
 

@@ -3,6 +3,7 @@ import { MenuItem } from "./HeaderStyles";
 
 export const UserMenuWrapper = styled(MenuItem)`
 	color: var(--faded-text-color);
+	margin-right: 0.5rem;
 
 	@media (hover: hover) and (pointer: fine) {
 		&:hover {
@@ -32,6 +33,9 @@ export const UserMenuWrapper = styled(MenuItem)`
 		.user-menu-item {
 			display: flex;
 			align-items: center;
+			background: none;
+			border: none;
+			color: inherit;
 			width: var(--icon-size);
 			height: 100%;
 			transition: transform var(--transition);
@@ -48,7 +52,7 @@ export const UserMenuWrapper = styled(MenuItem)`
 
 		position: absolute;
 		top: 4rem;
-		padding: 0 0.5rem;
+		padding: 0 1rem;
 
 		height: 0;
 		box-shadow: var(--shadow-3);
@@ -59,7 +63,6 @@ export const UserMenuWrapper = styled(MenuItem)`
 		overflow: hidden;
 
 		.user-menu-link {
-			padding: 0.3rem 0.3rem;
 			user-select: none;
 		}
 	}

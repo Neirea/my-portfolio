@@ -3,6 +3,8 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyles = createGlobalStyle`
 
 *,*::before,*::after{
+	padding:0;
+	margin:0;
     box-sizing: border-box;
 }
 :root{
@@ -26,21 +28,25 @@ export const GlobalStyles = createGlobalStyle`
 	--form-field-color: #fff;
 	--form-border-color: #94a3b8;
 	--comment-header-color: mediumpurple;
-	--form-width: min(30rem, 90vw);
 	--alert-color: red;
+
+	--form-width: min(30rem, 90vw);
+	--icon-size: min(2rem, 10vw);
+	--article-width: min(48rem,95%);
 	--border-radius: 0.25rem;
 	--tools-button-size: 1.25rem;
+	--letter-spacing: 1px;
+	--main-text-size: 1rem;
+	--main-line-height: 1.7;
+
 	--shadow-1: 0 0 0.2rem -1px var(--header-shadow-color);
 	--shadow-2: -1px 1px 2px -1px var(--header-shadow-color);
 	--shadow-3: 0 0.1rem 0.1rem var(--header-shadow-color);
-	--letter-spacing: 1px;
-	--icon-size: min(2rem, 10vw);
-	--article-width: min(48rem,95%);
+
 	--transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 	--header-transition: width 0.3s linear;
 	--slider-transition: all 0.3s linear, color 0s;
-	--main-text-size: 1rem;
-	--main-line-height: 1.7;
+
 }
 //firefox
 html{
@@ -63,8 +69,6 @@ html::-webkit-scrollbar-track{
 }
 //------------------------------------------------
 body {  
-	padding: 0;
-	margin: 0;
 	line-height: var(--main-line-height);
 	color: var(--main-text-color);
 	background: var(--main-bg-color);

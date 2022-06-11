@@ -1,5 +1,5 @@
 import { useRef, useEffect, Dispatch, SetStateAction } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { BiChevronDown } from "react-icons/bi";
 import { ReadButton } from "../../styles/StyledComponents";
 import { UserMenuWrapper } from "./UserMenuStyles";
@@ -15,6 +15,7 @@ interface UserMenuProps {
 
 const UserMenu = ({ showUserMenu, setShowUserMenu }: UserMenuProps) => {
 	const location = useLocation<LocationState>();
+	const navigate = useNavigate();
 	const { user, logoutUser } = useGlobalContext();
 	const userMenuContainerRef = useRef<HTMLDivElement | null>(null);
 	const toggleMenuRef = useRef<HTMLDivElement | null>(null);
@@ -37,7 +38,7 @@ const UserMenu = ({ showUserMenu, setShowUserMenu }: UserMenuProps) => {
 	useEffect(() => {
 		if (userMenuContainerRef.current == null) return;
 		if (showUserMenu) {
-			userMenuContainerRef.current.style.height = `3rem`;
+			userMenuContainerRef.current.style.height = `4rem`;
 			return;
 		}
 		userMenuContainerRef.current.style.height = `0px`;
@@ -50,6 +51,7 @@ const UserMenu = ({ showUserMenu, setShowUserMenu }: UserMenuProps) => {
 	const handleLogout = () => {
 		showUserMenu && setShowUserMenu(false);
 		logoutUser();
+		navigate(logoutUrl);
 	};
 
 	return (
@@ -82,18 +84,19 @@ const UserMenu = ({ showUserMenu, setShowUserMenu }: UserMenuProps) => {
 								alt={user.name}
 							/>
 						</div>
-						<div className="user-menu-item">
+						<button className="user-menu-item">
 							<BiChevronDown size={"100%"} style={menuButtonStyle} />
-						</div>
+						</button>
 					</div>
+
 					<div className="user-menu-dropdown" ref={userMenuContainerRef}>
-						<NavLink
+						<ReadButton
 							className="user-menu-link"
-							to={logoutUrl}
+							disabled={!showUserMenu}
 							onClick={handleLogout}
 						>
-							<ReadButton>Logout</ReadButton>
-						</NavLink>
+							Logout
+						</ReadButton>
 					</div>
 				</>
 			)}

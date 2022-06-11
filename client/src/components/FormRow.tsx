@@ -53,7 +53,7 @@ const FormRow = ({
 					onChange={handleChange}
 					className="form-input"
 					required={isRequired}
-					minLength={6} //same as in DB
+					minLength={2}
 					{...rest}
 				></input>
 			)}

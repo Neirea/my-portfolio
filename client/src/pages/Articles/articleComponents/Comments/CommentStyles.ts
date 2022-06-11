@@ -44,7 +44,8 @@ export const ToolsButton = styled.button`
 	cursor: pointer;
 
 	@media (hover: hover) and (pointer: fine) {
-		&:hover {
+		&:hover,
+		&:focus {
 			color: var(--main-text-color);
 			transition: 0.3s;
 		}
