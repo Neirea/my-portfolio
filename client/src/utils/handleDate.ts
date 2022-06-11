@@ -1,4 +1,3 @@
-//any: check date type createdAt,updatedAt
 export const handleDate = (date: string) => {
 	const dateAt = new Date(date);
 	const dateNowMs = Date.now();
@@ -20,7 +19,7 @@ export const handleDate = (date: string) => {
 		const options = {
 			day: "numeric",
 			month: "short",
-			year: "numeric",
+			year: "2-digit",
 		} as const;
 		resultDate = dateAt.toLocaleDateString("en-US", options);
 	}

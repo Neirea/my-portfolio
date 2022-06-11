@@ -72,9 +72,7 @@ const SingleComment = ({
 				message: "",
 			});
 		} else {
-			//any tag -> closest("button")?
-			(e.target as HTMLButtonElement)?.classList.add("btn-activated");
-
+			e.currentTarget.classList.add("btn-activated");
 			setCommentState({
 				type: ACTIONS.reply,
 				id: comment._id,

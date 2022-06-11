@@ -49,7 +49,6 @@ const EditArticle = () => {
 	useEffect(() => {
 		const getContent = async () => {
 			const { data } = await axios.get(`/api/article/${articleId}`);
-			//any contentBlocks ?
 			const contentState = ContentState.createFromBlockArray(
 				htmlToDraft(data.article.content).contentBlocks
 			);
