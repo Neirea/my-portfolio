@@ -94,9 +94,11 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 			await axios.delete(`api/comment/${articleId}/d_all/${comment._id}`);
 			//additional request to update comments
 			const commentsArray: IJsxComment[] = [];
-			await axios.get(`api/comment/${articleId}`).then((res) => {
-				parseComments(res.data.comments, -1, commentsArray);
-			});
+			await axios
+				.get<{ comments: IComment[] }>(`api/comment/${articleId}`)
+				.then((res) => {
+					parseComments(res.data.comments, -1, commentsArray);
+				});
 			setComments(commentsArray);
 		} catch (error) {
 			handleError(error, navigate);
@@ -117,9 +119,11 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 			await axios.delete(`api/user/${comment.user.id}`);
 			//additional request to update comments
 			const commentsArray: IJsxComment[] = [];
-			await axios.get(`api/comment/${articleId}`).then((res) => {
-				parseComments(res.data.comments, -1, commentsArray);
-			});
+			await axios
+				.get<{ comments: IComment[] }>(`api/comment/${articleId}`)
+				.then((res) => {
+					parseComments(res.data.comments, -1, commentsArray);
+				});
 			setComments(commentsArray);
 		} catch (error) {
 			handleError(error, navigate);

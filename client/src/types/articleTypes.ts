@@ -1,12 +1,23 @@
 import { Dispatch, SetStateAction } from "react";
 
+export enum ACTIONS {
+	reply = "reply",
+	edit = "edit",
+	none = "none",
+}
+
+export enum categoriesEnum {
+	blog = "blog",
+	project = "project",
+}
+
 export interface IArticle {
 	title: string;
 	content: string;
-	category: string;
+	category: categoriesEnum;
 	code_languages: string[];
-	source_link: string | undefined;
-	demo_link: string | undefined;
+	source_link: string;
+	demo_link: string;
 	tags: string[];
 	image: string;
 	img_id: string;
@@ -28,10 +39,10 @@ export interface IComment {
 		isBanned: boolean;
 	};
 	_id: number;
-	createdAt: Date;
-	updatedAt: Date;
-	__v: number;
+	createdAt: string;
+	editedAt: string;
 }
+
 export interface IJsxComment {
 	level: number;
 	comment: IComment;
@@ -43,21 +54,14 @@ export interface IArticleData {
 	_id: number;
 }
 
-export enum ACTIONS {
-	reply = "reply",
-	edit = "edit",
-	none = "none",
-}
-
 export interface ICommentState {
 	type: ACTIONS;
 	id: number | null;
 	message: string;
 }
 
-export enum categoriesEnum {
-	blog = "blog",
-	project = "project",
+export interface IUploadedImageResponse {
+	image: { src: string; img_id: string };
 }
 
 export interface IArticleValues {
@@ -68,7 +72,7 @@ export interface IArticleValues {
 	content?: string;
 	image?: string;
 	img_id?: string;
-	userId?: string;
+	userId?: number;
 }
 
 export interface ArticleContextValues {

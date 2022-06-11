@@ -54,7 +54,9 @@ const ArticlePosts = ({ type }: { type: string }) => {
 			hideAlert();
 			setLoading(true);
 			try {
-				const { data } = await axios.get(`/api/article/${type}`);
+				const { data } = await axios.get<{ articles: IArticle[] }>(
+					`/api/article/${type}`
+				);
 				setArticles(data.articles);
 				//gettings array of tags
 				if (data.articles) {

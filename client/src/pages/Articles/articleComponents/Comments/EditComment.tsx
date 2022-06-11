@@ -30,7 +30,7 @@ const EditComment = ({ index, comment, handleChange }: EditCommentProps) => {
 		setLoading(true);
 
 		try {
-			const { data } = await axios.patch(
+			const { data } = await axios.patch<{ comment: IComment }>(
 				`api/comment/${articleId}/${comment._id}`,
 				{ message: commentState.message }
 			);

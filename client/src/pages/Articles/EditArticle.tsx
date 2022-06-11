@@ -10,7 +10,12 @@ import { useQuery } from "../../utils/useQuery";
 import { handleError } from "../../utils/handleError";
 import EditorLayout from "./articleComponents/EditorLayout";
 import { languageDetector } from "../../utils/handleHtmlString";
-import { IArticleValues, categoriesEnum } from "../../types/articleTypes";
+import {
+	IArticleValues,
+	categoriesEnum,
+	IArticle,
+	IUploadedImageResponse,
+} from "../../types/articleTypes";
 
 const EditArticle = () => {
 	const navigate = useNavigate();
@@ -30,11 +35,7 @@ const EditArticle = () => {
 	const [categories, setCategories] = useState<string[]>([]);
 	const [articleValues, setArticleValues] = useState<IArticleValues>({
 		title: "",
-		content: "",
 		category: categoriesEnum.blog,
-		image: "",
-		img_id: "",
-		userId: "",
 		demo_link: "",
 		source_link: "",
 	});
@@ -48,7 +49,9 @@ const EditArticle = () => {
 	//get html from article id and put it into editor
 	useEffect(() => {
 		const getContent = async () => {
-			const { data } = await axios.get(`/api/article/${articleId}`);
+			const { data } = await axios.get<{ article: IArticle }>(
+				`/api/article/${articleId}`
+			);
 			const contentState = ContentState.createFromBlockArray(
 				htmlToDraft(data.article.content).contentBlocks
 			);
@@ -68,7 +71,9 @@ const EditArticle = () => {
 			setTags(data.article.tags.join(" "));
 
 			//get list of categories
-			const response = await axios.get("/api/article/articleCategories");
+			const response = await axios.get<{ categories: categoriesEnum[] }>(
+				"/api/article/articleCategories"
+			);
 			setCategories(response.data.categories);
 		};
 		getContent();
@@ -91,7 +96,10 @@ const EditArticle = () => {
 			if (selectedImage) {
 				const data = new FormData();
 				data.append("image", selectedImage);
-				const response = await axios.post("/api/article/upload", data);
+				const response = await axios.post<IUploadedImageResponse>(
+					"/api/article/upload",
+					data
+				);
 				updatedArticle.image = response.data.image.src;
 				updatedArticle.img_id = response.data.image.img_id;
 			}

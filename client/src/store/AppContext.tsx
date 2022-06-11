@@ -30,7 +30,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
 	const fetchUser = async () => {
 		try {
-			const { data } = await axios.get("/api/user/showMe");
+			const { data } = await axios.get<{ user: IUser }>("/api/user/showMe");
 			if (data) setUser(data.user);
 		} catch (error) {
 			handleError(error);

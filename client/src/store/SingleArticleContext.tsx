@@ -59,13 +59,12 @@ const SingleArticleProvider = ({ children }: { children: ReactNode }) => {
 			hideAlert();
 			setLoading(true);
 			try {
-				const endpoints = [
-					`/api/article/${articleId}`,
-					"/api/article/getArticlesData",
-				];
-				const result = await Promise.all(
-					endpoints.map((url) => axios.get(url))
-				);
+				const result = await Promise.all([
+					axios.get<{ article: IArticle }>(`/api/article/${articleId}`),
+					axios.get<{
+						articlesData: { projects: IArticleData[]; blogs: IArticleData[] };
+					}>("/api/article/getArticlesData"),
+				]);
 
 				const articleResult = {
 					...result[0].data.article,
@@ -80,7 +79,9 @@ const SingleArticleProvider = ({ children }: { children: ReactNode }) => {
 					: setArticlesData(result[1].data.articlesData.blogs);
 				setArticle(articleResult);
 
-				const { data } = await axios.get(`api/comment/${articleId}`);
+				const { data } = await axios.get<{ comments: IComment[] }>(
+					`api/comment/${articleId}`
+				);
 				const commentsArray: IJsxComment[] = [];
 				//make styled code in content
 				parseComments(data.comments, -1, commentsArray);

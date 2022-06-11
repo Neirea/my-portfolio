@@ -9,7 +9,11 @@ import useLocalState from "../../utils/useLocalState";
 import { handleError } from "../../utils/handleError";
 import EditorLayout from "./articleComponents/EditorLayout";
 import { languageDetector } from "../../utils/handleHtmlString";
-import { categoriesEnum } from "../../types/articleTypes";
+import {
+	categoriesEnum,
+	IArticleValues,
+	IUploadedImageResponse,
+} from "../../types/articleTypes";
 import { LocationState } from "../../types/appTypes";
 
 const CreateArticle = () => {
@@ -27,7 +31,7 @@ const CreateArticle = () => {
 	const { user } = useGlobalContext();
 
 	const [categories, setCategories] = useState<string[]>([]);
-	const [articleValues, setArticleValues] = useState({
+	const [articleValues, setArticleValues] = useState<IArticleValues>({
 		title: "",
 		category: categoriesEnum.blog,
 		demo_link: "",
@@ -46,13 +50,16 @@ const CreateArticle = () => {
 	useEffect(() => {
 		const getCategoryValues = async () => {
 			try {
-				const response = await axios.get("/api/article/articleCategories");
+				const response = await axios.get<{ categories: categoriesEnum[] }>(
+					"/api/article/articleCategories"
+				);
 				setCategories(response.data.categories);
 				setArticleValues((prevValue) => {
 					return {
 						...prevValue,
 						category:
-							location.state?.from?.toString() || response.data.categories[0],
+							(location.state?.from?.toString() as categoriesEnum) ||
+							response.data.categories[0],
 					};
 				});
 			} catch (error) {
@@ -71,9 +78,13 @@ const CreateArticle = () => {
 			const articleTags = tags.split(" ");
 
 			const data = new FormData();
-			data.append("image", selectedImage.name);
+			data.append("image", selectedImage);
+
 			//upload  image to server
-			const response = await axios.post("/api/article/upload", data);
+			const response = await axios.post<IUploadedImageResponse>(
+				"/api/article/upload",
+				data
+			);
 
 			//to avoid setArticleValues between 2 depending await's
 			const createdArticle = {

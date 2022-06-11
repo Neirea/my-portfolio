@@ -96,7 +96,9 @@ export const deleteArticle = async (req: Request, res: Response) => {
 //upload image to cloudinary
 export const uploadArticleImage = async (req: Request, res: Response) => {
 	const imageFile = req.files?.image as UploadedFile;
-	if (!imageFile) return;
+	if (!imageFile) {
+		throw new CustomError.BadRequestError("Image was not attached");
+	}
 
 	const result = await cloudinary.uploader.upload(imageFile.tempFilePath, {
 		folder: "portfolio",

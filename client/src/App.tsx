@@ -26,6 +26,7 @@ import { userRoles } from "./types/appTypes";
 function App() {
 	const { isLoading, darkMode } = useGlobalContext();
 	const selectedTheme = darkMode ? darkTheme : lightTheme;
+
 	return isLoading ? (
 		<LoadingSpinner />
 	) : (
@@ -85,20 +86,3 @@ function App() {
 }
 
 export default App;
-
-// async function githubAuth() {
-// 	try {
-// 		//can't do short urls
-// 		window.open("http://localhost:5000/api/auth/login/github", "_self");
-// 	} catch (error) {
-// 		console.log(error);
-// 	}
-// }
-// async function logout() {
-// 	try {
-// 		const { data } = await axios.delete("/api/auth/logout");
-// 		console.log(data);
-// 	} catch (error) {
-// 		console.log(error);
-// 	}
-// }
