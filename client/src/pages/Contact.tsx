@@ -1,21 +1,15 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ReCAPTCHA from "react-google-recaptcha";
 import { recaptchaKey } from "../utils/data";
-import {
-	BlockButton,
-	AlertMsg,
-	AlertContainer,
-	StyledForm,
-} from "../styles/StyledComponents";
+import { BlockButton, AlertMsg, StyledForm } from "../styles/StyledComponents";
 
 import FormRow from "../components/FormRow";
 import useLocalState from "../utils/useLocalState";
+import SuccessModal from "../components/SuccessModal";
 import { useGlobalContext } from "../store/AppContext";
 
 const Contact = () => {
-	const navigate = useNavigate();
 	const { user } = useGlobalContext();
 	const { alert, showAlert, loading, setLoading, hideAlert, reCaptchaRef } =
 		useLocalState();
@@ -25,7 +19,6 @@ const Contact = () => {
 		email: "",
 		message: "",
 	});
-	const [timeLeft, setTimeLeft] = useState(-1);
 
 	//auto-fill form hen user logged in
 	useEffect(() => {
@@ -39,19 +32,6 @@ const Contact = () => {
 			});
 		}
 	}, [user]);
-
-	//timer after which it goes to Home page
-	useEffect(() => {
-		if (timeLeft === -1) return;
-		if (timeLeft === 0) {
-			navigate("/");
-		} else {
-			const timer1 = setTimeout(() => {
-				setTimeLeft(timeLeft - 1);
-			}, 1000);
-			return () => clearTimeout(timer1);
-		}
-	}, [timeLeft, navigate]);
 
 	const handleChange = (
 		e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -80,12 +60,12 @@ const Contact = () => {
 				token,
 			});
 			await axios.post("/api/action/sendContactMessage", contactMessage);
-			setValues({ name: "", email: "", message: "" });
+			setValues({ ...values, message: "" });
 			showAlert({
 				text: `contact message was successfully sent!`,
 				type: "success",
 			});
-			setTimeLeft(5);
+			// setTimeLeft(5);
 		} catch (error) {
 			showAlert({ text: error?.response?.data?.msg || "There was an error!" });
 		} finally {
@@ -94,57 +74,59 @@ const Contact = () => {
 	};
 	return (
 		<main>
-			{alert.show ? (
-				<AlertContainer>
-					<p>{alert.text}</p>
-					<Link to="/">
-						{timeLeft >= 0
-							? `Redirecting back to Home page in ${timeLeft}...`
-							: "Go back to Home page"}
-					</Link>
-				</AlertContainer>
-			) : (
-				<StyledForm onSubmit={onSubmit}>
-					<FormRow
-						focus={true}
-						type="name"
-						name="name"
-						label="your name"
-						value={values.name}
-						handleChange={handleChange}
-						isRequired={true}
-						title="Name must be letters (optionally followed by numbers)"
-						pattern="[a-zA-Z]+[0-9]*"
-					/>
-					<FormRow
-						type="email"
-						name="email"
-						label="your contact email"
-						value={values.email}
-						handleChange={handleChange}
-					/>
-					<FormRow
-						type="text"
-						name="message"
-						label="your message"
-						value={values.message}
-						handleChange={handleChange}
-					/>
-					<ReCAPTCHA
-						className="recaptcha"
-						sitekey={recaptchaKey}
-						size="invisible"
-						ref={reCaptchaRef}
-					/>
-					{alert.show && <AlertMsg>{alert.text}</AlertMsg>}
-					<BlockButton type="submit" disabled={loading}>
-						{loading ? "Loading..." : "Send"}
-					</BlockButton>
-					<address>
-						<b>Email:</b> neireawar@gmail.com
-					</address>
-				</StyledForm>
+			{alert.show && alert.type === "success" && (
+				<SuccessModal alert={alert} hideAlert={hideAlert} />
 			)}
+			{/* <AlertContainer>
+				<p>{alert.text}</p>
+				<Link to="/">
+					{timeLeft >= 0
+						? `Redirecting back to Home page in ${timeLeft}...`
+						: "Go back to Home page"}
+				</Link>
+			</AlertContainer> */}
+			<StyledForm onSubmit={onSubmit}>
+				<FormRow
+					focus={true}
+					type="name"
+					name="name"
+					label="your name"
+					value={values.name}
+					handleChange={handleChange}
+					isRequired={true}
+					title="Must be names separated by spaces"
+					pattern="^([a-zA-Z]+( [a-zA-Z]+)*)"
+				/>
+				<FormRow
+					type="email"
+					name="email"
+					label="your contact email"
+					value={values.email}
+					handleChange={handleChange}
+				/>
+				<FormRow
+					type="text"
+					name="message"
+					label="your message"
+					value={values.message}
+					handleChange={handleChange}
+				/>
+				<ReCAPTCHA
+					className="recaptcha"
+					sitekey={recaptchaKey}
+					size="invisible"
+					ref={reCaptchaRef}
+				/>
+				{alert.show && alert.type !== "success" && (
+					<AlertMsg>{alert.text}</AlertMsg>
+				)}
+				<BlockButton type="submit" disabled={loading}>
+					{loading ? "Loading..." : "Send"}
+				</BlockButton>
+				<address>
+					<b>Email:</b> neireawar@gmail.com
+				</address>
+			</StyledForm>
 		</main>
 	);
 };

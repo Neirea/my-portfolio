@@ -12,6 +12,7 @@ root.render(
 		<BrowserRouter>
 			<AppProvider>
 				<App />
+				<div id="success-portal"></div>
 			</AppProvider>
 		</BrowserRouter>
 	</React.StrictMode>

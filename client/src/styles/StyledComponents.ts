@@ -175,3 +175,29 @@ export const StyledLoading = styled.section<LoadingProps>`
 		animation: spinner 1s linear infinite;
 	}
 `;
+
+export const PortalModal = styled.section`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.7);
+	z-index: 5;
+	.success-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+		padding: 1.5rem 2rem;
+		border-radius: var(--border-radius);
+		background: var(--main-bg-color);
+		z-index: 10;
+		.success-button {
+			padding: 0.5rem 1rem;
+		}
+	}
+`;
