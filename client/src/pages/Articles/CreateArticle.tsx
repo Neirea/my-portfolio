@@ -10,10 +10,11 @@ import { handleError } from "../../utils/handleError";
 import EditorLayout from "./articleComponents/EditorLayout";
 import { languageDetector } from "../../utils/handleHtmlString";
 import { categoriesEnum } from "../../types/articleTypes";
+import { LocationState } from "../../types/appTypes";
 
 const CreateArticle = () => {
 	const navigate = useNavigate();
-	const location = useLocation();
+	const location = useLocation<LocationState>();
 	const {
 		alert,
 		showAlert,
@@ -46,12 +47,12 @@ const CreateArticle = () => {
 		const getCategoryValues = async () => {
 			try {
 				const response = await axios.get("/api/article/articleCategories");
-				setCategories(response.data.enumValues);
+				setCategories(response.data.categories);
 				setArticleValues((prevValue) => {
 					return {
 						...prevValue,
 						category:
-							(location.state as any)?.from || response.data.enumValues[0],
+							location.state?.from?.toString() || response.data.categories[0],
 					};
 				});
 			} catch (error) {

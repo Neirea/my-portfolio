@@ -1,4 +1,10 @@
-import { useContext, useState, useEffect, createContext } from "react";
+import {
+	useContext,
+	useState,
+	useEffect,
+	createContext,
+	ReactNode,
+} from "react";
 import { useQuery } from "../utils/useQuery";
 import useLocalState from "../utils/useLocalState";
 import axios from "axios";
@@ -32,7 +38,7 @@ export const parseComments = async (
 	}
 };
 
-const SingleArticleProvider = ({ children }: any) => {
+const SingleArticleProvider = ({ children }: { children: ReactNode }) => {
 	const query = useQuery();
 	const articleId = query.get("a");
 
@@ -81,10 +87,9 @@ const SingleArticleProvider = ({ children }: any) => {
 
 				setComments(commentsArray);
 			} catch (error) {
-				const alertText = axios.isAxiosError(error)
-					? (error?.response?.data as any).msg
-					: "There was an error!";
-				showAlert({ text: alertText });
+				showAlert({
+					text: error?.response?.data?.msg || "There was an error!",
+				});
 			} finally {
 				setLoading(false);
 			}

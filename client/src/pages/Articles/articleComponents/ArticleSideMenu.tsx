@@ -1,6 +1,7 @@
 import { useEffect, Dispatch, SetStateAction } from "react";
 import { useLocation } from "react-router-dom";
 import { TagsGroup } from "../ArticleStyles";
+import { LocationState } from "../../../types/appTypes";
 
 interface ArticlePostsSideMenuProps {
 	tags: string[];
@@ -13,8 +14,8 @@ const ArticlePostsSideMenu = ({
 	setSelectedTags,
 	filterTags,
 }: ArticlePostsSideMenuProps) => {
-	const location = useLocation();
-	const prevTag = (location.state as any)?.tag || null;
+	const location = useLocation<LocationState>();
+	const prevTag = location.state?.tag || null;
 
 	//check if it comes from another page
 	useEffect(() => {

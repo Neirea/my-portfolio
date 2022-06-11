@@ -27,7 +27,6 @@ import actionRouter from "./routes/actionRouter";
 import commentRouter from "./routes/commentRouter";
 import errorHandlerMiddleware from "./middleware/error-handle";
 import notFoundMiddleware from "./middleware/not-found";
-import "./types/global";
 import "./passport";
 
 const app = express();

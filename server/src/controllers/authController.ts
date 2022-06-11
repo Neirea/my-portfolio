@@ -46,7 +46,7 @@ export const loginGithub = async (
 	accessToken: string | undefined,
 	refreshToken: string | undefined,
 	profile: GithubUserProfile,
-	done: any
+	done: (err: any, id?: unknown) => void
 ) => {
 	//check if user is in DB, if not -> create one
 	let user = await User.findOne({ id: profile.id, type: "github" });

@@ -1,4 +1,10 @@
-import { useContext, useState, useEffect, createContext } from "react";
+import {
+	useContext,
+	useState,
+	useEffect,
+	createContext,
+	ReactNode,
+} from "react";
 import axios from "axios";
 import { handleError } from "../utils/handleError";
 import { IUser, AppContextValues } from "../types/appTypes";
@@ -6,7 +12,7 @@ import { mainBgLightColor, mainBgDarkColor } from "../styles/theme";
 
 export const AppContext = createContext({} as AppContextValues);
 
-export const AppProvider = ({ children }: any) => {
+export const AppProvider = ({ children }: { children: ReactNode }) => {
 	const isDarkMode =
 		localStorage.getItem("darkMode") === "on" ||
 		(localStorage.getItem("darkMode") === null &&

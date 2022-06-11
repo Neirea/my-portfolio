@@ -62,10 +62,9 @@ const ArticlePosts = ({ type }: { type: string }) => {
 					setTags(articleTags);
 				}
 			} catch (error) {
-				const alertText = axios.isAxiosError(error)
-					? (error?.response?.data as any).msg
-					: "There was an error!";
-				showAlert({ text: alertText });
+				showAlert({
+					text: error?.response?.data?.msg || "There was an error!",
+				});
 			} finally {
 				setLoading(false);
 			}

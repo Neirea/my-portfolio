@@ -29,3 +29,8 @@ export interface IAlert {
 	text: string;
 	type: string;
 }
+
+export interface LocationState {
+	from?: Location;
+	tag?: string;
+}

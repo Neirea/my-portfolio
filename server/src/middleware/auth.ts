@@ -27,7 +27,7 @@ export const isAuthenticated = async (
 //checks for correct role (function gets invoked right away and returns callback function as middleware)
 export const authorizePermissions = (...roles: userRoles[]) => {
 	return (req: Request, res: Response, next: NextFunction) => {
-		if (!roles.some((item) => req.session.user.roles.includes(item))) {
+		if (!roles.some((item) => req.session.user?.roles.includes(item))) {
 			throw new CustomError.UnauthorizedError(
 				"Unauthorized to access this route"
 			);

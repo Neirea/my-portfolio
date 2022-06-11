@@ -5,8 +5,8 @@ import { ReadButton } from "../../styles/StyledComponents";
 import { UserMenuWrapper } from "./UserMenuStyles";
 import { StyledMenuLink } from "./HeaderStyles";
 import { useOutsideClick } from "../../utils/useOutsideClick";
-
 import { useGlobalContext } from "../../store/AppContext";
+import { LocationState } from "../../types/appTypes";
 
 interface UserMenuProps {
 	showUserMenu: boolean;
@@ -14,14 +14,14 @@ interface UserMenuProps {
 }
 
 const UserMenu = ({ showUserMenu, setShowUserMenu }: UserMenuProps) => {
-	const location = useLocation();
+	const location = useLocation<LocationState>();
 	const { user, logoutUser } = useGlobalContext();
 	const userMenuContainerRef = useRef<HTMLDivElement | null>(null);
 	const toggleMenuRef = useRef<HTMLDivElement | null>(null);
 	useOutsideClick(toggleMenuRef, setShowUserMenu);
 
 	// if page is refreshed or clicked multiple times
-	const fromUrl = (location.state as any)?.from || location;
+	const fromUrl = location.state?.from || location;
 	const logoutUrl = location.pathname
 		? location.pathname + location.search
 		: "/";

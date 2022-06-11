@@ -66,10 +66,7 @@ const EditorLayout = ({
 	alert,
 }: EditorLayoutProps) => {
 	const editorHTML = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-	const debouncedPreview = useDebounce(
-		() => handleHtmlString(editorHTML, []),
-		500
-	);
+	const debouncedPreview = useDebounce(handleHtmlString(editorHTML, []), 500);
 
 	//gets url for img preview
 	useEffect(() => {
