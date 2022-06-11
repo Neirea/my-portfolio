@@ -1,5 +1,6 @@
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 import passport from "passport";
+import app from "../app";
 import {
 	githubCallback,
 	failedLogin,
@@ -13,10 +14,10 @@ const router = Router();
 router.get("/login/failed", failedLogin);
 
 //login request
-router.get(
-	"/login/github",
-	passport.authenticate("github", { session: false })
-);
+router.get("/login/github", (req, res, next) => {
+	app.set("redirect", req.query.path);
+	passport.authenticate("github", { session: false })(req, res, next);
+});
 
 //callback from github
 router.get(

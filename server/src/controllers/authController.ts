@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { Profile } from "passport-github2";
 import CustomError from "../errors";
 import User from "../models/User";
+import app from "../app";
 
 export const failedLogin = (req: Request, res: Response) => {
 	res
@@ -23,6 +24,9 @@ export const logout = (req: Request, res: Response) => {
 };
 
 export const githubCallback = (req: Request, res: Response) => {
+	const redirect = app.get("redirect");
+	app.set("redirect", undefined);
+
 	// transform to object from mongoose and remove __v field from user
 	if (!req.user) {
 		throw new CustomError.BadRequestError("Authentication error. User error!");
@@ -33,7 +37,7 @@ export const githubCallback = (req: Request, res: Response) => {
 	}
 
 	// Successful authentication, redirect to page where user specifies username
-	res.redirect(process.env.CLIENT_URL!);
+	res.redirect(`${process.env.CLIENT_URL!}/${redirect}`);
 };
 
 interface GithubUserProfile extends Profile {

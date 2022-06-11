@@ -4,11 +4,24 @@ import styled from "styled-components";
 import useLocalState from "../utils/useLocalState";
 import { LoginButton } from "../styles/StyledComponents";
 import { FaGithub, FaGoogle } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
+import { LocationState } from "../types/appTypes";
+
 const Login = () => {
+	const location = useLocation<LocationState>();
+	const fromLocation = location.state?.from;
+	const fromUrl =
+		fromLocation && fromLocation.pathname.length > 1
+			? fromLocation.pathname.slice(1) + fromLocation.search
+			: "";
+
 	const { reCaptchaRef } = useLocalState();
 
 	const handleLoginGithub = () => {
-		window.open("http://localhost:5000/api/auth/login/github", "_self");
+		window.open(
+			`http://localhost:5000/api/auth/login/github?path=${fromUrl}`,
+			"_self"
+		);
 	};
 
 	//check if user is logged in then redirect to main page

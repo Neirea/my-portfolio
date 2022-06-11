@@ -110,9 +110,8 @@ const ArticlePosts = ({ type }: { type: string }) => {
 	};
 
 	const filterTags = (elem: string) => {
-		//assign values from old tags
-		let newTags: string[] = [];
-		selectedTags.forEach((item) => newTags.push(item));
+		//copy values from old tags
+		let newTags: string[] = [...selectedTags];
 
 		const element = document.getElementById(elem);
 		//remove active tag
