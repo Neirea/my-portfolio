@@ -11,6 +11,8 @@ const validateRecaptcha = async (token: string | null) => {
 		success: boolean;
 		challenge_ts: string;
 		hostname: string;
+		score: number;
+		error_codes?: string[];
 	}
 	const secret = process.env.RECAPTCHA_SECRET_KEY;
 	const response = await axios.post<validateResponseData>(
@@ -21,13 +23,16 @@ const validateRecaptcha = async (token: string | null) => {
 			"Couldn't login to google captcha servers"
 		);
 	}
+	if (!response.data.success) {
+		throw new CustomError.BadRequestError("Bad recaptcha token");
+	}
 
-	return response.data.success;
+	return response.data.score;
 };
 
 export const testRecaptcha = async (req: Request, res: Response) => {
-	const isHuman = await validateRecaptcha(req.body.token);
-	if (!isHuman) {
+	const recaptchaScore = await validateRecaptcha(req.body.token);
+	if (recaptchaScore < 0.5) {
 		throw new CustomError.BadRequestError("Can't fool us, bot!");
 	}
 	res.status(StatusCodes.OK).json({ msg: "Success" });

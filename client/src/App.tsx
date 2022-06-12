@@ -20,6 +20,8 @@ import { GlobalStyles } from "./styles/GlobalStyles";
 import { lightTheme, darkTheme } from "./styles/theme";
 import { useGlobalContext } from "./store/AppContext";
 import { SingleArticleProvider } from "./store/SingleArticleContext";
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
+import { recaptchaKey } from "./utils/data";
 
 import { userRoles } from "./types/appTypes";
 
@@ -36,7 +38,15 @@ function App() {
 			<Routes>
 				{/* public routes */}
 				<Route path="/" element={<Home />} />
-				<Route path="/contact" element={<Contact />} />
+
+				<Route
+					path="/contact"
+					element={
+						<GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
+							<Contact />
+						</GoogleReCaptchaProvider>
+					}
+				/>
 				<Route path="/blog" element={<Articles key="blog" type="blog" />} />
 				<Route
 					path="/project"
@@ -53,7 +63,14 @@ function App() {
 				<Route path="/unauthorized" element={<Unauthorized />} />
 				{/*public only routes */}
 				<Route element={<RequirePublic />}>
-					<Route path="/login" element={<Login />} />
+					<Route
+						path="/login"
+						element={
+							<GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
+								<Login />
+							</GoogleReCaptchaProvider>
+						}
+					/>
 				</Route>
 				{/* admin routes */}
 				<Route

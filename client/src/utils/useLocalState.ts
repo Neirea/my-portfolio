@@ -1,5 +1,4 @@
-import { useState, useRef, useCallback } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
+import { useState, useCallback } from "react";
 
 const useLocalState = () => {
 	const [alert, setAlert] = useState({
@@ -9,7 +8,6 @@ const useLocalState = () => {
 	});
 	const [loading, setLoading] = useState(false);
 	const [success, setSuccess] = useState(false);
-	const reCaptchaRef = useRef<ReCAPTCHA>(null);
 
 	const showAlert = useCallback(
 		({ text, type = "danger" }: { text: string; type?: string }) => {
@@ -28,7 +26,6 @@ const useLocalState = () => {
 		success,
 		setSuccess,
 		hideAlert,
-		reCaptchaRef,
 	};
 };
 

@@ -4,11 +4,8 @@ import { CommentsWrapper, ReplyFormWrapper } from "./CommentStyles";
 import { ReadButton, AlertMsg } from "../../../../styles/StyledComponents";
 
 import axios from "axios";
-import ReCAPTCHA from "react-google-recaptcha";
-import { recaptchaKey } from "../../../../utils/data";
 import SingleComment from "./SingleComment";
 
-import useLocalState from "../../../../utils/useLocalState";
 import { useGlobalContext } from "../../../../store/AppContext";
 import { useArticleContext } from "../../../../store/SingleArticleContext";
 import { handleError } from "../../../../utils/handleError";
@@ -31,7 +28,6 @@ const Comments = () => {
 		commentState,
 		setCommentState,
 	} = useArticleContext();
-	const { reCaptchaRef } = useLocalState();
 
 	const isShowCommentsHeader = comments?.length > 0 || user;
 	const isShowLocalError = alert.show && alert.type === "-1";
@@ -63,21 +59,12 @@ const Comments = () => {
 	};
 
 	const handleSubmit = async (e: FormEvent, index?: number) => {
-		if (!reCaptchaRef.current) return;
 		e.preventDefault();
 		hideAlert();
 		setLoading(true);
 
 		try {
 			if (!user) return;
-
-			// const token = await reCaptchaRef.current.getValue(); //recaptcha token for "i am not a robot"
-			const token = await reCaptchaRef.current.executeAsync();
-			reCaptchaRef.current.reset();
-
-			await axios.post("/api/action/testCaptcha", {
-				token,
-			});
 
 			const submitData = {
 				userId: user._id,
@@ -135,12 +122,6 @@ const Comments = () => {
 					);
 				})}
 			</>
-			<ReCAPTCHA
-				className="recaptcha"
-				sitekey={recaptchaKey}
-				size="invisible"
-				ref={reCaptchaRef}
-			/>
 			{
 				/* alert for "Create New Comment" */
 				isShowLocalError && <AlertMsg>{alert.text}</AlertMsg>

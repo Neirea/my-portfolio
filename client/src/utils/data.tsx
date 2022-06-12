@@ -20,5 +20,4 @@ export const menuItems = [
 	{ name: "CONTACT", link: "/contact" },
 	{ name: "RESUME", link: "https://twitter.com" }, // add link to google docs later
 ];
-
-export const recaptchaKey = "6LejCXMeAAAAABLDiGtB9YN5PkQUItewsdZFUhtV"; //personal recaptcha key
+export const recaptchaKey = "6LcHDWQgAAAAAGrackatyER4MREFFe1gLwxtIxWh"; //personal recaptcha key

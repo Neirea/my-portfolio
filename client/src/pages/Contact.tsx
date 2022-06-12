@@ -1,18 +1,17 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import axios from "axios";
-import ReCAPTCHA from "react-google-recaptcha";
-import { recaptchaKey } from "../utils/data";
 import { BlockButton, AlertMsg, StyledForm } from "../styles/StyledComponents";
 
 import FormRow from "../components/FormRow";
 import useLocalState from "../utils/useLocalState";
 import SuccessModal from "../components/SuccessModal";
 import { useGlobalContext } from "../store/AppContext";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const Contact = () => {
 	const { user } = useGlobalContext();
-	const { alert, showAlert, loading, setLoading, hideAlert, reCaptchaRef } =
-		useLocalState();
+	const { executeRecaptcha } = useGoogleReCaptcha();
+	const { alert, showAlert, loading, setLoading, hideAlert } = useLocalState();
 
 	const [values, setValues] = useState({
 		name: "",
@@ -39,8 +38,18 @@ const Contact = () => {
 		setValues({ ...values, [e.target.name]: e.target.value });
 	};
 
+	const handleRecaptchaVeify = async () => {
+		if (!executeRecaptcha) {
+			showAlert({
+				text: "recaptcha is not ready yet",
+			});
+			return;
+		}
+		const token = await executeRecaptcha("contactMessage");
+		await axios.post("/api/action/testCaptcha", { token });
+	};
+
 	const onSubmit = async (e: FormEvent) => {
-		if (!reCaptchaRef.current) return;
 		e.preventDefault();
 		hideAlert();
 		setLoading(true);
@@ -52,20 +61,13 @@ const Contact = () => {
 		};
 
 		try {
-			// const token = await reCaptchaRef.current.getValue(); //recaptcha token for "i am not a robot"
-			const token = await reCaptchaRef.current.executeAsync();
-			reCaptchaRef.current.reset();
-
-			await axios.post("/api/action/testCaptcha", {
-				token,
-			});
+			await handleRecaptchaVeify();
 			await axios.post("/api/action/sendContactMessage", contactMessage);
 			setValues({ ...values, message: "" });
 			showAlert({
-				text: `contact message was successfully sent!`,
+				text: "contact message was successfully sent!",
 				type: "success",
 			});
-			// setTimeLeft(5);
 		} catch (error) {
 			showAlert({ text: error?.response?.data?.msg || "There was an error!" });
 		} finally {
@@ -102,12 +104,6 @@ const Contact = () => {
 					label="your message"
 					value={values.message}
 					handleChange={handleChange}
-				/>
-				<ReCAPTCHA
-					className="recaptcha"
-					sitekey={recaptchaKey}
-					size="invisible"
-					ref={reCaptchaRef}
 				/>
 				{alert.show && alert.type !== "success" && (
 					<AlertMsg>{alert.text}</AlertMsg>

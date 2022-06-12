@@ -1,16 +1,18 @@
-import ReCAPTCHA from "react-google-recaptcha";
-import { recaptchaKey } from "../utils/data";
 import styled from "styled-components";
-import useLocalState from "../utils/useLocalState";
+import axios from "axios";
 import { LoginButton, AlertMsg } from "../styles/StyledComponents";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import { LocationState } from "../types/appTypes";
 import { useQuery } from "../utils/useQuery";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import useLocalState from "../utils/useLocalState";
 
 const Login = () => {
 	const location = useLocation<LocationState>();
 	const query = useQuery();
+	const { showAlert, hideAlert, alert } = useLocalState();
+	const { executeRecaptcha } = useGoogleReCaptcha();
 	const errorQuery = query.get("error");
 	const fromLocation = location.state?.from;
 	const fromUrl =
@@ -18,20 +20,41 @@ const Login = () => {
 			? fromLocation.pathname.slice(1) + fromLocation.search
 			: "";
 
-	const { reCaptchaRef } = useLocalState();
-
-	const handleLoginGithub = () => {
-		window.open(
-			`http://localhost:5000/api/auth/login/github?path=${fromUrl}`,
-			"_self"
-		);
+	const handleRecaptchaVeify = async () => {
+		if (!executeRecaptcha) {
+			showAlert({
+				text: "recaptcha is not ready yet",
+			});
+			return;
+		}
+		const token = await executeRecaptcha("login");
+		await axios.post("/api/action/testCaptcha", { token });
 	};
 
-	const handleLoginGoogle = () => {
-		window.open(
-			`http://localhost:5000/api/auth/login/google?path=${fromUrl}`,
-			"_self"
-		);
+	const handleLoginGithub = async () => {
+		hideAlert();
+		try {
+			await handleRecaptchaVeify();
+			window.open(
+				`http://localhost:5000/api/auth/login/github?path=${fromUrl}`,
+				"_self"
+			);
+		} catch (error) {
+			showAlert({ text: error?.response?.data?.msg || "There was an error!" });
+		}
+	};
+
+	const handleLoginGoogle = async () => {
+		hideAlert();
+		try {
+			await handleRecaptchaVeify();
+			window.open(
+				`http://localhost:5000/api/auth/login/google?path=${fromUrl}`,
+				"_self"
+			);
+		} catch (error) {
+			showAlert({ text: error?.response?.data?.msg || "There was an error!" });
+		}
 	};
 
 	//check if user is logged in then redirect to main page
@@ -40,6 +63,7 @@ const Login = () => {
 			<div className="login-container">
 				<h4>Sign in with</h4>
 				{errorQuery === "login_failed" && <AlertMsg>Login failed</AlertMsg>}
+				{alert.show && <AlertMsg>{alert.text}</AlertMsg>}
 				<LoginButton className="btn-github" onClick={handleLoginGithub}>
 					<FaGithub />
 					<span>{"Github"}</span>
@@ -49,12 +73,6 @@ const Login = () => {
 					<span>{"Google"}</span>
 				</LoginButton>
 			</div>
-			<ReCAPTCHA
-				className="recaptcha"
-				sitekey={recaptchaKey}
-				size="invisible"
-				ref={reCaptchaRef}
-			/>
 		</LoginWrapper>
 	);
 };
