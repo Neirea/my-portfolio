@@ -35,14 +35,7 @@ const app = express();
 app.set("trust proxy", 1);
 app.use(rateLimiter({ windowMs: 60 * 1000, max: 50 })); //set numbers that fit best and check if needed in production
 app.use(helmet());
-app.use(
-	cors({
-		origin:
-			process.env.NODE_ENV === "production"
-				? process.env.CLIENT_URL
-				: "http://localhost:3000",
-	})
-);
+app.use(cors({ origin: process.env.CLIENT_URL }));
 app.use(fileUpload({ useTempFiles: true }));
 app.use(express.json());
 app.use(mongoSanitize());

@@ -63,14 +63,7 @@ function App() {
 				<Route path="/unauthorized" element={<Unauthorized />} />
 				{/*public only routes */}
 				<Route element={<RequirePublic />}>
-					<Route
-						path="/login"
-						element={
-							<GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
-								<Login />
-							</GoogleReCaptchaProvider>
-						}
-					/>
+					<Route path="/login" element={<Login />} />
 				</Route>
 				{/* admin routes */}
 				<Route
