@@ -6,7 +6,7 @@ import { EditorState, ContentState } from "draft-js";
 import htmlToDraft from "html-to-draftjs";
 
 import useLocalState from "../../utils/useLocalState";
-import { useQuery } from "../../utils/useQuery";
+import { useCurrentLocation } from "../../utils/useCurrentLocation";
 import { handleError } from "../../utils/handleError";
 import EditorLayout from "./articleComponents/EditorLayout";
 import { languageDetector } from "../../utils/handleHtmlString";
@@ -19,8 +19,8 @@ import {
 
 const EditArticle = () => {
 	const navigate = useNavigate();
-	const query = useQuery();
-	const articleId = query.get("id");
+	const queries = useCurrentLocation();
+	const articleId = queries.get("id");
 
 	const {
 		alert,

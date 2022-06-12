@@ -5,7 +5,7 @@ import {
 	createContext,
 	ReactNode,
 } from "react";
-import { useQuery } from "../utils/useQuery";
+import { useCurrentLocation } from "../utils/useCurrentLocation";
 import useLocalState from "../utils/useLocalState";
 import axios from "axios";
 import { handleHtmlString } from "../utils/handleHtmlString";
@@ -39,8 +39,8 @@ export const parseComments = async (
 };
 
 const SingleArticleProvider = ({ children }: { children: ReactNode }) => {
-	const query = useQuery();
-	const articleId = query.get("a");
+	const queries = useCurrentLocation();
+	const articleId = queries.get("a");
 
 	const { alert, showAlert, hideAlert, loading, setLoading } = useLocalState();
 	const [article, setArticle] = useState<IArticle | null>(null);

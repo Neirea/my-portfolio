@@ -3,12 +3,12 @@ import { LoginButton, AlertMsg } from "../styles/StyledComponents";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import { LocationState } from "../types/appTypes";
-import { useQuery } from "../utils/useQuery";
+import { useCurrentLocation } from "../utils/useCurrentLocation";
 
 const Login = () => {
 	const location = useLocation<LocationState>();
-	const query = useQuery();
-	const errorQuery = query.get("error");
+	const queries = useCurrentLocation();
+	const errorQuery = queries.get("error");
 	const fromLocation = location.state?.from;
 	const fromUrl =
 		fromLocation && fromLocation.pathname.length > 1
