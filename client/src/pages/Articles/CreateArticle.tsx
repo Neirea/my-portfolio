@@ -70,9 +70,12 @@ const CreateArticle = () => {
 	}, [navigate, location.state]);
 
 	const onSubmit = async (editorHTML: string) => {
-		if (!selectedImage) return;
 		try {
 			hideAlert();
+			if (!selectedImage) {
+				showAlert({ text: "Please provide image" });
+				return;
+			}
 			setLoading(true);
 
 			const articleTags = tags.split(" ");

@@ -64,10 +64,8 @@ const Comments = () => {
 		setLoading(true);
 
 		try {
-			if (!user) return;
-
 			const submitData = {
-				userId: user._id,
+				userId: user!._id,
 				message: commentState.message,
 				parentId: commentState.id,
 			};

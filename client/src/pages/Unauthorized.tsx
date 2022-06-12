@@ -5,14 +5,12 @@ const Unauthorized = () => {
 	const navigate = useNavigate();
 	const goBack = () => navigate(-1);
 	return (
-		<main>
-			<AlertContainer>
-				<h2>Unauthorized</h2>
-				<p>You do not have access to the requested page.</p>
-				<br />
-				<ReadButton onClick={goBack}>Go Back</ReadButton>
-			</AlertContainer>
-		</main>
+		<AlertContainer as="main">
+			<h2>Unauthorized</h2>
+			<p>You do not have access to the requested page.</p>
+			<br />
+			<ReadButton onClick={goBack}>Go Back</ReadButton>
+		</AlertContainer>
 	);
 };
 
