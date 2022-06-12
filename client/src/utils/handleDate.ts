@@ -1,4 +1,4 @@
-export const handleDate = (date: string) => {
+export const handleDate = (date: string, editedAt?: string) => {
 	const dateAt = new Date(date);
 	const dateNowMs = Date.now();
 	const timeDifference = dateNowMs - dateAt.getTime();
@@ -22,6 +22,14 @@ export const handleDate = (date: string) => {
 			year: "2-digit",
 		} as const;
 		resultDate = dateAt.toLocaleDateString("en-US", options);
+	}
+
+	if (editedAt) {
+		const editedDateAt = new Date(editedAt);
+		const editDifference = editedDateAt.getSeconds() - dateAt.getSeconds();
+		if (editDifference > 5) {
+			resultDate += ` (edited ${handleDate(editedDateAt.toString())})`;
+		}
 	}
 
 	return resultDate;

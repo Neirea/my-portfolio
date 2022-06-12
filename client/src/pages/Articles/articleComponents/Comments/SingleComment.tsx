@@ -91,27 +91,25 @@ const SingleComment = ({
 	return (
 		<>
 			<SingleCommentContainer step={step} depth={depth}>
-				<label htmlFor={`message-${index}`} className="comment-header">
-					{/* Label above message */}
-					<div id={`message-${index}`} className="reply-to">
-						{isDeepComment && (
-							<>
-								{"to: "}
-								<span className="comment-author">
-									{comments[index - 1].comment.user.name}
-								</span>
-								{" from: "}
-							</>
-						)}
-						<span className="comment-author">{comment.user.name}</span>
-						<span className="comment-date">
-							&nbsp;&nbsp;·&nbsp;&nbsp;
-							{handleDate(comment.createdAt.toString())}
-						</span>
-					</div>
-					{/* Toolbar for comment */}
-					{isShowToolBar && <ToolBar index={index} comment={comment} />}
-				</label>
+				{/* <label htmlFor={`message-${index}`} className="comment-header"> */}
+				{/* Label above message */}
+				<div id={`message-${index}`} className="reply-to">
+					{isDeepComment && (
+						<>
+							{"to: "}
+							<span className="comment-author">
+								{comments[index - 1].comment.user.name}
+							</span>
+							{" from: "}
+						</>
+					)}
+					<span className="comment-author">{comment.user.name}</span>
+					<span className="comment-date">
+						&nbsp;&nbsp;·&nbsp;&nbsp;
+						{handleDate(comment.createdAt, comment.editedAt)}
+					</span>
+				</div>
+				{/* </label> */}
 				{/* Message */}
 				{isShowMessage && (
 					<p className="comment-message">
@@ -126,18 +124,22 @@ const SingleComment = ({
 						handleChange={handleChange}
 					/>
 				)}
-				{isShowReplyButton && (
-					<ReplyButton
-						data-testid={`reply-button-${index}`}
-						onClick={handleReply}
-					>
-						{commentState.id === comment._id ? (
-							<MdClose size={"100%"} />
-						) : (
-							<BsReplyFill size={"100%"} />
-						)}
-					</ReplyButton>
-				)}
+				<div className="comment-footer">
+					{isShowReplyButton && (
+						<ReplyButton
+							data-testid={`reply-button-${index}`}
+							onClick={handleReply}
+						>
+							{commentState.id === comment._id ? (
+								<MdClose size={"100%"} />
+							) : (
+								<BsReplyFill size={"100%"} />
+							)}
+						</ReplyButton>
+					)}
+					{/* Toolbar for comment */}
+					{isShowToolBar && <ToolBar index={index} comment={comment} />}
+				</div>
 			</SingleCommentContainer>
 			{isShowSingleCommentAlert && <AlertMsg>{alert.text}</AlertMsg>}
 			{/* Reply Form */}

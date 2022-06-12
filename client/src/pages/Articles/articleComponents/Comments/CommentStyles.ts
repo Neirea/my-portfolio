@@ -87,24 +87,24 @@ export const SingleCommentContainer = styled.div<StyledCommentsProps>`
 	border-radius: var(--border-radius);
 	background-color: var(--article-bg-color);
 
-	.comment-header,
+	.reply-to {
+		color: var(--comment-header-color);
+		font-style: italic;
+		.comment-author {
+			font-weight: 500;
+			font-style: normal;
+			font-size: 0.9rem;
+		}
+		.comment-date {
+			color: var(--faded-text-color);
+			font-size: 0.75rem;
+		}
+	}
+
+	.comment-footer,
 	.edit-comment-buttons {
 		display: flex;
 		justify-content: space-between;
-
-		.reply-to {
-			color: var(--comment-header-color);
-			font-style: italic;
-			.comment-author {
-				font-weight: 500;
-				font-style: normal;
-			}
-			.comment-date {
-				color: var(--faded-text-color);
-				font-size: 0.8rem;
-			}
-		}
-
 		.tool-bar {
 			display: flex;
 			align-items: center;

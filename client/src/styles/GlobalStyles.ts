@@ -154,9 +154,9 @@ i{
 	top: 50%;
 }
 
-@media (max-width: 320px) {
+@media (max-width: 400px) {
 	*{
-		font-size:5vw;
+		font-size:4vw;
 	}
 }
 
