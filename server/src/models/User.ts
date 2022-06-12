@@ -11,6 +11,7 @@ export enum userRoles {
 }
 
 export interface IUser {
+	platform_id: number;
 	platform_name: string;
 	platfrom_type: platformEnum;
 	name: string;
@@ -26,6 +27,10 @@ export interface IUser {
 /* mb need more fields */
 const UserSchema = new Schema(
 	{
+		platform_id: {
+			type: Number,
+			required: true,
+		},
 		platform_name: {
 			type: String,
 			required: true,

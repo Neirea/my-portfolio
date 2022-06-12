@@ -27,6 +27,13 @@ const Login = () => {
 		);
 	};
 
+	const handleLoginGoogle = () => {
+		window.open(
+			`http://localhost:5000/api/auth/login/google?path=${fromUrl}`,
+			"_self"
+		);
+	};
+
 	//check if user is logged in then redirect to main page
 	return (
 		<LoginWrapper>
@@ -37,7 +44,7 @@ const Login = () => {
 					<FaGithub />
 					<span>{"Github"}</span>
 				</LoginButton>
-				<LoginButton className="btn-google" onClick={handleLoginGithub}>
+				<LoginButton className="btn-google" onClick={handleLoginGoogle}>
 					<FaGoogle />
 					<span>{"Google"}</span>
 				</LoginButton>

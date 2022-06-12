@@ -7,6 +7,7 @@ export enum userRoles {
 
 export interface IUser {
 	_id: number;
+	platform_id: number;
 	platform_name: string;
 	platform_type: string;
 	name: string;

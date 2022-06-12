@@ -5,7 +5,6 @@ declare global {
 		interface User {
 			user: IUser;
 			accessToken: string | undefined;
-			refreshToken: string | undefined;
 		}
 	}
 }
