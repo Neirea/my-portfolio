@@ -35,7 +35,7 @@ const SingleArticle = () => {
 		articlesData,
 	} = useArticleContext();
 
-	const handleDelete = async (articleId: number) => {
+	const handleDelete = async (articleId: string) => {
 		hideAlert();
 		setLoading(true);
 		try {
@@ -142,7 +142,7 @@ const SingleArticle = () => {
 												<li key={`title-${index}`}>
 													<Link
 														className="article-aside-title"
-														to={`/read?a=${item._id}`}
+														to={`/${article?.category}/${item._id}`}
 													>
 														{item.title}
 													</Link>

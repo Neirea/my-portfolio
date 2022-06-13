@@ -6,9 +6,9 @@ import {
 	ReactNode,
 } from "react";
 import axios from "axios";
-import { handleError } from "../utils/handleError";
 import { IUser, AppContextValues } from "../types/appTypes";
 import { mainBgLightColor, mainBgDarkColor } from "../styles/theme";
+import { useQuery } from "react-query";
 
 export const AppContext = createContext({} as AppContextValues);
 
@@ -20,28 +20,25 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 			window.matchMedia("(prefers-color-scheme: dark)").matches)
 			? true
 			: false;
-	const [isLoading, setIsLoading] = useState(true);
+	// const [isLoading, setIsLoading] = useState(true);
 	const [darkMode, setDarkMode] = useState(isDarkMode);
 	const [user, setUser] = useState<IUser | null>(null);
+
+	//fetch only once on load
+	const { isLoading } = useQuery(
+		"user",
+		() =>
+			axios.get<{ user: IUser }>("/api/user/showMe").then((res) => res.data),
+		{
+			onSuccess: (data) => {
+				setUser(data.user);
+			},
+		}
+	);
 
 	const toggleDarkMode = () => {
 		setDarkMode(!darkMode);
 	};
-
-	const fetchUser = async () => {
-		try {
-			const { data } = await axios.get<{ user: IUser }>("/api/user/showMe");
-			if (data) setUser(data.user);
-		} catch (error) {
-			handleError(error);
-		} finally {
-			setIsLoading(false);
-		}
-	};
-
-	useEffect(() => {
-		fetchUser();
-	}, []);
 
 	useEffect(() => {
 		localStorage.setItem("darkMode", darkMode ? "on" : "off");

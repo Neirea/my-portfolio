@@ -1,5 +1,5 @@
 import { Fragment, useState, useEffect } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import {
 	ArticleContentWrapper,
 	TagsGroup,
@@ -10,105 +10,70 @@ import BigImg from "../../components/BigImg";
 import ArticleSideMenu from "./articleComponents/ArticleSideMenu";
 import LoadingSpinner from "../../components/LoadingSpinner";
 
-import { handleError } from "../../utils/handleError";
 import {
 	AdminButton,
 	AdminButtonLink,
 	LinkButton,
 	AlertContainer,
 } from "../../styles/StyledComponents";
-import axios from "axios";
 
 import useLocalState from "../../utils/useLocalState";
 import { useGlobalContext } from "../../store/AppContext";
 import { handleDate } from "../../utils/handleDate";
 import { IArticle } from "../../types/articleTypes";
 import { userRoles } from "../../types/appTypes";
+import useArticles from "../../hooks/Articles/useArticles";
+import useDeleteArticle from "../../hooks/Articles/useDeleteArticle";
 
 const MAX_CHARS = 300;
 
 const ArticlePosts = ({ type }: { type: string }) => {
-	const navigate = useNavigate();
-
+	const { alert, showAlert, hideAlert, loading, setLoading } = useLocalState();
 	const { user } = useGlobalContext();
-	const { alert, showAlert, loading, setLoading, hideAlert } = useLocalState();
 	const [articles, setArticles] = useState<IArticle[]>([]);
 	const [tags, setTags] = useState<string[]>([]);
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
 	let isArticlesShow = false;
+	const dataArticles = useArticles(type);
+	const deleteArticle = useDeleteArticle();
 
 	useEffect(() => {
-		const getArrayOfTags = (dataArticles: IArticle[]) => {
-			let articleTags: string[] = [];
+		window.history.pushState({}, "", `/${type}`);
+	}, [type]);
 
-			for (let i = 0; i < dataArticles.length; i++) {
-				dataArticles[i].tags.forEach((elem) => {
+	//set articles&tags
+	useEffect(() => {
+		if (dataArticles.data) {
+			let articleTags: string[] = [];
+			for (let i = 0; i < dataArticles.data.length; i++) {
+				dataArticles.data[i].tags.forEach((elem) => {
 					//check for correct type and if it already is in array
-					dataArticles[i].category === type &&
+					dataArticles.data[i].category === type &&
 						articleTags.indexOf(elem) === -1 &&
 						articleTags.push(elem);
 				});
 			}
-			return articleTags;
-		};
-		const getAllArticles = async () => {
-			hideAlert();
-			setLoading(true);
-			try {
-				const { data } = await axios.get<{ articles: IArticle[] }>(
-					`/api/article/${type}`
-				);
-				setArticles(data.articles);
-				//gettings array of tags
-				if (data.articles) {
-					const articleTags = getArrayOfTags(data.articles);
-					setTags(articleTags);
-				}
-			} catch (error) {
-				showAlert({
-					text: error?.response?.data?.msg || "There was an error!",
-				});
-			} finally {
-				setLoading(false);
-			}
-		};
-		//remove location state link
-		window.history.pushState({}, "", `/${type}`);
-		getAllArticles();
-	}, [type, showAlert, hideAlert, setLoading]);
-
-	const localDeleteArticle = (articleId: number) => {
-		let items = articles;
-		//find index of deleted article in a list
-		const articleIndex = items
-			.map((elem) => {
-				return elem._id;
-			})
-			.indexOf(articleId);
-		items.splice(articleIndex, 1);
-		return items;
-	};
-
-	const handleDelete = async (articleId: number) => {
-		hideAlert();
-		setLoading(true);
-
-		try {
-			await axios.delete(`/api/article/${articleId}`);
-			//1st way: update without additional http request
-			let items = localDeleteArticle(articleId);
-
-			//if no articles left refresh page
-			if (!items.length) navigate(0);
-		} catch (error) {
-			handleError(error, navigate);
-			showAlert({
-				text: error?.response?.data?.msg || "there was an error",
-			});
-		} finally {
-			setLoading(false);
+			setArticles(dataArticles.data);
+			setTags(articleTags);
 		}
-	};
+	}, [type, dataArticles.data]);
+
+	//combine errors
+	useEffect(() => {
+		hideAlert();
+		const error: any = dataArticles.error || deleteArticle.error;
+		if (error) {
+			showAlert({
+				text: error.response?.data?.msg || "There was some error",
+			});
+		}
+	}, [dataArticles.error, deleteArticle.error, showAlert, hideAlert]);
+
+	//combine loadings
+	useEffect(() => {
+		const isLoading = dataArticles.isLoading || deleteArticle.isLoading;
+		setLoading(isLoading);
+	}, [dataArticles.isLoading, deleteArticle.isLoading, setLoading]);
 
 	const filterTags = (elem: string) => {
 		//copy values from old tags
@@ -175,7 +140,7 @@ const ArticlePosts = ({ type }: { type: string }) => {
 											<div className="article-header">
 												<Link
 													className="article-title"
-													to={`/read?a=${element._id}`}
+													to={`/${type}/${element._id}`}
 												>
 													<h3>{element.title}</h3>
 												</Link>
@@ -204,7 +169,7 @@ const ArticlePosts = ({ type }: { type: string }) => {
 											</div>
 											<p className="article-text">{htmlContent}</p>
 											<div className="article-buttons-group">
-												<LinkButton to={`/read?a=${element._id}`}>
+												<LinkButton to={`/${type}/${element._id}`}>
 													Read More
 												</LinkButton>
 												<div className="article-links">
@@ -230,7 +195,10 @@ const ArticlePosts = ({ type }: { type: string }) => {
 												<AdminButton
 													disabled={loading}
 													onClick={() => {
-														handleDelete(element._id);
+														deleteArticle.mutate({
+															articleId: element._id,
+															type: type,
+														});
 													}}
 												>
 													Delete

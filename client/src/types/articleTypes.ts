@@ -21,24 +21,24 @@ export interface IArticle {
 	tags: string[];
 	image: string;
 	img_id: string;
-	userId: number;
-	_id: number;
+	userId: string;
+	_id: string;
 	createdAt: string;
 	updatedAt: string;
 	__v: number;
 }
 
 export interface IComment {
-	articleId: number;
-	parentId: number;
+	articleId: string;
+	parentId: string;
 	message: string;
 	replies: IComment[];
 	user: {
-		id: number;
+		id: string;
 		name: string;
 		isBanned: boolean;
 	};
-	_id: number;
+	_id: string;
 	createdAt: string;
 	editedAt: string;
 }
@@ -51,12 +51,12 @@ export interface IJsxComment {
 export interface IArticleData {
 	title: string;
 	category: string;
-	_id: number;
+	_id: string;
 }
 
 export interface ICommentState {
 	type: ACTIONS;
-	id: number | null;
+	id: string | null;
 	message: string;
 }
 
@@ -72,7 +72,7 @@ export interface IArticleValues {
 	content?: string;
 	image?: string;
 	img_id?: string;
-	userId?: number;
+	userId?: string;
 }
 
 export interface ArticleContextValues {
@@ -91,7 +91,7 @@ export interface ArticleContextValues {
 	hideAlert: () => void;
 	loading: boolean;
 	setLoading: Dispatch<SetStateAction<boolean>>;
-	articleId: string | null;
+	articleId: string | undefined;
 	article: IArticle | null;
 	comments: IJsxComment[];
 	setComments: Dispatch<SetStateAction<IJsxComment[]>>;

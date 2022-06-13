@@ -30,7 +30,6 @@ const CreateArticle = () => {
 	} = useLocalState();
 	const { user } = useGlobalContext();
 
-	const [categories, setCategories] = useState<string[]>([]);
 	const [articleValues, setArticleValues] = useState<IArticleValues>({
 		title: "",
 		category: categoriesEnum.blog,
@@ -48,25 +47,14 @@ const CreateArticle = () => {
 
 	//get article categories from server
 	useEffect(() => {
-		const getCategoryValues = async () => {
-			try {
-				const response = await axios.get<{ categories: categoriesEnum[] }>(
-					"/api/article/articleCategories"
-				);
-				setCategories(response.data.categories);
-				setArticleValues((prevValue) => {
-					return {
-						...prevValue,
-						category:
-							(location.state?.from?.toString() as categoriesEnum) ||
-							response.data.categories[0],
-					};
-				});
-			} catch (error) {
-				handleError(error, navigate);
-			}
-		};
-		getCategoryValues();
+		setArticleValues((prevValue) => {
+			return {
+				...prevValue,
+				category:
+					(location.state?.from?.toString() as categoriesEnum) ||
+					categoriesEnum.blog,
+			};
+		});
 	}, [navigate, location.state]);
 
 	const onSubmit = async (editorHTML: string) => {
@@ -82,6 +70,8 @@ const CreateArticle = () => {
 
 			const data = new FormData();
 			data.append("image", selectedImage);
+
+			//do mutate operation here
 
 			//upload  image to server
 			const response = await axios.post<IUploadedImageResponse>(
@@ -118,7 +108,7 @@ const CreateArticle = () => {
 		<EditorLayout
 			articleValues={articleValues}
 			setArticleValues={setArticleValues}
-			categories={categories}
+			categories={Object.values(categoriesEnum)}
 			onSubmit={onSubmit}
 			editorState={editorState}
 			setEditorState={setEditorState}

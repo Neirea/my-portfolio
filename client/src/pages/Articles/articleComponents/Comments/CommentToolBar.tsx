@@ -55,7 +55,7 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 		return items;
 	};
 
-	const resetCommentState = (commentId: number) => {
+	const resetCommentState = (commentId: string) => {
 		commentState.id === commentId &&
 			setCommentState({
 				type: ACTIONS.none,

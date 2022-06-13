@@ -53,13 +53,21 @@ function App() {
 					element={<Articles key="project" type="project" />}
 				/>
 				<Route
-					path="/read"
+					path="/blog/:articleId"
 					element={
-						<SingleArticleProvider>
+						<SingleArticleProvider value={{ type: "blog" }}>
 							<SingleArticle />
 						</SingleArticleProvider>
 					}
-				/>
+				></Route>
+				<Route
+					path="/project/:articleId"
+					element={
+						<SingleArticleProvider value={{ type: "project" }}>
+							<SingleArticle />
+						</SingleArticleProvider>
+					}
+				></Route>
 				<Route path="/unauthorized" element={<Unauthorized />} />
 				{/*public only routes */}
 				<Route element={<RequirePublic />}>
