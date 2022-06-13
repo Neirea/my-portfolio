@@ -41,7 +41,7 @@ export const GlobalStyles = createGlobalStyle`
 
 	--shadow-1: 0 0 0.2rem -1px var(--header-shadow-color);
 	--shadow-2: -1px 1px 2px -1px var(--header-shadow-color);
-	--shadow-3: 0 0.1rem 0.1rem var(--header-shadow-color);
+	--shadow-3: 0 2px 4px -2px var(--header-shadow-color);
 
 	--transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 	--header-transition: width 0.3s linear;

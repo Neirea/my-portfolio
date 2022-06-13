@@ -34,12 +34,10 @@ const FormRow = ({
 				<textarea
 					id={name}
 					value={value}
-					title={"asd"}
 					name={name}
 					onChange={handleChange}
 					className="form-message-input"
 					required={isRequired}
-					minLength={10} //same as in DB
 					{...rest}
 				/>
 			) : (

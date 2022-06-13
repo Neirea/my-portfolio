@@ -30,7 +30,7 @@ const buttonCSS = css`
 const ReadButtonCSS = css`
 	${buttonCSS}
 	padding: 0.25rem 0.5rem;
-	background-color: var(--main-bg-color);
+	background-color: var(--article-bg-color);
 	box-shadow: 0 0 0.2rem var(--faded-text-color);
 	line-height: var(--line-height);
 	font-weight: 550;
@@ -156,7 +156,7 @@ export const AlertContainer = styled.div`
 export const StyledForm = styled.form`
 	position: relative;
 	padding: 2rem 2.5rem;
-	margin: 5rem auto;
+	margin: 5rem auto 1rem;
 
 	width: var(--form-width);
 	border-radius: var(--border-radius);
@@ -170,6 +170,7 @@ export const StyledForm = styled.form`
 		margin-bottom: 0.5rem;
 		text-transform: capitalize;
 		letter-spacing: var(--letter-spacing);
+		font-weight: 500;
 	}
 	& .form-input, // for article create/edit check same ones
 	& .form-textarea {
@@ -179,6 +180,8 @@ export const StyledForm = styled.form`
 		border: 1px solid var(--form-border-color);
 		border-radius: var(--border-radius);
 		background: var(--form-field-color);
+		font-size: 1rem;
+		font-family: inherit;
 	}
 	& .form-message-input {
 		padding: 0.375rem 0.75rem;
@@ -188,6 +191,8 @@ export const StyledForm = styled.form`
 		border-radius: var(--border-radius);
 		border: 1px solid var(--form-border-color);
 		background: var(--form-field-color);
+		font-size: 1rem;
+		font-family: inherit;
 		resize: vertical;
 	}
 `;

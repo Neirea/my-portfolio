@@ -242,7 +242,7 @@ const ArticlePosts = ({ type }: { type: string }) => {
 							})}
 							{!isArticlesShow && (
 								<AlertContainer>
-									<p>There is no articles with these filters</p>
+									<p>There are no articles with these filters</p>
 								</AlertContainer>
 							)}
 						</div>

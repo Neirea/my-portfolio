@@ -1,12 +1,14 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import axios from "axios";
+import styled from "styled-components";
 import { BlockButton, AlertMsg, StyledForm } from "../styles/StyledComponents";
-
+import { FaLinkedin, FaGithub } from "react-icons/fa";
 import FormRow from "../components/FormRow";
 import useLocalState from "../utils/useLocalState";
 import SuccessModal from "../components/SuccessModal";
 import { useGlobalContext } from "../store/AppContext";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { socialMediaLinks } from "../utils/data";
 
 const Contact = () => {
 	const { user } = useGlobalContext();
@@ -111,12 +113,36 @@ const Contact = () => {
 				<BlockButton type="submit" disabled={loading}>
 					{loading ? "Loading..." : "Send"}
 				</BlockButton>
-				<address>
-					<b>Email:</b> neireawar@gmail.com
-				</address>
+				<LinkGroup>
+					<a className="address-link" href={socialMediaLinks[0].link}>
+						<FaLinkedin size={"100%"} />
+					</a>
+					<a className="address-link" href={socialMediaLinks[1].link}>
+						<FaGithub size={"100%"} />
+					</a>
+				</LinkGroup>
 			</StyledForm>
 		</main>
 	);
 };
+
+const LinkGroup = styled.address`
+	display: flex;
+	justify-content: center;
+	gap: 1.5rem;
+	margin-top: 2rem;
+
+	.address-link {
+		width: var(--icon-size);
+		height: var(--icon-size);
+		color: var(--faded-text-color);
+		@media (hover: hover) and (pointer: fine) {
+			&:hover,
+			&:focus {
+				color: var(--main-text-color);
+			}
+		}
+	}
+`;
 
 export default Contact;
