@@ -27,7 +27,6 @@ import BigImg from "../../../components/BigImg";
 import FormRow from "../../../components/FormRow";
 import { useDebounce } from "../../../utils/debounce";
 import { handleHtmlString } from "../../../utils/handleHtmlString";
-import { IAlert } from "../../../types/appTypes";
 import { IArticleValues } from "../../../types/articleTypes";
 
 interface EditorLayoutProps {
@@ -45,7 +44,7 @@ interface EditorLayoutProps {
 	setTags: Dispatch<SetStateAction<string>>;
 	success: boolean;
 	loading: boolean;
-	alert: IAlert;
+	alert: any;
 }
 
 const EditorLayout = ({
@@ -112,7 +111,7 @@ const EditorLayout = ({
 		<CUArticleWrapper>
 			{success ? (
 				<AlertContainer>
-					<p>{alert.text}</p>
+					<p>Article was successfuly saved!</p>
 					<Link to={`/${articleValues.category}`} className="alert-link">
 						{`Go back to ${articleValues.category} page`}
 					</Link>
@@ -186,7 +185,7 @@ const EditorLayout = ({
 								/>
 							</div>
 						</div>
-						{alert.show && <AlertMsg>{alert.text}</AlertMsg>}
+						{alert && <AlertMsg>{alert.message}</AlertMsg>}
 						{/* validator for input */}
 						<input
 							type="html-validator"

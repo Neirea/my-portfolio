@@ -1,38 +1,25 @@
-import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import { EditorState } from "draft-js";
 
 import { useGlobalContext } from "../../store/AppContext";
-import useLocalState from "../../utils/useLocalState";
-import { handleError } from "../../utils/handleError";
 import EditorLayout from "./articleComponents/EditorLayout";
 import { languageDetector } from "../../utils/handleHtmlString";
-import {
-	categoriesEnum,
-	IArticleValues,
-	IUploadedImageResponse,
-} from "../../types/articleTypes";
+import { categoriesEnum, IArticleValues } from "../../types/articleTypes";
 import { LocationState } from "../../types/appTypes";
+import useCreateArticle from "../../hooks/Articles/useCreateArticle";
 
 const CreateArticle = () => {
-	const navigate = useNavigate();
+	const createArticle = useCreateArticle();
 	const location = useLocation<LocationState>();
-	const {
-		alert,
-		showAlert,
-		loading,
-		setLoading,
-		success,
-		setSuccess,
-		hideAlert,
-	} = useLocalState();
 	const { user } = useGlobalContext();
 
 	const [articleValues, setArticleValues] = useState<IArticleValues>({
 		title: "",
-		category: categoriesEnum.blog,
+		category:
+			(location.state?.from?.toString() as categoriesEnum) ||
+			categoriesEnum.blog,
 		demo_link: "",
 		source_link: "",
 	});
@@ -45,63 +32,20 @@ const CreateArticle = () => {
 		EditorState.createEmpty()
 	);
 
-	//get article categories from server
-	useEffect(() => {
-		setArticleValues((prevValue) => {
-			return {
-				...prevValue,
-				category:
-					(location.state?.from?.toString() as categoriesEnum) ||
-					categoriesEnum.blog,
-			};
-		});
-	}, [navigate, location.state]);
-
 	const onSubmit = async (editorHTML: string) => {
-		try {
-			hideAlert();
-			if (!selectedImage) {
-				showAlert({ text: "Please provide image" });
-				return;
-			}
-			setLoading(true);
+		const articleTags = tags.split(" ");
 
-			const articleTags = tags.split(" ");
+		const createdArticle = {
+			...articleValues,
+			tags: articleTags,
+			content: editorHTML,
+			image: "",
+			img_id: "",
+			userId: user!._id,
+			code_languages: languageDetector(editorHTML),
+		};
 
-			const data = new FormData();
-			data.append("image", selectedImage);
-
-			//do mutate operation here
-
-			//upload  image to server
-			const response = await axios.post<IUploadedImageResponse>(
-				"/api/article/upload",
-				data
-			);
-
-			//to avoid setArticleValues between 2 depending await's
-			const createdArticle = {
-				...articleValues,
-				tags: articleTags,
-				content: editorHTML,
-				image: response.data.image.src,
-				img_id: response.data.image.img_id,
-				userId: user!._id,
-				code_languages: languageDetector(editorHTML),
-			};
-			await axios.post("/api/article/", createdArticle);
-
-			setSuccess(true);
-			showAlert({
-				text: `article successfuly created!`,
-				type: "success",
-			});
-		} catch (error) {
-			handleError(error, navigate);
-			showAlert({ text: error?.response?.data?.msg || "there was an error" });
-		} finally {
-			setLoading(false);
-		}
+		createArticle.mutate({ selectedImage, newArticle: createdArticle });
 	};
 
 	return (
@@ -118,9 +62,9 @@ const CreateArticle = () => {
 			setSelectedImage={setSelectedImage}
 			tags={tags}
 			setTags={setTags}
-			success={success}
-			loading={loading}
-			alert={alert}
+			success={createArticle.isSuccess}
+			loading={createArticle.isLoading}
+			alert={createArticle.error}
 		/>
 	);
 };

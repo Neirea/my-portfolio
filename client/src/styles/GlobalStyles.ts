@@ -128,6 +128,10 @@ address {
 	font-size: 1.2rem;
 	letter-spacing: var(--letter-spacing);
 }
+textarea,input{
+	font-family: inherit;
+	font-size:1rem;
+}
 code, pre {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
 		monospace;

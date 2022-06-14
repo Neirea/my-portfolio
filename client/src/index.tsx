@@ -11,9 +11,12 @@ const queryClient = new QueryClient({
 			refetchOnWindowFocus: false,
 			refetchInterval: Infinity,
 			retry: false,
+			notifyOnChangeProps: "tracked",
 		},
 	},
 });
+
+queryClient.setQueryDefaults(["articles"], { staleTime: 1000 * 60 });
 
 const root = ReactDOM.createRoot(
 	document.getElementById("root") as HTMLElement

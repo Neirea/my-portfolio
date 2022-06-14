@@ -20,8 +20,11 @@ const ArticlePostsSideMenu = ({
 	//check if it comes from another page
 	useEffect(() => {
 		if (!prevTag) return;
+		// console.log("prevTag=", prevTag);
 
 		const element = document.getElementById(prevTag);
+		// console.log("element=", element);
+
 		element?.classList.add("activated");
 		setSelectedTags([prevTag]);
 	}, [prevTag, setSelectedTags]);
@@ -33,6 +36,8 @@ const ArticlePostsSideMenu = ({
 					<h5>{`Filter:`}</h5>
 					<TagsGroup>
 						{tags.map((elem, i) => {
+							// console.log(`tag ${i}`, elem);
+
 							return (
 								<button
 									id={elem}

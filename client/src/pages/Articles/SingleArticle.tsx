@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate, Link, NavLink } from "react-router-dom";
 import {
 	ArticleContentWrapper,
@@ -13,43 +14,51 @@ import {
 	ReadButton,
 	StyledLoading,
 } from "../../styles/StyledComponents";
-import axios from "axios";
+import { useParams } from "react-router-dom";
 
-import { handleError } from "../../utils/handleError";
 import { useGlobalContext } from "../../store/AppContext";
-import { useArticleContext } from "../../store/SingleArticleContext";
+import useLocalState from "../../utils/useLocalState";
 import Comments from "./articleComponents/Comments/Comments";
 import { handleDate } from "../../utils/handleDate";
 import { userRoles } from "../../types/appTypes";
+import useSingleArticle from "../../hooks/Articles/useSingleArticle";
+import { CommentsProvider } from "../../hooks/Articles/comments/useCommentsContext";
+import useDeleteArticle from "../../hooks/Articles/useDeleteArticle";
 
-const SingleArticle = () => {
+const SingleArticle = ({ type }: { type: string }) => {
+	const { articleId } = useParams();
+	const { loading, setLoading, hideAlert, showAlert, alert } = useLocalState();
 	const navigate = useNavigate();
 	const { user, darkMode } = useGlobalContext();
+	const [article, articlesData, articleLoading, articleError] =
+		useSingleArticle(type, articleId);
 	const {
-		alert,
-		showAlert,
-		hideAlert,
-		loading,
-		setLoading,
-		article,
-		articlesData,
-	} = useArticleContext();
+		mutate: deleteArticle,
+		error: deleteError,
+		isLoading: deleteLoading,
+	} = useDeleteArticle();
+
+	//combine errors
+	useEffect(() => {
+		const error: any = articleError || deleteError;
+		if (error) {
+			showAlert({
+				text: error.response?.data?.msg || "There was some error",
+			});
+		} else {
+			hideAlert();
+		}
+	}, [articleError, deleteError, showAlert, hideAlert]);
+
+	//combine loadings
+	useEffect(() => {
+		const isLoading = deleteLoading || articleLoading;
+		setLoading(isLoading);
+	}, [deleteLoading, articleLoading, setLoading]);
 
 	const handleDelete = async (articleId: string) => {
-		hideAlert();
-		setLoading(true);
-		try {
-			const route = articleId ? `/${article?.category}` : "/";
-			await axios.delete(`/api/article/${articleId}`);
-
-			navigate(route);
-		} catch (error) {
-			setLoading(false);
-			handleError(error, navigate);
-			showAlert({
-				text: error?.response?.data?.msg || "There was an error!",
-			});
-		}
+		deleteArticle({ articleId, type });
+		navigate(`/${type}`);
 	};
 
 	return (
@@ -115,7 +124,7 @@ const SingleArticle = () => {
 							</article>
 							{user && user.roles.includes(userRoles.admin) && (
 								<div className="admin-buttons">
-									<AdminButtonLink to={`/edit-article?id=${article._id}`}>
+									<AdminButtonLink to={`/edit-article/${article._id}`}>
 										Edit
 									</AdminButtonLink>
 
@@ -127,11 +136,13 @@ const SingleArticle = () => {
 									</AdminButton>
 								</div>
 							)}
-							<Comments />
+							<CommentsProvider value={{ articleId }}>
+								<Comments />
+							</CommentsProvider>
 						</section>
 					</ArticleContentWrapper>
 
-					{articlesData.length > 0 && (
+					{articlesData.length && (
 						<ArticleSideMenuWrapper className="sidebar-single">
 							<div className="article-aside-container">
 								<h5>{`Read also:`}</h5>

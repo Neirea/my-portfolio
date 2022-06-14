@@ -1,38 +1,23 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import { EditorState, ContentState } from "draft-js";
 import htmlToDraft from "html-to-draftjs";
 
-import useLocalState from "../../utils/useLocalState";
-import { useCurrentLocation } from "../../utils/useCurrentLocation";
-import { handleError } from "../../utils/handleError";
+import { useParams } from "react-router-dom";
 import EditorLayout from "./articleComponents/EditorLayout";
 import { languageDetector } from "../../utils/handleHtmlString";
 import {
 	IArticleValues,
 	categoriesEnum,
 	IArticle,
-	IUploadedImageResponse,
 } from "../../types/articleTypes";
+import { useQuery } from "react-query";
+import useEditArticle from "../../hooks/Articles/useEditArticle";
 
 const EditArticle = () => {
-	const navigate = useNavigate();
-	const queries = useCurrentLocation();
-	const articleId = queries.get("id");
+	const { articleId } = useParams();
 
-	const {
-		alert,
-		showAlert,
-		loading,
-		setLoading,
-		success,
-		setSuccess,
-		hideAlert,
-	} = useLocalState();
-
-	const [categories, setCategories] = useState<string[]>([]);
 	const [articleValues, setArticleValues] = useState<IArticleValues>({
 		title: "",
 		category: categoriesEnum.blog,
@@ -45,83 +30,58 @@ const EditArticle = () => {
 	);
 	const [preview, setPreview] = useState<string | undefined>(undefined);
 	const [editorState, setEditorState] = useState(EditorState.createEmpty());
+	const editArticle = useEditArticle();
+
+	const {
+		data: article,
+		isLoading: articleLoading,
+		error: articleError,
+	} = useQuery(["article", articleId], () =>
+		axios
+			.get<{ article: IArticle }>(`/api/article/${articleId}`)
+			.then((res) => res.data.article)
+	);
 
 	//get html from article id and put it into editor
 	useEffect(() => {
-		const getContent = async () => {
-			const { data } = await axios.get<{ article: IArticle }>(
-				`/api/article/${articleId}`
-			);
-			const contentState = ContentState.createFromBlockArray(
-				htmlToDraft(data.article.content).contentBlocks
-			);
+		if (!article) return;
+		const contentState = ContentState.createFromBlockArray(
+			htmlToDraft(article.content).contentBlocks
+		);
 
-			setEditorState(EditorState.createWithContent(contentState));
-			setPreview(data.article.image);
-			setArticleValues({
-				userId: data.article.userId,
-				title: data.article.title,
-				content: data.article.content,
-				category: data.article.category,
-				image: data.article.image,
-				img_id: data.article.img_id,
-				demo_link: data.article.demo_link,
-				source_link: data.article.source_link,
-			});
-			setTags(data.article.tags.join(" "));
-
-			//get list of categories
-			const response = await axios.get<{ categories: categoriesEnum[] }>(
-				"/api/article/articleCategories"
-			);
-			setCategories(response.data.categories);
-		};
-		getContent();
-	}, [articleId]);
+		setEditorState(EditorState.createWithContent(contentState));
+		setPreview(article.image);
+		setArticleValues({
+			userId: article.userId,
+			title: article.title,
+			content: article.content,
+			category: article.category,
+			image: article.image,
+			img_id: article.img_id,
+			demo_link: article.demo_link,
+			source_link: article.source_link,
+		});
+		setTags(article.tags.join(" "));
+	}, [article, articleId]);
 
 	const onSubmit = async (editorHTML: string) => {
-		try {
-			hideAlert();
-			setLoading(true);
+		const articleTags = tags.split(" ");
 
-			const articleTags = tags.split(" ");
+		const newArticle = {
+			...articleValues,
+			tags: articleTags,
+			content: editorHTML,
+			code_languages: languageDetector(editorHTML),
+		};
 
-			const updatedArticle = {
-				...articleValues,
-				tags: articleTags,
-				content: editorHTML,
-				code_languages: languageDetector(editorHTML),
-			};
-
-			if (selectedImage) {
-				const data = new FormData();
-				data.append("image", selectedImage);
-				const response = await axios.post<IUploadedImageResponse>(
-					"/api/article/upload",
-					data
-				);
-				updatedArticle.image = response.data.image.src;
-				updatedArticle.img_id = response.data.image.img_id;
-			}
-			await axios.patch(`/api/article/${articleId}`, updatedArticle);
-			setSuccess(true);
-			showAlert({
-				text: "article was successfuly saved!",
-				type: "success",
-			});
-		} catch (error) {
-			handleError(error, navigate);
-			showAlert({ text: error?.response?.data?.msg || "there was an error" });
-		} finally {
-			setLoading(false);
-		}
+		editArticle.mutate({ articleId, selectedImage, newArticle });
 	};
 
 	return (
 		<EditorLayout
 			articleValues={articleValues}
 			setArticleValues={setArticleValues}
-			categories={categories}
+			categories={Object.values(categoriesEnum)}
 			onSubmit={onSubmit}
 			editorState={editorState}
 			setEditorState={setEditorState}
@@ -131,9 +91,9 @@ const EditArticle = () => {
 			setSelectedImage={setSelectedImage}
 			tags={tags}
 			setTags={setTags}
-			success={success}
-			loading={loading}
-			alert={alert}
+			success={editArticle.isSuccess}
+			loading={articleLoading || editArticle.isLoading}
+			alert={articleError || editArticle.error}
 		/>
 	);
 };

@@ -19,10 +19,8 @@ import { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "./styles/GlobalStyles";
 import { lightTheme, darkTheme } from "./styles/theme";
 import { useGlobalContext } from "./store/AppContext";
-import { SingleArticleProvider } from "./store/SingleArticleContext";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { recaptchaKey } from "./utils/data";
-
 import { userRoles } from "./types/appTypes";
 
 function App() {
@@ -54,19 +52,11 @@ function App() {
 				/>
 				<Route
 					path="/blog/:articleId"
-					element={
-						<SingleArticleProvider value={{ type: "blog" }}>
-							<SingleArticle />
-						</SingleArticleProvider>
-					}
+					element={<SingleArticle type="blog" />}
 				></Route>
 				<Route
 					path="/project/:articleId"
-					element={
-						<SingleArticleProvider value={{ type: "project" }}>
-							<SingleArticle />
-						</SingleArticleProvider>
-					}
+					element={<SingleArticle type="project" />}
 				></Route>
 				<Route path="/unauthorized" element={<Unauthorized />} />
 				{/*public only routes */}
@@ -88,7 +78,7 @@ function App() {
 						}
 					/>
 					<Route
-						path="/edit-article"
+						path="/edit-article/:articleId"
 						element={
 							<Suspense fallback={<LoadingSpinner />}>
 								<EditArticle />

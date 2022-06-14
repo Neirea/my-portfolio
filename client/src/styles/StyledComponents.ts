@@ -180,8 +180,6 @@ export const StyledForm = styled.form`
 		border: 1px solid var(--form-border-color);
 		border-radius: var(--border-radius);
 		background: var(--form-field-color);
-		font-size: 1rem;
-		font-family: inherit;
 	}
 	& .form-message-input {
 		padding: 0.375rem 0.75rem;
@@ -191,8 +189,6 @@ export const StyledForm = styled.form`
 		border-radius: var(--border-radius);
 		border: 1px solid var(--form-border-color);
 		background: var(--form-field-color);
-		font-size: 1rem;
-		font-family: inherit;
 		resize: vertical;
 	}
 `;

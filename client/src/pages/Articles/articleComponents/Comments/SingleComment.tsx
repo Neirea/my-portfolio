@@ -4,7 +4,6 @@ import { AlertMsg } from "../../../../styles/StyledComponents";
 import { BsReplyFill } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
 import { useGlobalContext } from "../../../../store/AppContext";
-import { useArticleContext } from "../../../../store/SingleArticleContext";
 import EditComment from "./EditComment";
 import ToolBar from "./CommentToolBar";
 import CommentForm from "./CommentForm";
@@ -12,6 +11,7 @@ import { handleDate } from "../../../../utils/handleDate";
 import { useEffect } from "react";
 import { ACTIONS, IJsxComment } from "../../../../types/articleTypes";
 import { userRoles } from "../../../../types/appTypes";
+import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 
 interface SingleCommentProps {
 	index: number;
@@ -28,11 +28,16 @@ const SingleComment = ({
 }: SingleCommentProps) => {
 	const { user } = useGlobalContext();
 
-	const { alert, commentState, setCommentState, comments } =
-		useArticleContext();
 	const { level, comment } = commentElement;
 	const step = 3; // % of marginLeft and cut on width
 	const depth = level >= 5 ? 5 : level; //max depth to show
+	const {
+		commentsQuery,
+		commentState,
+		setCommentState,
+		resetCommentState,
+		commentError,
+	} = useCommentsContext();
 
 	/* show conditions */
 	const isShowToolBar =
@@ -41,11 +46,11 @@ const SingleComment = ({
 		user.isBanned === false &&
 		(user._id === comment.user.id || user.roles.includes(userRoles.admin));
 
-	const isDeepComment = level > 5 && comment.parentId;
+	const isDeepComment = level > 5 && comment.parentId && commentsQuery.data;
 	const isShowMessage =
 		commentState.type !== ACTIONS.edit || commentState.id !== comment._id;
 	const isShowSingleCommentAlert =
-		alert.show && index.toString() === alert.type;
+		commentError.msg && index === commentError.index;
 
 	const isShowEditUI =
 		user &&
@@ -66,11 +71,7 @@ const SingleComment = ({
 		element && element.classList.remove("btn-activated");
 		//on Cancel click
 		if (commentState.id === comment._id) {
-			setCommentState({
-				type: ACTIONS.none,
-				id: null,
-				message: "",
-			});
+			resetCommentState();
 		} else {
 			e.currentTarget.classList.add("btn-activated");
 			setCommentState({
@@ -98,7 +99,7 @@ const SingleComment = ({
 						<>
 							{"to: "}
 							<span className="comment-author">
-								{comments[index - 1].comment.user.name}
+								{commentsQuery.data[index - 1].comment.user.name}
 							</span>
 							{" from: "}
 						</>
@@ -125,7 +126,7 @@ const SingleComment = ({
 					/>
 				)}
 				<div className="comment-footer">
-					{isShowReplyButton && (
+					{isShowReplyButton ? (
 						<ReplyButton
 							data-testid={`reply-button-${index}`}
 							onClick={handleReply}
@@ -136,12 +137,14 @@ const SingleComment = ({
 								<BsReplyFill size={"100%"} />
 							)}
 						</ReplyButton>
+					) : (
+						<div></div>
 					)}
 					{/* Toolbar for comment */}
 					{isShowToolBar && <ToolBar index={index} comment={comment} />}
 				</div>
 			</SingleCommentContainer>
-			{isShowSingleCommentAlert && <AlertMsg>{alert.text}</AlertMsg>}
+			{isShowSingleCommentAlert && <AlertMsg>{commentError.msg}</AlertMsg>}
 			{/* Reply Form */}
 			{isShowReplyForm && (
 				<CommentForm

@@ -1,36 +1,25 @@
 import { ChangeEvent, FormEvent, Fragment } from "react";
-import { useNavigate, NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { CommentsWrapper, ReplyFormWrapper } from "./CommentStyles";
 import { ReadButton, AlertMsg } from "../../../../styles/StyledComponents";
 
-import axios from "axios";
 import SingleComment from "./SingleComment";
 
 import { useGlobalContext } from "../../../../store/AppContext";
-import { useArticleContext } from "../../../../store/SingleArticleContext";
-import { handleError } from "../../../../utils/handleError";
-import { ACTIONS, IComment } from "../../../../types/articleTypes";
+import { ACTIONS } from "../../../../types/articleTypes";
+import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
+import useCreateComment from "../../../../hooks/Articles/comments/useCreateComment";
 
 const Comments = () => {
-	const navigate = useNavigate();
 	const location = useLocation();
 
 	const { user } = useGlobalContext();
-	const {
-		alert,
-		showAlert,
-		hideAlert,
-		loading,
-		articleId,
-		setLoading,
-		comments,
-		setComments,
-		commentState,
-		setCommentState,
-	} = useArticleContext();
+	const { commentsQuery, commentState, setCommentState, commentError } =
+		useCommentsContext();
+	const { mutate: createComment, isLoading } = useCreateComment();
 
-	const isShowCommentsHeader = comments?.length > 0 || user;
-	const isShowLocalError = alert.show && alert.type === "-1";
+	const isShowCommentsHeader = commentsQuery.data || user;
+	const isShowLocalError = commentError.msg && commentError.index === undefined;
 	const isShowNewCommentForm =
 		user && user.isBanned === false && commentState.type === ACTIONS.none;
 
@@ -38,58 +27,16 @@ const Comments = () => {
 		setCommentState({ ...commentState, message: e.target.value });
 	};
 
-	const updateCommentsAfterSubmit = (
-		comment: IComment,
-		index: number | undefined
-	) => {
-		const items = comments;
-		if (commentState.type === ACTIONS.reply && index !== undefined) {
-			//fills replies array of parent with new comment
-			items[index].comment.replies.push(comment);
-			//adds comment into new position
-			items.splice(index + 1, 0, {
-				level: items[index].level + 1,
-				comment: comment,
-			});
-		} else {
-			//adds new comment at the end of array
-			items.push({ level: 0, comment: comment });
-		}
-		return items;
-	};
-
 	const handleSubmit = async (e: FormEvent, index?: number) => {
 		e.preventDefault();
-		hideAlert();
-		setLoading(true);
 
-		try {
-			const submitData = {
-				userId: user!._id,
-				message: commentState.message,
-				parentId: commentState.id,
-			};
-			const { data } = await axios.post<{ comment: IComment }>(
-				`/api/comment/${articleId}`,
-				submitData
-			);
-			/* update local state of comments */
-			const newComments = updateCommentsAfterSubmit(data.comment, index);
-			setComments(newComments);
-			setCommentState({
-				type: ACTIONS.none,
-				id: null,
-				message: "",
-			});
-		} catch (error) {
-			handleError(error, navigate);
-			showAlert({
-				text: error?.response?.data?.msg || "There was an error!",
-				type: index !== undefined ? index.toString() : "danger",
-			});
-		} finally {
-			setLoading(false);
-		}
+		const submitData = {
+			userId: user!._id,
+			message: commentState.message,
+			parentId: commentState.id,
+		};
+
+		createComment(submitData);
 	};
 
 	return (
@@ -98,8 +45,8 @@ const Comments = () => {
 				{/* Comments Header */}
 				{isShowCommentsHeader && (
 					<h5>
-						{comments
-							? `Comments(${comments?.length}):`
+						{commentsQuery.data
+							? `Comments(${commentsQuery.data.length}):`
 							: "Loading comments..."}
 					</h5>
 				)}
@@ -107,7 +54,7 @@ const Comments = () => {
 					<AlertMsg>You are currently suspended from posting comments</AlertMsg>
 				)}
 				{/* mapping through comments */}
-				{comments.map((element, index) => {
+				{commentsQuery.data?.map((element, index) => {
 					return (
 						<Fragment key={index}>
 							<SingleComment
@@ -122,7 +69,7 @@ const Comments = () => {
 			</>
 			{
 				/* alert for "Create New Comment" */
-				isShowLocalError && <AlertMsg>{alert.text}</AlertMsg>
+				isShowLocalError && <AlertMsg>{commentError.msg}</AlertMsg>
 			}
 			{/*show "Create New Comment" only if "Reply Form" and "Edit Message" are disabled */}
 			{isShowNewCommentForm && (
@@ -137,7 +84,7 @@ const Comments = () => {
 						value={commentState.message}
 						onChange={handleChange}
 					></textarea>
-					<ReadButton type="submit" disabled={loading}>
+					<ReadButton type="submit" disabled={isLoading}>
 						Submit
 					</ReadButton>
 				</ReplyFormWrapper>

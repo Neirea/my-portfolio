@@ -1,10 +1,8 @@
 import { ChangeEvent } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useArticleContext } from "../../../../store/SingleArticleContext";
+import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 import { ReadButton } from "../../../../styles/StyledComponents";
-import { handleError } from "../../../../utils/handleError";
-import { ACTIONS, IComment } from "../../../../types/articleTypes";
+import { IComment } from "../../../../types/articleTypes";
+import useUpdateComment from "../../../../hooks/Articles/comments/useUpdateComment";
 
 interface EditCommentProps {
 	index: number;
@@ -13,44 +11,11 @@ interface EditCommentProps {
 }
 
 const EditComment = ({ index, comment, handleChange }: EditCommentProps) => {
-	const navigate = useNavigate();
-	const {
-		hideAlert,
-		showAlert,
-		setLoading,
-		articleId,
-		comments,
-		setComments,
-		commentState,
-		setCommentState,
-	} = useArticleContext();
+	const { commentState, resetCommentState } = useCommentsContext();
+	const { mutate: updateComment } = useUpdateComment(index);
 
 	const handleSaveUpdate = async () => {
-		hideAlert();
-		setLoading(true);
-
-		try {
-			const { data } = await axios.patch<{ comment: IComment }>(
-				`api/comment/${articleId}/${comment._id}`,
-				{ message: commentState.message }
-			);
-			const items = comments;
-			items[index].comment = data.comment;
-			setComments(items);
-			setCommentState({
-				type: ACTIONS.none,
-				id: null,
-				message: "",
-			});
-		} catch (error) {
-			handleError(error, navigate);
-			showAlert({
-				text: error?.response?.data?.msg || "There was an error!",
-				type: index.toString(),
-			});
-		} finally {
-			setLoading(false);
-		}
+		updateComment({ commentId: comment._id, msg: commentState.message });
 	};
 
 	return (
@@ -84,17 +49,7 @@ const EditComment = ({ index, comment, handleChange }: EditCommentProps) => {
 					Save
 				</ReadButton>
 				{/* Cancel Editing */}
-				<ReadButton
-					onClick={() => {
-						setCommentState({
-							type: ACTIONS.none,
-							id: null,
-							message: "",
-						});
-					}}
-				>
-					Cancel
-				</ReadButton>
+				<ReadButton onClick={resetCommentState}>Cancel</ReadButton>
 			</div>
 		</>
 	);

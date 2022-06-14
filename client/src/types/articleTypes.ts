@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
-
 export enum ACTIONS {
 	reply = "reply",
 	edit = "edit",
@@ -59,6 +57,10 @@ export interface ICommentState {
 	id: string | null;
 	message: string;
 }
+export interface ICommentError {
+	index: number | undefined;
+	msg: string;
+}
 
 export interface IUploadedImageResponse {
 	image: { src: string; img_id: string };
@@ -73,29 +75,4 @@ export interface IArticleValues {
 	image?: string;
 	img_id?: string;
 	userId?: string;
-}
-
-export interface ArticleContextValues {
-	alert: {
-		show: boolean;
-		text: string;
-		type: string;
-	};
-	showAlert: ({
-		text,
-		type,
-	}: {
-		text: string;
-		type?: string | undefined;
-	}) => void;
-	hideAlert: () => void;
-	loading: boolean;
-	setLoading: Dispatch<SetStateAction<boolean>>;
-	articleId: string | undefined;
-	article: IArticle | null;
-	comments: IJsxComment[];
-	setComments: Dispatch<SetStateAction<IJsxComment[]>>;
-	commentState: ICommentState;
-	setCommentState: Dispatch<SetStateAction<ICommentState>>;
-	articlesData: IArticleData[];
 }

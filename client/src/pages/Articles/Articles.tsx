@@ -27,53 +27,53 @@ import useDeleteArticle from "../../hooks/Articles/useDeleteArticle";
 
 const MAX_CHARS = 300;
 
-const ArticlePosts = ({ type }: { type: string }) => {
+const Articles = ({ type }: { type: string }) => {
 	const { alert, showAlert, hideAlert, loading, setLoading } = useLocalState();
 	const { user } = useGlobalContext();
-	const [articles, setArticles] = useState<IArticle[]>([]);
+	// const [articles, setArticles] = useState<IArticle[]>([]);
 	const [tags, setTags] = useState<string[]>([]);
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
 	let isArticlesShow = false;
-	const dataArticles = useArticles(type);
+	const articles = useArticles(type);
 	const deleteArticle = useDeleteArticle();
 
 	useEffect(() => {
 		window.history.pushState({}, "", `/${type}`);
 	}, [type]);
 
-	//set articles&tags
+	//set tags
 	useEffect(() => {
-		if (dataArticles.data) {
-			let articleTags: string[] = [];
-			for (let i = 0; i < dataArticles.data.length; i++) {
-				dataArticles.data[i].tags.forEach((elem) => {
-					//check for correct type and if it already is in array
-					dataArticles.data[i].category === type &&
-						articleTags.indexOf(elem) === -1 &&
-						articleTags.push(elem);
-				});
-			}
-			setArticles(dataArticles.data);
-			setTags(articleTags);
+		if (!articles.data) return;
+
+		let articleTags: string[] = [];
+		for (let i = 0; i < articles.data.length; i++) {
+			articles.data[i].tags.forEach((elem) => {
+				//check for correct type and if it already is in array
+				articles.data[i].category === type &&
+					articleTags.indexOf(elem) === -1 &&
+					articleTags.push(elem);
+			});
 		}
-	}, [type, dataArticles.data]);
+		setTags(articleTags);
+	}, [type, articles.data]);
 
 	//combine errors
 	useEffect(() => {
-		hideAlert();
-		const error: any = dataArticles.error || deleteArticle.error;
+		const error: any = articles.error || deleteArticle.error;
 		if (error) {
 			showAlert({
 				text: error.response?.data?.msg || "There was some error",
 			});
+		} else {
+			hideAlert();
 		}
-	}, [dataArticles.error, deleteArticle.error, showAlert, hideAlert]);
+	}, [articles.error, deleteArticle.error, showAlert, hideAlert]);
 
 	//combine loadings
 	useEffect(() => {
-		const isLoading = dataArticles.isLoading || deleteArticle.isLoading;
+		const isLoading = articles.isLoading || deleteArticle.isLoading;
 		setLoading(isLoading);
-	}, [dataArticles.isLoading, deleteArticle.isLoading, setLoading]);
+	}, [articles.isLoading, deleteArticle.isLoading, setLoading]);
 
 	const filterTags = (elem: string) => {
 		//copy values from old tags
@@ -113,13 +113,13 @@ const ArticlePosts = ({ type }: { type: string }) => {
 						Go back to Home page
 					</Link>
 				</AlertContainer>
-			) : !articles.length ? (
+			) : !articles.data ? (
 				<LoadingSpinner />
 			) : (
 				<>
 					<ArticleContentWrapper className="flex-item-1">
 						<div className="article-wrapper">
-							{articles.map((element) => {
+							{articles.data.map((element) => {
 								if (isArticleHide(element)) {
 									return <Fragment key={element._id} />;
 								}
@@ -188,7 +188,7 @@ const ArticlePosts = ({ type }: { type: string }) => {
 										</article>
 										{user && user.roles.includes(userRoles.admin) && (
 											<div className="admin-buttons">
-												<AdminButtonLink to={`/edit-article?id=${element._id}`}>
+												<AdminButtonLink to={`/edit-article/${element._id}`}>
 													Edit
 												</AdminButtonLink>
 
@@ -208,9 +208,10 @@ const ArticlePosts = ({ type }: { type: string }) => {
 									</div>
 								);
 							})}
+
 							{!isArticlesShow && (
 								<AlertContainer>
-									<p>There are no articles with these filters</p>
+									<p>There are no articles with these filters Lorem ipsum</p>
 								</AlertContainer>
 							)}
 						</div>
@@ -238,4 +239,4 @@ const ArticlePosts = ({ type }: { type: string }) => {
 	);
 };
 
-export default ArticlePosts;
+export default Articles;

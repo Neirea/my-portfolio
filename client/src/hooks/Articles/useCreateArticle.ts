@@ -1,78 +1,54 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
-import { IArticle, IUploadedImageResponse } from "../../types/articleTypes";
+import {
+	IArticle,
+	IUploadedImageResponse,
+	IArticleValues,
+} from "../../types/articleTypes";
 
-export default function useDeleteArticle() {
+interface ICreatedArticle extends IArticleValues {
+	tags: string[];
+}
+
+export default function useCreateArticle() {
 	const queryClient = useQueryClient();
-	const localDeleteArticle = (articleId: string, type: string) => {
-		let items = queryClient.getQueryData<IArticle[]>([type])!;
-		//find index of deleted article in a list
-		const articleIndex = items
-			.map((elem) => {
-				return elem._id;
-			})
-			.indexOf(articleId);
-		items.splice(articleIndex, 1);
-		return items;
-	};
-
-	return useMutation(
-		(vars: { articleId: string; type: string }) =>
-			axios.delete(`/api/article/${vars.articleId}`),
+	const createArticle = useMutation(
+		(newArticle: ICreatedArticle) =>
+			axios
+				.post<{ article: IArticle }>("/api/article/", newArticle)
+				.then((res) => res.data.article),
 		{
-			onSuccess(data, vars) {
-				let items = localDeleteArticle(vars.articleId, vars.type);
-				if (items.length === 0) {
-					queryClient.invalidateQueries([vars.type]);
-				} else {
-					queryClient.setQueryData([vars.type], { articles: items });
-				}
+			onSuccess(newArticle) {
+				queryClient.invalidateQueries(["articles", newArticle.category], {
+					refetchInactive: true,
+				});
+			},
+		}
+	);
+	return useMutation(
+		async ({
+			selectedImage,
+			newArticle,
+		}: {
+			selectedImage: File | undefined;
+			newArticle: ICreatedArticle;
+		}) => {
+			if (!selectedImage) throw new Error("Missing image");
+			const data = new FormData();
+			data.append("image", selectedImage);
+			return axios
+				.post<IUploadedImageResponse>("/api/article/upload", data)
+				.then((res) => {
+					newArticle.image = res.data.image.src;
+					newArticle.img_id = res.data.image.img_id;
+					createArticle.mutate(newArticle);
+				});
+		},
+
+		{
+			onError(error: any) {
+				error.message = error.response?.data?.msg || "There was some error";
 			},
 		}
 	);
 }
-
-// const onSubmit = async (editorHTML: string) => {
-// 	try {
-// 		hideAlert();
-// 		if (!selectedImage) {
-// 			showAlert({ text: "Please provide image" });
-// 			return;
-// 		}
-// 		setLoading(true);
-
-// 		const articleTags = tags.split(" ");
-
-// 		const data = new FormData();
-// 		data.append("image", selectedImage);
-
-// 		//upload  image to server
-// 		const response = await axios.post<IUploadedImageResponse>(
-// 			"/api/article/upload",
-// 			data
-// 		);
-
-// 		//to avoid setArticleValues between 2 depending await's
-// 		const createdArticle = {
-// 			...articleValues,
-// 			tags: articleTags,
-// 			content: editorHTML,
-// 			image: response.data.image.src,
-// 			img_id: response.data.image.img_id,
-// 			userId: user!._id,
-// 			code_languages: languageDetector(editorHTML),
-// 		};
-// 		await axios.post("/api/article/", createdArticle);
-
-// 		setSuccess(true);
-// 		showAlert({
-// 			text: `article successfuly created!`,
-// 			type: "success",
-// 		});
-// 	} catch (error) {
-// 		handleError(error, navigate);
-// 		showAlert({ text: error?.response?.data?.msg || "there was an error" });
-// 	} finally {
-// 		setLoading(false);
-// 	}
-// };

@@ -1,9 +1,8 @@
 import styled from "styled-components";
-import useArticles from "../hooks/Articles/useArticles";
+// import useArticles from "../hooks/Articles/useArticles";
 
 const Home = () => {
-	const { isLoading, data } = useArticles("project");
-	console.log("home articles=", data);
+	// const projects = useArticles("project");
 
 	// const { isLoading } = useQuery(
 	// 	["project"],

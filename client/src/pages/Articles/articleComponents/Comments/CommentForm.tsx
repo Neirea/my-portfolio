@@ -1,8 +1,8 @@
 import { ReadButton } from "../../../../styles/StyledComponents";
 import { ReplyFormWrapper } from "./CommentStyles";
-import { useArticleContext } from "../../../../store/SingleArticleContext";
 import { IComment } from "../../../../types/articleTypes";
 import { ChangeEvent, FormEvent } from "react";
+import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 
 interface ReplyFormProps {
 	comment: IComment;
@@ -21,7 +21,7 @@ const ReplyForm = ({
 	onSubmit,
 	handleChange,
 }: ReplyFormProps) => {
-	const { commentState, loading } = useArticleContext();
+	const { commentState } = useCommentsContext();
 
 	return (
 		<ReplyFormWrapper
@@ -44,9 +44,7 @@ const ReplyForm = ({
 				required={true}
 				onChange={handleChange}
 			></textarea>
-			<ReadButton type="submit" disabled={loading}>
-				Submit
-			</ReadButton>
+			<ReadButton type="submit">Submit</ReadButton>
 		</ReplyFormWrapper>
 	);
 };

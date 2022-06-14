@@ -5,12 +5,12 @@ import { StatusCodes } from "http-status-codes";
 import CustomError from "../errors";
 import { Request, Response } from "express";
 
-//gets all top level comments
 export const getAllComments = async (req: Request, res: Response) => {
 	const { article: articleId } = req.params;
 
+	//gets all top level comments
 	const comments = await Comment.find({
-		article: articleId,
+		articleId: articleId,
 		parentId: null,
 	}).sort({ createdAt: "descending" });
 
