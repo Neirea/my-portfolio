@@ -7,34 +7,25 @@ const useSingleArticle = (type: string, articleId: string | undefined) => {
 	const queryClient = useQueryClient();
 
 	return useQuery(
-		["articles", type, articleId],
+		["articles", type],
 		() =>
 			axios
-				.get<{ article: IArticle }>(`/api/article/${articleId}`)
-				.then((res) => res.data.article)
-				.then((article) => {
-					return {
-						...article,
-						content: handleHtmlString(article.content, article.code_languages),
-					};
-				}),
+				.get<{ articles: IArticle[] }>(`/api/article/${type}`)
+				.then((res) => res.data.articles),
 		{
 			initialData: () => {
 				const articlesCache = queryClient.getQueryData<IArticle[]>([
 					"articles",
 					type,
 				]);
-
-				const articleRaw = articlesCache?.find(
-					(item) => item._id === articleId!
-				);
-				if (articleRaw) {
+				if (articlesCache) return articlesCache;
+			},
+			select(articles) {
+				const article = articles?.find((item) => item._id === articleId);
+				if (article) {
 					return {
-						...articleRaw,
-						content: handleHtmlString(
-							articleRaw.content,
-							articleRaw.code_languages
-						),
+						...article,
+						content: handleHtmlString(article.content, article.code_languages),
 					};
 				}
 			},
