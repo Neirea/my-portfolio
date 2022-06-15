@@ -13,18 +13,18 @@ import { userRoles } from "../models/User";
 const router = Router();
 
 router
-	.route("/:article")
+	.route("/:articleId")
 	.post(isAuthenticated, createComment)
 	.get(getAllComments);
 
 router
-	.route("/:article/:id")
+	.route("/:articleId/:id")
 	.get(getSingleComment)
 	.patch(isAuthenticated, updateComment)
 	.delete(isAuthenticated, deleteComment);
 
 router
-	.route("/:article/d_all/:id")
+	.route("/:articleId/d_all/:id")
 	.delete(
 		[isAuthenticated, authorizePermissions(userRoles.admin)],
 		deleteCommentsAdmin

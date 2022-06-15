@@ -51,7 +51,7 @@ export const handleHtmlString = (
 
 	const resultString = getChildrenElementsString(div.children);
 	div.remove();
-	// return resultString;
+
 	return resultString;
 };
 

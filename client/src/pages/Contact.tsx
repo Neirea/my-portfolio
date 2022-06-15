@@ -2,9 +2,9 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { BlockButton, AlertMsg, StyledForm } from "../styles/StyledComponents";
-import { FaLinkedin, FaGithub } from "react-icons/fa";
+import { FaLinkedin } from "@react-icons/all-files/fa/FaLinkedin";
+import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
 import FormRow from "../components/FormRow";
-import useLocalState from "../utils/useLocalState";
 import SuccessModal from "../components/SuccessModal";
 import { useGlobalContext } from "../store/AppContext";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
@@ -13,7 +13,9 @@ import { socialMediaLinks } from "../utils/data";
 const Contact = () => {
 	const { user } = useGlobalContext();
 	const { executeRecaptcha } = useGoogleReCaptcha();
-	const { alert, showAlert, loading, setLoading, hideAlert } = useLocalState();
+	const [error, setError] = useState("");
+	const [loading, setLoading] = useState(false);
+	const [modalOpen, setModalOpen] = useState(false);
 
 	const [values, setValues] = useState({
 		name: "",
@@ -42,9 +44,7 @@ const Contact = () => {
 
 	const handleRecaptchaVeify = async () => {
 		if (!executeRecaptcha) {
-			showAlert({
-				text: "recaptcha is not ready yet",
-			});
+			setError("recaptcha is not ready yet");
 			return;
 		}
 		const token = await executeRecaptcha("contactMessage");
@@ -53,34 +53,34 @@ const Contact = () => {
 
 	const onSubmit = async (e: FormEvent) => {
 		e.preventDefault();
-		hideAlert();
 		setLoading(true);
-
-		const { name, email, message } = values;
-		const contactMessage = {
-			subject: `${name} from ${email}`,
-			msg: message,
-		};
 
 		try {
 			await handleRecaptchaVeify();
+			const { name, email, message } = values;
+			const contactMessage = {
+				subject: `${name} from ${email}`,
+				msg: message,
+			};
 			await axios.post("/api/action/sendContactMessage", contactMessage);
+
+			setModalOpen(true);
 			setValues({ ...values, message: "" });
-			showAlert({
-				text: "contact message was successfully sent!",
-				type: "success",
-			});
+			setError("");
 		} catch (error) {
-			showAlert({ text: error?.response?.data?.msg || "There was an error!" });
+			setError(error?.response?.data?.msg || "There was an error!");
 		} finally {
 			setLoading(false);
 		}
 	};
+
+	const closeModal = () => {
+		setModalOpen(false);
+	};
+
 	return (
 		<main>
-			{alert.show && alert.type === "success" && (
-				<SuccessModal alert={alert} hideAlert={hideAlert} />
-			)}
+			{modalOpen && <SuccessModal closeModal={closeModal} />}
 			<StyledForm onSubmit={onSubmit}>
 				<FormRow
 					focus={true}
@@ -107,9 +107,7 @@ const Contact = () => {
 					value={values.message}
 					handleChange={handleChange}
 				/>
-				{alert.show && alert.type !== "success" && (
-					<AlertMsg>{alert.text}</AlertMsg>
-				)}
+				{error && <AlertMsg>{error}</AlertMsg>}
 				<BlockButton type="submit" disabled={loading}>
 					{loading ? "Loading..." : "Send"}
 				</BlockButton>

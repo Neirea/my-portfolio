@@ -9,29 +9,36 @@ interface ISubmitComment {
 	parentId: string | null;
 }
 
-export default function useCreateComment(index?: number) {
+export default function useCreateComment() {
 	const queryClient = useQueryClient();
 	const { articleId, setCommentError, resetCommentState } =
 		useCommentsContext();
+
 	return useMutation(
-		(submitData: ISubmitComment) =>
-			axios.post<{ comment: IComment }>(
-				`/api/comment/${articleId}`,
-				submitData
-			),
+		({ submitData, index }: { submitData: ISubmitComment; index?: number }) =>
+			axios
+				.post<{ comment: IComment }>(`/api/comment/${articleId}`, submitData)
+				.then((res) => res.data.comment),
 		{
-			onSuccess() {
+			onSuccess(newComment) {
 				resetCommentState();
+
+				const oldData = queryClient.getQueryData<{ comments: IComment[] }>([
+					"comments",
+					articleId,
+				]);
+				oldData?.comments.unshift(newComment);
+
+				queryClient.invalidateQueries(["comments", articleId], {
+					refetchInactive: true,
+				});
 			},
-			onError(error: any) {
+			onError(error: any, { index }) {
+				console.log(error);
+
 				const errorMessage =
 					error.response?.data?.msg || "There was some error";
 				setCommentError({ index: index, msg: errorMessage });
-			},
-			onSettled() {
-				console.log(articleId);
-
-				queryClient.invalidateQueries(["comments", articleId]);
 			},
 		}
 	);

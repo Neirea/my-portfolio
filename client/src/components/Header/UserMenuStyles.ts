@@ -2,15 +2,10 @@ import styled from "styled-components";
 import { MenuItem } from "./HeaderStyles";
 
 export const UserMenuWrapper = styled(MenuItem)`
+	display: flex;
 	color: var(--faded-text-color);
 	margin-right: 0.5rem;
 
-	@media (hover: hover) and (pointer: fine) {
-		&:hover {
-			color: var(--main-text-color);
-			transition: color var(--transition);
-		}
-	}
 	.user-name {
 		display: none;
 		margin-right: 1rem;
@@ -25,7 +20,17 @@ export const UserMenuWrapper = styled(MenuItem)`
 		align-items: center;
 		text-transform: none;
 		user-select: none;
+		background: none;
+		border: none;
+		color: var(--faded-text-color);
 		cursor: pointer;
+
+		@media (hover: hover) and (pointer: fine) {
+			&:hover {
+				color: var(--main-text-color);
+				transition: color var(--transition);
+			}
+		}
 
 		.activated {
 			color: var(--main-text-color);
@@ -39,10 +44,6 @@ export const UserMenuWrapper = styled(MenuItem)`
 			width: var(--icon-size);
 			height: 100%;
 			transition: transform var(--transition);
-
-			.user-avatar {
-				width: 100%;
-			}
 		}
 	}
 
@@ -52,6 +53,7 @@ export const UserMenuWrapper = styled(MenuItem)`
 
 		position: absolute;
 		top: 4rem;
+		right: -1rem;
 		padding: 0 1rem;
 
 		height: 0;

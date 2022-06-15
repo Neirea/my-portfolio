@@ -6,7 +6,7 @@ import CustomError from "../errors";
 import { Request, Response } from "express";
 
 export const getAllComments = async (req: Request, res: Response) => {
-	const { article: articleId } = req.params;
+	const { articleId } = req.params;
 
 	//gets all top level comments
 	const comments = await Comment.find({
@@ -30,7 +30,7 @@ export const getSingleComment = async (req: Request, res: Response) => {
 export const createComment = async (req: Request, res: Response) => {
 	const { userId, message, parentId } = req.body;
 
-	const { article: articleId } = req.params;
+	const { articleId } = req.params;
 
 	const author = await User.findOne({ _id: userId });
 	if (!author) {
@@ -61,10 +61,13 @@ export const createComment = async (req: Request, res: Response) => {
 	//update parent's replies property
 	if (comment.parentId) {
 		const updateParent = await Comment.findOne({ _id: comment.parentId });
-		if (updateParent) {
-			updateParent.replies.push(comment);
-			await updateParent.save();
+		if (!updateParent) {
+			throw new CustomError.NotFoundError(
+				`No parent comment with id : ${comment.parentId}`
+			);
 		}
+		updateParent.replies.push(comment);
+		await updateParent.save();
 	}
 
 	res.status(StatusCodes.CREATED).json({ comment });
@@ -104,7 +107,7 @@ export const deleteComment = async (req: Request, res: Response) => {
 		);
 	}
 
-	if (comment.replies.length === 0) {
+	if (!comment.replies.length) {
 		await comment.remove();
 		res.status(StatusCodes.OK).json({ msg: "Success! Comment was deleted" });
 		return;

@@ -36,7 +36,7 @@ const Comments = () => {
 			parentId: commentState.id,
 		};
 
-		createComment(submitData);
+		createComment({ submitData, index });
 	};
 
 	return (

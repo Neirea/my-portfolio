@@ -1,7 +1,12 @@
-import { MdDelete, MdOutlineAccountTree } from "react-icons/md";
-import { AiFillEdit } from "react-icons/ai";
-import { FaBan, FaWrench } from "react-icons/fa";
-import { ToolsButton } from "./CommentStyles";
+import { MouseEvent } from "react";
+import { MdDelete } from "@react-icons/all-files/md/MdDelete";
+import { AiOutlineDeleteColumn } from "@react-icons/all-files/ai/AiOutlineDeleteColumn";
+import { AiFillEdit } from "@react-icons/all-files/ai/AiFillEdit";
+import { FaWrench } from "@react-icons/all-files/fa/FaWrench";
+import { FaBan } from "@react-icons/all-files/fa/FaBan";
+import { MdClose } from "@react-icons/all-files/md/MdClose";
+import { BsReplyFill } from "@react-icons/all-files/bs/BsReplyFill";
+import { ToolsButton, ReplyButton } from "./CommentStyles";
 import { useGlobalContext } from "../../../../store/AppContext";
 import { ACTIONS, IComment } from "../../../../types/articleTypes";
 import { userRoles } from "../../../../types/appTypes";
@@ -12,17 +17,23 @@ import useBanUser from "../../../../hooks/useBanUser";
 
 const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 	const { user } = useGlobalContext();
-	const { setCommentState } = useCommentsContext();
+	const { setCommentState, commentState, resetCommentState } =
+		useCommentsContext();
 	const { mutate: deleteOneComment, isLoading: deleteOneLoading } =
-		useDeleteComment(index);
+		useDeleteComment();
 
 	const { mutate: deleteCommentTree, isLoading: deleteTreeLoading } =
-		useDeleteCommentTree(index);
+		useDeleteCommentTree();
 	const { mutate: banUser, isLoading: banUserLoading } = useBanUser();
 
+	const isLoading = deleteOneLoading || deleteTreeLoading;
 	const isShowBanMenu = user?._id !== comment.user.id;
 
+	const isShowReplyButton =
+		commentState.type !== ACTIONS.edit && comment.message;
+
 	const handleEditCommentClick = () => {
+		resetCommentState();
 		setCommentState({
 			type: ACTIONS.edit,
 			id: comment._id,
@@ -30,50 +41,87 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 		});
 	};
 
+	const handleReply = (e: MouseEvent<HTMLButtonElement>) => {
+		//remove existing active style
+		const element = document.querySelector(".btn-activated");
+		element && element.classList.remove("btn-activated");
+		//on Cancel click
+		if (commentState.id === comment._id) {
+			resetCommentState();
+		} else {
+			e.currentTarget.classList.add("btn-activated");
+			setCommentState({
+				type: ACTIONS.reply,
+				id: comment._id,
+				message: "",
+			});
+		}
+	};
+
 	return (
 		<div className="tool-bar">
-			<ToolsButton
-				data-testid={`edit-${index}`}
-				title={"Edit Comment"}
-				onClick={handleEditCommentClick}
-			>
-				<AiFillEdit size={"100%"} />
-			</ToolsButton>
-			{comment.message && (
-				<ToolsButton
-					data-testid={`delete-${index}`}
-					title="Delete Comment"
-					disabled={deleteOneLoading}
-					onClick={() => deleteOneComment(comment._id)}
-				>
-					<MdDelete size={"100%"} />
-				</ToolsButton>
-			)}
-			{user?.roles.includes(userRoles.admin) && (
-				<>
-					<ToolsButton
-						data-testid={`delete-tree-${index}`}
-						title="Delete Comment Tree"
-						disabled={deleteTreeLoading}
-						onClick={() => deleteCommentTree(comment._id)}
+			<div className="tool-bar-group">
+				{isShowReplyButton && (
+					<ReplyButton
+						data-testid={`reply-button-${index}`}
+						onClick={handleReply}
+						disabled={isLoading}
 					>
-						<MdOutlineAccountTree size={"100%"} />
+						{commentState.id === comment._id ? (
+							<MdClose size={"100%"} />
+						) : (
+							<BsReplyFill size={"100%"} />
+						)}
+					</ReplyButton>
+				)}
+				<ToolsButton
+					data-testid={`edit-${index}`}
+					title={"Edit Comment"}
+					onClick={handleEditCommentClick}
+					disabled={isLoading}
+				>
+					<AiFillEdit size={"100%"} />
+				</ToolsButton>
+			</div>
+			<div className="tool-bar-group">
+				{comment.message && (
+					<ToolsButton
+						data-testid={`delete-${index}`}
+						title="Delete Comment"
+						disabled={isLoading}
+						onClick={() => deleteOneComment({ commentId: comment._id, index })}
+					>
+						<MdDelete size={"100%"} />
 					</ToolsButton>
-					{isShowBanMenu && (
+				)}
+				{user?.roles.includes(userRoles.admin) && (
+					<>
 						<ToolsButton
-							title="Ban User"
-							disabled={banUserLoading}
-							onClick={() => banUser(comment.user.id)}
+							data-testid={`delete-tree-${index}`}
+							title="Delete Comment Tree"
+							disabled={isLoading}
+							onClick={() =>
+								deleteCommentTree({ commentId: comment._id, index })
+							}
 						>
-							{comment.user.isBanned ? (
-								<FaWrench size={"100%"} />
-							) : (
-								<FaBan size={"100%"} />
-							)}
+							<AiOutlineDeleteColumn size={"100%"} />
 						</ToolsButton>
-					)}
-				</>
-			)}
+						{isShowBanMenu && (
+							<ToolsButton
+								title="Ban User"
+								disabled={banUserLoading}
+								onClick={() => banUser(comment.user.id)}
+							>
+								{comment.user.isBanned ? (
+									<FaWrench size={"100%"} />
+								) : (
+									<FaBan size={"100%"} />
+								)}
+							</ToolsButton>
+						)}
+					</>
+				)}
+			</div>
 		</div>
 	);
 };

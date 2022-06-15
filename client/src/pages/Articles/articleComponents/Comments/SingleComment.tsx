@@ -1,8 +1,6 @@
-import { FormEvent, ChangeEvent, MouseEvent } from "react";
-import { SingleCommentContainer, ReplyButton } from "./CommentStyles";
+import { FormEvent, ChangeEvent } from "react";
+import { SingleCommentContainer } from "./CommentStyles";
 import { AlertMsg } from "../../../../styles/StyledComponents";
-import { BsReplyFill } from "react-icons/bs";
-import { MdClose } from "react-icons/md";
 import { useGlobalContext } from "../../../../store/AppContext";
 import EditComment from "./EditComment";
 import ToolBar from "./CommentToolBar";
@@ -31,13 +29,7 @@ const SingleComment = ({
 	const { level, comment } = commentElement;
 	const step = 3; // % of marginLeft and cut on width
 	const depth = level >= 5 ? 5 : level; //max depth to show
-	const {
-		commentsQuery,
-		commentState,
-		setCommentState,
-		resetCommentState,
-		commentError,
-	} = useCommentsContext();
+	const { commentsQuery, commentState, commentError } = useCommentsContext();
 
 	/* show conditions */
 	const isShowToolBar =
@@ -47,8 +39,10 @@ const SingleComment = ({
 		(user._id === comment.user.id || user.roles.includes(userRoles.admin));
 
 	const isDeepComment = level > 5 && comment.parentId && commentsQuery.data;
+
 	const isShowMessage =
 		commentState.type !== ACTIONS.edit || commentState.id !== comment._id;
+
 	const isShowSingleCommentAlert =
 		commentError.msg && index === commentError.index;
 
@@ -56,31 +50,12 @@ const SingleComment = ({
 		user &&
 		commentState.type === ACTIONS.edit &&
 		commentState.id === comment._id;
-	const isShowReplyButton =
-		user && commentState.type !== ACTIONS.edit && comment.message;
 
 	const isShowReplyForm =
 		user &&
 		user.isBanned === false &&
 		commentState.type === ACTIONS.reply &&
 		commentState.id === comment._id;
-
-	const handleReply = (e: MouseEvent<HTMLButtonElement>) => {
-		//remove existing active style
-		const element = document.querySelector(".btn-activated");
-		element && element.classList.remove("btn-activated");
-		//on Cancel click
-		if (commentState.id === comment._id) {
-			resetCommentState();
-		} else {
-			e.currentTarget.classList.add("btn-activated");
-			setCommentState({
-				type: ACTIONS.reply,
-				id: comment._id,
-				message: "",
-			});
-		}
-	};
 
 	useEffect(() => {
 		if (commentState.type !== ACTIONS.reply) {
@@ -91,8 +66,8 @@ const SingleComment = ({
 
 	return (
 		<>
+			{/* {isShowSingleCommentAlert && <AlertMsg>{commentError.msg}</AlertMsg>} */}
 			<SingleCommentContainer step={step} depth={depth}>
-				{/* <label htmlFor={`message-${index}`} className="comment-header"> */}
 				{/* Label above message */}
 				<div id={`message-${index}`} className="reply-to">
 					{isDeepComment && (
@@ -110,13 +85,14 @@ const SingleComment = ({
 						{handleDate(comment.createdAt, comment.editedAt)}
 					</span>
 				</div>
-				{/* </label> */}
 				{/* Message */}
 				{isShowMessage && (
 					<p className="comment-message">
 						{comment.message || <i>Message was deleted</i>}
 					</p>
 				)}
+				{/* Single Comment Errors */}
+				{isShowSingleCommentAlert && <AlertMsg>{commentError.msg}</AlertMsg>}
 				{/* Edit Comment Form && Buttons */}
 				{isShowEditUI && (
 					<EditComment
@@ -125,26 +101,9 @@ const SingleComment = ({
 						handleChange={handleChange}
 					/>
 				)}
-				<div className="comment-footer">
-					{isShowReplyButton ? (
-						<ReplyButton
-							data-testid={`reply-button-${index}`}
-							onClick={handleReply}
-						>
-							{commentState.id === comment._id ? (
-								<MdClose size={"100%"} />
-							) : (
-								<BsReplyFill size={"100%"} />
-							)}
-						</ReplyButton>
-					) : (
-						<div></div>
-					)}
-					{/* Toolbar for comment */}
-					{isShowToolBar && <ToolBar index={index} comment={comment} />}
-				</div>
+				{/* Toolbar for comment */}
+				{isShowToolBar && <ToolBar index={index} comment={comment} />}
 			</SingleCommentContainer>
-			{isShowSingleCommentAlert && <AlertMsg>{commentError.msg}</AlertMsg>}
 			{/* Reply Form */}
 			{isShowReplyForm && (
 				<CommentForm

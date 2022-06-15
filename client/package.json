@@ -1,8 +1,9 @@
 {
 	"name": "client",
-	"version": "0.1.0",
+	"version": "0.5.0",
 	"private": true,
 	"dependencies": {
+		"@react-icons/all-files": "^4.1.0",
 		"@testing-library/jest-dom": "^5.16.4",
 		"@testing-library/react": "^13.3.0",
 		"@testing-library/user-event": "^13.5.0",
@@ -15,7 +16,6 @@
 		"react-dom": "^18.1.0",
 		"react-draft-wysiwyg": "^1.14.7",
 		"react-google-recaptcha-v3": "^1.9.8",
-		"react-icons": "^4.4.0",
 		"react-query": "^3.39.1",
 		"react-router-dom": "^6.3.0",
 		"react-scripts": "5.0.1",

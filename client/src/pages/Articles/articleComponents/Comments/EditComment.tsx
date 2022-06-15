@@ -12,10 +12,10 @@ interface EditCommentProps {
 
 const EditComment = ({ index, comment, handleChange }: EditCommentProps) => {
 	const { commentState, resetCommentState } = useCommentsContext();
-	const { mutate: updateComment } = useUpdateComment(index);
+	const { mutate: updateComment, isLoading } = useUpdateComment();
 
 	const handleSaveUpdate = async () => {
-		updateComment({ commentId: comment._id, msg: commentState.message });
+		updateComment({ commentId: comment._id, msg: commentState.message, index });
 	};
 
 	return (
@@ -45,6 +45,7 @@ const EditComment = ({ index, comment, handleChange }: EditCommentProps) => {
 				<ReadButton
 					data-testid={`save-edit-${index}`}
 					onClick={handleSaveUpdate}
+					disabled={isLoading}
 				>
 					Save
 				</ReadButton>

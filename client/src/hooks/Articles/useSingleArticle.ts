@@ -1,34 +1,45 @@
-import { useEffect, useState } from "react";
-import useArticles from "./useArticles";
 import { handleHtmlString } from "../../utils/handleHtmlString";
-import { IArticle, IArticleData } from "../../types/articleTypes";
+import { IArticle } from "../../types/articleTypes";
+import { useQuery, useQueryClient } from "react-query";
+import axios from "axios";
 
-const useSingleArticle = (
-	type: string,
-	articleId: string | undefined
-): [IArticle | null, IArticleData[], boolean, unknown] => {
-	const { data: articles, isLoading, error } = useArticles(type);
-	const [article, setArticle] = useState<IArticle | null>(null);
-	const [articlesData, setArticlesData] = useState<IArticleData[]>([]);
+const useSingleArticle = (type: string, articleId: string | undefined) => {
+	const queryClient = useQueryClient();
 
-	const getArticlesData = (articles: IArticle[]): IArticleData[] => {
-		return articles.map((item) => {
-			return { _id: item._id, category: item.category, title: item.title };
-		});
-	};
+	return useQuery(
+		["articles", type, articleId],
+		() =>
+			axios
+				.get<{ article: IArticle }>(`/api/article/${articleId}`)
+				.then((res) => res.data.article)
+				.then((article) => {
+					return {
+						...article,
+						content: handleHtmlString(article.content, article.code_languages),
+					};
+				}),
+		{
+			initialData: () => {
+				const articlesCache = queryClient.getQueryData<IArticle[]>([
+					"articles",
+					type,
+				]);
 
-	useEffect(() => {
-		if (!articles || !articleId) return;
-		const articleRaw = articles.find((item) => item._id === articleId!)!;
-		const articleResult = {
-			...articleRaw,
-			content: handleHtmlString(articleRaw.content, articleRaw.code_languages),
-		};
-		setArticle(articleResult);
-		setArticlesData(getArticlesData(articles));
-	}, [articles, articleId]);
-
-	return [article, articlesData, isLoading, error];
+				const articleRaw = articlesCache?.find(
+					(item) => item._id === articleId!
+				);
+				if (articleRaw) {
+					return {
+						...articleRaw,
+						content: handleHtmlString(
+							articleRaw.content,
+							articleRaw.code_languages
+						),
+					};
+				}
+			},
+		}
+	);
 };
 
 export default useSingleArticle;

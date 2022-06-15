@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Link, NavLink } from "react-router-dom";
 import {
 	ArticleContentWrapper,
@@ -7,73 +7,78 @@ import {
 	ArticleSideMenuWrapper,
 } from "./ArticleStyles";
 import BigImg from "../../components/BigImg";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import {
 	AdminButton,
 	AdminButtonLink,
 	AlertContainer,
 	ReadButton,
-	StyledLoading,
 } from "../../styles/StyledComponents";
 import { useParams } from "react-router-dom";
 
 import { useGlobalContext } from "../../store/AppContext";
-import useLocalState from "../../utils/useLocalState";
 import Comments from "./articleComponents/Comments/Comments";
 import { handleDate } from "../../utils/handleDate";
 import { userRoles } from "../../types/appTypes";
+import { IArticle, IArticleData } from "../../types/articleTypes";
 import useSingleArticle from "../../hooks/Articles/useSingleArticle";
+import useArticles from "../../hooks/Articles/useArticles";
 import { CommentsProvider } from "../../hooks/Articles/comments/useCommentsContext";
 import useDeleteArticle from "../../hooks/Articles/useDeleteArticle";
 
 const SingleArticle = ({ type }: { type: string }) => {
 	const { articleId } = useParams();
-	const { loading, setLoading, hideAlert, showAlert, alert } = useLocalState();
 	const navigate = useNavigate();
-	const { user, darkMode } = useGlobalContext();
-	const [article, articlesData, articleLoading, articleError] =
-		useSingleArticle(type, articleId);
+	const { user } = useGlobalContext();
+	const [articlesData, setArticlesData] = useState<IArticleData[]>([]);
+	const { data: articles } = useArticles(type);
+	const {
+		data: article,
+		isLoading: articleLoading,
+		isError: articleIsError,
+		error: articleError,
+	} = useSingleArticle(type, articleId);
+
 	const {
 		mutate: deleteArticle,
 		error: deleteError,
+		isError: deleteIsError,
 		isLoading: deleteLoading,
 	} = useDeleteArticle();
 
-	//combine errors
 	useEffect(() => {
-		const error: any = articleError || deleteError;
-		if (error) {
-			showAlert({
-				text: error.response?.data?.msg || "There was some error",
+		if (!articles) return;
+		const getArticlesData = (articles: IArticle[]): IArticleData[] => {
+			return articles.map((item) => {
+				return { _id: item._id, category: item.category, title: item.title };
 			});
-		} else {
-			hideAlert();
-		}
-	}, [articleError, deleteError, showAlert, hideAlert]);
-
-	//combine loadings
-	useEffect(() => {
-		const isLoading = deleteLoading || articleLoading;
-		setLoading(isLoading);
-	}, [deleteLoading, articleLoading, setLoading]);
+		};
+		setArticlesData(getArticlesData(articles));
+	}, [articles]);
 
 	const handleDelete = async (articleId: string) => {
 		deleteArticle({ articleId, type });
 		navigate(`/${type}`);
 	};
 
+	if (articleIsError || deleteIsError) {
+		const errorObj: any = articleError || deleteError;
+		const errorMsg = errorObj?.response?.data?.msg || "There was some error";
+
+		return (
+			<AlertContainer>
+				<p>{errorMsg}</p>
+				<Link className="alert-link" to="/">
+					Go back to Home page
+				</Link>
+			</AlertContainer>
+		);
+	}
+
 	return (
 		<ArticlePageWrapper id="articles-wrapper-id">
-			{alert.show ? (
-				<AlertContainer>
-					<p>{alert.text}</p>
-					<Link className="alert-link" to="/">
-						Go back to Home page
-					</Link>
-				</AlertContainer>
-			) : !article ? (
-				<StyledLoading as="div" darkMode={darkMode}>
-					<div />
-				</StyledLoading>
+			{!article ? (
+				<LoadingSpinner />
 			) : (
 				<>
 					<ArticleContentWrapper>
@@ -129,7 +134,7 @@ const SingleArticle = ({ type }: { type: string }) => {
 									</AdminButtonLink>
 
 									<AdminButton
-										disabled={loading}
+										disabled={deleteLoading || articleLoading}
 										onClick={() => handleDelete(article._id)}
 									>
 										Delete
@@ -141,30 +146,33 @@ const SingleArticle = ({ type }: { type: string }) => {
 							</CommentsProvider>
 						</section>
 					</ArticleContentWrapper>
-
-					{articlesData.length && (
+					{
 						<ArticleSideMenuWrapper className="sidebar-single">
 							<div className="article-aside-container">
 								<h5>{`Read also:`}</h5>
-								<ul>
-									{articlesData.map((item, index) => {
-										return (
-											article._id !== item._id && (
-												<li key={`title-${index}`}>
-													<Link
-														className="article-aside-title"
-														to={`/${article?.category}/${item._id}`}
-													>
-														{item.title}
-													</Link>
-												</li>
-											)
-										);
-									})}
-								</ul>
+								{!articles || !articlesData.length ? (
+									<LoadingSpinner />
+								) : (
+									<ul>
+										{articlesData.map((item, index) => {
+											return (
+												article._id !== item._id && (
+													<li key={`title-${index}`}>
+														<Link
+															className="article-aside-title"
+															to={`/${article?.category}/${item._id}`}
+														>
+															{item.title}
+														</Link>
+													</li>
+												)
+											);
+										})}
+									</ul>
+								)}
 							</div>
 						</ArticleSideMenuWrapper>
-					)}
+					}
 				</>
 			)}
 		</ArticlePageWrapper>

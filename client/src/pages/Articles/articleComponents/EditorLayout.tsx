@@ -94,7 +94,7 @@ const EditorLayout = ({
 		setArticleValues({ ...articleValues, [e.target.name]: e.target.value });
 	};
 	const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
-		if (!e.target.files || e.target.files.length === 0) {
+		if (!e.target.files || !e.target.files.length) {
 			setSelectedImage(undefined);
 			return;
 		}

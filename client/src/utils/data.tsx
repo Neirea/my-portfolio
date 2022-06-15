@@ -1,14 +1,15 @@
-import { BsGithub, BsLinkedin } from "react-icons/bs";
+import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
+import { FaLinkedin } from "@react-icons/all-files/fa/FaLinkedin";
 
 export const socialMediaLinks = [
 	{
-		image: <BsLinkedin size={"100%"} />,
+		image: <FaGithub size={"100%"} />,
 		name: "linkedin",
 		link: "https://www.linkedin.com/in/yevhenii-shumilin-2ab431188/",
 	},
 
 	{
-		image: <BsGithub size={"100%"} />,
+		image: <FaLinkedin size={"100%"} />,
 		name: "github",
 		link: "https://github.com/Neirea",
 	},

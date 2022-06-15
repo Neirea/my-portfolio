@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { FaBars } from "react-icons/fa";
+import { FaBars } from "@react-icons/all-files/fa/FaBars";
 import {
 	HeaderWrapper,
 	SideMenuContainer,
@@ -44,6 +44,7 @@ const Header = () => {
 				{/* MENU BUTTON ON SMALL SCREEN */}
 				<StyledMenuButton
 					ref={navMenuButton}
+					aria-label="menu"
 					onClick={toggleNavMenu}
 					showNavMenu={showNavMenu}
 				>

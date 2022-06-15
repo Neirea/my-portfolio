@@ -11,7 +11,7 @@ import {
 import { menuItems } from "../../utils/data";
 
 interface NavMenuItemsProps {
-	handleMenuClick: () => void;
+	handleMenuClick?: () => void;
 }
 interface NavMenuProps {
 	showMenu: boolean;
@@ -69,7 +69,7 @@ const NavMenu = ({ showMenu, setShowMenu }: NavMenuProps) => {
 			{/* menu on big screen */}
 			<NavMenuWrapper>
 				<NavMenuList>
-					<NavMenuItems handleMenuClick={handleMenuClick} />
+					<NavMenuItems />
 				</NavMenuList>
 			</NavMenuWrapper>
 			{/* menu on small screen */}

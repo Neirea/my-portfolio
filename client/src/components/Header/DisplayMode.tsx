@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { useGlobalContext } from "../../store/AppContext";
 import { MenuItem } from "./HeaderStyles";
-import { BsSun, BsMoonFill } from "react-icons/bs";
+import { CgSun } from "@react-icons/all-files/cg/CgSun";
+import { BsMoon } from "@react-icons/all-files/bs/BsMoon";
 
 interface DisplayModeWrapperProps {
 	darkMode: boolean;
@@ -10,21 +11,20 @@ interface DisplayModeWrapperProps {
 const DisplayMode = () => {
 	const { darkMode, toggleDarkMode } = useGlobalContext();
 	return (
-		<DisplayModeWrapper
-			darkMode={darkMode}
-			as="button"
-			type="button"
-			onClick={toggleDarkMode}
-		>
-			<div className="darkmode-container">
+		<DisplayModeWrapper darkMode={darkMode}>
+			<button
+				className="darkmode-container"
+				aria-label="dark-mode"
+				onClick={toggleDarkMode}
+			>
 				<div className="darkmode-indicator">
 					{darkMode ? (
-						<BsMoonFill size={"100%"} className="darkmode-icon" />
+						<BsMoon size={"100%"} className="darkmode-icon" />
 					) : (
-						<BsSun size={"100%"} className="darkmode-icon" />
+						<CgSun size={"100%"} className="darkmode-icon" />
 					)}
 				</div>
-			</div>
+			</button>
 		</DisplayModeWrapper>
 	);
 };
@@ -40,7 +40,6 @@ const DisplayModeWrapper = styled(MenuItem)<DisplayModeWrapperProps>`
 	height: 100%;
 	text-transform: none;
 	z-index: 1;
-	cursor: pointer;
 
 	@media (hover: hover) and (pointer: fine) {
 		&:hover .darkmode-container .darkmode-indicator {
@@ -56,10 +55,12 @@ const DisplayModeWrapper = styled(MenuItem)<DisplayModeWrapperProps>`
 		position: relative;
 		width: 4rem;
 		height: 2rem;
+		border: none;
 		border-radius: 2rem;
 		background-color: var(--main-bg-color);
 		box-shadow: inset 0 2px 0.75rem rgba(0, 0, 0, 0.1),
 			inset 0 2px 2px rgba(0, 0, 0, 0.1), inset 0 -1px 1px rgba(0, 0, 0, 0.1);
+		cursor: pointer;
 
 		.darkmode-indicator {
 			position: absolute;

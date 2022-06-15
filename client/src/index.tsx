@@ -17,6 +17,7 @@ const queryClient = new QueryClient({
 });
 
 queryClient.setQueryDefaults(["articles"], { staleTime: 1000 * 60 });
+queryClient.setQueryDefaults(["comments"], { staleTime: 1000 * 10 });
 
 const root = ReactDOM.createRoot(
 	document.getElementById("root") as HTMLElement

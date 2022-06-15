@@ -1,6 +1,6 @@
 import { useRef, useEffect, Dispatch, SetStateAction } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { BiChevronDown } from "react-icons/bi";
+import { BiChevronDown } from "@react-icons/all-files/bi/BiChevronDown";
 import { ReadButton } from "../../styles/StyledComponents";
 import { UserMenuWrapper } from "./UserMenuStyles";
 import { StyledMenuLink } from "./HeaderStyles";
@@ -67,25 +67,30 @@ const UserMenu = ({ showUserMenu, setShowUserMenu }: UserMenuProps) => {
 				</StyledMenuLink>
 			) : (
 				<>
-					<div
-						className={userMenuStyle}
-						ref={toggleMenuRef}
-						onClick={toggleUserMenu}
-					>
+					<div style={{ display: "flex" }} ref={toggleMenuRef}>
 						<p className="user-name">{user.platform_name}</p>
-						<div
-							className="user-menu-item"
-							placeholder="user name"
-							title={`${user.name}`}
+
+						<button
+							aria-label="user-menu"
+							className={userMenuStyle}
+							onClick={toggleUserMenu}
 						>
-							<img
-								className="user-avatar"
-								src={user.avatar_url}
-								alt={user.name}
-							/>
-						</div>
-						<button className="user-menu-item">
-							<BiChevronDown size={"100%"} style={menuButtonStyle} />
+							<div
+								className="user-menu-item"
+								placeholder="user name"
+								title={`${user.name}`}
+							>
+								<img
+									src={user.avatar_url}
+									alt={user.name}
+									width={32}
+									height={32}
+									style={{ width: "100%", height: "100%" }}
+								/>
+							</div>
+							<div className="user-menu-item">
+								<BiChevronDown size={"100%"} style={menuButtonStyle} />
+							</div>
 						</button>
 					</div>
 

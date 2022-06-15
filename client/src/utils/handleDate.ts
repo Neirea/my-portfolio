@@ -26,8 +26,8 @@ export const handleDate = (date: string, editedAt?: string) => {
 
 	if (editedAt) {
 		const editedDateAt = new Date(editedAt);
-		const editDifference = editedDateAt.getSeconds() - dateAt.getSeconds();
-		if (editDifference > 5) {
+		const editDifference = (editedDateAt.getTime() - dateAt.getTime()) / 1000; //difference in seconds
+		if (editDifference > 180) {
 			resultDate += ` (edited ${handleDate(editedDateAt.toString())})`;
 		}
 	}

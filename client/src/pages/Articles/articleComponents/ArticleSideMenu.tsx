@@ -20,24 +20,19 @@ const ArticlePostsSideMenu = ({
 	//check if it comes from another page
 	useEffect(() => {
 		if (!prevTag) return;
-		// console.log("prevTag=", prevTag);
 
 		const element = document.getElementById(prevTag);
-		// console.log("element=", element);
-
 		element?.classList.add("activated");
 		setSelectedTags([prevTag]);
 	}, [prevTag, setSelectedTags]);
 
 	return (
 		<section className="article-aside-container">
-			{tags.length > 0 && (
+			{tags.length && (
 				<>
 					<h5>{`Filter:`}</h5>
 					<TagsGroup>
 						{tags.map((elem, i) => {
-							// console.log(`tag ${i}`, elem);
-
 							return (
 								<button
 									id={elem}

@@ -16,16 +16,21 @@ const parseComments = async (
 };
 
 export default function useComments(articleId: string | undefined) {
-	return useQuery(["comments", articleId], () =>
-		axios
-			.get<{ comments: IComment[] }>(`/api/comment/${articleId}`)
-			.then((res) => {
-				const comments = res.data.comments;
+	return useQuery(
+		["comments", articleId],
+		() =>
+			axios
+				.get<{ comments: IComment[] }>(`/api/comment/${articleId}`)
+				.then((res) => res.data),
+		{
+			select: (data) => {
+				const comments = data.comments;
 				const commentsArray: IJsxComment[] = [];
 				//make styled code in content
 				parseComments(comments, -1, commentsArray);
 
 				return commentsArray;
-			})
+			},
+		}
 	);
 }

@@ -4,22 +4,6 @@ import styled from "styled-components";
 const Home = () => {
 	// const projects = useArticles("project");
 
-	// const { isLoading } = useQuery(
-	// 	["project"],
-	// 	() => {
-	// 		const articlesCache = queryClient.getQueryData<{
-	// 			articles: IArticle[];
-	// 		}>("project");
-	// 		if (articlesCache) return articlesCache;
-	// 		axios
-	// 			.get<{ articles: IArticle[] }>("/api/article/project")
-	// 			.then((res) => res.data);
-	// 	},
-	// 	{ onSuccess: (data) => console.log("home=", data) }
-	// );
-
-	// console.log("cache=", queryClient.getQueryData("projects"));
-
 	return (
 		<HomePageWrapper>
 			<section className="portfolio-info">

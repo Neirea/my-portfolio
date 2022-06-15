@@ -20,7 +20,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 			window.matchMedia("(prefers-color-scheme: dark)").matches)
 			? true
 			: false;
-	// const [isLoading, setIsLoading] = useState(true);
 	const [darkMode, setDarkMode] = useState(isDarkMode);
 	const [user, setUser] = useState<IUser | null>(null);
 

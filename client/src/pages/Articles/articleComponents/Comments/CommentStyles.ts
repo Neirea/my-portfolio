@@ -101,13 +101,19 @@ export const SingleCommentContainer = styled.div<StyledCommentsProps>`
 		}
 	}
 
-	.comment-footer,
 	.edit-comment-buttons {
 		display: flex;
+		gap: 0.5rem;
+
 		justify-content: space-between;
-		.tool-bar {
+	}
+	.tool-bar {
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+		align-items: center;
+		.tool-bar-group {
 			display: flex;
-			align-items: center;
 			gap: 0.5rem;
 		}
 	}
@@ -129,7 +135,7 @@ export const SingleCommentContainer = styled.div<StyledCommentsProps>`
 	}
 
 	.comment-message {
-		margin: 0.5rem 0;
+		margin: 0.5rem 0 1rem;
 	}
 `;
 
