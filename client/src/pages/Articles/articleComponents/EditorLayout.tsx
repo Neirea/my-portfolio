@@ -23,7 +23,6 @@ import "../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.cs
 import { convertToRaw, EditorState } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 /* -------------- */
-import BigImg from "../../../components/BigImg";
 import FormRow from "../../../components/FormRow";
 import { useDebounce } from "../../../utils/debounce";
 import { handleHtmlString } from "../../../utils/handleHtmlString";
@@ -233,7 +232,7 @@ const EditorLayout = ({
 								})}
 							</TagsGroup>
 							{preview && (
-								<BigImg className="article-image" src={preview} alt="preview" />
+								<img className="article-image" src={preview} alt="preview" />
 							)}
 						</div>
 						<div

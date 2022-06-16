@@ -26,12 +26,12 @@ export const GlobalStyles = createGlobalStyle`
 	--icon-invert: ${({ theme }) => theme.iconInvert};
 	--icon-invert-hover: ${({ theme }) => theme.iconInvertHover};
 	--tag-color: ${({ theme }) => theme.tagColor};
+	--comment-header-color: ${({ theme }) => theme.commentAuthorColor};
 	/* other vars */
 	--header-shadow-color: rgba(0, 0, 0, 0.5);
 	--editor-color: #fff;
 	--form-field-color: #fff;
 	--form-border-color: #94a3b8;
-	--comment-header-color: mediumpurple;
 	--alert-color: red;
 
 	--form-width: min(30rem, 90vw);

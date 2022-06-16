@@ -6,15 +6,14 @@ import {
 	ArticlePageWrapper,
 	ArticleSideMenuWrapper,
 } from "./ArticleStyles";
-import BigImg from "../../components/BigImg";
 import ArticleSideMenu from "./articleComponents/ArticleSideMenu";
 import LoadingSpinner from "../../components/LoadingSpinner";
 
 import {
-	AdminButton,
 	AdminButtonLink,
 	LinkButton,
 	AlertContainer,
+	AdminButton,
 } from "../../styles/StyledComponents";
 
 import { useGlobalContext } from "../../store/AppContext";
@@ -158,8 +157,9 @@ const Articles = ({ type }: { type: string }) => {
 												})}
 											</TagsGroup>
 										)}
-										<BigImg
+										<img
 											className="article-image"
+											loading="lazy"
 											src={element.image}
 											alt={element.title}
 										/>
@@ -167,7 +167,7 @@ const Articles = ({ type }: { type: string }) => {
 									<p className="article-text">{htmlContent}</p>
 									<div className="article-buttons-group">
 										<LinkButton to={`/${type}/${element._id}`}>
-											Read More
+											Read this
 										</LinkButton>
 										<div className="article-links">
 											{element.source_link && (

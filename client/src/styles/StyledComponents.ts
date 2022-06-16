@@ -11,14 +11,14 @@ const buttonCSS = css`
 	text-transform: capitalize;
 	text-align: center;
 	font-size: 1rem;
-	opacity: 0.8;
+	opacity: 1;
 	cursor: pointer;
 
 	@media (hover: hover) and (pointer: fine) {
-		&:hover:enabled,
-		.btn:focus:enabled {
+		&:hover,
+		&:focus {
 			transition: 0.15s linear;
-			opacity: 1;
+			opacity: 0.9;
 		}
 	}
 `;
@@ -30,14 +30,11 @@ const ReadButtonCSS = css`
 	line-height: var(--line-height);
 	font-weight: 550;
 	color: var(--button-color);
-`;
-const LinkCSS = css`
-	${ReadButtonCSS}
 	@media (hover: hover) and (pointer: fine) {
 		&:hover,
 		&:focus {
-			transition: all var(--transition);
 			opacity: 1;
+			transition: all var(--transition);
 			background-color: var(--button-color);
 			color: white;
 		}
@@ -47,22 +44,13 @@ const LinkCSS = css`
 /* Buttons */
 export const ReadButton = styled.button`
 	${ReadButtonCSS}
-	@media (hover: hover) and (pointer: fine) {
-		&:hover:enabled,
-		&:focus:enabled {
-			transition: all var(--transition);
-			opacity: 1;
-			background-color: var(--button-color);
-			color: white;
-		}
-	}
 `;
 
 export const LinkButton = styled(Link)`
-	${LinkCSS}
+	${ReadButtonCSS}
 `;
 export const NavLinkButton = styled(NavLink)`
-	${LinkCSS}
+	${ReadButtonCSS}
 `;
 
 export const SuccessButton = styled.button`
@@ -78,12 +66,12 @@ export const LoginButton = styled.button`
 	padding: 1rem;
 	width: 10rem;
 	font-size: 1.1rem;
-	opacity: 1;
 	transition: box-shadow var(--transition);
 
 	@media (hover: hover) and (pointer: fine) {
 		&:hover,
 		&:focus {
+			opacity: 1;
 			box-shadow: 0 0 0.5rem 0rem var(--main-text-color);
 		}
 	}
@@ -104,7 +92,7 @@ export const AdminButtonLink = styled(Link)`
 export const BlockButton = styled.button`
 	${buttonCSS}
 	margin: 1rem 0;
-	height: 1.5rem;
+	height: 1.7rem;
 	width: 100%;
 `;
 

@@ -101,7 +101,7 @@ export const SingleCommentContainer = styled.div<StyledCommentsProps>`
 		}
 		.comment-date {
 			color: var(--faded-text-color);
-			font-size: 0.75rem;
+			font-size: 0.8rem;
 		}
 	}
 

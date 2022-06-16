@@ -65,6 +65,7 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 				{isShowReplyButton && (
 					<ReplyButton
 						data-testid={`reply-button-${index}`}
+						aria-label="reply to comment"
 						onClick={handleReply}
 						disabled={isLoading}
 					>
@@ -77,6 +78,7 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 				)}
 				<ToolsButton
 					data-testid={`edit-${index}`}
+					aria-label="edit comment"
 					title={"Edit Comment"}
 					onClick={handleEditCommentClick}
 					disabled={isLoading}
@@ -88,6 +90,7 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 				{comment.message && (
 					<ToolsButton
 						data-testid={`delete-${index}`}
+						aria-label="delete comment"
 						title="Delete Comment"
 						disabled={isLoading}
 						onClick={() => deleteOneComment({ commentId: comment._id, index })}
@@ -99,6 +102,7 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 					<>
 						<ToolsButton
 							data-testid={`delete-tree-${index}`}
+							aria-label="delete comment tree"
 							title="Delete Comment Tree"
 							disabled={isLoading}
 							onClick={() =>
@@ -110,6 +114,7 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 						{isShowBanMenu && (
 							<ToolsButton
 								title="Ban User"
+								aria-label="ban user"
 								disabled={banUserLoading}
 								onClick={() => banUser(comment.user.id)}
 							>

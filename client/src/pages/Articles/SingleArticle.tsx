@@ -5,7 +5,6 @@ import {
 	TagsGroup,
 	ArticleSideMenuWrapper,
 } from "./ArticleStyles";
-import BigImg from "../../components/BigImg";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import {
 	AdminButton,
@@ -87,7 +86,7 @@ const SingleArticle = ({ type }: { type: string }) => {
 										);
 									})}
 								</TagsGroup>
-								<BigImg
+								<img
 									className="article-image"
 									src={article.image}
 									alt={article.title}
@@ -134,7 +133,7 @@ const SingleArticle = ({ type }: { type: string }) => {
 				{
 					<ArticleSideMenuWrapper className="sidebar-single">
 						<div className="article-aside-container">
-							<h5>{`Read also:`}</h5>
+							<h4>{`Read also:`}</h4>
 							{articlesData?.length && (
 								<ul>
 									{articlesData.map((item, index) => {

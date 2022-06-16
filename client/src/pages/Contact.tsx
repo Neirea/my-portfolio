@@ -112,10 +112,18 @@ const Contact = () => {
 					{loading ? "Loading..." : "Send"}
 				</BlockButton>
 				<LinkGroup>
-					<a className="address-link" href={socialMediaLinks[0].link}>
+					<a
+						className="address-link"
+						href={socialMediaLinks[0].link}
+						aria-label="Linkedin"
+					>
 						<FaLinkedin size={"100%"} />
 					</a>
-					<a className="address-link" href={socialMediaLinks[1].link}>
+					<a
+						className="address-link"
+						href={socialMediaLinks[1].link}
+						aria-label="Github"
+					>
 						<FaGithub size={"100%"} />
 					</a>
 				</LinkGroup>

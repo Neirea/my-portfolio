@@ -30,7 +30,7 @@ const ArticlePostsSideMenu = ({
 		<section className="article-aside-container">
 			{tags.length && (
 				<>
-					<h5>{`Filter:`}</h5>
+					<h4>{`Filter:`}</h4>
 					<TagsGroup>
 						{tags.map((elem, i) => {
 							return (
