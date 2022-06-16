@@ -7,6 +7,10 @@ export const GlobalStyles = createGlobalStyle`
 	margin:0;
     box-sizing: border-box;
 }
+*::selection{
+	background: ${({ theme }) => theme.buttonColor};
+	color: ${({ theme }) => theme.mainBgColor};
+}
 :root{
 	/* vars that are transformed for dark mode */
 	--main-bg-color : ${({ theme }) => theme.mainBgColor};

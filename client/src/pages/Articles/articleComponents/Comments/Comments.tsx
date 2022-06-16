@@ -18,7 +18,7 @@ const Comments = () => {
 		useCommentsContext();
 	const { mutate: createComment, isLoading } = useCreateComment();
 
-	const isShowCommentsHeader = commentsQuery.data || user;
+	const isShowCommentsHeader = commentsQuery.data?.length || user;
 	const isShowLocalError = commentError.msg && commentError.index === undefined;
 	const isShowNewCommentForm =
 		user && user.isBanned === false && commentState.type === ACTIONS.none;

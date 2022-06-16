@@ -108,120 +108,120 @@ const Articles = ({ type }: { type: string }) => {
 		);
 	}
 
+	if (!articles) {
+		//skeleton here
+		return <LoadingSpinner />;
+	}
+
 	return (
 		<ArticlePageWrapper>
-			{!articles || !tags.length ? (
-				<LoadingSpinner />
-			) : (
-				<>
-					<ArticleContentWrapper className="flex-item-1">
-						<div className="article-wrapper">
-							{articles.map((element) => {
-								if (isArticleHide(element)) {
-									return <Fragment key={element._id} />;
-								}
-								isArticlesShow = true;
+			<ArticleContentWrapper className="flex-item-1">
+				<div className="article-wrapper">
+					{articles.map((element) => {
+						if (isArticleHide(element)) {
+							return <Fragment key={element._id} />;
+						}
+						isArticlesShow = true;
 
-								//transform html to string stopping before img/code
-								const tempDiv = document.createElement("div");
-								tempDiv.innerHTML = element.content
-									.split("<img")[0]
-									.split("<pre")[0];
-								const htmlContent =
-									tempDiv?.textContent?.slice(0, MAX_CHARS) || "";
-								tempDiv.remove();
+						//transform html to string stopping before img/code
+						const tempDiv = document.createElement("div");
+						tempDiv.innerHTML = element.content
+							.split("<img")[0]
+							.split("<pre")[0];
+						const htmlContent = tempDiv?.textContent?.slice(0, MAX_CHARS) || "";
+						tempDiv.remove();
 
-								return (
-									<div className="article-container" key={element._id}>
-										<article className="article-post">
-											<div className="article-header">
-												<Link
-													className="article-title"
-													to={`/${type}/${element._id}`}
-												>
-													<h3>{element.title}</h3>
-												</Link>
-												<p className="article-date">
-													{handleDate(element.createdAt.toString())}
-												</p>
-												{element.tags.length && (
-													<TagsGroup>
-														{element.tags.map((tag, i) => {
-															return (
-																<button
-																	key={`article-tag-${i}`}
-																	onClick={() => filterTags(tag)}
-																>
-																	{tag}
-																</button>
-															);
-														})}
-													</TagsGroup>
-												)}
-												<BigImg
-													className="article-image"
-													src={element.image}
-													alt={element.title}
-												/>
-											</div>
-											<p className="article-text">{htmlContent}</p>
-											<div className="article-buttons-group">
-												<LinkButton to={`/${type}/${element._id}`}>
-													Read More
-												</LinkButton>
-												<div className="article-links">
-													{element.source_link && (
-														<LinkButton as="a" href={element.source_link}>
-															Source
-														</LinkButton>
-													)}
-													{element.demo_link && (
-														<LinkButton as="a" href={element.demo_link}>
-															View Live
-														</LinkButton>
-													)}
-												</div>
-											</div>
-										</article>
-										{user && user.roles.includes(userRoles.admin) && (
-											<div className="admin-buttons">
-												<AdminButtonLink to={`/edit-article/${element._id}`}>
-													Edit
-												</AdminButtonLink>
-
-												<AdminButton
-													disabled={deleteLoading}
-													onClick={() => {
-														deleteArticle({
-															articleId: element._id,
-															type: type,
-														});
-													}}
-												>
-													Delete
-												</AdminButton>
-											</div>
+						return (
+							<div className="article-container" key={element._id}>
+								<article className="article-post">
+									<div className="article-header">
+										<Link
+											className="article-title"
+											to={`/${type}/${element._id}`}
+										>
+											<h3>{element.title}</h3>
+										</Link>
+										<p className="article-date">
+											{handleDate(element.createdAt.toString())}
+										</p>
+										{element.tags.length && (
+											<TagsGroup>
+												{element.tags.map((tag, i) => {
+													return (
+														<button
+															key={`article-tag-${i}`}
+															onClick={() => filterTags(tag)}
+														>
+															{tag}
+														</button>
+													);
+												})}
+											</TagsGroup>
 										)}
+										<BigImg
+											className="article-image"
+											src={element.image}
+											alt={element.title}
+										/>
 									</div>
-								);
-							})}
+									<p className="article-text">{htmlContent}</p>
+									<div className="article-buttons-group">
+										<LinkButton to={`/${type}/${element._id}`}>
+											Read More
+										</LinkButton>
+										<div className="article-links">
+											{element.source_link && (
+												<LinkButton as="a" href={element.source_link}>
+													Source
+												</LinkButton>
+											)}
+											{element.demo_link && (
+												<LinkButton as="a" href={element.demo_link}>
+													View Live
+												</LinkButton>
+											)}
+										</div>
+									</div>
+								</article>
+								{user && user.roles.includes(userRoles.admin) && (
+									<div className="admin-buttons">
+										<AdminButtonLink to={`/edit-article/${element._id}`}>
+											Edit
+										</AdminButtonLink>
 
-							{!isArticlesShow && (
-								<AlertContainer>
-									<p>There are no articles with these filters</p>
-								</AlertContainer>
-							)}
-						</div>
-					</ArticleContentWrapper>
-					<ArticleSideMenuWrapper className="flex-item-2">
-						<ArticleSideMenu
-							tags={tags}
-							setSelectedTags={setSelectedTags}
-							filterTags={filterTags}
-						/>
-					</ArticleSideMenuWrapper>
-				</>
-			)}
+										<AdminButton
+											disabled={deleteLoading}
+											onClick={() => {
+												deleteArticle({
+													articleId: element._id,
+													type: type,
+												});
+											}}
+										>
+											Delete
+										</AdminButton>
+									</div>
+								)}
+							</div>
+						);
+					})}
+
+					{!isArticlesShow && (
+						<AlertContainer>
+							<p>There are no articles with these filters</p>
+						</AlertContainer>
+					)}
+				</div>
+			</ArticleContentWrapper>
+			<ArticleSideMenuWrapper className="flex-item-2">
+				{tags.length && (
+					<ArticleSideMenu
+						tags={tags}
+						setSelectedTags={setSelectedTags}
+						filterTags={filterTags}
+					/>
+				)}
+			</ArticleSideMenuWrapper>
 			{user && user.roles.includes(userRoles.admin) && (
 				<NavLink
 					className="create-article-button"

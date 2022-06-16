@@ -75,106 +75,102 @@ const SingleArticle = ({ type }: { type: string }) => {
 		);
 	}
 
+	if (!article) {
+		return <LoadingSpinner />;
+	}
+
 	return (
 		<ArticlePageWrapper id="articles-wrapper-id">
-			{!article ? (
-				<LoadingSpinner />
-			) : (
-				<>
-					<ArticleContentWrapper>
-						<section className="article-wrapper">
-							<article className="article-post">
-								<div className="article-header">
-									<h3 className="article-title">{article.title}</h3>
-									<p className="article-date">
-										{handleDate(article.updatedAt)}
-									</p>
-									<TagsGroup>
-										{article.tags.map((tag, i) => {
-											return (
-												<NavLink
-													key={`sa-${i}`}
-													to={`/${article.category}`}
-													state={{ tag }}
-												>
-													{tag}
-												</NavLink>
-											);
-										})}
-									</TagsGroup>
-									<BigImg
-										className="article-image"
-										src={article.image}
-										alt={article.title}
-									/>
-								</div>
-								<div
-									className="article-text"
-									dangerouslySetInnerHTML={{
-										__html: article.content,
-									}}
+			<>
+				<ArticleContentWrapper>
+					<section className="article-wrapper">
+						<article className="article-post">
+							<div className="article-header">
+								<h3 className="article-title">{article.title}</h3>
+								<p className="article-date">{handleDate(article.updatedAt)}</p>
+								<TagsGroup>
+									{article.tags.map((tag, i) => {
+										return (
+											<NavLink
+												key={`sa-${i}`}
+												to={`/${article.category}`}
+												state={{ tag }}
+											>
+												{tag}
+											</NavLink>
+										);
+									})}
+								</TagsGroup>
+								<BigImg
+									className="article-image"
+									src={article.image}
+									alt={article.title}
 								/>
-								<div className="article-links">
-									{article.source_link && (
-										<ReadButton as="a" href={article.source_link}>
-											Source
-										</ReadButton>
-									)}
-									{article.demo_link && (
-										<ReadButton as="a" href={article.demo_link}>
-											View Live
-										</ReadButton>
-									)}
-								</div>
-							</article>
-							{user && user.roles.includes(userRoles.admin) && (
-								<div className="admin-buttons">
-									<AdminButtonLink to={`/edit-article/${article._id}`}>
-										Edit
-									</AdminButtonLink>
-
-									<AdminButton
-										disabled={deleteLoading || articleLoading}
-										onClick={() => handleDelete(article._id)}
-									>
-										Delete
-									</AdminButton>
-								</div>
-							)}
-							<CommentsProvider value={{ articleId }}>
-								<Comments />
-							</CommentsProvider>
-						</section>
-					</ArticleContentWrapper>
-					{
-						<ArticleSideMenuWrapper className="sidebar-single">
-							<div className="article-aside-container">
-								<h5>{`Read also:`}</h5>
-								{!articles || !articlesData.length ? (
-									<LoadingSpinner />
-								) : (
-									<ul>
-										{articlesData.map((item, index) => {
-											return (
-												article._id !== item._id && (
-													<li key={`title-${index}`}>
-														<Link
-															className="article-aside-title"
-															to={`/${article?.category}/${item._id}`}
-														>
-															{item.title}
-														</Link>
-													</li>
-												)
-											);
-										})}
-									</ul>
+							</div>
+							<div
+								className="article-text"
+								dangerouslySetInnerHTML={{
+									__html: article.content,
+								}}
+							/>
+							<div className="article-links">
+								{article.source_link && (
+									<ReadButton as="a" href={article.source_link}>
+										Source
+									</ReadButton>
+								)}
+								{article.demo_link && (
+									<ReadButton as="a" href={article.demo_link}>
+										View Live
+									</ReadButton>
 								)}
 							</div>
-						</ArticleSideMenuWrapper>
-					}
-				</>
-			)}
+						</article>
+						{user && user.roles.includes(userRoles.admin) && (
+							<div className="admin-buttons">
+								<AdminButtonLink to={`/edit-article/${article._id}`}>
+									Edit
+								</AdminButtonLink>
+
+								<AdminButton
+									disabled={deleteLoading || articleLoading}
+									onClick={() => handleDelete(article._id)}
+								>
+									Delete
+								</AdminButton>
+							</div>
+						)}
+						<CommentsProvider value={{ articleId }}>
+							<Comments />
+						</CommentsProvider>
+					</section>
+				</ArticleContentWrapper>
+				{
+					<ArticleSideMenuWrapper className="sidebar-single">
+						<div className="article-aside-container">
+							<h5>{`Read also:`}</h5>
+							{articlesData.length && (
+								<ul>
+									{articlesData.map((item, index) => {
+										return (
+											article._id !== item._id && (
+												<li key={`title-${index}`}>
+													<Link
+														className="article-aside-title"
+														to={`/${article?.category}/${item._id}`}
+													>
+														{item.title}
+													</Link>
+												</li>
+											)
+										);
+									})}
+								</ul>
+							)}
+						</div>
+					</ArticleSideMenuWrapper>
+				}
+			</>
 		</ArticlePageWrapper>
 	);
 };

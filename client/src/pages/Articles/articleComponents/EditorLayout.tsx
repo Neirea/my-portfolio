@@ -107,148 +107,144 @@ const EditorLayout = ({
 		onSubmit(editorHTML);
 	};
 
+	if (success) {
+		return (
+			<AlertContainer>
+				<p>Article was successfuly saved!</p>
+				<Link to={`/${articleValues.category}`} className="alert-link">
+					{`Go back to ${articleValues.category} page`}
+				</Link>
+			</AlertContainer>
+		);
+	}
+
 	return (
 		<CUArticleWrapper>
-			{success ? (
-				<AlertContainer>
-					<p>Article was successfuly saved!</p>
-					<Link to={`/${articleValues.category}`} className="alert-link">
-						{`Go back to ${articleValues.category} page`}
-					</Link>
-				</AlertContainer>
-			) : (
-				<>
-					<CUArticleForm onSubmit={handleSubmit}>
-						<div className="article-form-inputs">
-							<FormRow
-								type="title"
-								name="title"
-								label="article title"
-								value={articleValues.title}
-								handleChange={handleChange}
-							/>
-							<FormRow
-								type="tags"
-								name="tags"
-								label="article tags"
-								value={tags}
-								handleChange={handleChange}
-							/>
-							<FormRow
-								type="url"
-								name="demo_link"
-								label="Demo link"
-								placeholder="https://example.com"
-								pattern="https://.*"
-								isRequired={false}
-								value={articleValues.demo_link}
-								handleChange={handleChange}
-							/>
-							<FormRow
-								type="url"
-								name="source_link"
-								label="Github link"
-								placeholder="https://example.com"
-								pattern="https://.*"
-								isRequired={false}
-								value={articleValues.source_link}
-								handleChange={handleChange}
-							/>
-							<div className="form-row">
-								<label htmlFor="category" className="form-label">
-									category
-								</label>
-								<select
-									id="category"
-									className="form-input"
-									name="category"
-									value={articleValues.category}
-									onChange={handleChange}
-								>
-									{categories &&
-										categories.map((element, index) => {
-											return <option key={index}>{element}</option>;
-										})}
-								</select>
-							</div>
-							<div className="form-row">
-								<label htmlFor="file" className="form-label">
-									upload image
-								</label>
-								<input
-									id="file"
-									type="file"
-									name="image"
-									onChange={handleUpload}
-									className="form-input"
-									accept="image/*"
-								/>
-							</div>
-						</div>
-						{alert && <AlertMsg>{alert.message}</AlertMsg>}
-						{/* validator for input */}
+			<CUArticleForm onSubmit={handleSubmit}>
+				<div className="article-form-inputs">
+					<FormRow
+						type="title"
+						name="title"
+						label="article title"
+						value={articleValues.title}
+						handleChange={handleChange}
+					/>
+					<FormRow
+						type="tags"
+						name="tags"
+						label="article tags"
+						value={tags}
+						handleChange={handleChange}
+					/>
+					<FormRow
+						type="url"
+						name="demo_link"
+						label="Demo link"
+						placeholder="https://example.com"
+						pattern="https://.*"
+						isRequired={false}
+						value={articleValues.demo_link}
+						handleChange={handleChange}
+					/>
+					<FormRow
+						type="url"
+						name="source_link"
+						label="Github link"
+						placeholder="https://example.com"
+						pattern="https://.*"
+						isRequired={false}
+						value={articleValues.source_link}
+						handleChange={handleChange}
+					/>
+					<div className="form-row">
+						<label htmlFor="category" className="form-label">
+							category
+						</label>
+						<select
+							id="category"
+							className="form-input"
+							name="category"
+							value={articleValues.category}
+							onChange={handleChange}
+						>
+							{categories &&
+								categories.map((element, index) => {
+									return <option key={index}>{element}</option>;
+								})}
+						</select>
+					</div>
+					<div className="form-row">
+						<label htmlFor="file" className="form-label">
+							upload image
+						</label>
 						<input
-							type="html-validator"
-							className="html-validator"
-							pattern=".{10,}"
-							title="Must have equal or more than 10 characters"
-							required
-							value={editorHTML}
-							onChange={() => {}}
+							id="file"
+							type="file"
+							name="image"
+							onChange={handleUpload}
+							className="form-input"
+							accept="image/*"
 						/>
-						<Editor
-							editorState={editorState}
-							toolbarClassName="editor-toolbar"
-							wrapperClassName="editor-wrapper"
-							editorClassName="editor-body"
-							toolbar={{
-								blockType: {
-									options: ["Normal", "H3", "H4", "Code", "Blockquote"],
-								},
-								fontSize: {
-									options: [],
-								},
-								list: {
-									options: ["unordered", "ordered"],
-								},
-							}}
-							onEditorStateChange={onEditorStateChange}
-						/>
+					</div>
+				</div>
+				{alert && <AlertMsg>{alert.message}</AlertMsg>}
+				{/* validator for input */}
+				<input
+					type="html-validator"
+					className="html-validator"
+					pattern=".{10,}"
+					title="Must have equal or more than 10 characters"
+					required
+					value={editorHTML}
+					onChange={() => {}}
+				/>
+				<Editor
+					editorState={editorState}
+					toolbarClassName="editor-toolbar"
+					wrapperClassName="editor-wrapper"
+					editorClassName="editor-body"
+					toolbar={{
+						blockType: {
+							options: ["Normal", "H3", "H4", "Code", "Blockquote"],
+						},
+						fontSize: {
+							options: [],
+						},
+						list: {
+							options: ["unordered", "ordered"],
+						},
+					}}
+					onEditorStateChange={onEditorStateChange}
+				/>
 
-						<br />
-						<AdminButton type="submit" disabled={loading}>
-							{loading ? "Loading..." : "Save"}
-						</AdminButton>
-					</CUArticleForm>
-					<ArticleContentWrapper>
-						<div className="article-wrapper">
-							<div className="article-post">
-								<div className="article-header">
-									<h3>{articleValues.title}</h3>
-									<TagsGroup>
-										{tags.split(" ").map((elem, i) => {
-											return <button key={`a-${i}`}>{elem}</button>;
-										})}
-									</TagsGroup>
-									{preview && (
-										<BigImg
-											className="article-image"
-											src={preview}
-											alt="preview"
-										/>
-									)}
-								</div>
-								<div
-									className="article-text"
-									dangerouslySetInnerHTML={{
-										__html: debouncedPreview,
-									}}
-								/>
-							</div>
+				<br />
+				<AdminButton type="submit" disabled={loading}>
+					{loading ? "Loading..." : "Save"}
+				</AdminButton>
+			</CUArticleForm>
+			<ArticleContentWrapper>
+				<div className="article-wrapper">
+					<div className="article-post">
+						<div className="article-header">
+							<h3>{articleValues.title}</h3>
+							<TagsGroup>
+								{tags.split(" ").map((elem, i) => {
+									return <button key={`a-${i}`}>{elem}</button>;
+								})}
+							</TagsGroup>
+							{preview && (
+								<BigImg className="article-image" src={preview} alt="preview" />
+							)}
 						</div>
-					</ArticleContentWrapper>
-				</>
-			)}
+						<div
+							className="article-text"
+							dangerouslySetInnerHTML={{
+								__html: debouncedPreview,
+							}}
+						/>
+					</div>
+				</div>
+			</ArticleContentWrapper>
 		</CUArticleWrapper>
 	);
 };
