@@ -28,7 +28,7 @@ const ArticlePostsSideMenu = ({
 
 	return (
 		<section className="article-aside-container">
-			{tags.length && (
+			{!!tags.length && (
 				<>
 					<h4>{`Filter:`}</h4>
 					<TagsGroup>

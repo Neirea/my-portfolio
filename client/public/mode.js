@@ -1,5 +1,5 @@
 var D = "rgb(25,25,25)";
-var L = "rgb(255,255,255)";
+var L = "rgb(250,250,250)";
 document.body.style.background =
 	localStorage.getItem("darkMode") === "on" ||
 	(localStorage.getItem("darkMode") === null &&

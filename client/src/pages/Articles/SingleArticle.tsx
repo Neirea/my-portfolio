@@ -134,7 +134,7 @@ const SingleArticle = ({ type }: { type: string }) => {
 					<ArticleSideMenuWrapper className="sidebar-single">
 						<div className="article-aside-container">
 							<h4>{`Read also:`}</h4>
-							{articlesData?.length && (
+							{!!articlesData?.length && (
 								<ul>
 									{articlesData.map((item, index) => {
 										return (

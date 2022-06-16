@@ -88,7 +88,7 @@ const Articles = ({ type }: { type: string }) => {
 
 	const isArticleHide = (element: IArticle) => {
 		return (
-			selectedTags.length &&
+			!!selectedTags.length &&
 			selectedTags.some((tag) => element.tags.indexOf(tag) === -1)
 		);
 	};
@@ -214,7 +214,7 @@ const Articles = ({ type }: { type: string }) => {
 				</div>
 			</ArticleContentWrapper>
 			<ArticleSideMenuWrapper className="flex-item-2">
-				{tags.length && (
+				{!!tags.length && (
 					<ArticleSideMenu
 						tags={tags}
 						setSelectedTags={setSelectedTags}

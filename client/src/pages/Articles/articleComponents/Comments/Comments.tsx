@@ -19,7 +19,8 @@ const Comments = () => {
 	const { mutate: createComment, isLoading } = useCreateComment();
 
 	const isShowCommentsHeader = commentsQuery.data?.length || user;
-	const isShowLocalError = commentError.msg && commentError.index === undefined;
+	const isShowCommentError =
+		commentError.msg && commentError.index === undefined;
 	const isShowNewCommentForm =
 		user && user.isBanned === false && commentState.type === ACTIONS.none;
 
@@ -69,7 +70,7 @@ const Comments = () => {
 			</>
 			{
 				/* alert for "Create New Comment" */
-				isShowLocalError && <AlertMsg>{commentError.msg}</AlertMsg>
+				isShowCommentError && <AlertMsg>{commentError.msg}</AlertMsg>
 			}
 			{/*show "Create New Comment" only if "Reply Form" and "Edit Message" are disabled */}
 			{isShowNewCommentForm && (
