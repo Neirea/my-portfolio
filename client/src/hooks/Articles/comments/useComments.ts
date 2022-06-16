@@ -2,7 +2,7 @@ import axios from "axios";
 import { useQuery } from "react-query";
 import { IComment, IJsxComment } from "../../../types/articleTypes";
 
-const parseComments = async (
+export const parseComments = async (
 	comments: IComment[],
 	depth: number,
 	array: IJsxComment[]
@@ -21,10 +21,9 @@ export default function useComments(articleId: string | undefined) {
 		() =>
 			axios
 				.get<{ comments: IComment[] }>(`/api/comment/${articleId}`)
-				.then((res) => res.data),
+				.then((res) => res.data.comments),
 		{
-			select: (data) => {
-				const comments = data.comments;
+			select: (comments) => {
 				const commentsArray: IJsxComment[] = [];
 				//make styled code in content
 				parseComments(comments, -1, commentsArray);

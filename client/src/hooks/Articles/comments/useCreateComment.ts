@@ -20,22 +20,30 @@ export default function useCreateComment() {
 				.post<{ comment: IComment }>(`/api/comment/${articleId}`, submitData)
 				.then((res) => res.data.comment),
 		{
-			onSuccess(newComment) {
+			onSuccess(newData, { submitData, index }) {
 				resetCommentState();
 
-				const oldData = queryClient.getQueryData<{ comments: IComment[] }>([
+				const oldData = queryClient.getQueryData<IComment[]>([
 					"comments",
 					articleId,
 				]);
-				oldData?.comments.unshift(newComment);
+
+				if (!oldData) return;
+
+				const repliedTo = oldData.find(
+					(item) => item._id === submitData.parentId
+				);
+				if (index !== undefined) {
+					repliedTo?.replies.push(newData);
+				} else {
+					oldData.push(newData);
+				}
 
 				queryClient.invalidateQueries(["comments", articleId], {
 					refetchInactive: true,
 				});
 			},
 			onError(error: any, { index }) {
-				console.log(error);
-
 				const errorMessage =
 					error.response?.data?.msg || "There was some error";
 				setCommentError({ index: index, msg: errorMessage });

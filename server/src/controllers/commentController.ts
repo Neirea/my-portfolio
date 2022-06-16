@@ -12,7 +12,7 @@ export const getAllComments = async (req: Request, res: Response) => {
 	const comments = await Comment.find({
 		articleId: articleId,
 		parentId: null,
-	}).sort({ createdAt: "descending" });
+	});
 
 	res.status(StatusCodes.OK).json({ comments });
 };
