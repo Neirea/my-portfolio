@@ -43,6 +43,10 @@ export const ToolsButton = styled.button`
 	width: var(--tools-button-size);
 	cursor: pointer;
 
+	&:disabled {
+		opacity: 1;
+	}
+
 	@media (hover: hover) and (pointer: fine) {
 		&:hover,
 		&:focus {

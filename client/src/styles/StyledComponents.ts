@@ -14,11 +14,6 @@ const buttonCSS = css`
 	opacity: 0.8;
 	cursor: pointer;
 
-	&:disabled {
-		opacity: 0.3;
-		cursor: not-allowed;
-	}
-
 	@media (hover: hover) and (pointer: fine) {
 		&:hover:enabled,
 		.btn:focus:enabled {
@@ -86,10 +81,6 @@ export const LoginButton = styled.button`
 	opacity: 1;
 	transition: box-shadow var(--transition);
 
-	&:disabled {
-		opacity: 0.3;
-		cursor: not-allowed;
-	}
 	@media (hover: hover) and (pointer: fine) {
 		&:hover,
 		&:focus {

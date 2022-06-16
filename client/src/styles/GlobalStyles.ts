@@ -132,6 +132,10 @@ address {
 	font-size: 1.2rem;
 	letter-spacing: var(--letter-spacing);
 }
+button:disabled{
+	opacity: 0.4;
+	cursor: not-allowed;
+}
 textarea,input{
 	font-family: inherit;
 	font-size:1rem;

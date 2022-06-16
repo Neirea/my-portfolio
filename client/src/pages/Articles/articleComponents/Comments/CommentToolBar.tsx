@@ -17,7 +17,7 @@ import useBanUser from "../../../../hooks/useBanUser";
 
 const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 	const { user } = useGlobalContext();
-	const { setCommentState, commentState, resetCommentState } =
+	const { commentsQuery, setCommentState, commentState, resetCommentState } =
 		useCommentsContext();
 	const { mutate: deleteOneComment, isLoading: deleteOneLoading } =
 		useDeleteComment();
@@ -26,8 +26,11 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 		useDeleteCommentTree();
 	const { mutate: banUser, isLoading: banUserLoading } = useBanUser();
 
-	const isLoading = deleteOneLoading || deleteTreeLoading;
+	const isLoading =
+		deleteOneLoading || deleteTreeLoading || commentsQuery.isFetching;
 	const isShowBanMenu = user?._id !== comment.user.id;
+
+	console.log(isLoading);
 
 	const isShowReplyButton =
 		commentState.type !== ACTIONS.edit && comment.message;
