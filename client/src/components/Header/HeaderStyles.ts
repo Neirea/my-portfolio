@@ -16,7 +16,7 @@ export const HeaderWrapper = styled.header`
 	z-index: 1;
 
 	height: 4rem;
-	box-shadow: var(--shadow-1);
+	box-shadow: 0px 0px 20px 0px rgb(85, 0, 170, 0.1);
 	background-color: var(--header-bg-color);
 
 	text-align: center;

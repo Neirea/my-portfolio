@@ -11,7 +11,7 @@ import {
 	AdminButton,
 	AdminButtonLink,
 	AlertContainer,
-	ReadButton,
+	LinkButton,
 } from "../../styles/StyledComponents";
 import { useParams } from "react-router-dom";
 
@@ -101,14 +101,14 @@ const SingleArticle = ({ type }: { type: string }) => {
 							/>
 							<div className="article-links">
 								{article.source_link && (
-									<ReadButton as="a" href={article.source_link}>
+									<LinkButton as="a" href={article.source_link}>
 										Source
-									</ReadButton>
+									</LinkButton>
 								)}
 								{article.demo_link && (
-									<ReadButton as="a" href={article.demo_link}>
+									<LinkButton as="a" href={article.demo_link}>
 										View Live
-									</ReadButton>
+									</LinkButton>
 								)}
 							</div>
 						</article>

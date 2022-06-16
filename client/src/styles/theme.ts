@@ -1,7 +1,7 @@
 export type ThemeType = typeof lightTheme;
 
 export const mainBgDarkColor = "rgb(25, 25, 25)";
-export const mainBgLightColor = "rgb(253,253,253)";
+export const mainBgLightColor = "rgb(255, 255, 255)";
 
 export const lightTheme = {
 	mainBgColor: mainBgLightColor,
