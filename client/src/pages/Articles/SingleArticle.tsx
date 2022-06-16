@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useNavigate, Link, NavLink } from "react-router-dom";
 import {
 	ArticleContentWrapper,
@@ -20,9 +19,7 @@ import { useGlobalContext } from "../../store/AppContext";
 import Comments from "./articleComponents/Comments/Comments";
 import { handleDate } from "../../utils/handleDate";
 import { userRoles } from "../../types/appTypes";
-import { IArticle, IArticleData } from "../../types/articleTypes";
 import useSingleArticle from "../../hooks/Articles/useSingleArticle";
-import useArticles from "../../hooks/Articles/useArticles";
 import { CommentsProvider } from "../../hooks/Articles/comments/useCommentsContext";
 import useDeleteArticle from "../../hooks/Articles/useDeleteArticle";
 
@@ -30,13 +27,12 @@ const SingleArticle = ({ type }: { type: string }) => {
 	const { articleId } = useParams();
 	const navigate = useNavigate();
 	const { user } = useGlobalContext();
-	const [articlesData, setArticlesData] = useState<IArticleData[]>([]);
-	const { data: articles } = useArticles(type);
 	const {
 		data: article,
 		isLoading: articleLoading,
 		isError: articleIsError,
 		error: articleError,
+		articlesData,
 	} = useSingleArticle(type, articleId);
 
 	const {
@@ -45,16 +41,6 @@ const SingleArticle = ({ type }: { type: string }) => {
 		isError: deleteIsError,
 		isLoading: deleteLoading,
 	} = useDeleteArticle();
-
-	useEffect(() => {
-		if (!articles) return;
-		const getArticlesData = (articles: IArticle[]): IArticleData[] => {
-			return articles.map((item) => {
-				return { _id: item._id, category: item.category, title: item.title };
-			});
-		};
-		setArticlesData(getArticlesData(articles));
-	}, [articles]);
 
 	const handleDelete = async (articleId: string) => {
 		deleteArticle({ articleId, type });
@@ -149,7 +135,7 @@ const SingleArticle = ({ type }: { type: string }) => {
 					<ArticleSideMenuWrapper className="sidebar-single">
 						<div className="article-aside-container">
 							<h5>{`Read also:`}</h5>
-							{articlesData.length && (
+							{articlesData?.length && (
 								<ul>
 									{articlesData.map((item, index) => {
 										return (
