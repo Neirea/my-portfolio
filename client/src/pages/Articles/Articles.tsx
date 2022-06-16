@@ -143,7 +143,7 @@ const Articles = ({ type }: { type: string }) => {
 										<p className="article-date">
 											{handleDate(element.createdAt.toString())}
 										</p>
-										{element.tags.length && (
+										{!!element.tags.length && (
 											<TagsGroup>
 												{element.tags.map((tag, i) => {
 													return (
