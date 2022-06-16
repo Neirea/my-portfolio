@@ -30,8 +30,6 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 		deleteOneLoading || deleteTreeLoading || commentsQuery.isFetching;
 	const isShowBanMenu = user?._id !== comment.user.id;
 
-	console.log(isLoading);
-
 	const isShowReplyButton =
 		commentState.type !== ACTIONS.edit && comment.message;
 

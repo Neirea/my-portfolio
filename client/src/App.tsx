@@ -27,9 +27,10 @@ function App() {
 	const { isLoading, darkMode } = useGlobalContext();
 	const selectedTheme = darkMode ? darkTheme : lightTheme;
 
-	return isLoading ? (
-		<LoadingSpinner />
-	) : (
+	if (isLoading) {
+		return <LoadingSpinner />;
+	}
+	return (
 		<ThemeProvider theme={selectedTheme}>
 			<GlobalStyles />
 			<Header />
