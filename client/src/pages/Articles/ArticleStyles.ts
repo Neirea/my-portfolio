@@ -63,7 +63,7 @@ export const ArticleContentWrapper = styled.section`
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
-		padding: 1rem 10%;
+		padding: 1rem 5%;
 		padding-bottom: 2rem;
 
 		box-shadow: var(--shadow-1);
@@ -92,9 +92,6 @@ export const ArticleContentWrapper = styled.section`
 		}
 		//article text formatting
 		.article-text {
-			& > * {
-				min-height: calc(var(--main-line-height) * 1rem);
-			}
 			& > *:not(li) {
 				margin: 0;
 				padding: 0;
@@ -110,32 +107,28 @@ export const ArticleContentWrapper = styled.section`
 			ol li {
 				padding-left: 0.3rem;
 			}
+			pre,
+			pre > * {
+				font-size: 0.8rem;
+			}
 			pre {
 				display: block;
 				margin: 1.5rem auto;
-				padding: 1rem 2rem;
+				padding: 1rem;
 				width: 100%;
 				overflow-x: auto;
 
 				background: var(--code-bg-color);
-				white-space: pre-wrap;
-
 				border: 1px solid var(--code-border-color);
 				border-radius: var(--border-radius);
 			}
 		}
 
-		.article-buttons-group {
-			position: relative;
+		.article-links {
 			display: flex;
 			justify-content: space-between;
-			.article-links {
-				display: flex;
-				justify-content: flex-end;
-				align-items: center;
-				gap: 1rem;
-				margin-left: 1rem;
-			}
+			align-items: center;
+			gap: 1rem;
 		}
 	}
 
@@ -174,7 +167,7 @@ export const ArticleSideMenuWrapper = styled.aside`
 export const ArticleCardsWrapper = styled.section`
 	display: grid;
 	position: relative;
-	width: min(24rem, 95%);
+	width: var(--article-card-width);
 	gap: 1rem;
 
 	@media (min-width: 768px) {
@@ -227,16 +220,19 @@ export const ArticleCardsContainer = styled.div`
 			align-items: center;
 			.acard-tags-group {
 				display: flex;
-				gap: 0.3rem;
-				max-width: 17rem;
+				column-gap: 0.3rem;
+				max-width: 15rem;
 				flex-wrap: wrap;
 				.acard-tag {
 					color: var(--faded-text-color);
 					font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-					font-size: 0.9rem;
+					font-size: 0.8rem;
 				}
 			}
 			.acard-date {
+				display: flex;
+				justify-content: flex-end;
+				min-width: 4rem;
 				color: var(--faded-text-color);
 				font-size: 0.8rem;
 			}
@@ -363,7 +359,7 @@ export const CUArticleForm = styled(StyledForm)`
 	//editor
 	.editor-wrapper {
 		margin-top: 0.5rem;
-		width: 85%;
+		width: 95%;
 		color: black;
 		z-index: 0;
 
