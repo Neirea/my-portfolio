@@ -56,8 +56,6 @@ export const ToolsButton = styled.button`
 	}
 `;
 export const ReplyButton = styled(ToolsButton)`
-	padding: 0;
-	margin: 0;
 	&::before {
 		display: block;
 		content: "";
@@ -83,7 +81,7 @@ export const ReplyButton = styled(ToolsButton)`
 
 export const SingleCommentContainer = styled.div<StyledCommentsProps>`
 	margin-left: ${(props) => props.depth * props.step || 0}%;
-	padding: 0.5rem 5%;
+	padding: 1rem 5%;
 	width: ${(props) => 100 - props.depth * props.step || 100}%;
 	height: auto;
 

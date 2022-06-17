@@ -7,9 +7,8 @@ export const ArticlePageWrapper = styled.main`
 	align-items: center;
 	justify-content: center;
 	position: relative;
-	margin: 2rem auto;
+	padding: 2rem 2.5%;
 	gap: 1rem;
-	max-width: 95%;
 
 	.flex-item-1 {
 		order: 2;
@@ -29,6 +28,7 @@ export const ArticlePageWrapper = styled.main`
 	}
 	@media (min-width: 1000px) {
 		flex-direction: row;
+		justify-content: center;
 		align-items: flex-start;
 		.flex-item-1 {
 			order: 1;
@@ -84,18 +84,18 @@ export const ArticleContentWrapper = styled.section`
 				object-fit: cover;
 				object-position: center;
 			}
-			.article-date {
-				color: var(--faded-text-color);
-				margin-right: auto;
-				font-size: 0.8rem;
+			.article-info {
+				display: flex;
+				width: 100%;
+				justify-content: space-between;
+				.article-date {
+					color: var(--faded-text-color);
+					font-size: 0.8rem;
+				}
 			}
 		}
 		//article text formatting
 		.article-text {
-			& > *:not(li) {
-				margin: 0;
-				padding: 0;
-			}
 			ul,
 			ol {
 				display: inline-block;
@@ -113,7 +113,7 @@ export const ArticleContentWrapper = styled.section`
 			}
 			pre {
 				display: block;
-				margin: 1.5rem auto;
+				margin-block: 1.5rem;
 				padding: 1rem;
 				width: 100%;
 				overflow-x: auto;
@@ -146,7 +146,6 @@ export const ArticleSideMenuWrapper = styled.aside`
 	.article-aside-title {
 		color: var(--button-color);
 		font-size: 1.2rem;
-		/* text-decoration: underline; */
 		@media (hover: hover) and (pointer: fine) {
 			&:hover,
 			&:focus {
@@ -155,7 +154,7 @@ export const ArticleSideMenuWrapper = styled.aside`
 		}
 	}
 	@media (max-width: 768px) {
-		width: min(24rem, 95%);
+		width: var(--article-card-width);
 	}
 	@media (min-width: 1000px) {
 		width: 16rem;
@@ -198,8 +197,8 @@ export const ArticleCardsContainer = styled.div`
 		object-fit: cover;
 		object-position: center;
 		aspect-ratio: 16/9;
-		z-index: -1;
 	}
+
 	.acard-content {
 		display: flex;
 		flex-direction: column;
@@ -223,8 +222,9 @@ export const ArticleCardsContainer = styled.div`
 				column-gap: 0.3rem;
 				max-width: 15rem;
 				flex-wrap: wrap;
+				color: var(--faded-text-color);
+
 				.acard-tag {
-					color: var(--faded-text-color);
 					font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 					font-size: 0.8rem;
 				}
@@ -308,10 +308,9 @@ export const CUArticleWrapper = styled.main`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin: 1rem auto;
 	margin-bottom: 0;
+	padding: 2rem 2.5%;
 	gap: 1rem;
-	max-width: 95%;
 
 	@media (min-width: 1000px) {
 		flex-direction: row;
@@ -334,7 +333,7 @@ export const CUArticleForm = styled(StyledForm)`
 		justify-content: center;
 		flex-wrap: wrap;
 		margin-top: 1rem;
-		gap: 1rem;
+		column-gap: 1rem;
 		max-width: 90%;
 
 		@media (min-width: 1000px) {
@@ -343,7 +342,6 @@ export const CUArticleForm = styled(StyledForm)`
 
 		.form-row {
 			text-align: center;
-			margin: 0;
 			.form-input {
 				color: black;
 			}
@@ -364,15 +362,14 @@ export const CUArticleForm = styled(StyledForm)`
 		z-index: 0;
 
 		.editor-toolbar {
-			margin-bottom: 5px;
+			margin-bottom: 0.25rem;
 			background-color: var(--editor-color);
 		}
 		.editor-body {
-			margin: 0;
 			min-height: 30rem;
+			padding: 0.5rem 2.5%;
 			border-radius: var(--border-radius);
 			border: 1px solid #f1f1f1;
-			padding: 0.5rem 2.5%;
 			background-color: var(--editor-color);
 		}
 	}

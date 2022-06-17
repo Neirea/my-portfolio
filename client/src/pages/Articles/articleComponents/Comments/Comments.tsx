@@ -45,11 +45,11 @@ const Comments = () => {
 			<>
 				{/* Comments Header */}
 				{isShowCommentsHeader && (
-					<h4>
+					<h5>
 						{commentsQuery.data
 							? `Comments(${commentsQuery.data.length}):`
 							: "Loading comments..."}
-					</h4>
+					</h5>
 				)}
 				{user && user.isBanned && (
 					<AlertMsg>You are currently suspended from posting comments</AlertMsg>

@@ -27,6 +27,7 @@ import FormRow from "../../../components/FormRow";
 import { useDebounce } from "../../../utils/debounce";
 import { handleHtmlString } from "../../../utils/handleHtmlString";
 import { IArticleValues } from "../../../types/articleTypes";
+import { handleDate } from "../../../utils/handleDate";
 
 interface EditorLayoutProps {
 	articleValues: IArticleValues;
@@ -225,11 +226,16 @@ const EditorLayout = ({
 				<div className="article-post">
 					<div className="article-header">
 						<h3>{articleValues.title}</h3>
-						<TagsGroup>
-							{tags.split(" ").map((elem, i) => {
-								return <button key={`a-${i}`}>{elem}</button>;
-							})}
-						</TagsGroup>
+						<div className="article-info">
+							<TagsGroup>
+								{tags.split(" ").map((elem, i) => {
+									return <button key={`a-${i}`}>{elem}</button>;
+								})}
+							</TagsGroup>
+							<p className="article-date">
+								{handleDate("2022-06-12T12:17:17.717+00:00")}
+							</p>
+						</div>
 						{preview && (
 							<img className="article-image" src={preview} alt="preview" />
 						)}

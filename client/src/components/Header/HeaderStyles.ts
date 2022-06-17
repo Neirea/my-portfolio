@@ -91,7 +91,6 @@ export const StyledMenuLink = styled(NavLink)`
 		left: 0;
 		right: 0;
 
-		margin: auto;
 		height: 2px;
 		width: 0px;
 		background: transparent;

@@ -2,16 +2,16 @@ import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
 
-*,*::before,*::after{
-	padding:0;
-	margin:0;
+*,*::before,*::after {
+	padding: 0;
+	margin: 0;
     box-sizing: border-box;
 }
-*::selection{
+*::selection {
 	background: ${({ theme }) => theme.buttonColor};
 	color: ${({ theme }) => theme.mainBgColor};
 }
-:root{
+:root {
 	/* vars that are transformed for dark mode */
 	--main-bg-color : ${({ theme }) => theme.mainBgColor};
 	--main-text-color: ${({ theme }) => theme.mainTextColor};
@@ -54,22 +54,22 @@ export const GlobalStyles = createGlobalStyle`
 
 }
 //firefox
-html{
+html {
 	scrollbar-width: thin;
 	scrollbar-color: var(--faded-text-color) var(--header-bg-color);
 }
 //others
-html::-webkit-scrollbar{
+html::-webkit-scrollbar {
 	width: 0.5vw;
 }
-html::-webkit-scrollbar-thumb{
-	border-radius:1rem;
+html::-webkit-scrollbar-thumb {
+	border-radius: 1rem;
 	background-color: var(--faded-text-color);
 }
-html::-webkit-scrollbar-thumb:hover{
+html::-webkit-scrollbar-thumb:hover {
 	background-color: var(--main-text-color);
 }
-html::-webkit-scrollbar-track{
+html::-webkit-scrollbar-track {
 	background-color: var(--header-bg-color);
 }
 //------------------------------------------------
@@ -87,63 +87,58 @@ h3,
 h4,
 h5,
 h6 {
-	margin: 0;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-weight: 650;
 	letter-spacing: var(--letterSpacing);
 }
-p {
-	margin:0;
-}
 
-header > *{
+header > * {
 	font-size: 1.2rem;
 }
-main > *{
+main > * {
 	font-size: var(--main-text-size);
 }
-h1{
+h1 {
 	font-size: 3rem;
 }
 
-h2{
+h2 {
 	font-size: 2.5rem;
 }
 
-h3{
+h3 {
 	font-size: 2rem;
 }
 
-h4{
+h4 {
 	font-size: 1.5rem;
 }
 
-h5{
+h5 {
 	font-size: 1.25rem;
 }
 
-h6{
+h6 {
 	font-size: 1.125rem;
 }
 address {
-	margin: 0;
 	text-align: center;
 	font-style: normal;
 	font-size: 1.2rem;
 	letter-spacing: var(--letter-spacing);
 }
-button{
+button {
 	background: none;
 	border: none;
 	font-family: inherit;
 }
-button:disabled{
+button:disabled {
 	opacity: 0.4;
 	cursor: not-allowed;
 }
-textarea,input{
+textarea,input {
 	font-family: inherit;
-	font-size:1rem;
+	font-size: 1rem;
 }
 code, pre {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
@@ -153,27 +148,20 @@ a {
 	color: inherit;
 	text-decoration: none;
 }
-img{
+img {
 	user-select: none;
 }
 ul {
-	margin: 0;
-	padding: 0;
 	list-style: none;
 }
 //for deleted stuff
-i{
-	color:var(--deleted-color);
-}
-//for recaptcha elements
-.recaptcha {
-	position: fixed;
-	top: 50%;
+i {
+	color: var(--deleted-color);
 }
 
 @media (max-width: 400px) {
 	*{
-		font-size:4vw;
+		font-size: 4vw;
 	}
 }
 

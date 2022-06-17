@@ -11,20 +11,22 @@ const ArticlePost = ({ article }: { article: IArticle }) => {
 		<article className="article-post">
 			<div className="article-header">
 				<h3 className="article-title">{article.title}</h3>
-				<p className="article-date">{handleDate(article.updatedAt)}</p>
-				<TagsGroup>
-					{article.tags.map((tag, i) => {
-						return (
-							<NavLink
-								key={`sa-${i}`}
-								to={`/${article.category}`}
-								state={{ tag }}
-							>
-								{tag}
-							</NavLink>
-						);
-					})}
-				</TagsGroup>
+				<div className="article-info">
+					<TagsGroup>
+						{article.tags.map((tag, i) => {
+							return (
+								<NavLink
+									key={`sa-${i}`}
+									to={`/${article.category}`}
+									state={{ tag }}
+								>
+									{tag}
+								</NavLink>
+							);
+						})}
+					</TagsGroup>
+					<p className="article-date">{handleDate(article.createdAt)}</p>
+				</div>
 				<img
 					className="article-image"
 					src={article.image}
