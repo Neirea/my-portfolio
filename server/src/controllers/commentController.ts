@@ -17,16 +17,6 @@ export const getAllComments = async (req: Request, res: Response) => {
 	res.status(StatusCodes.OK).json({ comments });
 };
 
-export const getSingleComment = async (req: Request, res: Response) => {
-	const { id: commentId } = req.params;
-
-	const comment = await Comment.findOne({ _id: commentId });
-	if (!comment) {
-		throw new CustomError.NotFoundError(`No comment with id : ${commentId}`);
-	}
-	res.status(StatusCodes.OK).json({ comment });
-};
-
 export const createComment = async (req: Request, res: Response) => {
 	const { userId, message, parentId } = req.body;
 

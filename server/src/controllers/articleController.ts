@@ -101,48 +101,20 @@ export const uploadArticleImage = async (req: Request, res: Response) => {
 	}
 
 	const result = await cloudinary.uploader.upload(imageFile.tempFilePath, {
+		transformation: [
+			{
+				width: 640,
+				height: 360,
+			},
+			{
+				fetch_format: "jpg",
+			},
+		],
+
 		folder: "portfolio",
 	});
 	fs.unlinkSync(imageFile.tempFilePath);
 	res
 		.status(StatusCodes.OK)
 		.json({ image: { src: result.secure_url, img_id: result.public_id } });
-};
-
-/*    for admins/editors    */
-export const deleteArticleImage = async (req: Request, res: Response) => {
-	const { img_id } = req.body;
-	await cloudinary.uploader.destroy(img_id);
-	res
-		.status(StatusCodes.OK)
-		.json({ msg: "Succces! Article image was deleted" });
-};
-
-export const getCategoryValues = async (req: Request, res: Response) => {
-	const categories = Object.values(categoriesEnum);
-	res.status(StatusCodes.OK).json({ categories });
-};
-
-export const getArticlesData = async (req: Request, res: Response) => {
-	interface ArticleDataType {
-		title: string;
-		category: string;
-		_id: number;
-	}
-	const articles = await Article.find({}, { category: 1, title: 1 });
-	let articlesData: { blogs: ArticleDataType[]; projects: ArticleDataType[] } =
-		{
-			blogs: [],
-			projects: [],
-		};
-
-	articles.forEach((elem) => {
-		if (elem.category === categoriesEnum.project) {
-			articlesData.projects.push(elem);
-		} else {
-			articlesData.blogs.push(elem);
-		}
-	});
-
-	res.status(StatusCodes.OK).json({ articlesData });
 };

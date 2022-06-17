@@ -7,9 +7,6 @@ import {
 	updateArticle,
 	deleteArticle,
 	uploadArticleImage,
-	deleteArticleImage,
-	getCategoryValues,
-	getArticlesData,
 } from "../controllers/articleController";
 import { userRoles } from "../models/User";
 
@@ -22,19 +19,6 @@ router
 
 router.get("/blog", getAllArticles);
 router.get("/project", getAllArticles);
-
-router.get(
-	"/articleCategories",
-	[isAuthenticated, authorizePermissions(userRoles.admin)],
-	getCategoryValues
-);
-router.get("/getArticlesData", getArticlesData);
-
-router.delete(
-	"/deleteArticleImage",
-	[isAuthenticated, authorizePermissions(userRoles.admin)],
-	deleteArticleImage
-);
 
 router
 	.route("/upload")

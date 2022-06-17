@@ -2,7 +2,6 @@ import { Router } from "express";
 import { isAuthenticated, authorizePermissions } from "../middleware/auth";
 import {
 	getAllComments,
-	getSingleComment,
 	createComment,
 	updateComment,
 	deleteComment,
@@ -19,7 +18,6 @@ router
 
 router
 	.route("/:articleId/:id")
-	.get(getSingleComment)
 	.patch(isAuthenticated, updateComment)
 	.delete(isAuthenticated, deleteComment);
 
