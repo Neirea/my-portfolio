@@ -25,9 +25,9 @@ const Header = () => {
 	return (
 		<HeaderWrapper>
 			<MenuItem as="a" href="/">
-				<h2>
-					<span className="header-logo">N</span>eirea
-				</h2>
+				<h3 className="header-logo">
+					<span className="header-logo-first">N</span>eirea
+				</h3>
 			</MenuItem>
 
 			{/* NAVBAR MENU */}

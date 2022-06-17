@@ -13,7 +13,7 @@ export const lightTheme = {
 	iconInvertHover: "none",
 	replyBgColor: "rgb(255, 255, 255)",
 	deletedColor: "rgb(120, 120, 120)",
-	buttonColor: "rgb(125, 180, 50)",
+	buttonColor: "rgb(115, 170, 40)",
 	codeBgColor: "rgb(250, 250, 250)",
 	codeBorderColor: "rgb(211, 211, 211)",
 	tagColor: "rgba(0,0,0,0.2)",

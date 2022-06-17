@@ -21,7 +21,6 @@ export const UserMenuWrapper = styled(MenuItem)`
 		text-transform: none;
 		user-select: none;
 		background: none;
-		border: none;
 		color: var(--faded-text-color);
 		cursor: pointer;
 
@@ -38,8 +37,6 @@ export const UserMenuWrapper = styled(MenuItem)`
 		.user-menu-item {
 			display: flex;
 			align-items: center;
-			background: none;
-			border: none;
 			color: inherit;
 			width: var(--icon-size);
 			height: 100%;

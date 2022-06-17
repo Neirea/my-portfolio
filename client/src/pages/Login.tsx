@@ -75,7 +75,6 @@ const LoginWrapper = styled.main`
 		.btn-google {
 			background: #ff3434;
 			color: white;
-			border: none;
 		}
 	}
 `;

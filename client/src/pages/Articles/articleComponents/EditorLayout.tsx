@@ -222,26 +222,24 @@ const EditorLayout = ({
 				</AdminButton>
 			</CUArticleForm>
 			<ArticleContentWrapper>
-				<div className="article-wrapper">
-					<div className="article-post">
-						<div className="article-header">
-							<h3>{articleValues.title}</h3>
-							<TagsGroup>
-								{tags.split(" ").map((elem, i) => {
-									return <button key={`a-${i}`}>{elem}</button>;
-								})}
-							</TagsGroup>
-							{preview && (
-								<img className="article-image" src={preview} alt="preview" />
-							)}
-						</div>
-						<div
-							className="article-text"
-							dangerouslySetInnerHTML={{
-								__html: debouncedPreview,
-							}}
-						/>
+				<div className="article-post">
+					<div className="article-header">
+						<h3>{articleValues.title}</h3>
+						<TagsGroup>
+							{tags.split(" ").map((elem, i) => {
+								return <button key={`a-${i}`}>{elem}</button>;
+							})}
+						</TagsGroup>
+						{preview && (
+							<img className="article-image" src={preview} alt="preview" />
+						)}
 					</div>
+					<div
+						className="article-text"
+						dangerouslySetInnerHTML={{
+							__html: debouncedPreview,
+						}}
+					/>
 				</div>
 			</ArticleContentWrapper>
 		</CUArticleWrapper>

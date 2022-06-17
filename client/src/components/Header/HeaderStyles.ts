@@ -32,8 +32,11 @@ export const MenuItem = styled.div`
 	align-items: center;
 	height: 100%;
 	.header-logo {
-		font-size: inherit;
-		color: var(--button-color);
+		font-size: 2.5rem;
+		.header-logo-first {
+			font-size: inherit;
+			color: var(--button-color);
+		}
 	}
 `;
 
@@ -44,7 +47,9 @@ export const StyledMenuButton = styled.button<StyledMenuButtonProps>`
 	align-items: center;
 	height: 100%;
 	aspect-ratio: 1/1.5;
-	border: none;
+	background-color: var(--header-bg-color);
+	cursor: pointer;
+
 	& > svg {
 		color: ${(props) =>
 			props.showNavMenu ? "var(--main-text-color)" : "var(--faded-text-color)"};
@@ -52,9 +57,6 @@ export const StyledMenuButton = styled.button<StyledMenuButtonProps>`
 			props.showNavMenu ? "rotate(90deg)" : "rotate(0)"};
 		transition: transform var(--transition);
 	}
-	background-color: var(--header-bg-color);
-
-	cursor: pointer;
 
 	@media (min-width: 1000px) {
 		display: none;

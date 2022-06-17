@@ -34,8 +34,6 @@ const DisplayModeWrapper = styled(MenuItem)<DisplayModeWrapperProps>`
 	justify-content: center;
 	align-items: center;
 	position: relative;
-	border: none;
-	background: none;
 	padding: 0;
 	height: 100%;
 	text-transform: none;
@@ -55,7 +53,6 @@ const DisplayModeWrapper = styled(MenuItem)<DisplayModeWrapperProps>`
 		position: relative;
 		width: 4rem;
 		height: 2rem;
-		border: none;
 		border-radius: 2rem;
 		background-color: var(--main-bg-color);
 		box-shadow: inset 0 2px 0.75rem rgba(0, 0, 0, 0.1),

@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const buttonCSS = css`
 	display: block;
@@ -11,6 +11,7 @@ const buttonCSS = css`
 	text-transform: capitalize;
 	text-align: center;
 	font-size: 1rem;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	opacity: 1;
 	cursor: pointer;
 
@@ -48,9 +49,9 @@ export const ReadButton = styled.button`
 
 export const LinkButton = styled(Link)`
 	${ReadButtonCSS}
-`;
-export const NavLinkButton = styled(NavLink)`
-	${ReadButtonCSS}
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
 `;
 
 export const SuccessButton = styled.button`
@@ -80,13 +81,13 @@ export const LoginButton = styled.button`
 export const AdminButton = styled.button`
 	${buttonCSS}
 	min-width: 5rem;
-	padding: 1rem;
+	padding: 0.5rem 1rem;
 `;
 
 export const AdminButtonLink = styled(Link)`
 	${buttonCSS}
 	min-width: 5rem;
-	padding: 1rem;
+	padding: 0.5rem 1rem;
 `;
 
 export const BlockButton = styled.button`

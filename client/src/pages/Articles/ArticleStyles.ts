@@ -9,6 +9,7 @@ export const ArticlePageWrapper = styled.main`
 	position: relative;
 	margin: 2rem auto;
 	gap: 1rem;
+	max-width: 95%;
 
 	.flex-item-1 {
 		order: 2;
@@ -45,113 +46,89 @@ export const ArticlePageWrapper = styled.main`
 		border-radius: var(--border-radius);
 		box-shadow: var(--shadow-1);
 	}
+	.article-alert-filter {
+		width: var(--article-width);
+	}
 `;
 
 export const ArticleContentWrapper = styled.section`
-	display: block;
-	position: relative;
 	width: var(--article-width);
 
-	.article-wrapper {
+	display: flex;
+	position: relative;
+	flex-direction: column;
+	gap: 1rem;
+
+	.article-post {
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
+		padding: 1rem 10%;
+		padding-bottom: 2rem;
 
-		.article-container {
+		box-shadow: var(--shadow-1);
+		border-radius: var(--border-radius);
+		background-color: var(--article-bg-color);
+		overflow-wrap: break-word;
+
+		.article-header {
 			display: flex;
 			flex-direction: column;
-			gap: 1rem;
+			align-items: center;
+			gap: 0.5rem;
 
-			@media (hover: hover) and (pointer: fine) {
-				.article-title:hover,
-				.article-title:focus {
-					color: var(--button-color);
-					transition: var(--transition);
-				}
+			.article-image {
+				display: block;
+				width: 100%;
+				aspect-ratio: 16/9;
+				object-fit: cover;
+				object-position: center;
 			}
-			.article-text {
-				display: -webkit-box;
-				max-height: calc(3 * var(--main-line-height) * (var(--main-text-size)));
-
-				text-overflow: ellipsis;
-				-webkit-line-clamp: 3;
-				-webkit-box-orient: vertical;
-
-				/* word-wrap: break-word; */
-				overflow: hidden;
+			.article-date {
+				color: var(--faded-text-color);
+				margin-right: auto;
+				font-size: 0.8rem;
 			}
 		}
-		.article-post {
+		//article text formatting
+		.article-text {
+			& > * {
+				min-height: calc(var(--main-line-height) * 1rem);
+			}
+			& > *:not(li) {
+				margin: 0;
+				padding: 0;
+			}
+			ul,
+			ol {
+				display: inline-block;
+				padding-inline-start: 2rem;
+			}
+			ul {
+				list-style: disc;
+			}
+			ol li {
+				padding-left: 0.3rem;
+			}
+			pre {
+				display: block;
+				margin: 1.5rem auto;
+				padding: 1rem 2rem;
+				width: 100%;
+				overflow-x: auto;
+
+				background: var(--code-bg-color);
+				white-space: pre-wrap;
+
+				border: 1px solid var(--code-border-color);
+				border-radius: var(--border-radius);
+			}
+		}
+
+		.article-buttons-group {
+			position: relative;
 			display: flex;
-			flex-direction: column;
-			gap: 1rem;
-			padding: 1rem 10%;
-			padding-bottom: 2rem;
-
-			box-shadow: var(--shadow-1);
-			border-radius: var(--border-radius);
-			background-color: var(--article-bg-color);
-			overflow-wrap: break-word;
-
-			.article-header {
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				gap: 0.5rem;
-
-				.article-image {
-					display: block;
-					width: 100%;
-					aspect-ratio: 16/9;
-					object-fit: cover;
-					object-position: center;
-				}
-				.article-date {
-					color: var(--faded-text-color);
-					margin-right: auto;
-					font-size: 0.8rem;
-				}
-			}
-			//article text formatting
-			.article-text {
-				& > * {
-					min-height: calc(var(--main-line-height) * 1rem);
-				}
-				& > *:not(li) {
-					margin: 0;
-					padding: 0;
-				}
-				ul,
-				ol {
-					display: inline-block;
-					padding-inline-start: 2rem;
-				}
-				ul {
-					list-style: disc;
-				}
-				ol li {
-					padding-left: 0.3rem;
-				}
-				pre {
-					display: block;
-					margin: 1.5rem auto;
-					padding: 1rem 2rem;
-					width: 100%;
-					overflow-x: auto;
-
-					background: var(--code-bg-color);
-					white-space: pre-wrap;
-
-					border: 1px solid var(--code-border-color);
-					border-radius: var(--border-radius);
-				}
-			}
-
-			.article-buttons-group {
-				position: relative;
-				display: flex;
-				justify-content: space-between;
-			}
+			justify-content: space-between;
 			.article-links {
 				display: flex;
 				justify-content: flex-end;
@@ -184,11 +161,113 @@ export const ArticleSideMenuWrapper = styled.aside`
 			}
 		}
 	}
+	@media (max-width: 768px) {
+		width: min(24rem, 95%);
+	}
 	@media (min-width: 1000px) {
 		width: 16rem;
-		padding: 0 1rem;
 		position: sticky;
 		top: 6rem;
+	}
+`;
+
+export const ArticleCardsWrapper = styled.section`
+	display: grid;
+	position: relative;
+	width: min(24rem, 95%);
+	gap: 1rem;
+
+	@media (min-width: 768px) {
+		width: var(--article-width);
+		grid-template-columns: repeat(auto-fit, calc(50% - 0.5rem));
+	}
+`;
+
+export const ArticleCardsContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+
+	box-shadow: var(--shadow-1);
+	border-radius: var(--border-radius);
+	background-color: var(--article-bg-color);
+	overflow-wrap: break-word;
+	overflow: hidden;
+	transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+	&:hover {
+		box-shadow: var(--shadow-1), 0 0 0.5rem var(--tag-color);
+		transform: translateY(-2px);
+	}
+
+	.acard-image {
+		display: block;
+		width: 100%;
+		object-fit: cover;
+		object-position: center;
+		aspect-ratio: 16/9;
+		z-index: -1;
+	}
+	.acard-content {
+		display: flex;
+		flex-direction: column;
+		padding: 1rem;
+		.acard-title {
+			@media (hover: hover) and (pointer: fine) {
+				&:hover,
+				&:focus {
+					color: var(--button-color);
+					transition: var(--transition);
+				}
+			}
+		}
+
+		.acard-info {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			.acard-tags-group {
+				display: flex;
+				gap: 0.3rem;
+				max-width: 17rem;
+				flex-wrap: wrap;
+				.acard-tag {
+					color: var(--faded-text-color);
+					font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+					font-size: 0.9rem;
+				}
+			}
+			.acard-date {
+				color: var(--faded-text-color);
+				font-size: 0.8rem;
+			}
+		}
+
+		.acard-text {
+			margin-top: 0.2rem;
+			display: -webkit-box;
+			max-height: calc(3 * var(--main-line-height) * (var(--main-text-size)));
+
+			text-overflow: ellipsis;
+			-webkit-line-clamp: 3;
+			-webkit-box-orient: vertical;
+
+			overflow: hidden;
+		}
+		.acard-buttons {
+			position: relative;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 1rem;
+			margin-top: 0.5rem;
+		}
+	}
+	.acard-admin-buttons {
+		display: flex;
+		justify-content: space-between;
+		padding: 1rem;
+		padding-top: 0;
+		gap: 1rem;
 	}
 `;
 

@@ -79,8 +79,6 @@ body {
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-	-webkit-font-smoothing: subpixel-antialiased;
-	-moz-osx-font-smoothing: grayscale;
 }
 h1,
 h2,
@@ -89,6 +87,7 @@ h4,
 h5,
 h6 {
 	margin: 0;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-weight: 650;
 	letter-spacing: var(--letterSpacing);
 }
@@ -133,6 +132,8 @@ address {
 	letter-spacing: var(--letter-spacing);
 }
 button{
+	background: none;
+	border: none;
 	font-family: inherit;
 }
 button:disabled{

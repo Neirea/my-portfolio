@@ -7,14 +7,12 @@ interface ArticlePostsSideMenuProps {
 	tags: string[];
 	selectedTags: string[];
 	setSelectedTags: Dispatch<SetStateAction<string[]>>;
-	filterTags: (tag: string) => void;
 }
 
 const ArticlePostsSideMenu = ({
 	tags,
 	selectedTags,
 	setSelectedTags,
-	filterTags,
 }: ArticlePostsSideMenuProps) => {
 	const location = useLocation<LocationState>();
 
@@ -25,6 +23,18 @@ const ArticlePostsSideMenu = ({
 		setSelectedTags([prevTag]);
 		window.history.replaceState({}, "");
 	}, [location.state, setSelectedTags]);
+
+	const filterTags = (elem: string) => {
+		const index = selectedTags.indexOf(elem);
+		if (index > -1) {
+			setSelectedTags((old) => old.filter((tag) => tag !== elem));
+		} else {
+			setSelectedTags((old) => [...old, elem]);
+		}
+		//scroll to top of screen on mobile
+		window.innerWidth < 1000 &&
+			window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+	};
 
 	return (
 		<section className="article-aside-container">
