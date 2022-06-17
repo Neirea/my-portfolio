@@ -132,6 +132,9 @@ address {
 	font-size: 1.2rem;
 	letter-spacing: var(--letter-spacing);
 }
+button{
+	font-family: inherit;
+}
 button:disabled{
 	opacity: 0.4;
 	cursor: not-allowed;

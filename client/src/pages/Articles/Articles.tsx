@@ -43,10 +43,6 @@ const Articles = ({ type }: { type: string }) => {
 
 	let isArticlesShow = false;
 
-	useEffect(() => {
-		window.history.pushState({}, "", `/${type}`);
-	}, [type]);
-
 	//set tags
 	useEffect(() => {
 		if (!articles) return;
@@ -64,22 +60,11 @@ const Articles = ({ type }: { type: string }) => {
 	}, [type, articles]);
 
 	const filterTags = (elem: string) => {
-		//copy values from old tags
-		let newTags: string[] = [...selectedTags];
-
-		const element = document.getElementById(elem);
-		//remove active tag
-		if (element?.classList.contains("activated")) {
-			const index = selectedTags.indexOf(elem);
-			newTags.splice(index, 1);
-			setSelectedTags(newTags);
-			element.classList.remove("activated");
-		}
-		//add active tag
-		if (selectedTags.indexOf(elem) === -1) {
-			newTags.push(elem);
-			setSelectedTags(newTags);
-			element?.classList.add("activated");
+		const index = selectedTags.indexOf(elem);
+		if (index > -1) {
+			setSelectedTags((old) => old.filter((tag) => tag !== elem));
+		} else {
+			setSelectedTags((old) => [...old, elem]);
 		}
 		//scroll to top of screen on mobile
 		window.innerWidth < 1000 &&
@@ -217,6 +202,7 @@ const Articles = ({ type }: { type: string }) => {
 				{!!tags.length && (
 					<ArticleSideMenu
 						tags={tags}
+						selectedTags={selectedTags}
 						setSelectedTags={setSelectedTags}
 						filterTags={filterTags}
 					/>

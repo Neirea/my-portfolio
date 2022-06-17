@@ -33,6 +33,9 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 	const isShowReplyButton =
 		commentState.type !== ACTIONS.edit && comment.message;
 
+	const isActiveReply =
+		commentState.type === ACTIONS.reply && comment._id === commentState.id;
+
 	const handleEditCommentClick = () => {
 		resetCommentState();
 		setCommentState({
@@ -43,20 +46,16 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 	};
 
 	const handleReply = (e: MouseEvent<HTMLButtonElement>) => {
-		//remove existing active style
-		const element = document.querySelector(".btn-activated");
-		element && element.classList.remove("btn-activated");
 		//on Cancel click
 		if (commentState.id === comment._id) {
 			resetCommentState();
-		} else {
-			e.currentTarget.classList.add("btn-activated");
-			setCommentState({
-				type: ACTIONS.reply,
-				id: comment._id,
-				message: "",
-			});
+			return;
 		}
+		setCommentState({
+			type: ACTIONS.reply,
+			id: comment._id,
+			message: "",
+		});
 	};
 
 	return (
@@ -64,6 +63,7 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 			<div className="tool-bar-group">
 				{isShowReplyButton && (
 					<ReplyButton
+						className={isActiveReply ? "btn-activated" : ""}
 						data-testid={`reply-button-${index}`}
 						aria-label="reply to comment"
 						onClick={handleReply}

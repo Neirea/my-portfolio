@@ -6,7 +6,6 @@ import EditComment from "./EditComment";
 import ToolBar from "./CommentToolBar";
 import CommentForm from "./CommentForm";
 import { handleDate } from "../../../../utils/handleDate";
-import { useEffect } from "react";
 import { ACTIONS, IJsxComment } from "../../../../types/articleTypes";
 import { userRoles } from "../../../../types/appTypes";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
@@ -56,13 +55,6 @@ const SingleComment = ({
 		user.isBanned === false &&
 		commentState.type === ACTIONS.reply &&
 		commentState.id === comment._id;
-
-	useEffect(() => {
-		if (commentState.type !== ACTIONS.reply) {
-			const element = document.querySelector(".btn-activated");
-			element && element.classList.remove("btn-activated");
-		}
-	}, [commentState]);
 
 	return (
 		<>

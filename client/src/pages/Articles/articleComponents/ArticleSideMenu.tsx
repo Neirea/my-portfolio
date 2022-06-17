@@ -5,26 +5,26 @@ import { LocationState } from "../../../types/appTypes";
 
 interface ArticlePostsSideMenuProps {
 	tags: string[];
+	selectedTags: string[];
 	setSelectedTags: Dispatch<SetStateAction<string[]>>;
 	filterTags: (tag: string) => void;
 }
 
 const ArticlePostsSideMenu = ({
 	tags,
+	selectedTags,
 	setSelectedTags,
 	filterTags,
 }: ArticlePostsSideMenuProps) => {
 	const location = useLocation<LocationState>();
-	const prevTag = location.state?.tag || null;
 
 	//check if it comes from another page
 	useEffect(() => {
+		const prevTag = location.state?.tag || null;
 		if (!prevTag) return;
-
-		const element = document.getElementById(prevTag);
-		element?.classList.add("activated");
 		setSelectedTags([prevTag]);
-	}, [prevTag, setSelectedTags]);
+		window.history.replaceState({}, "");
+	}, [location.state, setSelectedTags]);
 
 	return (
 		<section className="article-aside-container">
@@ -33,10 +33,11 @@ const ArticlePostsSideMenu = ({
 					<h4>{`Filter:`}</h4>
 					<TagsGroup>
 						{tags.map((elem, i) => {
+							const isActive = selectedTags.some((tag) => tag === elem);
 							return (
 								<button
 									id={elem}
-									className="article-aside-list-item"
+									className={isActive ? "activated" : ""}
 									onClick={() => filterTags(elem)}
 									key={`tag-${i}`}
 								>
