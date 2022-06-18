@@ -7,18 +7,29 @@ import {
 	deleteComment,
 	deleteCommentsAdmin,
 } from "../controllers/commentController";
+import { rateLimit } from "express-rate-limit";
 import { userRoles } from "../models/User";
 
 const router = Router();
 
+const commentLimiter = rateLimit({
+	windowMs: 60 * 1000,
+	max: 3,
+	standardHeaders: true,
+	legacyHeaders: false,
+	message: {
+		msg: "Too many requests, please try again in 1 minute",
+	},
+});
+
 router
 	.route("/:articleId")
-	.post(isAuthenticated, createComment)
+	.post(isAuthenticated, commentLimiter, createComment)
 	.get(getAllComments);
 
 router
 	.route("/:articleId/:id")
-	.patch(isAuthenticated, updateComment)
+	.patch(isAuthenticated, commentLimiter, updateComment)
 	.delete(isAuthenticated, deleteComment);
 
 router

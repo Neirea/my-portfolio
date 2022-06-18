@@ -1,4 +1,4 @@
-import Article, { categories as categoriesEnum } from "../models/Article";
+import Article from "../models/Article";
 import { StatusCodes } from "http-status-codes";
 import sanitizeHtml from "sanitize-html";
 import { v2 as cloudinary } from "cloudinary";

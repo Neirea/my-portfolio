@@ -1,9 +1,9 @@
 import "express-async-errors";
 import express from "express";
 //packages
-import rateLimiter from "express-rate-limit";
 import helmet from "helmet";
 import cors from "cors";
+import { rateLimit } from "express-rate-limit";
 import fileUpload from "express-fileupload";
 import mongoSanitize from "express-mongo-sanitize";
 import cookieParser from "cookie-parser";
@@ -33,7 +33,8 @@ const app = express();
 
 /* middleware */
 app.set("trust proxy", 1);
-app.use(rateLimiter({ windowMs: 60 * 1000, max: 50 })); //set numbers that fit best and check if needed in production
+app.get("/ip", (request, response) => response.send(request.ip)); // test how many proxies in production
+app.use(rateLimit({ windowMs: 60 * 1000, max: 50 })); //set numbers that fit best and check if needed in production
 app.use(helmet());
 app.use(cors({ origin: process.env.CLIENT_URL }));
 app.use(fileUpload({ useTempFiles: true }));

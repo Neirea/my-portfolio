@@ -5,7 +5,7 @@ import {
 	VerifyCallback,
 } from "passport-google-oauth20";
 import CustomError from "../errors";
-import User, { platformEnum } from "../models/User";
+import User, { platformEnum, userRoles } from "../models/User";
 import app from "../app";
 import { randomUserName } from "../utils/randomUserName";
 
@@ -89,7 +89,7 @@ export async function loginGoogle(
 			platform_name: name?.givenName || randomUserName(),
 			platform_type: platformEnum.google,
 			name: displayName || randomUserName(),
-			roles: isFirstAccount ? ["admin", "user"] : ["user"],
+			roles: isFirstAccount ? Object.values(userRoles) : [userRoles.user],
 			avatar_url: _json.picture,
 		});
 	}

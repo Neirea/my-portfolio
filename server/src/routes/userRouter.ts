@@ -13,6 +13,4 @@ router.delete(
 	banUser
 );
 
-/* delete account route? */
-
 export default router;
