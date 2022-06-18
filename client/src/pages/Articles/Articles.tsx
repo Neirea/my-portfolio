@@ -51,12 +51,22 @@ const Articles = ({ type }: { type: string }) => {
 		const errorMsg = errorObj?.response?.data?.msg || "There was some error";
 
 		return (
-			<AlertContainer>
-				<p>{errorMsg}</p>
-				<Link className="alert-link" to="/">
-					Go back to Home page
-				</Link>
-			</AlertContainer>
+			<>
+				<AlertContainer>
+					<p>{errorMsg}</p>
+					<Link className="alert-link" to="/">
+						Go back to Home page
+					</Link>
+					{user && user.roles.includes(userRoles.admin) && (
+						<>
+							<br />
+							<NavLink to="/create-article" state={{ from: type }} replace>
+								<AdminButton>Create Article</AdminButton>
+							</NavLink>
+						</>
+					)}
+				</AlertContainer>
+			</>
 		);
 	}
 

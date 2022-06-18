@@ -35,6 +35,7 @@ const FormRow = ({
 					id={name}
 					value={value}
 					name={name}
+					maxLength={100000}
 					onChange={handleChange}
 					className="form-message-input"
 					required={isRequired}
