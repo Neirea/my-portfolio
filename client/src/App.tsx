@@ -22,6 +22,7 @@ import { useGlobalContext } from "./store/AppContext";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { recaptchaKey } from "./utils/data";
 import { userRoles } from "./types/appTypes";
+import { categoriesEnum } from "./types/articleTypes";
 
 function App() {
 	const { isLoading, darkMode } = useGlobalContext();
@@ -46,18 +47,21 @@ function App() {
 						</GoogleReCaptchaProvider>
 					}
 				/>
-				<Route path="/blog" element={<Articles key="blog" type="blog" />} />
+				<Route
+					path="/blog"
+					element={<Articles key="blog" type={categoriesEnum.blog} />}
+				/>
 				<Route
 					path="/project"
-					element={<Articles key="project" type="project" />}
+					element={<Articles key="project" type={categoriesEnum.project} />}
 				/>
 				<Route
 					path="/blog/:articleId"
-					element={<SingleArticle type="blog" />}
+					element={<SingleArticle type={categoriesEnum.blog} />}
 				></Route>
 				<Route
 					path="/project/:articleId"
-					element={<SingleArticle type="project" />}
+					element={<SingleArticle type={categoriesEnum.project} />}
 				></Route>
 				<Route path="/unauthorized" element={<Unauthorized />} />
 				{/*public only routes */}

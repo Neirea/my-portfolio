@@ -9,6 +9,9 @@ import {
 	NavMenuItem,
 } from "./NavMenuStyles";
 import { menuItems } from "../../utils/data";
+import { useQueryClient } from "react-query";
+import { getArticles } from "../../hooks/Articles/useArticles";
+import { categoriesEnum } from "../../types/articleTypes";
 
 interface NavMenuItemsProps {
 	handleMenuClick?: () => void;
@@ -19,6 +22,14 @@ interface NavMenuProps {
 }
 
 const NavMenuItems = ({ handleMenuClick }: NavMenuItemsProps) => {
+	const queryClient = useQueryClient();
+	const fetchBlogs = (link: string) => {
+		if (link === "/blog") {
+			queryClient.prefetchQuery(["articles", categoriesEnum.blog], () =>
+				getArticles(categoriesEnum.blog)
+			);
+		}
+	};
 	return (
 		<>
 			{menuItems &&
@@ -32,7 +43,11 @@ const NavMenuItems = ({ handleMenuClick }: NavMenuItemsProps) => {
 									<div className="menu-link-text">{name}</div>
 								</StyledMenuLink>
 							) : (
-								<StyledMenuLink to={link} onClick={handleMenuClick}>
+								<StyledMenuLink
+									to={link}
+									onClick={handleMenuClick}
+									onMouseEnter={() => fetchBlogs(link)}
+								>
 									<div className="menu-link-text">{name}</div>
 								</StyledMenuLink>
 							)}

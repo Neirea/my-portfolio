@@ -8,11 +8,11 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import { AlertContainer, AdminButton } from "../../styles/StyledComponents";
 
 import { useGlobalContext } from "../../store/AppContext";
-import { IArticle } from "../../types/articleTypes";
+import { categoriesEnum, IArticle } from "../../types/articleTypes";
 import { userRoles } from "../../types/appTypes";
 import useArticles from "../../hooks/Articles/useArticles";
 
-const Articles = ({ type }: { type: string }) => {
+const Articles = ({ type }: { type: categoriesEnum }) => {
 	const { user } = useGlobalContext();
 	const [tags, setTags] = useState<string[]>([]);
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);

@@ -1,8 +1,15 @@
 import { handleHtmlString } from "../../utils/handleHtmlString";
-import { IArticle, IArticleData } from "../../types/articleTypes";
+import {
+	categoriesEnum,
+	IArticle,
+	IArticleData,
+} from "../../types/articleTypes";
 import useArticles from "./useArticles";
 
-const useSingleArticle = (type: string, articleId: string | undefined) => {
+const useSingleArticle = (
+	type: categoriesEnum,
+	articleId: string | undefined
+) => {
 	const queryInfo = useArticles(type);
 
 	const getArticlesData = (
