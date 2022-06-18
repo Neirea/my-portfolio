@@ -1,8 +1,4 @@
-export enum ACTIONS {
-	reply = "reply",
-	edit = "edit",
-	none = "none",
-}
+export type ACTIONS = "reply" | "edit" | "none";
 
 export enum categoriesEnum {
 	blog = "blog",

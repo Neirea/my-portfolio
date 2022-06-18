@@ -6,7 +6,7 @@ import EditComment from "./EditComment";
 import ToolBar from "./CommentToolBar";
 import CommentForm from "./CommentForm";
 import { handleDate } from "../../../../utils/handleDate";
-import { ACTIONS, IJsxComment } from "../../../../types/articleTypes";
+import { IJsxComment } from "../../../../types/articleTypes";
 import { userRoles } from "../../../../types/appTypes";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 
@@ -32,7 +32,7 @@ const SingleComment = ({
 
 	/* show conditions */
 	const isShowToolBar =
-		commentState.type !== ACTIONS.edit &&
+		commentState.type !== "edit" &&
 		user &&
 		user.isBanned === false &&
 		(user._id === comment.user.id || user.roles.includes(userRoles.admin));
@@ -40,20 +40,18 @@ const SingleComment = ({
 	const isDeepComment = level > 5 && comment.parentId && commentsQuery.data;
 
 	const isShowMessage =
-		commentState.type !== ACTIONS.edit || commentState.id !== comment._id;
+		commentState.type !== "edit" || commentState.id !== comment._id;
 
 	const isShowSingleCommentAlert =
 		commentError.msg && index === commentError.index;
 
 	const isShowEditUI =
-		user &&
-		commentState.type === ACTIONS.edit &&
-		commentState.id === comment._id;
+		user && commentState.type === "edit" && commentState.id === comment._id;
 
 	const isShowReplyForm =
 		user &&
 		user.isBanned === false &&
-		commentState.type === ACTIONS.reply &&
+		commentState.type === "reply" &&
 		commentState.id === comment._id;
 
 	return (

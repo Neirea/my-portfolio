@@ -6,7 +6,6 @@ import { ReadButton, AlertMsg } from "../../../../styles/StyledComponents";
 import SingleComment from "./SingleComment";
 
 import { useGlobalContext } from "../../../../store/AppContext";
-import { ACTIONS } from "../../../../types/articleTypes";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 import useCreateComment from "../../../../hooks/Articles/comments/useCreateComment";
 
@@ -22,7 +21,7 @@ const Comments = () => {
 	const isShowCommentError =
 		commentError.msg && commentError.index === undefined;
 	const isShowNewCommentForm =
-		user && user.isBanned === false && commentState.type === ACTIONS.none;
+		user && user.isBanned === false && commentState.type === "none";
 
 	const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
 		setCommentState({ ...commentState, message: e.target.value });

@@ -8,7 +8,7 @@ import { MdClose } from "@react-icons/all-files/md/MdClose";
 import { BsReplyFill } from "@react-icons/all-files/bs/BsReplyFill";
 import { ToolsButton, ReplyButton } from "./CommentStyles";
 import { useGlobalContext } from "../../../../store/AppContext";
-import { ACTIONS, IComment } from "../../../../types/articleTypes";
+import { IComment } from "../../../../types/articleTypes";
 import { userRoles } from "../../../../types/appTypes";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 import useDeleteComment from "../../../../hooks/Articles/comments/useDeleteComment";
@@ -30,16 +30,15 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 		deleteOneLoading || deleteTreeLoading || commentsQuery.isFetching;
 	const isShowBanMenu = user?._id !== comment.user.id;
 
-	const isShowReplyButton =
-		commentState.type !== ACTIONS.edit && comment.message;
+	const isShowReplyButton = commentState.type !== "edit" && comment.message;
 
 	const isActiveReply =
-		commentState.type === ACTIONS.reply && comment._id === commentState.id;
+		commentState.type === "reply" && comment._id === commentState.id;
 
 	const handleEditCommentClick = () => {
 		resetCommentState();
 		setCommentState({
-			type: ACTIONS.edit,
+			type: "edit",
 			id: comment._id,
 			message: comment.message,
 		});
@@ -52,7 +51,7 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 			return;
 		}
 		setCommentState({
-			type: ACTIONS.reply,
+			type: "reply",
 			id: comment._id,
 			message: "",
 		});

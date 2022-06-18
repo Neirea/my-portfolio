@@ -10,7 +10,6 @@ import {
 import {
 	ICommentState,
 	ICommentError,
-	ACTIONS,
 	IJsxComment,
 } from "../../../types/articleTypes";
 import { UseQueryResult } from "react-query";
@@ -29,12 +28,10 @@ interface commentsContextValues {
 
 export const CommentsContext = createContext({} as commentsContextValues);
 
-const initialCommentState = {
-	type: ACTIONS.none,
+const initialCommentState: ICommentState = {
+	type: "none",
 	id: null,
 	message: "",
-	index: undefined,
-	error: "",
 };
 const initialCommentError = {
 	index: undefined,
