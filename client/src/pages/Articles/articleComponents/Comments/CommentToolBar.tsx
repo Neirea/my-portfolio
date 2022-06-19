@@ -2,8 +2,6 @@ import { MouseEvent } from "react";
 import { MdDelete } from "@react-icons/all-files/md/MdDelete";
 import { AiOutlineDeleteColumn } from "@react-icons/all-files/ai/AiOutlineDeleteColumn";
 import { AiFillEdit } from "@react-icons/all-files/ai/AiFillEdit";
-import { FaWrench } from "@react-icons/all-files/fa/FaWrench";
-import { FaBan } from "@react-icons/all-files/fa/FaBan";
 import { MdClose } from "@react-icons/all-files/md/MdClose";
 import { BsReplyFill } from "@react-icons/all-files/bs/BsReplyFill";
 import { ToolsButton, ReplyButton } from "./CommentStyles";
@@ -13,7 +11,6 @@ import { userRoles } from "../../../../types/appTypes";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 import useDeleteComment from "../../../../hooks/Articles/comments/useDeleteComment";
 import useDeleteCommentTree from "../../../../hooks/Articles/comments/useDeleteCommentTree";
-import useBanUser from "../../../../hooks/useBanUser";
 
 const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 	const { user } = useGlobalContext();
@@ -24,11 +21,9 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 
 	const { mutate: deleteCommentTree, isLoading: deleteTreeLoading } =
 		useDeleteCommentTree();
-	const { mutate: banUser, isLoading: banUserLoading } = useBanUser();
 
 	const isLoading =
 		deleteOneLoading || deleteTreeLoading || commentsQuery.isFetching;
-	const isShowBanMenu = user?._id !== comment.user.id;
 
 	const isShowReplyButton = commentState.type !== "edit" && comment.message;
 
@@ -110,20 +105,6 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 						>
 							<AiOutlineDeleteColumn size={"100%"} />
 						</ToolsButton>
-						{isShowBanMenu && (
-							<ToolsButton
-								title="Ban User"
-								aria-label="ban user"
-								disabled={banUserLoading}
-								onClick={() => banUser(comment.user.id)}
-							>
-								{comment.user.isBanned ? (
-									<FaWrench size={"100%"} />
-								) : (
-									<FaBan size={"100%"} />
-								)}
-							</ToolsButton>
-						)}
 					</>
 				)}
 			</div>

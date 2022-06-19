@@ -30,7 +30,6 @@ export interface IComment {
 	user: {
 		id: string;
 		name: string;
-		isBanned: boolean;
 	};
 	_id: string;
 	createdAt: string;
