@@ -36,7 +36,6 @@ export const createComment = async (req: Request, res: Response) => {
 	const user = {
 		id: author._id,
 		name: author.name,
-		isBanned: author.isBanned,
 	};
 
 	const isValidProduct = await Article.findOne({ _id: articleId });
@@ -72,9 +71,15 @@ export const updateComment = async (req: Request, res: Response) => {
 		throw new CustomError.NotFoundError(`No comment with id : ${commentId}`);
 	}
 
-	if (comment.user.isBanned) {
+	//check if user is banned
+	const user = await User.findOne({ _id: comment.user.id });
+	if (!user) {
+		throw new CustomError.NotFoundError(`No user with id : ${comment.user.id}`);
+	}
+
+	if (user.isBanned) {
 		throw new CustomError.BadRequestError(
-			"You are currently suspended from posting comments"
+			"You are currently suspended to delete comment"
 		);
 	}
 	comment.editedAt = new Date();
@@ -91,9 +96,15 @@ export const deleteComment = async (req: Request, res: Response) => {
 		throw new CustomError.NotFoundError(`No comment with id : ${commentId}`);
 	}
 
-	if (comment.user.isBanned) {
+	//check if user is banned
+	const user = await User.findOne({ _id: comment.user.id });
+	if (!user) {
+		throw new CustomError.NotFoundError(`No user with id : ${comment.user.id}`);
+	}
+
+	if (user.isBanned) {
 		throw new CustomError.BadRequestError(
-			"You are currently suspended from posting comments"
+			"You are currently suspended to delete comment"
 		);
 	}
 

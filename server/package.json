@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "node ./build/index.js",
 		"build": "tsc -p tsconfig.build.json",
-		"test": "jest --watch ./src/tests",
+		"test": "jest --watch --runInBand ./src/tests",
 		"dev": "tsnd --respawn ./src/index.ts"
 	},
 	"keywords": [],

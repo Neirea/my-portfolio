@@ -8,7 +8,6 @@ export interface IComment {
 	user: {
 		id: number;
 		name: string;
-		isBanned: boolean;
 	};
 	_id: number;
 	createdAt: Date;
@@ -54,7 +53,6 @@ const CommentSchema = new Schema({
 			required: true,
 		},
 		name: { type: String },
-		isBanned: { type: Boolean },
 	},
 });
 
