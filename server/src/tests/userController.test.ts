@@ -43,38 +43,29 @@ const fakeUser = {
 	createdAt: Date.now(),
 	updatedAt: Date.now(),
 };
-const fakeArticle = {
-	title: "basic article",
-	content: "12312312312312313123",
-	category: "blog",
-	code_languages: [],
-	tags: ["typescript", "jsx"],
-	source_link: undefined,
-	demo_link: undefined,
-	image: "test.jpg",
-	img_id: "5dbff32e367a343830cd2f41",
-	userId: "5dbff32e367a343830cd2f46",
-};
 
-const createArticleUserComment = async () => {
-	const user = await User.create(fakeUser);
-	const article = await Article.create(fakeArticle);
-	const fakeComment = {
-		user: {
-			id: user._id.toString(),
-			name: user.name,
-		},
-		articleId: article._id.toString(),
-		message: "hello world",
-		parentId: null,
-	};
-	const comment = await Comment.create(fakeComment);
-	return { user, article, comment };
-};
+describe("updateUser", () => {
+	test("should successfully update user", async () => {
+		const user = await User.create(fakeUser);
+
+		const newUser = {
+			_id: user._id.toString(),
+			name: "new name",
+			roles: user.roles,
+			avatar_url: user.avatar_url,
+		};
+
+		const response = await request(app)
+			.patch(`/api/user/${user._id.toString()}`)
+			.send(newUser);
+		expect(response.status).toBe(200);
+		expect(response.body.user.name).toStrictEqual("new name");
+	});
+});
 
 describe("banUser", () => {
 	test("should successfully ban user", async () => {
-		const { user } = await createArticleUserComment();
+		const user = await User.create(fakeUser);
 
 		const response = await request(app).delete(
 			`/api/user/${user._id.toString()}`
