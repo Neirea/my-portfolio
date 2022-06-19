@@ -1,13 +1,4 @@
-import { Request, Response, NextFunction } from "express";
-import request from "supertest";
-import isAuthenticated from "../middleware/isAuthenticated";
-import authorizePermissions from "../middleware/authorizePermissions";
-import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
-import Article from "../models/Article";
-import path from "path";
-import { IArticle } from "../models/Article";
-import * as dbHandler from "./db";
-
+//need to import this after middleware mock
 jest.mock("../middleware/isAuthenticated", () =>
 	jest.fn((req: Request, res: Response, next: NextFunction) => {
 		next();
@@ -21,8 +12,14 @@ jest.mock("../middleware/authorizePermissions", () =>
 	})
 );
 
-//need to import this after middleware mock
-//so it correctly applies to app.use
+import { Request, Response, NextFunction } from "express";
+import request from "supertest";
+import isAuthenticated from "../middleware/isAuthenticated";
+import authorizePermissions from "../middleware/authorizePermissions";
+import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
+import Article from "../models/Article";
+import path from "path";
+import * as dbHandler from "./db";
 import app from "../app";
 
 jest.mock("cloudinary");
@@ -34,11 +31,11 @@ beforeAll(async () => {
 });
 
 beforeEach(() => {
-	// mockedCloudinary.uploader.upload = jest.fn();
-	// mockedCloudinary.uploader.destroy = jest.fn();
+	mockedCloudinary.uploader.destroy = jest.fn();
 });
 
 afterEach(async () => {
+	(mockedCloudinary.uploader.destroy as any).mockReset();
 	await dbHandler.clearDatabase();
 });
 
@@ -168,8 +165,8 @@ describe("updateArticle", () => {
 			.send(articleData[3]);
 
 		const result = await Article.findOne({ title: "updated article" });
-		//check if condition for ids worked
-		expect(mockedCloudinary.uploader.destroy).toHaveBeenCalledTimes(2);
+		//check if different img id's
+		expect(mockedCloudinary.uploader.destroy).toHaveBeenCalledTimes(1);
 		expect(response.body.article.title).toStrictEqual(result!.title);
 		expect(response.status).toBe(200);
 	});
@@ -179,37 +176,39 @@ describe("updateArticle", () => {
 			.patch(`/api/article/${createdArticle._id.toString()}`)
 			.send(articleData[2]);
 		//should not call destroy
-		expect(mockedCloudinary.uploader.destroy).toHaveBeenCalledTimes(2);
+		expect(mockedCloudinary.uploader.destroy).toHaveBeenCalledTimes(0);
 		expect(response.status).toBe(400);
 	});
 });
-// describe("deleteArticle", () => {
-// 	test("should delete article", async () => {
-// 		//article.remove()
-// 		mockArticle.prototype.remove = jest.fn(() => Promise.resolve("success"));
-// 		const newArticle = new mockArticle(articleFindData[0]);
-// 		Article.findOne = jest.fn().mockResolvedValueOnce(newArticle);
 
-// 		const response = await request(app).delete("/api/article/123");
-// 		expect(response.status).toBe(200);
-// 		expect(cloudinary.uploader.destroy).toHaveBeenCalledTimes(1);
-// 		expect(response.body.msg).toStrictEqual("Success! Article is removed");
-// 	});
-// });
-// describe("uploadArticleImage", () => {
-// 	test("should upload image", async () => {
-// 		const image = path.resolve(__dirname, "../test-files/N_logo.png");
-// 		const result = {
-// 			secure_url: "123",
-// 			public_id: "456",
-// 		} as UploadApiResponse;
-// 		mockedCloudinary.uploader.upload = jest.fn(() => {
-// 			return Promise.resolve(result);
-// 		});
+describe("deleteArticle", () => {
+	test("should delete article", async () => {
+		const createdArticle = await Article.create(articleData[0]);
+		const deletedId = createdArticle._id.toString();
 
-// 		const response = await request(app)
-// 			.post("/api/article/upload")
-// 			.attach("image", image);
-// 		expect(response.status).toBe(200);
-// 	});
-// });
+		const response = await request(app).delete(`/api/article/${deletedId}`);
+		expect(response.status).toBe(200);
+		expect(cloudinary.uploader.destroy).toHaveBeenCalledTimes(1);
+		expect(response.body.msg).toStrictEqual("Success! Article is removed");
+	});
+});
+
+describe("uploadArticleImage", () => {
+	test("should upload image", async () => {
+		const fakeImage = path.resolve(__dirname, __filename); //faked current file as image
+		const result = {
+			secure_url: "123",
+			public_id: "456",
+		} as UploadApiResponse;
+
+		mockedCloudinary.uploader.upload = jest.fn(() => {
+			return Promise.resolve(result);
+		});
+
+		const response = await request(app)
+			.post("/api/article/upload")
+			.attach("image", fakeImage);
+		expect(response.status).toBe(200);
+		expect(response.body.image.src).toStrictEqual(result.secure_url);
+	});
+});
