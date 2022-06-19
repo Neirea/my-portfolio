@@ -15,8 +15,6 @@ jest.mock("../middleware/authorizePermissions", () =>
 import { Request, Response, NextFunction } from "express";
 import request from "supertest";
 import User from "../models/User";
-import Comment from "../models/Comment";
-import Article from "../models/Article";
 import * as dbHandler from "./db";
 import app from "../app";
 
