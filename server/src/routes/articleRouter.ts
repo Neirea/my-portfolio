@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { isAuthenticated, authorizePermissions } from "../middleware/auth";
+import isAuthenticated from "../middleware/isAuthenticated";
+import authorizePermissions from "../middleware/authorizePermissions";
 import {
 	getAllArticles,
 	getSingleArticle,

@@ -10,8 +10,8 @@ export interface IArticle {
 	tags: string[];
 	image: string;
 	img_id: string;
-	userId: number;
-	_id: number;
+	userId: string;
+	_id: string;
 	createdAt: Date;
 	updatedAt: Date;
 	__v: number;

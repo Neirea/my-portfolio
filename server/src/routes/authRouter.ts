@@ -7,7 +7,7 @@ import {
 	failedLogin,
 	logout,
 } from "../controllers/authController";
-import { isAuthenticated } from "../middleware/auth";
+import isAuthenticated from "../middleware/isAuthenticated";
 
 const router = Router();
 
