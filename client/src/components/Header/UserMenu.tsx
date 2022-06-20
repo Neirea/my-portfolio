@@ -1,12 +1,12 @@
 import { useRef, useEffect, Dispatch, SetStateAction } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { BiChevronDown } from "@react-icons/all-files/bi/BiChevronDown";
 import { ReadButton } from "../../styles/StyledComponents";
 import { UserMenuWrapper } from "./UserMenuStyles";
 import { StyledMenuLink } from "./HeaderStyles";
 import { useOutsideClick } from "../../utils/useOutsideClick";
 import { useGlobalContext } from "../../store/AppContext";
-import type { LocationState } from "../../types/appTypes";
+import { LocationState, userRoles } from "../../types/appTypes";
 
 interface UserMenuProps {
 	showUserMenu: boolean;
@@ -68,8 +68,13 @@ const UserMenu = ({ showUserMenu, setShowUserMenu }: UserMenuProps) => {
 			) : (
 				<>
 					<div style={{ display: "flex" }} ref={toggleMenuRef}>
-						<p className="user-name">{user.platform_name}</p>
-
+						{user.roles.includes(userRoles.admin) ? (
+							<Link className="user-name" to="/admin-dashboard">
+								{user.platform_name}
+							</Link>
+						) : (
+							<p className="user-name">{user.platform_name}</p>
+						)}
 						<button
 							aria-label="user-menu"
 							className={userMenuStyle}

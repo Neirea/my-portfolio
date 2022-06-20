@@ -23,6 +23,7 @@ import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { recaptchaKey } from "./utils/data";
 import { userRoles } from "./types/appTypes";
 import { categoriesEnum } from "./types/articleTypes";
+import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
 	const { isLoading, darkMode } = useGlobalContext();
@@ -74,6 +75,14 @@ function App() {
 						<RequireAuth key={"admin"} allowedRoles={[userRoles.admin]} />
 					}
 				>
+					<Route
+						path="/admin-dashboard"
+						element={
+							<Suspense fallback={<LoadingSpinner />}>
+								<AdminDashboard />
+							</Suspense>
+						}
+					/>
 					<Route
 						path="/create-article"
 						element={

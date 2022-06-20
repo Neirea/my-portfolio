@@ -48,7 +48,6 @@ export const StyledMenuButton = styled.button<StyledMenuButtonProps>`
 	height: 100%;
 	aspect-ratio: 1/1.5;
 	background-color: var(--header-bg-color);
-	cursor: pointer;
 
 	& > svg {
 		color: ${(props) =>

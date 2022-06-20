@@ -6,14 +6,17 @@ export enum userRoles {
 }
 
 export interface IUser {
-	_id: string;
-	platform_id: string;
+	platform_id: number;
 	platform_name: string;
-	platform_type: string;
+	platfrom_type: string;
 	name: string;
 	roles: userRoles[];
 	avatar_url: string;
 	isBanned: boolean;
+	_id: string;
+	createdAt: Date;
+	updatedAt: Date;
+	__v: number;
 }
 
 export interface AppContextValues {

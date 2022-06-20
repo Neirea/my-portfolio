@@ -13,7 +13,6 @@ const buttonCSS = css`
 	font-size: 1rem;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	opacity: 1;
-	cursor: pointer;
 
 	@media (hover: hover) and (pointer: fine) {
 		&:hover,
@@ -125,7 +124,6 @@ export const AlertContainer = styled.div`
 		color: var(--button-color);
 		text-transform: capitalize;
 		opacity: 0.9;
-		cursor: pointer;
 		&:hover {
 			opacity: 1;
 		}

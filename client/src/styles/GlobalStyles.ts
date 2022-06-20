@@ -131,6 +131,7 @@ button {
 	background: none;
 	border: none;
 	font-family: inherit;
+	cursor: pointer;
 }
 button:disabled {
 	opacity: 0.4;

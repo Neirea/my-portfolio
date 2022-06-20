@@ -12,6 +12,12 @@ export const UserMenuWrapper = styled(MenuItem)`
 		@media (min-width: 640px) {
 			display: inline-block;
 		}
+		@media (hover: hover) and (pointer: fine) {
+			&:hover {
+				color: var(--main-text-color);
+				transition: color var(--transition);
+			}
+		}
 	}
 
 	.toggle-user-menu {
@@ -22,7 +28,6 @@ export const UserMenuWrapper = styled(MenuItem)`
 		user-select: none;
 		background: none;
 		color: var(--faded-text-color);
-		cursor: pointer;
 
 		@media (hover: hover) and (pointer: fine) {
 			&:hover {

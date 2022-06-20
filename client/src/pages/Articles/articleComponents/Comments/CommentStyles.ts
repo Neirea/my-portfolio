@@ -41,7 +41,6 @@ export const ToolsButton = styled.button`
 	padding: 0;
 	height: var(--tools-button-size);
 	width: var(--tools-button-size);
-	cursor: pointer;
 
 	&:disabled {
 		opacity: 1;

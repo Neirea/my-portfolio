@@ -6,7 +6,7 @@ export default function useBanUser() {
 
 	return useMutation((userId: string) => axios.delete(`/api/user/${userId}`), {
 		onSuccess() {
-			queryClient.invalidateQueries(["comments"], {
+			queryClient.invalidateQueries(["users"], {
 				refetchInactive: true,
 			});
 		},

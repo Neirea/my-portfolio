@@ -292,7 +292,6 @@ export const TagsGroup = styled.div`
 			&:hover {
 				border: 1px solid var(--main-text-color);
 				color: var(--main-text-color);
-				cursor: pointer;
 			}
 		}
 		&.activated {
