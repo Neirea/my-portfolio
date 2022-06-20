@@ -111,6 +111,7 @@ const Contact = () => {
 				<BlockButton type="submit" disabled={loading}>
 					{loading ? "Loading..." : "Send"}
 				</BlockButton>
+				<address>Email: neireawar@gmail.com</address>
 				<LinkGroup>
 					<a
 						className="address-link"
@@ -136,7 +137,7 @@ const LinkGroup = styled.address`
 	display: flex;
 	justify-content: center;
 	gap: 1.5rem;
-	margin-top: 2rem;
+	margin-top: 0.5rem;
 
 	.address-link {
 		width: var(--icon-size);
