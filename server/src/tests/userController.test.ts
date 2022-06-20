@@ -42,25 +42,6 @@ const fakeUser = {
 	updatedAt: Date.now(),
 };
 
-describe("updateUser", () => {
-	test("should successfully update user", async () => {
-		const user = await User.create(fakeUser);
-
-		const newUser = {
-			_id: user._id.toString(),
-			name: "new name",
-			roles: user.roles,
-			avatar_url: user.avatar_url,
-		};
-
-		const response = await request(app)
-			.patch(`/api/user/${user._id.toString()}`)
-			.send(newUser);
-		expect(response.status).toBe(200);
-		expect(response.body.user.name).toStrictEqual("new name");
-	});
-});
-
 describe("banUser", () => {
 	test("should successfully ban user", async () => {
 		const user = await User.create(fakeUser);

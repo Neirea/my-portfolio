@@ -8,6 +8,7 @@ export interface IComment {
 	user: {
 		id: number;
 		name: string;
+		avatar: string;
 	};
 	_id: number;
 	createdAt: Date;
@@ -53,6 +54,7 @@ const CommentSchema = new Schema({
 			required: true,
 		},
 		name: { type: String },
+		avatar: { type: String },
 	},
 });
 

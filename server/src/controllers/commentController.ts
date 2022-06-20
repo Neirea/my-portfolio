@@ -36,6 +36,7 @@ export const createComment = async (req: Request, res: Response) => {
 	const user = {
 		id: author._id,
 		name: author.name,
+		avatar: author.avatar_url,
 	};
 
 	const isValidProduct = await Article.findOne({ _id: articleId });
