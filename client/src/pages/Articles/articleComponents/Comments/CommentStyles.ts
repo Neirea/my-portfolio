@@ -89,8 +89,17 @@ export const SingleCommentContainer = styled.div<StyledCommentsProps>`
 	background-color: var(--article-bg-color);
 
 	.reply-to {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		position: relative;
 		color: var(--comment-header-color);
 		font-style: italic;
+		.comment-img {
+			width: 1.5rem;
+			height: 1.5rem;
+			border-radius: 50%;
+		}
 		.comment-author {
 			font-weight: 500;
 			font-style: normal;

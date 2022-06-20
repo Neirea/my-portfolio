@@ -30,6 +30,7 @@ export interface IComment {
 	user: {
 		id: string;
 		name: string;
+		avatar: string;
 	};
 	_id: string;
 	createdAt: string;

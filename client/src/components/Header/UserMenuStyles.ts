@@ -8,16 +8,22 @@ export const UserMenuWrapper = styled(MenuItem)`
 
 	.user-name {
 		display: none;
-		margin-right: 1rem;
 		@media (min-width: 640px) {
 			display: inline-block;
 		}
-		@media (hover: hover) and (pointer: fine) {
-			&:hover {
-				color: var(--main-text-color);
-				transition: color var(--transition);
+		&.admin-link {
+			@media (hover: hover) and (pointer: fine) {
+				&:hover {
+					color: var(--main-text-color);
+					transition: color var(--transition);
+				}
 			}
 		}
+	}
+	.user-menu-group {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
 	}
 
 	.toggle-user-menu {
@@ -46,6 +52,11 @@ export const UserMenuWrapper = styled(MenuItem)`
 			width: var(--icon-size);
 			height: 100%;
 			transition: transform var(--transition);
+			.user-menu-avatar {
+				width: 100%;
+				height: 100%;
+				border-radius: 50%;
+			}
 		}
 	}
 

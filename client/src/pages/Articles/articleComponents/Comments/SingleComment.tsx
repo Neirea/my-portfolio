@@ -2,6 +2,7 @@ import type { FormEvent, ChangeEvent } from "react";
 import { SingleCommentContainer } from "./CommentStyles";
 import { AlertMsg } from "../../../../styles/StyledComponents";
 import { useGlobalContext } from "../../../../store/AppContext";
+import { FaArrowUp } from "@react-icons/all-files/fa/FaArrowUp";
 import EditComment from "./EditComment";
 import ToolBar from "./CommentToolBar";
 import CommentForm from "./CommentForm";
@@ -62,16 +63,19 @@ const SingleComment = ({
 				<div id={`message-${index}`} className="reply-to">
 					{isDeepComment && (
 						<>
-							{"to: "}
-							<span className="comment-author">
-								{commentsQuery.data[index - 1].comment.user.name}
-							</span>
-							{" from: "}
+							<FaArrowUp />
+							<span>{"from:"}</span>
 						</>
 					)}
+					<img
+						className="comment-img"
+						src={comment.user.avatar}
+						width={24}
+						height={24}
+						alt="avatar"
+					/>
 					<span className="comment-author">{comment.user.name}</span>
 					<span className="comment-date">
-						&nbsp;&nbsp;·&nbsp;&nbsp;
 						{handleDate(comment.createdAt, comment.editedAt)}
 					</span>
 				</div>

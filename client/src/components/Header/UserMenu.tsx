@@ -28,7 +28,7 @@ const UserMenu = ({ showUserMenu, setShowUserMenu }: UserMenuProps) => {
 		: "/";
 
 	const userMenuStyle = showUserMenu
-		? "toggle-user-menu  activated"
+		? "toggle-user-menu activated"
 		: "toggle-user-menu";
 	const menuButtonStyle = {
 		transform: showUserMenu ? "rotate(180deg)" : "rotate(0)",
@@ -67,13 +67,13 @@ const UserMenu = ({ showUserMenu, setShowUserMenu }: UserMenuProps) => {
 				</StyledMenuLink>
 			) : (
 				<>
-					<div style={{ display: "flex" }} ref={toggleMenuRef}>
+					<div className="user-menu-group" ref={toggleMenuRef}>
 						{user.roles.includes(userRoles.admin) ? (
-							<Link className="user-name" to="/admin-dashboard">
-								{user.platform_name}
+							<Link className="user-name admin-link" to="/admin-dashboard">
+								{user.name}
 							</Link>
 						) : (
-							<p className="user-name">{user.platform_name}</p>
+							<p className="user-name">{user.name}</p>
 						)}
 						<button
 							aria-label="user-menu"
@@ -83,14 +83,14 @@ const UserMenu = ({ showUserMenu, setShowUserMenu }: UserMenuProps) => {
 							<div
 								className="user-menu-item"
 								placeholder="user name"
-								title={`${user.name}`}
+								title={`${user.platform_name}`}
 							>
 								<img
+									className="user-menu-avatar"
 									src={user.avatar_url}
-									alt={user.name}
+									alt={user.platform_name}
 									width={32}
 									height={32}
-									style={{ width: "100%", height: "100%" }}
 								/>
 							</div>
 							<div className="user-menu-item">
