@@ -1,4 +1,4 @@
-import { MouseEvent } from "react";
+import type { MouseEvent } from "react";
 import { MdDelete } from "@react-icons/all-files/md/MdDelete";
 import { AiOutlineDeleteColumn } from "@react-icons/all-files/ai/AiOutlineDeleteColumn";
 import { AiFillEdit } from "@react-icons/all-files/ai/AiFillEdit";
@@ -6,7 +6,7 @@ import { MdClose } from "@react-icons/all-files/md/MdClose";
 import { BsReplyFill } from "@react-icons/all-files/bs/BsReplyFill";
 import { ToolsButton, ReplyButton } from "./CommentStyles";
 import { useGlobalContext } from "../../../../store/AppContext";
-import { IComment } from "../../../../types/articleTypes";
+import type { IComment } from "../../../../types/articleTypes";
 import { userRoles } from "../../../../types/appTypes";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 import useDeleteComment from "../../../../hooks/Articles/comments/useDeleteComment";

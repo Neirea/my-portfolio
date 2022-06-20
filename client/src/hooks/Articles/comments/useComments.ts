@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useQuery } from "react-query";
-import { IComment, IJsxComment } from "../../../types/articleTypes";
+import type { IComment, IJsxComment } from "../../../types/articleTypes";
 
 export const parseComments = async (
 	comments: IComment[],

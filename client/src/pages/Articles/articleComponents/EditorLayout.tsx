@@ -26,7 +26,7 @@ import draftToHtml from "draftjs-to-html";
 import FormRow from "../../../components/FormRow";
 import { useDebounce } from "../../../utils/debounce";
 import { handleHtmlString } from "../../../utils/handleHtmlString";
-import { IArticleValues } from "../../../types/articleTypes";
+import type { IArticleValues } from "../../../types/articleTypes";
 import { handleDate } from "../../../utils/handleDate";
 
 interface EditorLayoutProps {

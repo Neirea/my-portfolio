@@ -1,5 +1,5 @@
 import { handleHtmlString } from "../../utils/handleHtmlString";
-import {
+import type {
 	categoriesEnum,
 	IArticle,
 	IArticleData,

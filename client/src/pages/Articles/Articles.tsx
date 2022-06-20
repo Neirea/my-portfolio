@@ -8,7 +8,7 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import { AlertContainer, AdminButton } from "../../styles/StyledComponents";
 
 import { useGlobalContext } from "../../store/AppContext";
-import { categoriesEnum, IArticle } from "../../types/articleTypes";
+import type { categoriesEnum, IArticle } from "../../types/articleTypes";
 import { userRoles } from "../../types/appTypes";
 import useArticles from "../../hooks/Articles/useArticles";
 

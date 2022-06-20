@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
-import { IComment } from "../../../types/articleTypes";
+import type { IComment } from "../../../types/articleTypes";
 import useCommentsContext from "./useCommentsContext";
 
 interface ISubmitComment {

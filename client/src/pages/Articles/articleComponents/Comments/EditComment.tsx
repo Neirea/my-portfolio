@@ -1,7 +1,7 @@
-import { ChangeEvent } from "react";
+import type { ChangeEvent } from "react";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 import { ReadButton } from "../../../../styles/StyledComponents";
-import { IComment } from "../../../../types/articleTypes";
+import type { IComment } from "../../../../types/articleTypes";
 import useUpdateComment from "../../../../hooks/Articles/comments/useUpdateComment";
 
 interface EditCommentProps {

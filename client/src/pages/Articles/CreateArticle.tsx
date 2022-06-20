@@ -7,7 +7,7 @@ import { useGlobalContext } from "../../store/AppContext";
 import EditorLayout from "./articleComponents/EditorLayout";
 import { languageDetector } from "../../utils/handleHtmlString";
 import { categoriesEnum, IArticleValues } from "../../types/articleTypes";
-import { LocationState } from "../../types/appTypes";
+import type { LocationState } from "../../types/appTypes";
 import useCreateArticle from "../../hooks/Articles/useCreateArticle";
 
 const CreateArticle = () => {

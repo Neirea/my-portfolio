@@ -3,7 +3,7 @@ import { LinkButton } from "../../../styles/StyledComponents";
 import { Link } from "react-router-dom";
 import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
 import { FaEye } from "@react-icons/all-files/fa/FaEye";
-import { IArticle } from "../../../types/articleTypes";
+import type { IArticle } from "../../../types/articleTypes";
 import { handleDate } from "../../../utils/handleDate";
 
 const MAX_CHARS = 200;

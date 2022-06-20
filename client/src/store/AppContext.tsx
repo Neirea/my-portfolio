@@ -6,7 +6,7 @@ import {
 	ReactNode,
 } from "react";
 import axios from "axios";
-import { IUser, AppContextValues } from "../types/appTypes";
+import type { IUser, AppContextValues } from "../types/appTypes";
 import { mainBgLightColor, mainBgDarkColor } from "../styles/theme";
 import { useQuery } from "react-query";
 

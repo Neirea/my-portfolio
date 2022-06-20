@@ -3,7 +3,7 @@ import { LoginButton, AlertMsg } from "../styles/StyledComponents";
 import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
 import { FaGoogle } from "@react-icons/all-files/fa/FaGoogle";
 import { useLocation } from "react-router-dom";
-import { LocationState } from "../types/appTypes";
+import type { LocationState } from "../types/appTypes";
 import { useCurrentLocation } from "../utils/useCurrentLocation";
 
 const Login = () => {

@@ -1,7 +1,7 @@
 import { ReadButton } from "../../../../styles/StyledComponents";
 import { ReplyFormWrapper } from "./CommentStyles";
-import { IComment } from "../../../../types/articleTypes";
-import { ChangeEvent, FormEvent } from "react";
+import type { IComment } from "../../../../types/articleTypes";
+import type { ChangeEvent, FormEvent } from "react";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 
 interface ReplyFormProps {

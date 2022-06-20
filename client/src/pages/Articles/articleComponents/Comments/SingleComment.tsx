@@ -1,4 +1,4 @@
-import { FormEvent, ChangeEvent } from "react";
+import type { FormEvent, ChangeEvent } from "react";
 import { SingleCommentContainer } from "./CommentStyles";
 import { AlertMsg } from "../../../../styles/StyledComponents";
 import { useGlobalContext } from "../../../../store/AppContext";
@@ -6,7 +6,7 @@ import EditComment from "./EditComment";
 import ToolBar from "./CommentToolBar";
 import CommentForm from "./CommentForm";
 import { handleDate } from "../../../../utils/handleDate";
-import { IJsxComment } from "../../../../types/articleTypes";
+import type { IJsxComment } from "../../../../types/articleTypes";
 import { userRoles } from "../../../../types/appTypes";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 

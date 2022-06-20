@@ -6,7 +6,7 @@ import { UserMenuWrapper } from "./UserMenuStyles";
 import { StyledMenuLink } from "./HeaderStyles";
 import { useOutsideClick } from "../../utils/useOutsideClick";
 import { useGlobalContext } from "../../store/AppContext";
-import { LocationState } from "../../types/appTypes";
+import type { LocationState } from "../../types/appTypes";
 
 interface UserMenuProps {
 	showUserMenu: boolean;

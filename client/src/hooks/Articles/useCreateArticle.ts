@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
-import {
+import type {
 	IArticle,
 	IUploadedImageResponse,
 	IArticleValues,

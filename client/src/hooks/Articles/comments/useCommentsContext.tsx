@@ -7,12 +7,12 @@ import {
 	useState,
 	useCallback,
 } from "react";
-import {
+import type {
 	ICommentState,
 	ICommentError,
 	IJsxComment,
 } from "../../../types/articleTypes";
-import { UseQueryResult } from "react-query";
+import type { UseQueryResult } from "react-query";
 
 import useComments from "./useComments";
 

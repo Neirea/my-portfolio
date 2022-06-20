@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useQuery, useQueryClient } from "react-query";
-import { categoriesEnum, IArticle } from "../../types/articleTypes";
+import type { categoriesEnum, IArticle } from "../../types/articleTypes";
 
 export const getArticles = (type: categoriesEnum) => {
 	return axios

@@ -19,7 +19,7 @@ import { userRoles } from "../../types/appTypes";
 import useSingleArticle from "../../hooks/Articles/useSingleArticle";
 import { CommentsProvider } from "../../hooks/Articles/comments/useCommentsContext";
 import useDeleteArticle from "../../hooks/Articles/useDeleteArticle";
-import { categoriesEnum } from "../../types/articleTypes";
+import type { categoriesEnum } from "../../types/articleTypes";
 
 const SingleArticle = ({ type }: { type: categoriesEnum }) => {
 	const { articleId } = useParams();

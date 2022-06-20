@@ -1,4 +1,4 @@
-import { IArticle } from "../../../types/articleTypes";
+import type { IArticle } from "../../../types/articleTypes";
 import { LinkButton } from "../../../styles/StyledComponents";
 import { TagsGroup } from "../ArticleStyles";
 import { NavLink } from "react-router-dom";
