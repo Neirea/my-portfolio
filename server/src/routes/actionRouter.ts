@@ -9,7 +9,7 @@ const router = Router();
 
 const emailLimiter = rateLimit({
 	windowMs: 60 * 1000,
-	max: 1,
+	max: 2,
 	standardHeaders: true,
 	legacyHeaders: false,
 	message: {

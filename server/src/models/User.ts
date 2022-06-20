@@ -18,7 +18,7 @@ export interface IUser {
 	roles: userRoles[];
 	avatar_url: string;
 	isBanned: boolean;
-	_id: number;
+	_id: string;
 	createdAt: Date;
 	updatedAt: Date;
 	__v: number;
