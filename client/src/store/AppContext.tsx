@@ -25,11 +25,12 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
 	//fetch only once on load
 	const { isLoading } = useQuery(
-		"user",
+		["user"],
 		() =>
 			axios.get<{ user: IUser }>("/api/user/showMe").then((res) => res.data),
 		{
 			onSuccess: (data) => {
+				if (!data) return;
 				setUser(data.user);
 			},
 		}

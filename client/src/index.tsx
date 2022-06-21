@@ -32,7 +32,6 @@ root.render(
 			<QueryClientProvider client={queryClient}>
 				<AppProvider>
 					<App />
-					<div id="success-portal"></div>
 				</AppProvider>
 			</QueryClientProvider>
 		</BrowserRouter>
