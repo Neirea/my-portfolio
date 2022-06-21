@@ -11,19 +11,21 @@ import { userRoles } from "../../../../types/appTypes";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 import useDeleteComment from "../../../../hooks/Articles/comments/useDeleteComment";
 import useDeleteCommentTree from "../../../../hooks/Articles/comments/useDeleteCommentTree";
+import useComments from "../../../../hooks/Articles/comments/useComments";
 
 const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 	const { user } = useGlobalContext();
-	const { commentsQuery, setCommentState, commentState, resetCommentState } =
+
+	const { articleId, setCommentState, commentState, resetCommentState } =
 		useCommentsContext();
+	const { isFetching } = useComments(articleId);
 	const { mutate: deleteOneComment, isLoading: deleteOneLoading } =
 		useDeleteComment();
 
 	const { mutate: deleteCommentTree, isLoading: deleteTreeLoading } =
 		useDeleteCommentTree();
 
-	const isLoading =
-		deleteOneLoading || deleteTreeLoading || commentsQuery.isFetching;
+	const isLoading = deleteOneLoading || deleteTreeLoading || isFetching;
 
 	const isShowReplyButton = commentState.type !== "edit" && comment.message;
 

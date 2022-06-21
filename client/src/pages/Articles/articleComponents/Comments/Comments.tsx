@@ -8,13 +8,15 @@ import SingleComment from "./SingleComment";
 
 import { useGlobalContext } from "../../../../store/AppContext";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
+import useComments from "../../../../hooks/Articles/comments/useComments";
 
 const Comments = () => {
 	const location = useLocation();
 	const { user } = useGlobalContext();
-	const { commentsQuery, commentState, commentError } = useCommentsContext();
+	const { articleId, commentState, commentError } = useCommentsContext();
+	const { data: comments } = useComments(articleId);
 
-	const isShowCommentsHeader = !!commentsQuery.data?.length || user;
+	const isShowCommentsHeader = !!comments?.length || user;
 	const isShowCommentError =
 		commentError.msg && commentError.index === undefined;
 	const isShowNewCommentForm =
@@ -26,16 +28,14 @@ const Comments = () => {
 				{/* Comments Header */}
 				{isShowCommentsHeader && (
 					<h5>
-						{commentsQuery.data
-							? `Comments(${commentsQuery.data.length}):`
-							: "Loading comments..."}
+						{comments ? `Comments(${comments.length}):` : "Loading comments..."}
 					</h5>
 				)}
 				{user && user.isBanned && (
 					<AlertMsg>You are currently suspended from posting comments</AlertMsg>
 				)}
 				{/* mapping through comments */}
-				{commentsQuery.data?.map((element, index) => {
+				{comments?.map((element, index) => {
 					return (
 						<Fragment key={index}>
 							<SingleComment index={index} commentElement={element} />

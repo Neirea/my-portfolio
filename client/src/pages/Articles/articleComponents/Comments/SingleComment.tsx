@@ -21,7 +21,7 @@ const SingleComment = ({ index, commentElement }: SingleCommentProps) => {
 	const { level, comment } = commentElement;
 	const step = 3; // % of marginLeft and cut on width
 	const depth = level >= 5 ? 5 : level; //max depth to show
-	const { commentsQuery, commentState, commentError } = useCommentsContext();
+	const { commentState, commentError } = useCommentsContext();
 
 	/* show conditions */
 	const isShowToolBar =
@@ -29,8 +29,6 @@ const SingleComment = ({ index, commentElement }: SingleCommentProps) => {
 		user &&
 		user.isBanned === false &&
 		(user._id === comment.user.id || user.roles.includes(userRoles.admin));
-
-	const isDeepComment = level > 5 && comment.parentId && commentsQuery.data;
 
 	const isShowMessage =
 		commentState.type !== "edit" || commentState.id !== comment._id;
@@ -53,7 +51,7 @@ const SingleComment = ({ index, commentElement }: SingleCommentProps) => {
 			<SingleCommentContainer step={step} depth={depth}>
 				{/* Comment Header */}
 				<div className="comment-header">
-					{isDeepComment && (
+					{level > 5 && (
 						<>
 							<FaArrowUp />
 							<span>{"from:"}</span>
@@ -65,6 +63,7 @@ const SingleComment = ({ index, commentElement }: SingleCommentProps) => {
 						width={24}
 						height={24}
 						alt=""
+						referrerPolicy="no-referrer"
 					/>
 					<span className="comment-author">{comment.user.name}</span>
 					<span className="comment-date">

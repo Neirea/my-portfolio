@@ -7,18 +7,10 @@ import {
 	useState,
 	useCallback,
 } from "react";
-import type {
-	ICommentState,
-	ICommentError,
-	IJsxComment,
-} from "../../../types/articleTypes";
-import type { UseQueryResult } from "react-query";
-
-import useComments from "./useComments";
+import type { ICommentState, ICommentError } from "../../../types/articleTypes";
 
 interface commentsContextValues {
 	articleId: string | undefined;
-	commentsQuery: UseQueryResult<IJsxComment[], unknown>;
 	commentState: ICommentState;
 	setCommentState: Dispatch<SetStateAction<ICommentState>>;
 	commentError: ICommentError;
@@ -50,8 +42,6 @@ export const CommentsProvider = ({
 	const [commentError, setCommentError] =
 		useState<ICommentError>(initialCommentError);
 
-	const commentsQuery = useComments(value.articleId);
-
 	const resetCommentState = useCallback(() => {
 		setCommentState(initialCommentState);
 		setCommentError(initialCommentError);
@@ -61,7 +51,6 @@ export const CommentsProvider = ({
 		<CommentsContext.Provider
 			value={{
 				articleId,
-				commentsQuery,
 				commentState,
 				setCommentState,
 				commentError,
