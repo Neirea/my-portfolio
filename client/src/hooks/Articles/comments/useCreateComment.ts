@@ -36,7 +36,7 @@ export default function useCreateComment() {
 				if (index !== undefined) {
 					repliedTo?.replies.push(newData);
 				} else {
-					oldData.push(newData);
+					oldData.unshift(newData);
 				}
 
 				queryClient.invalidateQueries(["comments", articleId], {

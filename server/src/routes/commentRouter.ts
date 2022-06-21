@@ -15,7 +15,7 @@ const router = Router();
 
 const commentLimiter = rateLimit({
 	windowMs: 60 * 1000,
-	max: 3,
+	max: 5,
 	standardHeaders: true,
 	legacyHeaders: false,
 	message: {
