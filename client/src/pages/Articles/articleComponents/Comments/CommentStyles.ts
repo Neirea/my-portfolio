@@ -4,7 +4,7 @@ interface StyledCommentsProps {
 	step: number;
 	depth: number;
 }
-interface ReplyFormProps {
+interface CommentFormProps {
 	step?: number;
 	depth?: number;
 }
@@ -88,7 +88,7 @@ export const SingleCommentContainer = styled.div<StyledCommentsProps>`
 	border-radius: var(--border-radius);
 	background-color: var(--article-bg-color);
 
-	.reply-to {
+	.comment-header {
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
@@ -101,6 +101,9 @@ export const SingleCommentContainer = styled.div<StyledCommentsProps>`
 			border-radius: 50%;
 		}
 		.comment-author {
+			& span {
+				color: var(--comment-header-color);
+			}
 			font-weight: 500;
 			font-style: normal;
 			font-size: 0.9rem;
@@ -145,11 +148,24 @@ export const SingleCommentContainer = styled.div<StyledCommentsProps>`
 	}
 
 	.comment-message {
-		margin: 0.5rem 0 1rem;
+		margin: 1rem 0;
 	}
 `;
 
-export const ReplyFormWrapper = styled.form<ReplyFormProps>`
+export const CommentFormWrapper = styled.form<CommentFormProps>`
+	.reply-to {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		position: relative;
+		font-style: italic;
+
+		.comment-author {
+			color: var(--comment-header-color);
+			font-weight: 500;
+			font-size: 0.9rem;
+		}
+	}
 	position: relative;
 	margin-left: ${(props) =>
 		(props.depth && props.step && props.depth * props.step) || 0}%;

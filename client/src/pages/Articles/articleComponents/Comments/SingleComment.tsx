@@ -51,8 +51,8 @@ const SingleComment = ({ index, commentElement }: SingleCommentProps) => {
 		<>
 			{/* {isShowSingleCommentAlert && <AlertMsg>{commentError.msg}</AlertMsg>} */}
 			<SingleCommentContainer step={step} depth={depth}>
-				{/* Label above message */}
-				<div id={`message-${index}`} className="reply-to">
+				{/* Comment Header */}
+				<div className="comment-header">
 					{isDeepComment && (
 						<>
 							<FaArrowUp />
@@ -64,7 +64,7 @@ const SingleComment = ({ index, commentElement }: SingleCommentProps) => {
 						src={comment.user.avatar}
 						width={24}
 						height={24}
-						alt="avatar"
+						alt=""
 					/>
 					<span className="comment-author">{comment.user.name}</span>
 					<span className="comment-date">

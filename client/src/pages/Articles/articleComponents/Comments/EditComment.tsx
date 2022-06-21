@@ -26,7 +26,6 @@ const EditComment = ({ index, comment }: EditCommentProps) => {
 		<>
 			<textarea
 				id={index.toString()}
-				data-testid={`edit-box-${index}`}
 				placeholder="Edit Message"
 				maxLength={280}
 				autoFocus
@@ -43,12 +42,8 @@ const EditComment = ({ index, comment }: EditCommentProps) => {
 			{/* buttons in the bottom */}
 			<div className="edit-comment-buttons">
 				{/* Save Edited Content */}
-				<ReadButton
-					data-testid={`save-edit-${index}`}
-					onClick={handleSaveUpdate}
-					disabled={isLoading}
-				>
-					Save
+				<ReadButton onClick={handleSaveUpdate} disabled={isLoading}>
+					{isLoading ? "Saving..." : "Submit"}
 				</ReadButton>
 				{/* Cancel Editing */}
 				<ReadButton onClick={resetCommentState}>Cancel</ReadButton>

@@ -1,5 +1,5 @@
 import { ReadButton } from "../../../../styles/StyledComponents";
-import { ReplyFormWrapper } from "./CommentStyles";
+import { CommentFormWrapper } from "./CommentStyles";
 import type { IComment } from "../../../../types/articleTypes";
 import { ChangeEvent, FormEvent, useState } from "react";
 import useCreateComment from "../../../../hooks/Articles/comments/useCreateComment";
@@ -36,14 +36,14 @@ const ReplyForm = ({ comment, index, step, depth }: ReplyFormProps) => {
 	};
 
 	return (
-		<ReplyFormWrapper
+		<CommentFormWrapper
 			depth={depth}
 			step={step}
 			onSubmit={(e) => handleSubmit(e, index)}
 		>
 			{comment && (
 				<label htmlFor={`reply-${index}`} className="reply-to">
-					reply to:&nbsp;
+					<span>{"reply to: "}</span>
 					<span className="comment-author">{`${comment.user.name}`}</span>
 				</label>
 			)}
@@ -61,7 +61,7 @@ const ReplyForm = ({ comment, index, step, depth }: ReplyFormProps) => {
 			<ReadButton type="submit" disabled={isLoading}>
 				{isLoading ? "Saving..." : "Submit"}
 			</ReadButton>
-		</ReplyFormWrapper>
+		</CommentFormWrapper>
 	);
 };
 

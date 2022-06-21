@@ -56,8 +56,7 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 				{isShowReplyButton && (
 					<ReplyButton
 						className={isActiveReply ? "btn-activated" : ""}
-						data-testid={`reply-button-${index}`}
-						aria-label="reply to comment"
+						aria-label={`reply to #${index} comment`}
 						onClick={handleReply}
 						disabled={isLoading}
 					>
@@ -69,8 +68,7 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 					</ReplyButton>
 				)}
 				<ToolsButton
-					data-testid={`edit-${index}`}
-					aria-label="edit comment"
+					aria-label={`edit #${index} comment`}
 					title={"Edit Comment"}
 					onClick={handleEditCommentClick}
 					disabled={isLoading}
@@ -81,8 +79,7 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 			<div className="tool-bar-group">
 				{comment.message && (
 					<ToolsButton
-						data-testid={`delete-${index}`}
-						aria-label="delete comment"
+						aria-label={`delete #${index} comment`}
 						title="Delete Comment"
 						disabled={isLoading}
 						onClick={() => deleteOneComment({ commentId: comment._id, index })}
@@ -93,8 +90,7 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 				{user?.roles.includes(userRoles.admin) && (
 					<>
 						<ToolsButton
-							data-testid={`delete-tree-${index}`}
-							aria-label="delete comment tree"
+							aria-label={`delete tree of #${index} comment`}
 							title="Delete Comment Tree"
 							disabled={isLoading}
 							onClick={() =>
