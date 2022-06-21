@@ -94,9 +94,7 @@ describe("Comments", () => {
 		userEvent.click(
 			screen.getByRole("button", { name: /reply to #0 comment/i })
 		); //click reply button on comment #1
-		const replyForm = screen.getByRole("textbox", {
-			name: /reply to: yevhenii shumilin/i,
-		});
+		const replyForm = screen.getByRole("textbox");
 		userEvent.type(replyForm, "reply message");
 
 		//submit reply
