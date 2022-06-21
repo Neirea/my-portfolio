@@ -1,4 +1,3 @@
-import type { FormEvent, ChangeEvent } from "react";
 import { SingleCommentContainer } from "./CommentStyles";
 import { AlertMsg } from "../../../../styles/StyledComponents";
 import { useGlobalContext } from "../../../../store/AppContext";
@@ -14,16 +13,9 @@ import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsC
 interface SingleCommentProps {
 	index: number;
 	commentElement: IJsxComment;
-	handleChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
-	handleSubmit: (e: FormEvent, index?: number) => void;
 }
 
-const SingleComment = ({
-	index,
-	commentElement,
-	handleChange,
-	handleSubmit,
-}: SingleCommentProps) => {
+const SingleComment = ({ index, commentElement }: SingleCommentProps) => {
 	const { user } = useGlobalContext();
 
 	const { level, comment } = commentElement;
@@ -88,13 +80,7 @@ const SingleComment = ({
 				{/* Single Comment Errors */}
 				{isShowSingleCommentAlert && <AlertMsg>{commentError.msg}</AlertMsg>}
 				{/* Edit Comment Form && Buttons */}
-				{isShowEditUI && (
-					<EditComment
-						index={index}
-						comment={comment}
-						handleChange={handleChange}
-					/>
-				)}
+				{isShowEditUI && <EditComment index={index} comment={comment} />}
 				{/* Toolbar for comment */}
 				{isShowToolBar && <ToolBar index={index} comment={comment} />}
 			</SingleCommentContainer>
@@ -105,8 +91,6 @@ const SingleComment = ({
 					index={index}
 					step={step}
 					depth={depth}
-					onSubmit={handleSubmit}
-					handleChange={handleChange}
 				/>
 			)}
 		</>

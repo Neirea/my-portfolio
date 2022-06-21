@@ -51,7 +51,6 @@ export interface IArticleData {
 export interface ICommentState {
 	type: ACTIONS;
 	id: string | null;
-	message: string;
 }
 export interface ICommentError {
 	index: number | undefined;

@@ -35,7 +35,6 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 		setCommentState({
 			type: "edit",
 			id: comment._id,
-			message: comment.message,
 		});
 	};
 
@@ -48,7 +47,6 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 		setCommentState({
 			type: "reply",
 			id: comment._id,
-			message: "",
 		});
 	};
 

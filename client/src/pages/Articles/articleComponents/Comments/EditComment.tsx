@@ -1,4 +1,4 @@
-import type { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 import { ReadButton } from "../../../../styles/StyledComponents";
 import type { IComment } from "../../../../types/articleTypes";
@@ -7,15 +7,19 @@ import useUpdateComment from "../../../../hooks/Articles/comments/useUpdateComme
 interface EditCommentProps {
 	index: number;
 	comment: IComment;
-	handleChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-const EditComment = ({ index, comment, handleChange }: EditCommentProps) => {
-	const { commentState, resetCommentState } = useCommentsContext();
+const EditComment = ({ index, comment }: EditCommentProps) => {
+	const [message, setMessage] = useState(comment.message);
+	const { resetCommentState } = useCommentsContext();
 	const { mutate: updateComment, isLoading } = useUpdateComment();
 
 	const handleSaveUpdate = async () => {
-		updateComment({ commentId: comment._id, msg: commentState.message, index });
+		updateComment({ commentId: comment._id, msg: message, index });
+	};
+
+	const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+		setMessage(e.target.value);
 	};
 
 	return (
@@ -28,14 +32,11 @@ const EditComment = ({ index, comment, handleChange }: EditCommentProps) => {
 				autoFocus
 				onFocus={(e) => {
 					//sets cursor at the end of input
-					e.target.setSelectionRange(
-						commentState.message.length,
-						commentState.message.length
-					);
+					e.target.setSelectionRange(message.length, message.length);
 				}}
 				minLength={10}
 				className="create-comment"
-				value={commentState.message}
+				value={message}
 				required={true}
 				onChange={handleChange}
 			></textarea>

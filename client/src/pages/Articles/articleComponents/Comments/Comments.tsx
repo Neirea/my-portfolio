@@ -1,43 +1,24 @@
-import { ChangeEvent, FormEvent, Fragment } from "react";
+import { Fragment } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { CommentsWrapper, ReplyFormWrapper } from "./CommentStyles";
-import { ReadButton, AlertMsg } from "../../../../styles/StyledComponents";
+import { CommentsWrapper } from "./CommentStyles";
+import { AlertMsg } from "../../../../styles/StyledComponents";
+import CommentForm from "./CommentForm";
 
 import SingleComment from "./SingleComment";
 
 import { useGlobalContext } from "../../../../store/AppContext";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
-import useCreateComment from "../../../../hooks/Articles/comments/useCreateComment";
 
 const Comments = () => {
 	const location = useLocation();
-
 	const { user } = useGlobalContext();
-	const { commentsQuery, commentState, setCommentState, commentError } =
-		useCommentsContext();
-	const { mutate: createComment, isLoading } = useCreateComment();
+	const { commentsQuery, commentState, commentError } = useCommentsContext();
 
 	const isShowCommentsHeader = !!commentsQuery.data?.length || user;
 	const isShowCommentError =
 		commentError.msg && commentError.index === undefined;
 	const isShowNewCommentForm =
 		user && user.isBanned === false && commentState.type === "none";
-
-	const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-		setCommentState({ ...commentState, message: e.target.value });
-	};
-
-	const handleSubmit = async (e: FormEvent, index?: number) => {
-		e.preventDefault();
-
-		const submitData = {
-			userId: user!._id,
-			message: commentState.message,
-			parentId: commentState.id,
-		};
-
-		createComment({ submitData, index });
-	};
 
 	return (
 		<CommentsWrapper>
@@ -57,12 +38,7 @@ const Comments = () => {
 				{commentsQuery.data?.map((element, index) => {
 					return (
 						<Fragment key={index}>
-							<SingleComment
-								index={index}
-								commentElement={element}
-								handleChange={handleChange}
-								handleSubmit={handleSubmit}
-							/>
+							<SingleComment index={index} commentElement={element} />
 						</Fragment>
 					);
 				})}
@@ -72,23 +48,7 @@ const Comments = () => {
 				isShowCommentError && <AlertMsg>{commentError.msg}</AlertMsg>
 			}
 			{/*show "Create New Comment" only if "Reply Form" and "Edit Message" are disabled */}
-			{isShowNewCommentForm && (
-				<ReplyFormWrapper onSubmit={handleSubmit}>
-					<textarea
-						id="new-comment"
-						placeholder="Post New Comment"
-						maxLength={280}
-						minLength={10}
-						className="create-comment"
-						required={true}
-						value={commentState.message}
-						onChange={handleChange}
-					></textarea>
-					<ReadButton type="submit" disabled={isLoading}>
-						Submit
-					</ReadButton>
-				</ReplyFormWrapper>
-			)}
+			{isShowNewCommentForm && <CommentForm />}
 			{!user && (
 				<>
 					<div className="notsigned-message">

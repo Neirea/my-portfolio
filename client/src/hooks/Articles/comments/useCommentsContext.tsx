@@ -31,7 +31,6 @@ export const CommentsContext = createContext({} as commentsContextValues);
 const initialCommentState: ICommentState = {
 	type: "none",
 	id: null,
-	message: "",
 };
 const initialCommentError = {
 	index: undefined,
