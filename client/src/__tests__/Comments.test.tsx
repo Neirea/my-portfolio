@@ -15,52 +15,51 @@ import type { IComment } from "../types/articleTypes";
 const mock = new MockAdapter(axios);
 
 describe("Comments", () => {
-	test("Should get comment, reply to it, delete first new comment correctly and then delete tree of comments", async () => {
-		//data received after login
-		const fakeUser = {
-			name: "Yevhenii Shumilin",
-			_id: "111",
-			roles: ["admin", "user"],
-			isBanned: false,
-		} as IUser;
+	//data received after login
+	const fakeUser = {
+		name: "Yevhenii Shumilin",
+		_id: "111",
+		roles: ["admin", "user"],
+		isBanned: false,
+	} as IUser;
 
-		const fakeComment: IComment = {
-			articleId: "123",
-			message: "test message",
-			replies: [],
-			parentId: "",
-			user: {
-				id: fakeUser._id,
-				name: fakeUser.name,
-				avatar: "image",
-			},
-			_id: "456",
-			createdAt: new Date().toString(),
-			editedAt: new Date().toString(),
-		};
-		const fakeReply: IComment = {
-			articleId: fakeComment.articleId,
-			message: "FAKE REPLY",
-			replies: [],
-			parentId: "456",
-			user: fakeComment.user,
-			_id: "789",
-			createdAt: new Date().toString(),
-			editedAt: new Date().toString(),
-		};
-		const fakeReplyEdit: IComment = {
-			articleId: fakeReply.articleId,
-			message: "message was edited",
-			replies: [],
-			parentId: fakeReply.parentId,
-			user: fakeReply.user,
-			_id: fakeReply._id,
-			createdAt: fakeReply.createdAt,
-			editedAt: new Date(Date.now() + 1000 * 60 * 3).toString(), //3minutes into future
-		};
+	const fakeComment: IComment = {
+		articleId: "123",
+		message: "test message",
+		replies: [],
+		parentId: "",
+		user: {
+			id: fakeUser._id,
+			name: fakeUser.name,
+			avatar: "image",
+		},
+		_id: "456",
+		createdAt: new Date().toString(),
+		editedAt: new Date().toString(),
+	};
+	const fakeReply: IComment = {
+		articleId: fakeComment.articleId,
+		message: "FAKE REPLY",
+		replies: [],
+		parentId: "456",
+		user: fakeComment.user,
+		_id: "789",
+		createdAt: new Date().toString(),
+		editedAt: new Date().toString(),
+	};
+	const fakeReplyEdit: IComment = {
+		articleId: fakeReply.articleId,
+		message: "message was edited",
+		replies: [],
+		parentId: fakeReply.parentId,
+		user: fakeReply.user,
+		_id: fakeReply._id,
+		createdAt: fakeReply.createdAt,
+		editedAt: new Date(Date.now() + 1000 * 60 * 3).toString(), //3minutes into future
+	};
 
-		const queryClient = new QueryClient();
-
+	const queryClient = new QueryClient();
+	test("should get existing comment and reply to it", async () => {
 		mock
 			.onGet(`/api/comment/${fakeComment.articleId}`)
 			.reply(200, { comments: [fakeComment] });
@@ -76,7 +75,6 @@ describe("Comments", () => {
 				</QueryClientProvider>
 			</BrowserRouter>
 		);
-
 		expect(
 			await screen.findByRole("heading", { name: /loading comments.../i })
 		).toBeInTheDocument();
@@ -105,7 +103,8 @@ describe("Comments", () => {
 		expect(
 			await screen.findByRole("heading", { name: /comments\(2\):/i })
 		).toBeInTheDocument();
-
+	});
+	test("should correctly edit reply", async () => {
 		// editing submitted reply
 		mock
 			.onPatch(`/api/comment/${fakeComment.articleId}/${fakeReply._id}`)
@@ -113,6 +112,19 @@ describe("Comments", () => {
 		mock
 			.onGet(`/api/comment/${fakeComment.articleId}`)
 			.reply(200, { comments: [fakeComment, fakeReplyEdit] });
+
+		render(
+			<BrowserRouter>
+				<QueryClientProvider client={queryClient}>
+					<AppContext.Provider value={{ user: fakeUser } as AppContextValues}>
+						<CommentsProvider value={{ articleId: fakeComment.articleId }}>
+							<Comments />
+						</CommentsProvider>
+					</AppContext.Provider>
+				</QueryClientProvider>
+			</BrowserRouter>
+		);
+
 		userEvent.click(
 			await screen.findByRole("button", { name: /edit #1 comment/i })
 		);
@@ -124,7 +136,8 @@ describe("Comments", () => {
 				await userEvent.click(screen.getByRole("button", { name: /submit/i }))
 		);
 		expect(screen.getByText(/message was edited/i)).toBeInTheDocument();
-
+	});
+	test("should correctly delete root comment", async () => {
 		//deleting comment
 		fakeComment.message = "";
 		mock
@@ -134,6 +147,21 @@ describe("Comments", () => {
 			.onGet(`/api/comment/${fakeComment.articleId}`)
 			.reply(200, { comments: [fakeComment, fakeReplyEdit] });
 
+		render(
+			<BrowserRouter>
+				<QueryClientProvider client={queryClient}>
+					<AppContext.Provider value={{ user: fakeUser } as AppContextValues}>
+						<CommentsProvider value={{ articleId: fakeComment.articleId }}>
+							<Comments />
+						</CommentsProvider>
+					</AppContext.Provider>
+				</QueryClientProvider>
+			</BrowserRouter>
+		);
+		expect(
+			await screen.findByRole("heading", { name: /comments\(2\):/i })
+		).toBeInTheDocument();
+
 		await act(
 			async () =>
 				await userEvent.click(
@@ -141,7 +169,8 @@ describe("Comments", () => {
 				)
 		);
 		expect(screen.getByText(/message was deleted/i)).toBeInTheDocument();
-
+	});
+	test("should delete subtree of comments", async () => {
 		//deleting tree of comments
 		mock
 			.onDelete(
@@ -152,6 +181,22 @@ describe("Comments", () => {
 		mock
 			.onGet(`/api/comment/${fakeComment.articleId}`)
 			.reply(200, { comments: [] });
+
+		render(
+			<BrowserRouter>
+				<QueryClientProvider client={queryClient}>
+					<AppContext.Provider value={{ user: fakeUser } as AppContextValues}>
+						<CommentsProvider value={{ articleId: fakeComment.articleId }}>
+							<Comments />
+						</CommentsProvider>
+					</AppContext.Provider>
+				</QueryClientProvider>
+			</BrowserRouter>
+		);
+		expect(
+			await screen.findByRole("heading", { name: /comments\(2\):/i })
+		).toBeInTheDocument();
+
 		await act(
 			async () =>
 				await userEvent.click(
