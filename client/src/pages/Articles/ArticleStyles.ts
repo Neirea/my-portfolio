@@ -175,7 +175,7 @@ export const ArticleCardsWrapper = styled.section`
 	}
 `;
 
-export const ArticleCardsContainer = styled.div`
+export const ArticleCardContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 

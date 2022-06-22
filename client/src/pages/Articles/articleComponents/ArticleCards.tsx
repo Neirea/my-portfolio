@@ -1,4 +1,4 @@
-import { ArticleCardsWrapper, ArticleCardsContainer } from "../ArticleStyles";
+import { ArticleCardsWrapper, ArticleCardContainer } from "../ArticleStyles";
 import { LinkButton } from "../../../styles/StyledComponents";
 import { Link } from "react-router-dom";
 import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
@@ -25,7 +25,7 @@ const ArticleCards = ({
 				tempDiv.remove();
 
 				return (
-					<ArticleCardsContainer key={element._id}>
+					<ArticleCardContainer key={element._id}>
 						<Link to={`/${type}/${element._id}`}>
 							<img
 								className="acard-image"
@@ -71,7 +71,7 @@ const ArticleCards = ({
 								)}
 							</div>
 						</div>
-					</ArticleCardsContainer>
+					</ArticleCardContainer>
 				);
 			})}
 		</ArticleCardsWrapper>
