@@ -47,7 +47,7 @@ export const NavMenuItem = styled(MenuItem)`
 export const MobileNavMenuWrapper = styled.nav`
 	position: absolute;
 	right: 0;
-	top: calc(4rem - 1px);
+	top: calc(var(--header-height) - 1px);
 	z-index: 1;
 	height: 0px;
 

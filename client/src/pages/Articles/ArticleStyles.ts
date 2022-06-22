@@ -76,7 +76,9 @@ export const ArticleContentWrapper = styled.section`
 			flex-direction: column;
 			align-items: center;
 			gap: 0.5rem;
-
+			.article-title {
+				text-align: center;
+			}
 			.article-image {
 				display: block;
 				width: 100%;

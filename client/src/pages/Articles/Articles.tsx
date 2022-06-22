@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { ArticlePageWrapper, ArticleSideMenuWrapper } from "./ArticleStyles";
+import {
+	ArticlePageWrapper,
+	ArticleSideMenuWrapper,
+	ArticleCardsWrapper,
+} from "./ArticleStyles";
 import ArticleSideMenu from "./articleComponents/ArticleSideMenu";
 import ArticleCards from "./articleComponents/ArticleCards";
 import LoadingSpinner from "../../components/LoadingSpinner";
@@ -78,7 +82,9 @@ const Articles = ({ type }: { type: categoriesEnum }) => {
 	return (
 		<ArticlePageWrapper>
 			{!!articleCards?.length ? (
-				<ArticleCards type={type} articleCards={articleCards} />
+				<ArticleCardsWrapper className="flex-item-1">
+					<ArticleCards type={type} articleCards={articleCards} />
+				</ArticleCardsWrapper>
 			) : (
 				<div className="article-alert-filter">
 					<AlertContainer>

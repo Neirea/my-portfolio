@@ -65,7 +65,7 @@ export const UserMenuWrapper = styled(MenuItem)`
 		align-items: center;
 
 		position: absolute;
-		top: 4rem;
+		top: var(--header-height);
 		right: -1rem;
 		padding: 0 1rem;
 

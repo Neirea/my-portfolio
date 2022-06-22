@@ -1,4 +1,4 @@
-import { ArticleCardsWrapper, ArticleCardContainer } from "../ArticleStyles";
+import { ArticleCardContainer } from "../ArticleStyles";
 import { LinkButton } from "../../../styles/StyledComponents";
 import { Link } from "react-router-dom";
 import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
@@ -16,7 +16,7 @@ const ArticleCards = ({
 	type: string;
 }) => {
 	return (
-		<ArticleCardsWrapper className="flex-item-1">
+		<>
 			{articleCards.map((element, idx) => {
 				//transform html to string stopping before img/code
 				const tempDiv = document.createElement("div");
@@ -74,7 +74,7 @@ const ArticleCards = ({
 					</ArticleCardContainer>
 				);
 			})}
-		</ArticleCardsWrapper>
+		</>
 	);
 };
 

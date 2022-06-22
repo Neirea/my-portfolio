@@ -24,6 +24,7 @@ import { recaptchaKey } from "./utils/data";
 import { userRoles } from "./types/appTypes";
 import { categoriesEnum } from "./types/articleTypes";
 import AdminDashboard from "./pages/AdminDashboard";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
 	const { isLoading, darkMode } = useGlobalContext();
@@ -34,6 +35,7 @@ function App() {
 	}
 	return (
 		<ThemeProvider theme={selectedTheme}>
+			<ScrollToTop />
 			<GlobalStyles />
 			<Header />
 			<Routes>

@@ -57,6 +57,10 @@ export const SuccessButton = styled.button`
 	${buttonCSS}
 	padding: 0.5rem 1rem;
 `;
+export const MoreButton = styled(Link)`
+	${buttonCSS}
+	padding: 0.5rem 1rem;
+`;
 
 export const LoginButton = styled.button`
 	${buttonCSS}

@@ -38,6 +38,7 @@ export const GlobalStyles = createGlobalStyle`
 	--icon-size: min(2rem, 10vw);
 	--article-width: min(44rem,95%);
 	--article-card-width: min(22rem,95%);
+	--header-height: 4rem;
 	--border-radius: 0.25rem;
 	--tools-button-size: 1.25rem;
 	--letter-spacing: 1px;
@@ -78,8 +79,8 @@ body {
 	color: var(--main-text-color);
 	background: var(--main-bg-color);
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+    			'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    			sans-serif;
 }
 h1,
 h2,
@@ -130,16 +131,14 @@ address {
 button {
 	background: none;
 	border: none;
-	font-family: inherit;
 	cursor: pointer;
 }
 button:disabled {
 	opacity: 0.4;
 	cursor: not-allowed;
 }
-textarea,input {
-	font-family: inherit;
-	font-size: 1rem;
+textarea,input,button {
+	font: inherit;
 }
 code, pre {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",

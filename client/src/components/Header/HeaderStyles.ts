@@ -15,7 +15,7 @@ export const HeaderWrapper = styled.header`
 	padding-left: 5%;
 	z-index: 1;
 
-	height: 4rem;
+	height: var(--header-height);
 	box-shadow: 0 0 1rem -0.5rem rgb(85, 0, 170, 0.5);
 	background-color: var(--header-bg-color);
 

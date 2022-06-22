@@ -16,7 +16,7 @@ export const socialMediaLinks = [
 	{
 		image: <FiMail size={"100%"} />,
 		name: "email",
-		link: "mailto:neireasoultix@gmail.com",
+		link: "mailto:neirea@ukr.net",
 	},
 ];
 export const menuItems = [
