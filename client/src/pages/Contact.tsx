@@ -2,8 +2,6 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { BlockButton, AlertMsg, StyledForm } from "../styles/StyledComponents";
-import { FaLinkedin } from "@react-icons/all-files/fa/FaLinkedin";
-import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
 import FormRow from "../components/FormRow";
 import SuccessModal from "../components/SuccessModal";
 import { useGlobalContext } from "../store/AppContext";
@@ -111,22 +109,18 @@ const Contact = () => {
 				<BlockButton type="submit" disabled={loading}>
 					{loading ? "Loading..." : "Send"}
 				</BlockButton>
-				<address>Email: neireawar@gmail.com</address>
 				<LinkGroup>
-					<a
-						className="address-link"
-						href={socialMediaLinks[0].link}
-						aria-label="Linkedin"
-					>
-						<FaLinkedin size={"100%"} />
-					</a>
-					<a
-						className="address-link"
-						href={socialMediaLinks[1].link}
-						aria-label="Github"
-					>
-						<FaGithub size={"100%"} />
-					</a>
+					{socialMediaLinks.map((item) => {
+						return (
+							<a
+								className="address-link"
+								href={item.link}
+								aria-label={item.name}
+							>
+								{item.image}
+							</a>
+						);
+					})}
 				</LinkGroup>
 			</StyledForm>
 		</main>

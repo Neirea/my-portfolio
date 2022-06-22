@@ -1,5 +1,6 @@
 import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
 import { FaLinkedin } from "@react-icons/all-files/fa/FaLinkedin";
+import { FiMail } from "@react-icons/all-files/fi/FiMail";
 
 export const socialMediaLinks = [
 	{
@@ -7,11 +8,15 @@ export const socialMediaLinks = [
 		name: "linkedin",
 		link: "https://www.linkedin.com/in/yevhenii-shumilin-2ab431188/",
 	},
-
 	{
 		image: <FaLinkedin size={"100%"} />,
 		name: "github",
 		link: "https://github.com/Neirea",
+	},
+	{
+		image: <FiMail size={"100%"} />,
+		name: "email",
+		link: "mailto:neireasoultix@gmail.com",
 	},
 ];
 export const menuItems = [
