@@ -29,6 +29,11 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 
 	const isShowReplyButton = commentState.type !== "edit" && comment.message;
 
+	const isShowUserTools =
+		user &&
+		(user._id === comment.user.id || user.roles.includes(userRoles.admin));
+	const isShowAdminTools = user && user.roles.includes(userRoles.admin);
+
 	const isActiveReply =
 		commentState.type === "reply" && comment._id === commentState.id;
 
@@ -69,17 +74,19 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 						)}
 					</ReplyButton>
 				)}
-				<ToolsButton
-					aria-label={`edit #${index} comment`}
-					title={"Edit Comment"}
-					onClick={handleEditCommentClick}
-					disabled={isLoading}
-				>
-					<AiFillEdit size={"100%"} />
-				</ToolsButton>
+				{isShowUserTools && (
+					<ToolsButton
+						aria-label={`edit #${index} comment`}
+						title={"Edit Comment"}
+						onClick={handleEditCommentClick}
+						disabled={isLoading}
+					>
+						<AiFillEdit size={"100%"} />
+					</ToolsButton>
+				)}
 			</div>
 			<div className="tool-bar-group">
-				{comment.message && (
+				{comment.message && isShowUserTools && (
 					<ToolsButton
 						aria-label={`delete #${index} comment`}
 						title="Delete Comment"
@@ -89,7 +96,7 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 						<MdDelete size={"100%"} />
 					</ToolsButton>
 				)}
-				{user?.roles.includes(userRoles.admin) && (
+				{isShowAdminTools && (
 					<>
 						<ToolsButton
 							aria-label={`delete tree of #${index} comment`}

@@ -7,7 +7,6 @@ import ToolBar from "./CommentToolBar";
 import CommentForm from "./CommentForm";
 import { handleDate } from "../../../../utils/handleDate";
 import type { IJsxComment } from "../../../../types/articleTypes";
-import { userRoles } from "../../../../types/appTypes";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 
 interface SingleCommentProps {
@@ -25,10 +24,7 @@ const SingleComment = ({ index, commentElement }: SingleCommentProps) => {
 
 	/* show conditions */
 	const isShowToolBar =
-		commentState.type !== "edit" &&
-		user &&
-		user.isBanned === false &&
-		(user._id === comment.user.id || user.roles.includes(userRoles.admin));
+		commentState.type !== "edit" && user && user.isBanned === false;
 
 	const isShowMessage =
 		commentState.type !== "edit" || commentState.id !== comment._id;

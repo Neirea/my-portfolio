@@ -110,9 +110,10 @@ const Contact = () => {
 					{loading ? "Loading..." : "Send"}
 				</BlockButton>
 				<LinkGroup>
-					{socialMediaLinks.map((item) => {
+					{socialMediaLinks.map((item, index) => {
 						return (
 							<a
+								key={`link-${index}`}
 								className="address-link"
 								href={item.link}
 								aria-label={item.name}
