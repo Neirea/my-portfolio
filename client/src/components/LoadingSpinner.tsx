@@ -1,5 +1,5 @@
-import { StyledLoading } from "../styles/StyledComponents";
 import { useGlobalContext } from "../store/AppContext";
+import { StyledLoading } from "../styles/StyledComponents";
 
 const LoadingSpinner = () => {
 	const { darkMode } = useGlobalContext();

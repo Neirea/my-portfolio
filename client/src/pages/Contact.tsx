@@ -1,11 +1,11 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import axios from "axios";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import styled from "styled-components";
-import { BlockButton, AlertMsg, StyledForm } from "../styles/StyledComponents";
 import FormRow from "../components/FormRow";
 import SuccessModal from "../components/SuccessModal";
 import { useGlobalContext } from "../store/AppContext";
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { AlertMsg, BlockButton, StyledForm } from "../styles/StyledComponents";
 import { socialMediaLinks } from "../utils/data";
 
 const Contact = () => {

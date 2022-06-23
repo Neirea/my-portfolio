@@ -1,14 +1,12 @@
+import { EditorState } from "draft-js";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-
-import { EditorState } from "draft-js";
-
-import { useGlobalContext } from "../../store/AppContext";
-import EditorLayout from "./articleComponents/EditorLayout";
-import { languageDetector } from "../../utils/handleHtmlString";
-import { categoriesEnum, IArticleValues } from "../../types/articleTypes";
-import type { LocationState } from "../../types/appTypes";
 import useCreateArticle from "../../hooks/Articles/useCreateArticle";
+import { useGlobalContext } from "../../store/AppContext";
+import type { LocationState } from "../../types/appTypes";
+import { categoriesEnum, IArticleValues } from "../../types/articleTypes";
+import { languageDetector } from "../../utils/handleHtmlString";
+import EditorLayout from "./articleComponents/EditorLayout";
 
 const CreateArticle = () => {
 	const createArticle = useCreateArticle();

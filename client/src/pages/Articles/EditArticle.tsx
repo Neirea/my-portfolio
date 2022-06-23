@@ -1,19 +1,17 @@
-import { useState, useEffect } from "react";
 import axios from "axios";
-
-import { EditorState, ContentState } from "draft-js";
+import { ContentState, EditorState } from "draft-js";
 import htmlToDraft from "html-to-draftjs";
-
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import EditorLayout from "./articleComponents/EditorLayout";
-import { languageDetector } from "../../utils/handleHtmlString";
+import useEditArticle from "../../hooks/Articles/useEditArticle";
 import {
-	IArticleValues,
 	categoriesEnum,
 	IArticle,
+	IArticleValues,
 } from "../../types/articleTypes";
-import { useQuery } from "react-query";
-import useEditArticle from "../../hooks/Articles/useEditArticle";
+import { languageDetector } from "../../utils/handleHtmlString";
+import EditorLayout from "./articleComponents/EditorLayout";
 
 const EditArticle = () => {
 	const { articleId } = useParams();

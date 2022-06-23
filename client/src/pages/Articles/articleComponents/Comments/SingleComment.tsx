@@ -1,13 +1,13 @@
-import { SingleCommentContainer } from "./CommentStyles";
-import { AlertMsg } from "../../../../styles/StyledComponents";
-import { useGlobalContext } from "../../../../store/AppContext";
 import { FaArrowUp } from "@react-icons/all-files/fa/FaArrowUp";
-import EditComment from "./EditComment";
-import ToolBar from "./CommentToolBar";
-import CommentForm from "./CommentForm";
-import { handleDate } from "../../../../utils/handleDate";
-import type { IJsxComment } from "../../../../types/articleTypes";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
+import { useGlobalContext } from "../../../../store/AppContext";
+import { AlertMsg } from "../../../../styles/StyledComponents";
+import type { IJsxComment } from "../../../../types/articleTypes";
+import { handleDate } from "../../../../utils/handleDate";
+import CommentForm from "./CommentForm";
+import { SingleCommentContainer } from "./CommentStyles";
+import ToolBar from "./CommentToolBar";
+import EditComment from "./EditComment";
 
 interface SingleCommentProps {
 	index: number;

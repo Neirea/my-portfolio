@@ -1,10 +1,10 @@
+import axios from "axios";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
-import axios from "axios";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter } from "react-router-dom";
+import App from "./App";
 import { AppProvider } from "./store/AppContext";
-import { QueryClientProvider, QueryClient } from "react-query";
 
 axios.defaults.baseURL = "http://localhost:5000";
 axios.defaults.withCredentials = true;

@@ -2,8 +2,8 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
 import type {
 	IArticle,
-	IUploadedImageResponse,
 	IArticleValues,
+	IUploadedImageResponse,
 } from "../../types/articleTypes";
 
 interface ICreatedArticle extends IArticleValues {

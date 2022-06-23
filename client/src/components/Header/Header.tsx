@@ -1,15 +1,15 @@
-import { useState, useRef } from "react";
 import { FaBars } from "@react-icons/all-files/fa/FaBars";
+import { useRef, useState } from "react";
+import { useOutsideClick } from "../../utils/useOutsideClick";
 import {
 	HeaderWrapper,
+	MenuItem,
 	SideMenuContainer,
 	StyledMenuButton,
-	MenuItem,
 } from "./HeaderStyles";
-import { useOutsideClick } from "../../utils/useOutsideClick";
 
-import NavMenu from "./NavMenu";
 import DisplayMode from "./DisplayMode";
+import NavMenu from "./NavMenu";
 import UserMenu from "./UserMenu";
 
 const Header = () => {

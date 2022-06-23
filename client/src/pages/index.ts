@@ -1,7 +1,7 @@
 import { lazy } from "react";
-import Home from "./Home";
 import Contact from "./Contact";
 import Error from "./Error";
+import Home from "./Home";
 /* auth */
 import Login from "./Login";
 import Unauthorized from "./Unauthorized";

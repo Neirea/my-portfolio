@@ -7,27 +7,25 @@ import {
 } from "react";
 import { Link } from "react-router-dom";
 import {
-	CUArticleWrapper,
-	CUArticleForm,
+	AdminButton,
+	AlertContainer,
+	AlertMsg,
+} from "../../../styles/StyledComponents";
+import {
 	ArticleContentWrapper,
+	CUArticleForm,
+	CUArticleWrapper,
 	TagsGroup,
 } from "../ArticleStyles";
-import {
-	AdminButton,
-	AlertMsg,
-	AlertContainer,
-} from "../../../styles/StyledComponents";
-/* editor imports */
-import { Editor } from "react-draft-wysiwyg";
-import "../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { convertToRaw, EditorState } from "draft-js";
 import draftToHtml from "draftjs-to-html";
-/* -------------- */
+import { Editor } from "react-draft-wysiwyg";
+import "../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import FormRow from "../../../components/FormRow";
-import { useDebounce } from "../../../utils/debounce";
-import { handleHtmlString } from "../../../utils/handleHtmlString";
 import type { IArticleValues } from "../../../types/articleTypes";
+import { useDebounce } from "../../../utils/debounce";
 import { handleDate } from "../../../utils/handleDate";
+import { handleHtmlString } from "../../../utils/handleHtmlString";
 
 interface EditorLayoutProps {
 	articleValues: IArticleValues;

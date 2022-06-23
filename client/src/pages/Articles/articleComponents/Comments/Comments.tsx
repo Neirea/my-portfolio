@@ -1,14 +1,12 @@
 import { Fragment } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { CommentsWrapper } from "./CommentStyles";
 import { AlertMsg } from "../../../../styles/StyledComponents";
 import CommentForm from "./CommentForm";
-
+import { CommentsWrapper } from "./CommentStyles";
 import SingleComment from "./SingleComment";
-
-import { useGlobalContext } from "../../../../store/AppContext";
-import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 import useComments from "../../../../hooks/Articles/comments/useComments";
+import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
+import { useGlobalContext } from "../../../../store/AppContext";
 
 const Comments = () => {
 	const location = useLocation();

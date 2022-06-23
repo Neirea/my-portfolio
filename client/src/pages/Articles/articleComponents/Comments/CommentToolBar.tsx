@@ -1,17 +1,17 @@
-import type { MouseEvent } from "react";
-import { MdDelete } from "@react-icons/all-files/md/MdDelete";
-import { AiOutlineDeleteColumn } from "@react-icons/all-files/ai/AiOutlineDeleteColumn";
 import { AiFillEdit } from "@react-icons/all-files/ai/AiFillEdit";
-import { MdClose } from "@react-icons/all-files/md/MdClose";
+import { AiOutlineDeleteColumn } from "@react-icons/all-files/ai/AiOutlineDeleteColumn";
 import { BsReplyFill } from "@react-icons/all-files/bs/BsReplyFill";
-import { ToolsButton, ReplyButton } from "./CommentStyles";
-import { useGlobalContext } from "../../../../store/AppContext";
-import type { IComment } from "../../../../types/articleTypes";
-import { userRoles } from "../../../../types/appTypes";
+import { MdClose } from "@react-icons/all-files/md/MdClose";
+import { MdDelete } from "@react-icons/all-files/md/MdDelete";
+import type { MouseEvent } from "react";
+import useComments from "../../../../hooks/Articles/comments/useComments";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 import useDeleteComment from "../../../../hooks/Articles/comments/useDeleteComment";
 import useDeleteCommentTree from "../../../../hooks/Articles/comments/useDeleteCommentTree";
-import useComments from "../../../../hooks/Articles/comments/useComments";
+import { useGlobalContext } from "../../../../store/AppContext";
+import { userRoles } from "../../../../types/appTypes";
+import type { IComment } from "../../../../types/articleTypes";
+import { ReplyButton, ToolsButton } from "./CommentStyles";
 
 const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
 	const { user } = useGlobalContext();

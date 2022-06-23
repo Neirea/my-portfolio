@@ -1,14 +1,14 @@
+import axios from "axios";
 import {
-	useContext,
-	useState,
-	useEffect,
 	createContext,
 	ReactNode,
+	useContext,
+	useEffect,
+	useState,
 } from "react";
-import axios from "axios";
-import type { IUser, AppContextValues } from "../types/appTypes";
-import { mainBgLightColor, mainBgDarkColor } from "../styles/theme";
 import { useQuery } from "react-query";
+import { mainBgDarkColor, mainBgLightColor } from "../styles/theme";
+import type { AppContextValues, IUser } from "../types/appTypes";
 
 export const AppContext = createContext({} as AppContextValues);
 

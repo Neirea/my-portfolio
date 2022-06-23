@@ -1,10 +1,10 @@
+import { FaBan } from "@react-icons/all-files/fa/FaBan";
+import { FaWrench } from "@react-icons/all-files/fa/FaWrench";
 import axios from "axios";
 import { useQuery } from "react-query";
 import styled, { css } from "styled-components";
 import useBanUser from "../hooks/useBanUser";
 import { IUser, userRoles } from "../types/appTypes";
-import { FaWrench } from "@react-icons/all-files/fa/FaWrench";
-import { FaBan } from "@react-icons/all-files/fa/FaBan";
 
 const AdminDashboard = () => {
 	const { mutate: banUser } = useBanUser();

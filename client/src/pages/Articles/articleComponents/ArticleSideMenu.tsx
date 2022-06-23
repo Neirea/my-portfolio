@@ -1,7 +1,7 @@
-import { useEffect, Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { TagsGroup } from "../ArticleStyles";
 import type { LocationState } from "../../../types/appTypes";
+import { TagsGroup } from "../ArticleStyles";
 
 interface ArticlePostsSideMenuProps {
 	tags: string[];

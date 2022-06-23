@@ -1,8 +1,8 @@
+import { BsMoon } from "@react-icons/all-files/bs/BsMoon";
+import { CgSun } from "@react-icons/all-files/cg/CgSun";
 import styled from "styled-components";
 import { useGlobalContext } from "../../store/AppContext";
 import { MenuItem } from "./HeaderStyles";
-import { CgSun } from "@react-icons/all-files/cg/CgSun";
-import { BsMoon } from "@react-icons/all-files/bs/BsMoon";
 
 interface DisplayModeWrapperProps {
 	darkMode: boolean;

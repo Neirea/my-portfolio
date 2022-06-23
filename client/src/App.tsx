@@ -1,30 +1,30 @@
 import { Suspense } from "react";
-import { Routes, Route } from "react-router-dom";
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
+import { Route, Routes } from "react-router-dom";
+import { ThemeProvider } from "styled-components";
+import Header from "./components/Header/Header";
+import LoadingSpinner from "./components/LoadingSpinner";
 import RequireAuth from "./components/RequireAuth";
 import RequirePublic from "./components/RequirePublic";
-import LoadingSpinner from "./components/LoadingSpinner";
-import Header from "./components/Header/Header";
+import ScrollToTop from "./components/ScrollToTop";
 import {
-	Home,
-	Contact,
-	Login,
 	Articles,
-	SingleArticle,
+	Contact,
 	CreateArticle,
 	EditArticle,
-	Unauthorized,
 	Error,
+	Home,
+	Login,
+	SingleArticle,
+	Unauthorized,
 } from "./pages";
-import { ThemeProvider } from "styled-components";
-import { GlobalStyles } from "./styles/GlobalStyles";
-import { lightTheme, darkTheme } from "./styles/theme";
+import AdminDashboard from "./pages/AdminDashboard";
 import { useGlobalContext } from "./store/AppContext";
-import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
-import { recaptchaKey } from "./utils/data";
+import { GlobalStyles } from "./styles/GlobalStyles";
+import { darkTheme, lightTheme } from "./styles/theme";
 import { userRoles } from "./types/appTypes";
 import { categoriesEnum } from "./types/articleTypes";
-import AdminDashboard from "./pages/AdminDashboard";
-import ScrollToTop from "./components/ScrollToTop";
+import { recaptchaKey } from "./utils/data";
 
 function App() {
 	const { isLoading, darkMode } = useGlobalContext();

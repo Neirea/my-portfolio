@@ -1,25 +1,23 @@
-import { useNavigate, Link } from "react-router-dom";
-import {
-	ArticleContentWrapper,
-	ArticlePageWrapper,
-	ArticleSideMenuWrapper,
-} from "./ArticleStyles";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import { CommentsProvider } from "../../hooks/Articles/comments/useCommentsContext";
+import useDeleteArticle from "../../hooks/Articles/useDeleteArticle";
+import useSingleArticle from "../../hooks/Articles/useSingleArticle";
+import { useGlobalContext } from "../../store/AppContext";
 import {
 	AdminButton,
 	AdminButtonLink,
 	AlertContainer,
 } from "../../styles/StyledComponents";
-import { useParams } from "react-router-dom";
-
-import { useGlobalContext } from "../../store/AppContext";
+import { userRoles } from "../../types/appTypes";
+import type { categoriesEnum } from "../../types/articleTypes";
 import ArticlePost from "./articleComponents/ArticlePost";
 import Comments from "./articleComponents/Comments/Comments";
-import { userRoles } from "../../types/appTypes";
-import useSingleArticle from "../../hooks/Articles/useSingleArticle";
-import { CommentsProvider } from "../../hooks/Articles/comments/useCommentsContext";
-import useDeleteArticle from "../../hooks/Articles/useDeleteArticle";
-import type { categoriesEnum } from "../../types/articleTypes";
+import {
+	ArticleContentWrapper,
+	ArticlePageWrapper,
+	ArticleSideMenuWrapper,
+} from "./ArticleStyles";
 
 const SingleArticle = ({ type }: { type: categoriesEnum }) => {
 	const { articleId } = useParams();

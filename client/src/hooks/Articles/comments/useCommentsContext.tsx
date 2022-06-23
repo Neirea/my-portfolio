@@ -3,11 +3,11 @@ import {
 	Dispatch,
 	ReactNode,
 	SetStateAction,
+	useCallback,
 	useContext,
 	useState,
-	useCallback,
 } from "react";
-import type { ICommentState, ICommentError } from "../../../types/articleTypes";
+import type { ICommentError, ICommentState } from "../../../types/articleTypes";
 
 interface commentsContextValues {
 	articleId: string | undefined;

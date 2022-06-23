@@ -1,10 +1,10 @@
-import type { IArticle } from "../../../types/articleTypes";
-import { LinkButton } from "../../../styles/StyledComponents";
-import { TagsGroup } from "../ArticleStyles";
-import { NavLink } from "react-router-dom";
-import { handleDate } from "../../../utils/handleDate";
-import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
 import { FaEye } from "@react-icons/all-files/fa/FaEye";
+import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
+import { NavLink } from "react-router-dom";
+import { LinkButton } from "../../../styles/StyledComponents";
+import type { IArticle } from "../../../types/articleTypes";
+import { handleDate } from "../../../utils/handleDate";
+import { TagsGroup } from "../ArticleStyles";
 
 const ArticlePost = ({ article }: { article: IArticle }) => {
 	return (

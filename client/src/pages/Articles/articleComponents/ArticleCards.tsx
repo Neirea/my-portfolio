@@ -1,10 +1,10 @@
-import { ArticleCardContainer } from "../ArticleStyles";
-import { LinkButton } from "../../../styles/StyledComponents";
-import { Link } from "react-router-dom";
-import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
 import { FaEye } from "@react-icons/all-files/fa/FaEye";
+import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
+import { Link } from "react-router-dom";
+import { LinkButton } from "../../../styles/StyledComponents";
 import type { IArticle } from "../../../types/articleTypes";
 import { handleDate } from "../../../utils/handleDate";
+import { ArticleCardContainer } from "../ArticleStyles";
 
 const MAX_CHARS = 200;
 

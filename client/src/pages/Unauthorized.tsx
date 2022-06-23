@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { ReadButton, AlertContainer } from "../styles/StyledComponents";
+import { AlertContainer, ReadButton } from "../styles/StyledComponents";
 
 const Unauthorized = () => {
 	const navigate = useNavigate();

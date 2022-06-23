@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "react-query";
-import useCommentsContext from "./useCommentsContext";
 import type { IComment } from "../../../types/articleTypes";
+import useCommentsContext from "./useCommentsContext";
 
 export default function useUpdateComment() {
 	const queryClient = useQueryClient();

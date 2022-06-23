@@ -1,9 +1,9 @@
-import { handleHtmlString } from "../../utils/handleHtmlString";
 import type {
 	categoriesEnum,
 	IArticle,
 	IArticleData,
 } from "../../types/articleTypes";
+import { handleHtmlString } from "../../utils/handleHtmlString";
 import useArticles from "./useArticles";
 
 const useSingleArticle = (

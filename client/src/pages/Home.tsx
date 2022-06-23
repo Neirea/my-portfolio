@@ -1,19 +1,19 @@
 import { BsArrowDown } from "@react-icons/all-files/bs/BsArrowDown";
+import hljs from "highlight.js/lib/common";
 import useArticles from "../hooks/Articles/useArticles";
 import { MoreButton } from "../styles/StyledComponents";
 import { categoriesEnum } from "../types/articleTypes";
 import { socialMediaLinks } from "../utils/data";
 import ArticleCards from "./Articles/articleComponents/ArticleCards";
 import {
-	HomePageWrapper,
-	HomeArrow,
-	HomeProjects,
-	HomeIntroText,
-	TitleHighlight,
 	FooterWrapper,
+	HomeArrow,
 	HomeEditor,
+	HomeIntroText,
+	HomePageWrapper,
+	HomeProjects,
+	TitleHighlight,
 } from "./HomeStyles";
-import hljs from "highlight.js/lib/common";
 
 const Home = () => {
 	const { data } = useArticles(categoriesEnum.project);

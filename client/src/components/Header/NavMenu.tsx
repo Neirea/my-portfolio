@@ -1,17 +1,17 @@
-import { useRef, useEffect, Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 
-import { StyledMenuLink } from "./HeaderStyles";
-import {
-	NavMenuWrapper,
-	NavMenuList,
-	MobileNavMenuWrapper,
-	MobileNavMenuList,
-	NavMenuItem,
-} from "./NavMenuStyles";
-import { menuItems } from "../../utils/data";
 import { useQueryClient } from "react-query";
 import { getArticles } from "../../hooks/Articles/useArticles";
 import { categoriesEnum } from "../../types/articleTypes";
+import { menuItems } from "../../utils/data";
+import { StyledMenuLink } from "./HeaderStyles";
+import {
+	MobileNavMenuList,
+	MobileNavMenuWrapper,
+	NavMenuItem,
+	NavMenuList,
+	NavMenuWrapper,
+} from "./NavMenuStyles";
 
 interface NavMenuItemsProps {
 	handleMenuClick?: () => void;

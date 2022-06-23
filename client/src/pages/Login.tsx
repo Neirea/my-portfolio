@@ -1,8 +1,8 @@
-import styled from "styled-components";
-import { LoginButton, AlertMsg } from "../styles/StyledComponents";
 import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
 import { FaGoogle } from "@react-icons/all-files/fa/FaGoogle";
 import { useLocation } from "react-router-dom";
+import styled from "styled-components";
+import { AlertMsg, LoginButton } from "../styles/StyledComponents";
 import type { LocationState } from "../types/appTypes";
 import { useCurrentLocation } from "../utils/useCurrentLocation";
 

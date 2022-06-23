@@ -1,4 +1,4 @@
-import { useEffect, SetStateAction, Dispatch, MutableRefObject } from "react";
+import { Dispatch, MutableRefObject, SetStateAction, useEffect } from "react";
 
 /* Hook that sets state to false on click outside of the passed ref */
 export const useOutsideClick = (

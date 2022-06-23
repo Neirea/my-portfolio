@@ -1,6 +1,6 @@
 import { useLayoutEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import { SuccessButton, PortalModal } from "../styles/StyledComponents";
+import { PortalModal, SuccessButton } from "../styles/StyledComponents";
 
 const createWrapperAndAppend = () => {
 	const modalRoot = document.createElement("div");
