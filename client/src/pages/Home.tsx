@@ -20,7 +20,7 @@ const Home = () => {
 	const projects = data?.filter((elem, idx) => idx < 4);
 
 	const handleScroll = () => {
-		document.querySelector(".projects-title")?.scrollIntoView({
+		document.querySelector("#home-arrow")?.scrollIntoView({
 			behavior: "smooth",
 		});
 	};
@@ -100,7 +100,7 @@ const Home = () => {
 							></pre>
 						</div>
 					</HomeEditor>
-					<HomeArrow onClick={handleScroll}>
+					<HomeArrow id="home-arrow" onClick={handleScroll}>
 						<BsArrowDown size={"100%"} />
 					</HomeArrow>
 				</section>

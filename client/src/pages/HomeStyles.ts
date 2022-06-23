@@ -194,10 +194,12 @@ export const HomeArrow = styled.button`
 export const HomeProjects = styled.section`
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
 	align-items: center;
+	min-height: calc(100vh - 2 * var(--header-height));
 	.projects-title {
 		letter-spacing: -0.05rem;
-		padding: 3rem 0;
+		padding: 1.5rem 0;
 		text-align: center;
 	}
 	.projects-wrapper {
@@ -210,7 +212,7 @@ export const HomeProjects = styled.section`
 	}
 	.more-btn {
 		position: relative;
-		margin: 4.5rem 0;
+		margin: 3rem 0;
 		border-radius: 10rem;
 		background: none;
 		color: var(--main-text-color);
@@ -231,7 +233,7 @@ export const FooterWrapper = styled.footer`
 	width: 90%;
 	height: var(--header-height);
 	border-top: 1px solid var(--tag-color);
-	margin: 1px auto 0;
+	margin: 0 auto;
 	.footer-name {
 		display: flex;
 		align-items: center;
