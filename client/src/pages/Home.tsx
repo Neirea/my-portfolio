@@ -1,25 +1,111 @@
-import styled from "styled-components";
-import { MoreButton } from "../styles/StyledComponents";
-import ArticleCards from "./Articles/articleComponents/ArticleCards";
+import { BsArrowDown } from "@react-icons/all-files/bs/BsArrowDown";
 import useArticles from "../hooks/Articles/useArticles";
-import { socialMediaLinks } from "../utils/data";
+import { MoreButton } from "../styles/StyledComponents";
 import { categoriesEnum } from "../types/articleTypes";
+import { socialMediaLinks } from "../utils/data";
+import ArticleCards from "./Articles/articleComponents/ArticleCards";
+import {
+	HomePageWrapper,
+	HomeArrow,
+	HomeProjects,
+	HomeIntroText,
+	TitleHighlight,
+	FooterWrapper,
+	HomeEditor,
+} from "./HomeStyles";
+import hljs from "highlight.js/lib/common";
 
 const Home = () => {
 	const { data } = useArticles(categoriesEnum.project);
 	const projects = data?.filter((elem, idx) => idx < 4);
 
+	const handleScroll = () => {
+		document.querySelector(".projects-title")?.scrollIntoView({
+			behavior: "smooth",
+		});
+	};
+
+	const codeText =
+		'const aboutMe = {\n\tnickname: "Neirea",\n\tlanguages: ["Typescript", "C++", "SQL"],\n\tspecialty: ["React", "Next", "Express",\n\t\t"MongoDB", "PostgreSQL"],\n}';
+
+	const formatCode = (text: string) => {
+		return hljs.highlight(text, { language: "typescript" }).value;
+	};
+
 	return (
 		<>
 			<HomePageWrapper>
 				<section className="home-top">
-					<h1 className="home-top-title">Eugene Shumilin</h1>
-					<p className="home-top-text">
-						A Software Developer who loves to solve problems
-					</p>
+					<HomeIntroText>
+						<p className="home-top-text">Hello, I'm</p>
+						<h1 className="home-top-title">
+							<div>
+								<TitleHighlight item={1}>E</TitleHighlight>
+								<TitleHighlight item={2}>u</TitleHighlight>
+								<TitleHighlight item={3}>g</TitleHighlight>
+								<TitleHighlight item={4}>e</TitleHighlight>
+								<TitleHighlight item={5}>n</TitleHighlight>
+								<TitleHighlight item={6}>e</TitleHighlight>
+							</div>
+							<span>&nbsp;</span>
+							<div>
+								<TitleHighlight item={7}>S</TitleHighlight>
+								<TitleHighlight item={8}>h</TitleHighlight>
+								<TitleHighlight item={9}>u</TitleHighlight>
+								<TitleHighlight item={10}>m</TitleHighlight>
+								<TitleHighlight item={11}>i</TitleHighlight>
+								<TitleHighlight item={12}>l</TitleHighlight>
+								<TitleHighlight item={13}>i</TitleHighlight>
+								<TitleHighlight item={14}>n</TitleHighlight>
+							</div>
+						</h1>
+						<p className="home-bottom-text">
+							A Software Developer with a passion to solve problems
+						</p>
+						<div className="home-top-links">
+							{socialMediaLinks.map((item, index) => {
+								return (
+									<a
+										key={`link-${index}`}
+										className="address-link"
+										href={item.link}
+										target="_blank"
+										rel="noreferrer"
+										aria-label={item.name}
+									>
+										{item.image}
+									</a>
+								);
+							})}
+						</div>
+					</HomeIntroText>
+					<HomeEditor>
+						<div className="home-editor-header">
+							<div className="red-circle"></div>
+							<div className="yellow-circle"></div>
+							<div className="green-circle"></div>
+						</div>
+						<div className="home-editor-body">
+							<div className="home-editor-numbers">
+								<div>1</div>
+								<div>2</div>
+								<div>3</div>
+								<div>4</div>
+								<div>5</div>
+								<div>6</div>
+							</div>
+							<pre
+								className="home-editor-code"
+								dangerouslySetInnerHTML={{ __html: formatCode(codeText) }}
+							></pre>
+						</div>
+					</HomeEditor>
+					<HomeArrow onClick={handleScroll}>
+						<BsArrowDown size={"100%"} />
+					</HomeArrow>
 				</section>
-				<section className="home-projects">
-					<h2 className="projects-title">RECENT WORK</h2>
+				<HomeProjects>
+					<h2 className="projects-title">PROJECTS</h2>
 					{projects && (
 						<div className="projects-wrapper">
 							<ArticleCards
@@ -28,119 +114,16 @@ const Home = () => {
 							/>
 						</div>
 					)}
-					<MoreButton to="/project">More projects</MoreButton>
-				</section>
+					<MoreButton to="/project" className="more-btn">
+						More projects
+					</MoreButton>
+				</HomeProjects>
 			</HomePageWrapper>
 			<FooterWrapper>
-				<div className="footer-links">
-					{socialMediaLinks.map((item, index) => {
-						return (
-							<a
-								key={`link-${index}`}
-								className="address-link"
-								href={item.link}
-								aria-label={item.name}
-							>
-								{item.image}
-							</a>
-						);
-					})}
-					<p className="footer-name">2022 Eugene Shumilin</p>
-				</div>
+				<p className="footer-name">Eugene Shumilin 2022</p>
 			</FooterWrapper>
 		</>
 	);
 };
-const FooterWrapper = styled.footer`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 80%;
-	height: var(--header-height);
-	border-top: 1px solid var(--tag-color);
-	margin: 0 auto;
-	.footer-links {
-		display: flex;
-		gap: 1rem;
-		height: 1.5rem;
-		color: var(--faded-text-color);
-
-		a:hover {
-			color: var(--button-color);
-		}
-		.footer-name {
-			display: flex;
-			align-items: center;
-			color: var(--faded-text-color);
-			font-weight: 500;
-		}
-	}
-`;
-
-const HomePageWrapper = styled.main`
-	display: flex;
-	flex-direction: column;
-	.home-top {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: flex-start;
-		position: relative;
-		gap: 0.5rem;
-		padding: 0 10%;
-		height: calc(100vh - var(--header-height));
-
-		text-align: center;
-		.home-top-title {
-			display: flex;
-			justify-content: center;
-			font-size: 4rem;
-			font-weight: 800;
-			line-height: 1;
-			letter-spacing: var(--letter-spacing);
-		}
-		.home-top-text {
-			color: var(--faded-text-color);
-			font-size: 1.5rem;
-			font-weight: 500;
-			font-family: Arial, sans-serif;
-		}
-		.home-top-links {
-			display: flex;
-			gap: 1rem;
-			height: 2rem;
-			a {
-				color: var(--faded-text-color);
-				&:hover {
-					color: var(--main-text-color);
-				}
-			}
-		}
-	}
-	.home-projects {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 2rem;
-		margin-bottom: 2rem;
-		.projects-title {
-			letter-spacing: -0.05rem;
-			padding-bottom: 1rem;
-			text-align: center;
-		}
-		.projects-wrapper {
-			display: grid;
-			position: relative;
-			/* width: var(--article-card-width); */
-			gap: 1rem;
-			justify-content: center;
-			width: 80%;
-			/* @media (min-width: 768px) { */
-			grid-template-columns: repeat(auto-fit, minmax(22rem, 0.75fr));
-			/* grid-template-columns: repeat(auto-fit, calc(25% - 0.75rem)); */
-			/* } */
-		}
-	}
-`;
 
 export default Home;

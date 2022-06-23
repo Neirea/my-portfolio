@@ -1,7 +1,7 @@
 export type ThemeType = typeof lightTheme;
 
 export const mainBgDarkColor = "rgb(25, 25, 25)";
-export const mainBgLightColor = "rgb(250, 255, 253)";
+export const mainBgLightColor = "rgb(250, 250, 250)";
 
 export const lightTheme = {
 	mainBgColor: mainBgLightColor,
@@ -14,7 +14,7 @@ export const lightTheme = {
 	replyBgColor: "rgb(255, 255, 255)",
 	deletedColor: "rgb(120, 120, 120)",
 	buttonColor: "rgb(115, 170, 40)",
-	codeBgColor: "rgb(250, 250, 250)",
+	codeBgColor: "rgb(240, 240, 240)",
 	codeBorderColor: "rgb(211, 211, 211)",
 	tagColor: "rgba(0,0,0,0.2)",
 	commentAuthorColor: "rgb(131, 88, 219)",

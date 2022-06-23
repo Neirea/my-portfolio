@@ -57,11 +57,13 @@ const ArticleCards = ({
 							</div>
 							<p className="acard-text">{htmlContent}</p>
 							<div className="acard-buttons">
-								{element.source_link && (
+								{element.source_link ? (
 									<LinkButton as="a" href={element.source_link}>
 										<FaGithub />
 										Source
 									</LinkButton>
+								) : (
+									<div></div>
 								)}
 								{element.demo_link && (
 									<LinkButton as="a" href={element.demo_link}>

@@ -38,6 +38,7 @@ const AdminDashboard = () => {
 									src={user.avatar_url}
 									width={32}
 									height={32}
+									referrerPolicy="no-referrer"
 									alt={user.name}
 								/>
 								<div className="user-ban-container">

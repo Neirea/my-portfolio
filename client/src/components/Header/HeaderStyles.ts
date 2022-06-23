@@ -1,10 +1,6 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
-interface StyledMenuButtonProps {
-	showNavMenu: boolean;
-}
-
 export const HeaderWrapper = styled.header`
 	display: flex;
 	align-items: center;
@@ -16,7 +12,7 @@ export const HeaderWrapper = styled.header`
 	z-index: 1;
 
 	height: var(--header-height);
-	box-shadow: 0 0 1rem -0.5rem rgb(85, 0, 170, 0.5);
+	box-shadow: 0 0 1rem -0.5rem rgb(0, 0, 0, 0.5);
 	background-color: var(--header-bg-color);
 
 	text-align: center;
@@ -41,7 +37,7 @@ export const MenuItem = styled.div`
 `;
 
 // button on small screen that toggles menu
-export const StyledMenuButton = styled.button<StyledMenuButtonProps>`
+export const StyledMenuButton = styled.button<{ showNavMenu: boolean }>`
 	display: flex;
 	justify-content: center;
 	align-items: center;
