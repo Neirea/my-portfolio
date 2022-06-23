@@ -12,15 +12,15 @@ jest.mock("../middleware/authorizePermissions", () =>
 	})
 );
 
-import { Request, Response, NextFunction } from "express";
-import request from "supertest";
-import isAuthenticated from "../middleware/isAuthenticated";
-import authorizePermissions from "../middleware/authorizePermissions";
-import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
-import Article from "../models/Article";
+import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
+import { NextFunction, Request, Response } from "express";
 import path from "path";
-import * as dbHandler from "./db";
+import request from "supertest";
 import app from "../app";
+import authorizePermissions from "../middleware/authorizePermissions";
+import isAuthenticated from "../middleware/isAuthenticated";
+import Article from "../models/Article";
+import * as dbHandler from "./db";
 
 jest.mock("cloudinary");
 const mockedCloudinary = cloudinary as jest.Mocked<typeof cloudinary>;

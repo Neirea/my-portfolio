@@ -1,14 +1,14 @@
 import { Router } from "express";
-import isAuthenticated from "../middleware/isAuthenticated";
-import authorizePermissions from "../middleware/authorizePermissions";
+import { rateLimit } from "express-rate-limit";
 import {
-	getAllComments,
 	createComment,
-	updateComment,
 	deleteComment,
 	deleteCommentsAdmin,
+	getAllComments,
+	updateComment,
 } from "../controllers/commentController";
-import { rateLimit } from "express-rate-limit";
+import authorizePermissions from "../middleware/authorizePermissions";
+import isAuthenticated from "../middleware/isAuthenticated";
 import { userRoles } from "../models/User";
 
 const router = Router();

@@ -4,9 +4,9 @@ import {
 	Profile as GoogleProfile,
 	VerifyCallback,
 } from "passport-google-oauth20";
+import app from "../app";
 import CustomError from "../errors";
 import User, { platformEnum, userRoles } from "../models/User";
-import app from "../app";
 import { randomUserName } from "../utils/randomUserName";
 
 export const failedLogin = (req: Request, res: Response) => {

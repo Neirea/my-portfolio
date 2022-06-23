@@ -1,5 +1,5 @@
+import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { Request, Response, NextFunction } from "express";
 import { Error as MongooseError } from "mongoose";
 
 const errorHandlerMiddleware = (

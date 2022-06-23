@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
-import sendEmail from "../utils/sendEmail";
-import { StatusCodes } from "http-status-codes";
 import axios from "axios";
+import { Request, Response } from "express";
+import { StatusCodes } from "http-status-codes";
 import sanitizeHtml from "sanitize-html";
 import CustomError from "../errors";
+import sendEmail from "../utils/sendEmail";
 
 /* RECAPTCHA */
 const validateRecaptcha = async (token: string | null) => {

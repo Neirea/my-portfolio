@@ -1,9 +1,9 @@
 import { Router } from "express";
+import { rateLimit } from "express-rate-limit";
 import {
 	sendContactMessage,
 	testRecaptcha,
 } from "../controllers/actionController";
-import { rateLimit } from "express-rate-limit";
 
 const router = Router();
 

@@ -1,14 +1,14 @@
 import { Router } from "express";
-import isAuthenticated from "../middleware/isAuthenticated";
-import authorizePermissions from "../middleware/authorizePermissions";
 import {
+	createArticle,
+	deleteArticle,
 	getAllArticles,
 	getSingleArticle,
-	createArticle,
 	updateArticle,
-	deleteArticle,
 	uploadArticleImage,
 } from "../controllers/articleController";
+import authorizePermissions from "../middleware/authorizePermissions";
+import isAuthenticated from "../middleware/isAuthenticated";
 import { userRoles } from "../models/User";
 
 const router = Router();

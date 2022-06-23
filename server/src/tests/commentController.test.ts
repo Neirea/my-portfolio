@@ -12,13 +12,13 @@ jest.mock("../middleware/authorizePermissions", () =>
 	})
 );
 
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
 import request from "supertest";
-import User from "../models/User";
-import Comment from "../models/Comment";
-import Article from "../models/Article";
-import * as dbHandler from "./db";
 import app from "../app";
+import Article from "../models/Article";
+import Comment from "../models/Comment";
+import User from "../models/User";
+import * as dbHandler from "./db";
 
 //spin fake mongodb server before each
 beforeAll(async () => {

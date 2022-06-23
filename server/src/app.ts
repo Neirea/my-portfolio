@@ -1,17 +1,17 @@
 import "express-async-errors";
 import express from "express";
 //packages
-import helmet from "helmet";
+import { v2 as cloudinary } from "cloudinary";
+import MongoStore from "connect-mongo";
 import cors from "cors";
-import { rateLimit } from "express-rate-limit";
+import dotenv from "dotenv";
 import fileUpload from "express-fileupload";
 import mongoSanitize from "express-mongo-sanitize";
+import { rateLimit } from "express-rate-limit";
 import session from "express-session";
-import passport from "passport";
-import { v2 as cloudinary } from "cloudinary";
-import dotenv from "dotenv";
 import { buildCheckFunction } from "express-validator";
-import MongoStore from "connect-mongo";
+import helmet from "helmet";
+import passport from "passport";
 dotenv.config();
 cloudinary.config({
 	cloud_name: process.env.CLDNRY_NAME,
@@ -19,14 +19,14 @@ cloudinary.config({
 	api_secret: process.env.CLDNRY_API_SECRET,
 });
 /* user stuff */
-import userRouter from "./routes/userRouter";
-import authRouter from "./routes/authRouter";
-import articleRouter from "./routes/articleRouter";
-import actionRouter from "./routes/actionRouter";
-import commentRouter from "./routes/commentRouter";
 import errorHandlerMiddleware from "./middleware/error-handle";
 import notFoundMiddleware from "./middleware/not-found";
 import "./passport";
+import actionRouter from "./routes/actionRouter";
+import articleRouter from "./routes/articleRouter";
+import authRouter from "./routes/authRouter";
+import commentRouter from "./routes/commentRouter";
+import userRouter from "./routes/userRouter";
 
 const app = express();
 

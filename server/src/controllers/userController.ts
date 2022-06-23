@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import User from "../models/User";
-import CustomError from "../errors";
 import { StatusCodes } from "http-status-codes";
+import CustomError from "../errors";
+import User from "../models/User";
 
 export const showMe = (req: Request, res: Response) => {
 	const user = req.session.user;

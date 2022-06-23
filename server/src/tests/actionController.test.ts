@@ -1,8 +1,7 @@
+import sgMail, { ClientResponse } from "@sendgrid/mail";
+import axios from "axios";
 import request from "supertest";
 import app from "../app";
-import axios from "axios";
-import sgMail from "@sendgrid/mail";
-import { ClientResponse } from "@sendgrid/mail";
 
 jest.mock("axios");
 jest.mock("@sendgrid/mail");

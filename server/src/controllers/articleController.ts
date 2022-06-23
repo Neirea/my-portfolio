@@ -1,11 +1,11 @@
-import Article from "../models/Article";
-import { StatusCodes } from "http-status-codes";
-import sanitizeHtml from "sanitize-html";
 import { v2 as cloudinary } from "cloudinary";
-import fs from "fs";
-import CustomError from "../errors";
 import { Request, Response } from "express";
 import { UploadedFile } from "express-fileupload";
+import fs from "fs";
+import { StatusCodes } from "http-status-codes";
+import sanitizeHtml from "sanitize-html";
+import CustomError from "../errors";
+import Article from "../models/Article";
 
 export const getAllArticles = async (req: Request, res: Response) => {
 	//gets category based on url of get request

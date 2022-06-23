@@ -1,10 +1,10 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
 import passport from "passport";
 import app from "../app";
 import {
+	failedLogin,
 	githubCallback,
 	googleCallback,
-	failedLogin,
 	logout,
 } from "../controllers/authController";
 import isAuthenticated from "../middleware/isAuthenticated";

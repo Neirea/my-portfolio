@@ -1,4 +1,4 @@
-import { Schema, model, Types, Query } from "mongoose";
+import { model, Query, Schema, Types } from "mongoose";
 
 export interface IComment {
 	articleId: number;

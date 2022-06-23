@@ -1,9 +1,9 @@
-import CustomAPIError from "./custom-api-error";
-import UnauthenticatedError from "./unauthenticated";
-import NotFoundError from "./not-found";
 import BadRequestError from "./bad-request";
-import UnauthorizedError from "./unauthorized";
+import CustomAPIError from "./custom-api-error";
+import NotFoundError from "./not-found";
 import ServiceUnavailableError from "./service-unavailable";
+import UnauthenticatedError from "./unauthenticated";
+import UnauthorizedError from "./unauthorized";
 
 export default {
 	CustomAPIError,
