@@ -129,11 +129,34 @@ export const HomeIntroText = styled.div`
 			color: var(--comment-header-color);
 			opacity: 0.7;
 			@media (hover: hover) and (pointer: fine) {
-				&:hover {
+				&:hover,
+				&:focus {
 					opacity: 1;
 					color: var(--button-color);
 				}
 			}
+		}
+	}
+`;
+
+export const TitleHighlight = styled.span<{ item: number }>`
+	display: inline-block;
+	animation: wave 1s;
+	animation-delay: ${(props) => 0.3 + 0.05 * props.item}s;
+	transition: transform var(--transition);
+	&:hover {
+		transform: translateY(-0.5rem);
+		color: var(--comment-header-color);
+	}
+	@keyframes wave {
+		40%,
+		100% {
+			color: var(--button-color);
+			transform: translateY(0);
+		}
+		20% {
+			color: var(--comment-header-color);
+			transform: translateY(-0.5rem);
 		}
 	}
 `;
@@ -150,7 +173,8 @@ export const HomeArrow = styled.button`
 	animation: movearrow 1s infinite;
 
 	@media (hover: hover) and (pointer: fine) {
-		&:hover {
+		&:hover,
+		&:focus {
 			color: var(--comment-header-color);
 		}
 	}
@@ -192,7 +216,8 @@ export const HomeProjects = styled.section`
 		color: var(--main-text-color);
 		border: 2px solid var(--button-color);
 		@media (hover: hover) and (pointer: fine) {
-			&:hover {
+			&:hover,
+			&:focus {
 				color: var(--button-color);
 			}
 		}
@@ -212,27 +237,5 @@ export const FooterWrapper = styled.footer`
 		align-items: center;
 		color: var(--faded-text-color);
 		font-weight: 500;
-	}
-`;
-
-export const TitleHighlight = styled.span<{ item: number }>`
-	display: inline-block;
-	animation: wave 1s;
-	animation-delay: ${(props) => 0.3 + 0.05 * props.item}s;
-	transition: transform var(--transition);
-	&:hover {
-		transform: translateY(-0.5rem);
-		color: var(--comment-header-color);
-	}
-	@keyframes wave {
-		40%,
-		100% {
-			color: var(--button-color);
-			transform: translateY(0);
-		}
-		20% {
-			color: var(--comment-header-color);
-			transform: translateY(-0.5rem);
-		}
 	}
 `;
