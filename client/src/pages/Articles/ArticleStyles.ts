@@ -104,6 +104,7 @@ export const ArticleContentWrapper = styled.section`
 				padding-inline-start: 2rem;
 			}
 			ul {
+				margin: 0.3rem 0;
 				list-style: disc;
 			}
 			ol li {
@@ -123,6 +124,33 @@ export const ArticleContentWrapper = styled.section`
 				background: var(--code-bg-color);
 				border: 1px solid var(--code-border-color);
 				border-radius: var(--border-radius);
+			}
+			p {
+				min-height: var(--line-height);
+			}
+			iframe,
+			img {
+				margin: 1rem 0;
+				width: 100%;
+				aspect-ratio: 16/9;
+				border: none;
+			}
+			a {
+				text-decoration: underline;
+			}
+			blockquote {
+				quotes: "«" "»";
+				font-style: italic;
+				margin: 1rem 0;
+				padding: 0 1rem;
+				border-left: 0.25rem solid var(--deleted-color);
+				background: var(--code-bg-color);
+				&::before {
+					content: open-quote;
+				}
+				&::after {
+					content: close-quote;
+				}
 			}
 		}
 

@@ -202,14 +202,31 @@ const EditorLayout = ({
 					wrapperClassName="editor-wrapper"
 					editorClassName="editor-body"
 					toolbar={{
+						options: [
+							"inline",
+							"blockType",
+							"list",
+							"textAlign",
+							"colorPicker",
+							"link",
+							"embedded",
+							"emoji",
+							"image",
+						],
+						inline: {
+							monospace: undefined,
+						},
 						blockType: {
 							options: ["Normal", "H3", "H4", "Code", "Blockquote"],
 						},
-						fontSize: {
-							options: [],
-						},
 						list: {
 							options: ["unordered", "ordered"],
+						},
+						image: {
+							defaultSize: {
+								height: "auto",
+								width: "100%",
+							},
 						},
 					}}
 					onEditorStateChange={onEditorStateChange}
