@@ -26,7 +26,7 @@ const Home = () => {
 	};
 
 	const codeText =
-		'const aboutMe = {\n\tnickname: "Neirea",\n\tlanguages: ["Typescript", "C++", "SQL"],\n\tspecialty: ["React", "Next", "Express",\n\t\t"MongoDB", "PostgreSQL", "Jest"],\n}';
+		'const aboutMe = {\n\talias: "Neirea",\n\tlanguages: ["Typescript", "C++", "SQL"],\n\tspecialty: ["React", "Next", "Express",\n\t\t"MongoDB", "PostgreSQL", "Jest"],\n}';
 
 	const formatCode = (text: string) => {
 		return hljs.highlight(text, { language: "typescript" }).value;

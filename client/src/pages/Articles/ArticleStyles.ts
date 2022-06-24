@@ -219,10 +219,10 @@ export const ArticleCardContainer = styled.div`
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
+			column-gap: 0.5rem;
 			.acard-tags-group {
 				display: flex;
 				column-gap: 0.3rem;
-				max-width: 15rem;
 				flex-wrap: wrap;
 				color: var(--faded-text-color);
 
