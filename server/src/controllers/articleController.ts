@@ -7,6 +7,25 @@ import sanitizeHtml from "sanitize-html";
 import CustomError from "../errors";
 import Article from "../models/Article";
 
+const sanitizeOptions = {
+	allowedIframeHostnames: ["www.youtube.com"],
+	allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img", "iframe"]),
+	allowedAttributes: {
+		iframe: ["src"],
+		a: ["href", "name", "target"],
+		img: [
+			"src",
+			"srcset",
+			"alt",
+			"title",
+			"width",
+			"height",
+			"loading",
+			"style",
+		],
+	},
+};
+
 export const getAllArticles = async (req: Request, res: Response) => {
 	//gets category based on url of get request
 	let getCategory = req.url.toString().replace("/", "");
@@ -33,7 +52,7 @@ export const createArticle = async (req: Request, res: Response) => {
 	try {
 		const newArticle = {
 			...req.body,
-			content: sanitizeHtml(req.body.content),
+			content: sanitizeHtml(req.body.content, sanitizeOptions),
 		};
 		const article = await Article.create(newArticle);
 		res.status(StatusCodes.CREATED).json({ article });
@@ -55,7 +74,10 @@ export const updateArticle = async (req: Request, res: Response) => {
 
 	const currentImgId = article.img_id;
 
-	const newArticle = { ...req.body, content: sanitizeHtml(req.body.content) };
+	const newArticle = {
+		...req.body,
+		content: sanitizeHtml(req.body.content, sanitizeOptions),
+	};
 	//assigns newArticle values to article
 	Object.assign(article, newArticle);
 
