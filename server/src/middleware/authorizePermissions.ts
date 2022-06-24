@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import CustomError from "../errors";
-import { userRoles } from "../models/User";
+import type { userRoles } from "../models/User";
 
 /* authorize permissions */
 //checks for correct role (function gets invoked right away and returns callback function as middleware)

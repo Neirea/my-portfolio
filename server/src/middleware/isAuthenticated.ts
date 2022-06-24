@@ -1,6 +1,4 @@
-import { NextFunction, Request, Response } from "express";
-import { UploadedFile } from "express-fileupload";
-import fs from "fs";
+import type { NextFunction, Request, Response } from "express";
 import CustomError from "../errors";
 
 const isAuthenticated = async (
@@ -14,9 +12,6 @@ const isAuthenticated = async (
 			res.status(200).json(false);
 			return;
 		}
-		//cloudinary delete file
-		const image = req.files?.image as UploadedFile;
-		if (image) fs.unlinkSync(image.tempFilePath);
 		throw new CustomError.UnauthenticatedError("Authentication Invalid");
 	}
 	next();

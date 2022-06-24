@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
-import { Profile as GithubProfile } from "passport-github2";
-import {
+import type { Request, Response } from "express";
+import type { Profile as GithubProfile } from "passport-github2";
+import type {
 	Profile as GoogleProfile,
 	VerifyCallback,
 } from "passport-google-oauth20";

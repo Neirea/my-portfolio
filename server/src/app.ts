@@ -1,10 +1,11 @@
+//global config
 import "express-async-errors";
-import express from "express";
+import "dotenv/config";
 //packages
+import express from "express";
 import { v2 as cloudinary } from "cloudinary";
 import MongoStore from "connect-mongo";
 import cors from "cors";
-import dotenv from "dotenv";
 import fileUpload from "express-fileupload";
 import mongoSanitize from "express-mongo-sanitize";
 import { rateLimit } from "express-rate-limit";
@@ -12,16 +13,10 @@ import session from "express-session";
 import { buildCheckFunction } from "express-validator";
 import helmet from "helmet";
 import passport from "passport";
-dotenv.config();
-cloudinary.config({
-	cloud_name: process.env.CLDNRY_NAME,
-	api_key: process.env.CLDNRY_API_KEY,
-	api_secret: process.env.CLDNRY_API_SECRET,
-});
-/* user stuff */
+/* user imports */
+import "./passport";
 import errorHandlerMiddleware from "./middleware/error-handle";
 import notFoundMiddleware from "./middleware/not-found";
-import "./passport";
 import actionRouter from "./routes/actionRouter";
 import articleRouter from "./routes/articleRouter";
 import authRouter from "./routes/authRouter";
@@ -30,9 +25,15 @@ import userRouter from "./routes/userRouter";
 
 const app = express();
 
+cloudinary.config({
+	cloud_name: process.env.CLDNRY_NAME,
+	api_key: process.env.CLDNRY_API_KEY,
+	api_secret: process.env.CLDNRY_API_SECRET,
+});
+
 /* middleware */
 app.set("trust proxy", 1);
-app.get("/ip", (request, response) => response.send(request.ip)); // test how many proxies in production
+app.get("/ip", (request, response) => response.send(request.ip)); // test how many proxies in production and change number above
 app.use(
 	rateLimit({
 		windowMs: 60 * 1000,

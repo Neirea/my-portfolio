@@ -1,4 +1,6 @@
-import { NextFunction, Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
+import type { UploadedFile } from "express-fileupload";
+import fs from "fs";
 import { StatusCodes } from "http-status-codes";
 import { Error as MongooseError } from "mongoose";
 
@@ -27,6 +29,9 @@ const errorHandlerMiddleware = (
 		customError.msg = `This ${Object.keys(err.keyValue)} already exists`;
 		customError.statusCode = 400;
 	}
+	//delete tmp file
+	const image = req.files?.image as UploadedFile | undefined;
+	if (image) fs.unlinkSync(image.tempFilePath);
 
 	return res.status(customError.statusCode).json({ msg: customError.msg });
 };

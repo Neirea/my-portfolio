@@ -1,6 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
-import { Request, Response } from "express";
-import { UploadedFile } from "express-fileupload";
+import type { Request, Response } from "express";
+import type { UploadedFile } from "express-fileupload";
 import fs from "fs";
 import { StatusCodes } from "http-status-codes";
 import sanitizeHtml from "sanitize-html";
