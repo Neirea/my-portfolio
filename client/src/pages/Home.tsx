@@ -20,13 +20,19 @@ const Home = () => {
 	const projects = data?.filter((elem, idx) => idx < 4);
 
 	const handleScroll = () => {
-		document.querySelector("#home-arrow")?.scrollIntoView({
-			behavior: "smooth",
-		});
+		const arrowElem = document.querySelector<HTMLButtonElement>("#home-arrow");
+		if (arrowElem) {
+			arrowElem.scrollIntoView({
+				behavior: "smooth",
+			});
+			setTimeout(() => {
+				arrowElem.style.display = "none";
+			}, 500);
+		}
 	};
 
 	const codeText =
-		'const aboutMe = {\n\talias: "Neirea",\n\tlanguages: ["Typescript", "C++", "SQL"],\n\tspecialty: ["React", "Next", "Express",\n\t\t"MongoDB", "PostgreSQL", "Jest"],\n}';
+		'const aboutMe = {\n\talias: "Neirea",\n\tlanguages: ["Javascript", "Typescript",\n\t\t"SQL", "C++"],\n\tspecialty: ["React", "Next", "Express",\n\t\t"MongoDB", "PostgreSQL", "Jest"],\n}';
 
 	const formatCode = (text: string) => {
 		return hljs.highlight(text, { language: "typescript" }).value;
@@ -93,6 +99,7 @@ const Home = () => {
 								<div>4</div>
 								<div>5</div>
 								<div>6</div>
+								<div>7</div>
 							</div>
 							<pre
 								className="home-editor-code"
