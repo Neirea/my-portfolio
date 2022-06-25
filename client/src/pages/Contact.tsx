@@ -137,11 +137,11 @@ const LinkGroup = styled.address`
 	.address-link {
 		width: var(--icon-size);
 		height: var(--icon-size);
-		color: var(--faded-text-color);
+		color: var(--comment-header-color);
 		@media (hover: hover) and (pointer: fine) {
 			&:hover,
 			&:focus {
-				color: var(--main-text-color);
+				color: var(--button-color);
 			}
 		}
 	}

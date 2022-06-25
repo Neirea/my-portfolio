@@ -126,6 +126,7 @@ export const HomeIntroText = styled.div`
 		gap: 1rem;
 		height: var(--icon-size);
 		a {
+			width: var(--icon-size);
 			color: var(--comment-header-color);
 			opacity: 0.7;
 			@media (hover: hover) and (pointer: fine) {
