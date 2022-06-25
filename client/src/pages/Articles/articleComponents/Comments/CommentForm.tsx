@@ -54,7 +54,6 @@ const ReplyForm = ({ comment, index, step, depth }: ReplyFormProps) => {
 			<textarea
 				id={comment ? `reply-${index}` : "new-comment"}
 				maxLength={280}
-				minLength={10}
 				className="create-comment"
 				placeholder={comment ? "" : "Post New Comment"}
 				autoFocus={comment ? true : false}

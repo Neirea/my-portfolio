@@ -11,9 +11,6 @@ const AdminDashboard = () => {
 	const { data: users } = useQuery<IUser[]>("users", () =>
 		axios.get("/api/user").then((res) => res.data.users)
 	);
-	if (users) {
-		console.log(users[1].avatar_url);
-	}
 
 	return (
 		<AdminDashboardWrapper>
