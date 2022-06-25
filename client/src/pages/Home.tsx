@@ -107,7 +107,11 @@ const Home = () => {
 							></pre>
 						</div>
 					</HomeEditor>
-					<HomeArrow id="home-arrow" onClick={handleScroll}>
+					<HomeArrow
+						id="home-arrow"
+						aria-label="scroll-to-projects"
+						onClick={handleScroll}
+					>
 						<BsArrowDown size={"100%"} />
 					</HomeArrow>
 				</section>
