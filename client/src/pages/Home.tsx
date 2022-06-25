@@ -44,7 +44,7 @@ const Home = () => {
 				<section className="home-top">
 					<HomeIntroText>
 						<p className="home-top-text">Hello, I'm</p>
-						<h1 className="home-top-title">
+						<h3 className="home-top-title">
 							<div>
 								<TitleHighlight item={1}>E</TitleHighlight>
 								<TitleHighlight item={2}>u</TitleHighlight>
@@ -64,7 +64,7 @@ const Home = () => {
 								<TitleHighlight item={13}>i</TitleHighlight>
 								<TitleHighlight item={14}>n</TitleHighlight>
 							</div>
-						</h1>
+						</h3>
 						<p className="home-bottom-text">
 							A Software Developer with a passion to solve problems
 						</p>
