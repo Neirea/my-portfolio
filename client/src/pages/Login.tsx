@@ -18,14 +18,14 @@ const Login = () => {
 
 	const handleLoginGithub = async () => {
 		window.open(
-			`http://localhost:5000/api/auth/login/github?path=${fromUrl}`,
+			`${process.env.REACT_APP_SERVER_URL}/api/auth/login/github?path=${fromUrl}`,
 			"_self"
 		);
 	};
 
 	const handleLoginGoogle = async () => {
 		window.open(
-			`http://localhost:5000/api/auth/login/google?path=${fromUrl}`,
+			`${process.env.REACT_APP_SERVER_URL}/api/auth/login/google?path=${fromUrl}`,
 			"_self"
 		);
 	};
