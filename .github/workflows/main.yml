@@ -1,10 +1,8 @@
 name: Fly Deploy
 on:
   push:
-    branches:
-      - "main"
-    paths:
-      - "server"
+    paths-ignore:
+      - "client/**"
 env:
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 defaults:
