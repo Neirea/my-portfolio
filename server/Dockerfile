@@ -3,10 +3,7 @@ FROM node:16 as builder
 WORKDIR /portfolio
 COPY package*.json ./
 RUN npm ci
-COPY ./src ./src
-COPY tsconfig.json .
-COPY tsconfig.build.json .
-
+COPY . .
 RUN npm run build
 RUN npm prune --omit=dev
 
