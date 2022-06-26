@@ -9,10 +9,13 @@ import CustomError from "../errors";
 import User, { platformEnum, userRoles } from "../models/User";
 import { randomUserName } from "../utils/randomUserName";
 
+const clientUrl =
+	process.env.NODE_ENV !== "production"
+		? "http://localhost:3000"
+		: "https://www.neirea.com";
+
 export const failedLogin = (req: Request, res: Response) => {
-	res
-		.status(401)
-		.redirect(`${process.env.CLIENT_URL}/login?error=login_failed`);
+	res.status(401).redirect(`${clientUrl}/login?error=login_failed`);
 };
 
 export const logout = (req: Request, res: Response) => {
@@ -42,7 +45,7 @@ const callbackFunction = (req: Request, res: Response) => {
 	}
 
 	// Successful authentication, redirect to page where user specifies username
-	res.redirect(`${process.env.CLIENT_URL!}/${redirect}`);
+	res.redirect(`${clientUrl}/${redirect}`);
 };
 
 export const githubCallback = (req: Request, res: Response) => {

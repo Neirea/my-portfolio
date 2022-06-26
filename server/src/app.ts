@@ -42,7 +42,15 @@ app.use(
 	})
 ); //set numbers that fit best and check if needed in production
 app.use(helmet());
-app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
+app.use(
+	cors({
+		origin:
+			process.env.NODE_ENV !== "production"
+				? "http://localhost:3000"
+				: "https://www.neirea.com",
+		credentials: true,
+	})
+);
 app.use(fileUpload({ useTempFiles: true }));
 app.use(express.json());
 app.use(mongoSanitize());
