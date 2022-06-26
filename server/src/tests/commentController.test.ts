@@ -12,7 +12,7 @@ jest.mock("../middleware/authorizePermissions", () =>
 	})
 );
 
-import { NextFunction, Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import request from "supertest";
 import app from "../app";
 import Article from "../models/Article";

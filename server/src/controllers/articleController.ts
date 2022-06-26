@@ -127,6 +127,7 @@ export const uploadArticleImage = async (req: Request, res: Response) => {
 			{
 				width: 640,
 				height: 360,
+				crop: "fill",
 			},
 			{
 				fetch_format: "jpg",
