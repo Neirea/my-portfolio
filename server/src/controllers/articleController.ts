@@ -125,8 +125,8 @@ export const uploadArticleImage = async (req: Request, res: Response) => {
 	const result = await cloudinary.uploader.upload(imageFile.tempFilePath, {
 		transformation: [
 			{
-				width: 640,
-				height: 360,
+				width: 1024,
+				height: 576,
 				crop: "fill",
 			},
 			{

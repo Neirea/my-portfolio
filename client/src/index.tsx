@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import { AppProvider } from "./store/AppContext";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_URL;
 axios.defaults.withCredentials = true;
@@ -33,6 +34,7 @@ root.render(
 				<AppProvider>
 					<App />
 				</AppProvider>
+				<ReactQueryDevtools initialIsOpen={false} />
 			</QueryClientProvider>
 		</BrowserRouter>
 	</React.StrictMode>

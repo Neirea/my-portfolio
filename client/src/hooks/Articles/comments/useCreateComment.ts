@@ -22,6 +22,9 @@ export default function useCreateComment() {
 		{
 			onSuccess(newData, { submitData, index }) {
 				resetCommentState();
+				queryClient.invalidateQueries(["comments", articleId], {
+					refetchInactive: true,
+				});
 
 				const oldData = queryClient.getQueryData<IComment[]>([
 					"comments",
@@ -36,12 +39,11 @@ export default function useCreateComment() {
 				if (index !== undefined) {
 					repliedTo?.replies.push(newData);
 				} else {
-					oldData.unshift(newData);
+					queryClient.setQueriesData<IComment[]>(
+						["comments", articleId],
+						[newData, ...oldData]
+					);
 				}
-
-				queryClient.invalidateQueries(["comments", articleId], {
-					refetchInactive: true,
-				});
 			},
 			onError(error: any, { index }) {
 				const errorMessage =

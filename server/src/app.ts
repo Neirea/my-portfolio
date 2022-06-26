@@ -33,7 +33,6 @@ cloudinary.config({
 
 /* middleware */
 app.set("trust proxy", 1);
-app.get("/ip", (request, response) => response.send(request.ip)); // test how many proxies in production and change number above
 app.use(
 	rateLimit({
 		windowMs: 60 * 1000,
