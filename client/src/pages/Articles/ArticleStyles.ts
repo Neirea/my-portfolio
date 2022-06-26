@@ -139,7 +139,7 @@ export const ArticleContentWrapper = styled.section`
 				text-decoration: underline;
 			}
 			blockquote {
-				quotes: "«" "»";
+				quotes: "“ " " ”";
 				font-style: italic;
 				margin: 1rem 0;
 				padding: 0 1rem;
@@ -147,9 +147,13 @@ export const ArticleContentWrapper = styled.section`
 				background: var(--code-bg-color);
 				&::before {
 					content: open-quote;
+					font-family: Arial, Helvetica, sans-serif;
+					font-size: 1.5rem;
 				}
 				&::after {
 					content: close-quote;
+					font-family: Arial, Helvetica, sans-serif;
+					font-size: 1.5rem;
 				}
 			}
 		}
