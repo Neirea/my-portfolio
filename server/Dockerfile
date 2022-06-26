@@ -2,7 +2,6 @@
 FROM node:16 as builder
 WORKDIR /portfolio
 COPY package*.json ./
-# mb normal install cause typescript
 RUN npm ci
 COPY . .
 RUN npm run build
