@@ -2,10 +2,10 @@ name: Fly Deploy
 on: [push]
 env:
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+defaults:
+  run:
+    working-directory: ./server
 jobs:
-  defaults:
-    run:
-      working-directory: ./server
   deploy:
     name: Deploy app
     runs-on: ubuntu-latest
