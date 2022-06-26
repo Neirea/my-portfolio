@@ -55,7 +55,7 @@ const Contact = () => {
 
 		try {
 			const token = await handleRecaptchaVeify();
-			if (!token) return;
+			if (token === false) return;
 			await axios.post("/api/action/testCaptcha", { token });
 
 			const { name, email, message } = values;
