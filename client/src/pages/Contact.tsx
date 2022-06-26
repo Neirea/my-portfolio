@@ -46,8 +46,7 @@ const Contact = () => {
 			return false;
 		}
 		const token = await executeRecaptcha("contactMessage");
-		await axios.post("/api/action/testCaptcha", { token });
-		return true;
+		return token;
 	};
 
 	const onSubmit = async (e: FormEvent) => {
@@ -55,8 +54,10 @@ const Contact = () => {
 		setLoading(true);
 
 		try {
-			const isVerified = await handleRecaptchaVeify();
-			if (!isVerified) return;
+			const token = await handleRecaptchaVeify();
+			if (!token) return;
+			await axios.post("/api/action/testCaptcha", { token });
+
 			const { name, email, message } = values;
 			const contactMessage = {
 				subject: `${name} from ${email}`,
