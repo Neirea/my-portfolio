@@ -4,13 +4,20 @@ import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import Contact from "../pages/Contact";
 import { AppContext } from "../store/AppContext";
-import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { QueryClient, QueryClientProvider } from "react-query";
 import type { AppContextValues, IUser } from "../types/appTypes";
 import MockAdapter from "axios-mock-adapter";
 
 const mock = new MockAdapter(axios);
-const solvedRecaptchaKey = process.env.REACT_APP_RECAPTCHA_CLIENT;
+
+//mock recaptcha
+jest.mock("react-google-recaptcha-v3", () => {
+	return {
+		useGoogleReCaptcha: () => ({
+			executeRecaptcha: () => "success",
+		}),
+	};
+});
 
 describe("Contact", () => {
 	test("Should successfully send message", async () => {
@@ -29,9 +36,7 @@ describe("Contact", () => {
 						} as AppContextValues
 					}
 				>
-					<GoogleReCaptchaProvider reCaptchaKey={solvedRecaptchaKey}>
-						<Contact />
-					</GoogleReCaptchaProvider>
+					<Contact />
 				</AppContext.Provider>
 			</QueryClientProvider>
 		);

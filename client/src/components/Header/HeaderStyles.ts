@@ -9,7 +9,7 @@ export const HeaderWrapper = styled.header`
 	position: sticky;
 	top: 0px;
 	padding-left: 5%;
-	z-index: 1;
+	z-index: 99;
 
 	height: var(--header-height);
 	box-shadow: 0 0 1rem -0.5rem rgb(0, 0, 0, 0.5);

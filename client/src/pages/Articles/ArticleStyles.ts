@@ -58,6 +58,7 @@ export const ArticleContentWrapper = styled.section`
 	position: relative;
 	flex-direction: column;
 	gap: 1rem;
+	tab-size: 3;
 
 	.article-post {
 		display: flex;
