@@ -133,7 +133,6 @@ export const ArticleContentWrapper = styled.section`
 			img {
 				margin: 1rem 0;
 				width: 100%;
-				aspect-ratio: 16/9;
 				border: none;
 			}
 			a {
