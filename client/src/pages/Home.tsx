@@ -75,7 +75,6 @@ const Home = () => {
 										key={`link-${index}`}
 										className="address-link"
 										href={item.link}
-										target="_blank"
 										rel="noreferrer"
 										aria-label={item.name}
 									>
