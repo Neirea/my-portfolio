@@ -132,8 +132,11 @@ export const ArticleContentWrapper = styled.section`
 			iframe,
 			img {
 				margin: 1rem 0;
-				width: 100%;
 				border: none;
+			}
+			iframe {
+				width: 100%;
+				aspect-ratio: 16/9;
 			}
 			a {
 				text-decoration: underline;
