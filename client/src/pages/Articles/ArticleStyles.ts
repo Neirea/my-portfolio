@@ -392,7 +392,7 @@ export const CUArticleForm = styled(StyledForm)`
 		margin-top: 0.5rem;
 		width: 95%;
 		color: black;
-		z-index: 0;
+		z-index: 1;
 
 		.editor-toolbar {
 			margin-bottom: 0.25rem;

@@ -23,6 +23,7 @@ const sanitizeOptions = {
 			"loading",
 			"style",
 		],
+		span: ["style"],
 	},
 };
 
