@@ -7,7 +7,6 @@
 		"start": "node ./build/index.js",
 		"build": "tsc -p tsconfig.build.json",
 		"test": "jest --watch --runInBand --detectOpenHandles ./src/tests",
-		"test:prod": "jest --runInBand ./src/tests",
 		"dev": "tsnd --respawn ./src/index.ts"
 	},
 	"keywords": [],
