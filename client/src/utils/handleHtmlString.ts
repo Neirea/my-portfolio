@@ -1,5 +1,8 @@
 import hljs from "highlight.js/lib/common";
-//detects 40 common languages
+hljs.registerLanguage(
+	"dockerfile",
+	require("highlight.js/lib/languages/dockerfile")
+);
 
 //replace html symbols to real ones
 function formatString(str: string) {
