@@ -74,7 +74,7 @@ export const languageDetector = (htmlString: string) => {
 		);
 		if (codeElementWithNewLines) {
 			languages.push(
-				hljs.highlightAuto(codeElementWithNewLines).language || "javascript"
+				hljs.highlightAuto(codeElementWithNewLines).language || "plaintext"
 			);
 		}
 	});
