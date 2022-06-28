@@ -33,7 +33,7 @@ export const getAllArticles = async (req: Request, res: Response) => {
 
 	const articles = await Article.find(
 		!getCategory ? {} : { category: `${getCategory}` }
-	).sort({ updatedAt: "descending" });
+	).sort({ createdAt: "descending" });
 	if (!articles.length) {
 		throw new CustomError.NotFoundError(`No ${getCategory}s found`);
 	}

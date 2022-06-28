@@ -17,7 +17,9 @@ import {
 
 const Home = () => {
 	const { data } = useArticles(categoriesEnum.project);
-	const projects = data?.filter((elem, idx) => idx < 4);
+	const projects = data
+		?.sort((a, b) => (new Date(a.updatedAt) > new Date(b.updatedAt) ? -1 : 1))
+		.slice(0, 4);
 
 	const handleScroll = () => {
 		const arrowElem = document.querySelector<HTMLButtonElement>("#home-arrow");
@@ -35,7 +37,7 @@ const Home = () => {
 		'const aboutMe = {\n\talias: "Neirea",\n\tlanguages: ["HTML/CSS", "Javascript",\n\t\t"Typescript", "SQL"],\n\ttech: ["React", "Next", "Node",\n\t\t"PostgreSQL", "MongoDB",\n\t\t"GraphQL", "Jest", "RTL"],\n}';
 
 	const formatCode = (text: string) => {
-		return hljs.highlight(text, { language: "typescript" }).value;
+		return hljs.highlight(text, { language: "javascript" }).value;
 	};
 
 	return (

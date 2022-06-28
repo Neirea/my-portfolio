@@ -7,14 +7,13 @@ export const handleDate = (date: string, editedAt?: string) => {
 	const oneMinute = 1000 * 60;
 
 	let resultDate = "";
-	let testDate = new Date(timeDifference);
 
 	if (timeDifference < oneMinute) {
-		resultDate = testDate.getSeconds().toString() + " sec. ago";
+		resultDate = Math.floor(timeDifference / 1000) + " sec. ago";
 	} else if (timeDifference < oneHour) {
-		resultDate = testDate.getMinutes().toString() + " min. ago";
+		resultDate = Math.floor(timeDifference / oneMinute) + " min. ago";
 	} else if (timeDifference < oneDay) {
-		resultDate = testDate.getHours().toString() + " hr. ago";
+		resultDate = Math.floor(timeDifference / oneHour) + " hr. ago";
 	} else {
 		const options = {
 			day: "numeric",
