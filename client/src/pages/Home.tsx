@@ -32,7 +32,7 @@ const Home = () => {
 	};
 
 	const codeText =
-		'const aboutMe = {\n\talias: "Neirea",\n\tlanguages: ["Javascript", "Typescript",\n\t\t"SQL", "C++"],\n\tspecialty: ["React", "Next", "Express",\n\t\t"MongoDB", "PostgreSQL", "Jest"],\n}';
+		'const aboutMe = {\n\talias: "Neirea",\n\tlanguages: ["HTML/CSS", "Javascript",\n\t\t"Typescript", "SQL"],\n\ttech: ["React", "Next", "Node",\n\t\t"PostgreSQL", "MongoDB",\n\t\t"GraphQL", "Jest", "RTL"],\n}';
 
 	const formatCode = (text: string) => {
 		return hljs.highlight(text, { language: "typescript" }).value;
@@ -99,6 +99,7 @@ const Home = () => {
 								<div>5</div>
 								<div>6</div>
 								<div>7</div>
+								<div>8</div>
 							</div>
 							<pre
 								className="home-editor-code"

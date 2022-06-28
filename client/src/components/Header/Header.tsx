@@ -24,7 +24,7 @@ const Header = () => {
 
 	return (
 		<HeaderWrapper>
-			<MenuItem as="a" href="/">
+			<MenuItem as="a" href="/" target="_self">
 				<h3 className="header-logo">
 					<span className="header-logo-first">N</span>eirea
 				</h3>

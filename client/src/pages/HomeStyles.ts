@@ -68,10 +68,9 @@ export const HomeEditor = styled.div`
 	}
 	.home-editor-body {
 		display: flex;
-		justify-content: center;
-		align-items: center;
+		width: 100%;
 		letter-spacing: -0.05rem;
-		tab-size: 2rem;
+		tab-size: 3;
 		background: var(--code-bg-color);
 
 		.home-editor-numbers {
@@ -80,6 +79,7 @@ export const HomeEditor = styled.div`
 		}
 		.home-editor-code {
 			padding: 1rem;
+			flex-grow: 1;
 		}
 
 		@media (max-width: 496px) {
@@ -142,22 +142,27 @@ export const HomeIntroText = styled.div`
 
 export const TitleHighlight = styled.span<{ item: number }>`
 	display: inline-block;
-	animation: wave 1s;
+	animation: wave 0.5s;
+	animation-timing-function: ease-in-out;
 	animation-delay: ${(props) => 0.3 + 0.05 * props.item}s;
 	transition: transform var(--transition);
+
 	&:hover {
 		transform: translateY(-0.5rem);
 		color: var(--comment-header-color);
 	}
 	@keyframes wave {
-		40%,
-		100% {
+		0% {
 			color: var(--button-color);
 			transform: translateY(0);
 		}
-		20% {
+		50% {
 			color: var(--comment-header-color);
 			transform: translateY(-0.5rem);
+		}
+		100% {
+			color: var(--button-color);
+			transform: translateY(0);
 		}
 	}
 `;
