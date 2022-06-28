@@ -4,6 +4,7 @@ WORKDIR /portfolio
 COPY package*.json ./
 RUN npm ci
 COPY . .
+RUN npm run test:prod
 RUN npm run build
 RUN npm prune --omit=dev
 

@@ -60,26 +60,27 @@ if (process.env.NODE_ENV !== "production") {
 	const morgan = require("morgan");
 	app.use(morgan("tiny"));
 }
-
-const sessionStore = new MongoStore({
-	mongoUrl: process.env.MONGO_URL,
-	collectionName: "sessions",
-});
-/* session middleware */
-app.use(
-	session({
-		secret: process.env.SESSION_SECRET!,
-		name: "sid",
-		saveUninitialized: false, // don't create session until something stored
-		resave: false, //don't save session if unmodified
-		store: sessionStore,
-		cookie: {
-			httpOnly: true,
-			secure: process.env.NODE_ENV === "production",
-			maxAge: 1000 * 60 * 60 * 24 * 30, //30 days
-		},
-	})
-);
+if (process.env.NODE_ENV !== "test") {
+	const sessionStore = new MongoStore({
+		mongoUrl: process.env.MONGO_URL,
+		collectionName: "sessions",
+	});
+	/* session middleware */
+	app.use(
+		session({
+			secret: process.env.SESSION_SECRET!,
+			name: "sid",
+			saveUninitialized: false, // don't create session until something stored
+			resave: false, //don't save session if unmodified
+			store: sessionStore,
+			cookie: {
+				httpOnly: true,
+				secure: process.env.NODE_ENV === "production",
+				maxAge: 1000 * 60 * 60 * 24 * 30, //30 days
+			},
+		})
+	);
+}
 
 app.use(passport.initialize()); //passport init
 
