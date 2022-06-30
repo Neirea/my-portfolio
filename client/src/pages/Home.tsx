@@ -34,7 +34,7 @@ const Home = () => {
 	};
 
 	const codeText =
-		'const aboutMe = {\n\talias: "Neirea",\n\tlanguages: ["HTML/CSS", "Javascript",\n\t\t"Typescript", "SQL"],\n\ttech: ["React", "Next", "Node",\n\t\t"PostgreSQL", "MongoDB",\n\t\t"GraphQL", "Jest", "RTL"],\n}';
+		'const aboutMe = {\n\tspecialty: "web development",\n\tprinciple: "keep it simple",\n\tattributes: ["curious", "persistent",\n\t\t\t\t\t"competitive"]\n}';
 
 	const formatCode = (text: string) => {
 		return hljs.highlight(text, { language: "javascript" }).value;
@@ -68,7 +68,7 @@ const Home = () => {
 							</div>
 						</h3>
 						<p className="home-bottom-text">
-							A Software Developer with a passion to solve problems
+							A Software Engineer with a passion to solve problems
 						</p>
 						<div className="home-top-links">
 							{socialMediaLinks.map((item, index) => {
@@ -100,8 +100,6 @@ const Home = () => {
 								<div>4</div>
 								<div>5</div>
 								<div>6</div>
-								<div>7</div>
-								<div>8</div>
 							</div>
 							<pre
 								className="home-editor-code"

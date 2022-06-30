@@ -39,7 +39,7 @@ export const HomeEditor = styled.div`
 	max-width: 100%;
 
 	@media (min-width: 1000px) {
-		min-width: 31rem;
+		min-width: 30rem;
 	}
 
 	.home-editor-header {
@@ -72,6 +72,7 @@ export const HomeEditor = styled.div`
 		letter-spacing: -0.05rem;
 		tab-size: 3;
 		background: var(--code-bg-color);
+		font-size: 1.1rem;
 
 		.home-editor-numbers {
 			padding: 1rem;
@@ -81,16 +82,13 @@ export const HomeEditor = styled.div`
 			padding: 1rem;
 			flex-grow: 1;
 		}
+		@media (min-width: 1000px) {
+			font-size: 1.2rem;
+		}
 
 		@media (max-width: 496px) {
 			& * {
-				font-size: 3.25vw;
-			}
-		}
-
-		@media (min-width: 1000px) {
-			& * {
-				font-size: 1.2rem;
+				font-size: 3.575vw;
 			}
 		}
 	}
