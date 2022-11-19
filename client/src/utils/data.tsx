@@ -11,7 +11,7 @@ export const socialMediaLinks = [
     {
         image: <FaLinkedin size={"100%"} />,
         name: "linkedin",
-        link: "https://www.linkedin.com/in/yevhenii-shumilin-2ab431188/",
+        link: "https://www.linkedin.com/in/eugene-shumilin/",
     },
     {
         image: <FiMail size={"100%"} />,
