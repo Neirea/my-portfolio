@@ -18,7 +18,6 @@ My portfolio/blog website built with MERN stack and Typescript.
 -   React Query for asynchronous data
 -   Highlight.js for code highlightning
 -   React Testing Library/Jest for testing
--   Deployed on Netlify
 
 ## Server features:
 
@@ -34,4 +33,3 @@ My portfolio/blog website built with MERN stack and Typescript.
 -   Mongoose to manage MongoDB
 -   Helmet, Cors, Rate Limit and multiple user input sanitizers<br>to set up basic server protection
 -   Jest for testing
--   Deployed on Fly.io
