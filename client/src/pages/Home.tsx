@@ -1,5 +1,5 @@
 import { BsArrowDown } from "@react-icons/all-files/bs/BsArrowDown";
-import hljs from "highlight.js/lib/common";
+import hljs from "../utils/hljsLangs";
 import useArticles from "../hooks/Articles/useArticles";
 import { MoreButton } from "../styles/StyledComponents";
 import { categoriesEnum } from "../types/articleTypes";
