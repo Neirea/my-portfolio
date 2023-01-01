@@ -19,7 +19,7 @@ const Home = () => {
     const { data } = useArticles(categoriesEnum.project);
     const projects = data
         ?.sort((a, b) =>
-            new Date(a.updatedAt) > new Date(b.updatedAt) ? -1 : 1
+            new Date(a.createdAt) > new Date(b.createdAt) ? -1 : 1
         )
         .slice(0, 4);
 
@@ -37,7 +37,7 @@ const Home = () => {
     };
 
     const codeText =
-        'const aboutMe = {\n\tspecialty: "web development",\n\tprinciple: "keep it simple",\n\tattributes: ["curious", "persistent",\n\t\t\t\t\t"competitive"]\n}';
+        'const aboutMe = {\n\tbackground: "6 years in e-Sports",\n\tspecialty: "web development",\n\tattributes: ["curious", "persistent",\n\t\t\t\t\t"competitive"]\n}';
 
     const formatCode = (text: string) => {
         return hljs.highlight(text, { language: "javascript" }).value;

@@ -25,4 +25,4 @@ export const menuItems = [
     { name: "PROJECTS", link: "/project" },
     { name: "CONTACT", link: "/contact" },
 ];
-export const recaptchaKey = process.env.REACT_APP_RECAPTCHA_CLIENT!; //personal recaptcha sit key
+export const recaptchaKey = import.meta.env.VITE_RECAPTCHA_CLIENT!; //personal recaptcha sit key
