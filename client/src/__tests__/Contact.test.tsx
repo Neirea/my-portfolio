@@ -1,13 +1,12 @@
-import { vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import axios from "axios";
 import userEvent from "@testing-library/user-event";
-import "@testing-library/jest-dom";
+import axios from "axios";
+import MockAdapter from "axios-mock-adapter";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { describe, expect, test, vi } from "vitest";
 import Contact from "../pages/Contact";
 import { AppContext } from "../store/AppContext";
-import { QueryClient, QueryClientProvider } from "react-query";
 import type { AppContextValues, IUser } from "../types/appTypes";
-import MockAdapter from "axios-mock-adapter";
 
 const mock = new MockAdapter(axios);
 

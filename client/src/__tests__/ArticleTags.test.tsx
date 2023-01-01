@@ -1,12 +1,12 @@
-import { render, screen, act } from "@testing-library/react";
-import axios from "axios";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import "@testing-library/jest-dom";
+import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-import { categoriesEnum, IArticle } from "../types/articleTypes";
-import { QueryClientProvider, QueryClient } from "react-query";
-import { Articles, SingleArticle } from "../pages";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter, MemoryRouter, Route, Routes } from "react-router-dom";
+import { describe, expect, test } from "vitest";
+import { Articles, SingleArticle } from "../pages";
+import { categoriesEnum, IArticle } from "../types/articleTypes";
 
 const mock = new MockAdapter(axios);
 
@@ -154,7 +154,7 @@ describe("Article Tags", () => {
         expect(expressNavLink).toBeInTheDocument();
 
         //should get back to Articles page
-        await act(async () => await userEvent.click(expressNavLink));
+        await userEvent.click(expressNavLink);
 
         //filter should work on page land and show only article #3
         const newArticle3 = await screen.findByRole("heading", {

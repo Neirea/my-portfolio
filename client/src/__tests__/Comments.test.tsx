@@ -1,12 +1,12 @@
-import { render, screen, act } from "@testing-library/react";
-import axios from "axios";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import "@testing-library/jest-dom";
-import Comments from "../pages/Articles/articleComponents/Comments/Comments";
-import { BrowserRouter } from "react-router-dom";
-import { AppContext } from "../store/AppContext";
-import { CommentsProvider } from "../hooks/Articles/comments/useCommentsContext";
+import axios from "axios";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { BrowserRouter } from "react-router-dom";
+import { describe, expect, test } from "vitest";
+import { CommentsProvider } from "../hooks/Articles/comments/useCommentsContext";
+import Comments from "../pages/Articles/articleComponents/Comments/Comments";
+import { AppContext } from "../store/AppContext";
 
 import MockAdapter from "axios-mock-adapter";
 import type { AppContextValues, IUser } from "../types/appTypes";
