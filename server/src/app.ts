@@ -26,29 +26,29 @@ import userRouter from "./routes/userRouter";
 const app = express();
 
 cloudinary.config({
-	cloud_name: process.env.CLDNRY_NAME,
-	api_key: process.env.CLDNRY_API_KEY,
-	api_secret: process.env.CLDNRY_API_SECRET,
+    cloud_name: process.env.CLDNRY_NAME,
+    api_key: process.env.CLDNRY_API_KEY,
+    api_secret: process.env.CLDNRY_API_SECRET,
 });
 
 /* middleware */
 app.set("trust proxy", 1);
 app.use(
-	rateLimit({
-		windowMs: 60 * 1000,
-		max: 50,
-		message: { msg: "Too many requests..." },
-	})
+    rateLimit({
+        windowMs: 60 * 1000,
+        max: 50,
+        message: { msg: "Too many requests..." },
+    })
 ); //set numbers that fit best and check if needed in production
 app.use(helmet());
 app.use(
-	cors({
-		origin:
-			process.env.NODE_ENV !== "production"
-				? "http://localhost:3000"
-				: "https://www.neirea.com",
-		credentials: true,
-	})
+    cors({
+        origin:
+            process.env.NODE_ENV !== "production"
+                ? ["http://localhost:4173", "http://localhost:5173"]
+                : "https://www.neirea.com",
+        credentials: true,
+    })
 );
 app.use(fileUpload({ useTempFiles: true }));
 app.use(express.json());
@@ -57,29 +57,29 @@ app.use(buildCheckFunction(["body", "query", "params"])());
 
 //dev middleware
 if (process.env.NODE_ENV !== "production") {
-	const morgan = require("morgan");
-	app.use(morgan("tiny"));
+    const morgan = require("morgan");
+    app.use(morgan("tiny"));
 }
 if (process.env.NODE_ENV !== "test") {
-	const sessionStore = new MongoStore({
-		mongoUrl: process.env.MONGO_URL,
-		collectionName: "sessions",
-	});
-	/* session middleware */
-	app.use(
-		session({
-			secret: process.env.SESSION_SECRET!,
-			name: "sid",
-			saveUninitialized: false, // don't create session until something stored
-			resave: false, //don't save session if unmodified
-			store: sessionStore,
-			cookie: {
-				httpOnly: true,
-				secure: process.env.NODE_ENV === "production",
-				maxAge: 1000 * 60 * 60 * 24 * 30, //30 days
-			},
-		})
-	);
+    const sessionStore = new MongoStore({
+        mongoUrl: process.env.MONGO_URL,
+        collectionName: "sessions",
+    });
+    /* session middleware */
+    app.use(
+        session({
+            secret: process.env.SESSION_SECRET!,
+            name: "sid",
+            saveUninitialized: false, // don't create session until something stored
+            resave: false, //don't save session if unmodified
+            store: sessionStore,
+            cookie: {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                maxAge: 1000 * 60 * 60 * 24 * 30, //30 days
+            },
+        })
+    );
 }
 
 app.use(passport.initialize()); //passport init
