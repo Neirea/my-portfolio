@@ -52,7 +52,6 @@ export const GlobalStyles = createGlobalStyle`
 	--transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 	--header-transition: width 0.3s linear;
 	--slider-transition: all 0.3s linear, color 0s;
-
 }
 //firefox
 html {
@@ -92,7 +91,11 @@ h6 {
 	font-weight: 650;
 	letter-spacing: var(--letterSpacing);
 }
-
+@media (max-width: 400px) {
+	html {
+		font-size: 4vw;
+	}
+}
 header > * {
 	font-size: 1.2rem;
 }
@@ -157,12 +160,6 @@ ul {
 //for deleted stuff
 i {
 	color: var(--deleted-color);
-}
-
-@media (max-width: 400px) {
-	*{
-		font-size: 4vw;
-	}
 }
 
 /* CODE HIGHLIGHT CLASSES */

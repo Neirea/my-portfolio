@@ -14,6 +14,7 @@ import {
     HomeProjects,
     TitleHighlight,
 } from "./HomeStyles";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const Home = () => {
     const { data } = useArticles(categoriesEnum.project);
@@ -37,7 +38,7 @@ const Home = () => {
     };
 
     const codeText =
-        'const aboutMe = {\n\tbackground: "6 years in e-Sports",\n\tspecialty: "web development",\n\tattributes: ["curious", "persistent",\n\t\t\t\t\t"competitive"]\n}';
+        'const aboutMe = {\n   background: "6 years in e-Sports",\n   specialty:  "web development",\n   enjoying: "building in Typescript"],\n}';
 
     const formatCode = (text: string) => {
         return hljs.highlight(text, { language: "javascript" }).value;
@@ -102,7 +103,6 @@ const Home = () => {
                                 <div>3</div>
                                 <div>4</div>
                                 <div>5</div>
-                                <div>6</div>
                             </div>
                             <pre
                                 className="home-editor-code"
@@ -121,8 +121,10 @@ const Home = () => {
                     </HomeArrow>
                 </section>
                 <HomeProjects>
-                    <h2 className="projects-title">PROJECTS</h2>
-                    {projects && (
+                    <h3 className="projects-title">PROJECTS</h3>
+                    {!projects ? (
+                        <LoadingSpinner flexGrow={1} height="auto" />
+                    ) : (
                         <div className="projects-wrapper">
                             <ArticleCards
                                 type={categoriesEnum.project}
