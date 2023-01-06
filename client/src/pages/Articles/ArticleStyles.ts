@@ -187,7 +187,7 @@ export const ArticleContentWrapper = styled.section`
 export const ArticleSideMenuWrapper = styled.aside`
     width: var(--article-card-width);
     .article-aside-title {
-        color: var(--faded-text-color);
+        color: var(--button-color);
         font-size: 1.2rem;
 
         @media (hover: hover) and (pointer: fine) {

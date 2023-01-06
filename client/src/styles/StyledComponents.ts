@@ -218,6 +218,7 @@ export const PortalModal = styled.section`
     bottom: 0;
     background: rgba(0, 0, 0, 0.7);
     z-index: 5;
+    overflow: hidden;
     .success-container {
         display: flex;
         flex-direction: column;
@@ -227,5 +228,8 @@ export const PortalModal = styled.section`
         border-radius: var(--border-radius);
         background: var(--main-bg-color);
         z-index: 10;
+    }
+    .image-modal {
+        width: min(80rem, 95%);
     }
 `;

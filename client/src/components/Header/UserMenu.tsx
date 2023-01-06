@@ -16,7 +16,7 @@ interface UserMenuProps {
 const UserMenu = ({ showUserMenu, setShowUserMenu }: UserMenuProps) => {
     const location = useLocation<LocationState>();
     const navigate = useNavigate();
-    const { user, logoutUser, isLoading } = useGlobalContext();
+    const { user, logoutUser } = useGlobalContext();
     const userMenuContainerRef = useRef<HTMLDivElement | null>(null);
     const toggleMenuRef = useRef<HTMLDivElement | null>(null);
     useOutsideClick(toggleMenuRef, setShowUserMenu);
@@ -53,8 +53,6 @@ const UserMenu = ({ showUserMenu, setShowUserMenu }: UserMenuProps) => {
         logoutUser();
         navigate(logoutUrl);
     };
-
-    if (isLoading) return <UserMenuWrapper as="section" />;
 
     return (
         <UserMenuWrapper as="section">

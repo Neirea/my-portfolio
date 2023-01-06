@@ -33,7 +33,7 @@ export const NavMenuItem = styled(MenuItem)`
         left: 0px;
         height: 100%;
         width: 100%;
-        background: var(--main-text-color);
+        background: var(--faded-text-color);
 
         opacity: 0;
     }

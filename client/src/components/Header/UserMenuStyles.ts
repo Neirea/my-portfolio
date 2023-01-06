@@ -3,9 +3,7 @@ import { MenuItem } from "./HeaderStyles";
 
 export const UserMenuWrapper = styled(MenuItem)`
     display: flex;
-    justify-content: flex-end;
     margin-right: 0.5rem;
-    min-width: 10rem;
     color: var(--faded-text-color);
 
     .user-name {
