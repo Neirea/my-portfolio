@@ -8,14 +8,6 @@ function formatString(str: string) {
         .replace(/&gt;/g, ">");
 }
 
-function getChildrenElementsString(elements: HTMLCollection) {
-    let result = "";
-    for (let i = 0; i < elements.length; i++) {
-        result += elements[i].outerHTML;
-    }
-    return result;
-}
-
 export const handleHtmlString = (
     articleContent: string,
     languages: string[]
@@ -38,7 +30,18 @@ export const handleHtmlString = (
             regex,
             "\n"
         );
-        const currentLang = languages.length > index ? languages[index] : null;
+        const codeInfo = getCodeInfo(codeElementWithNewLines);
+
+        if (codeInfo?.code) {
+            codeElementWithNewLines = codeInfo.code;
+        }
+
+        const currentLang =
+            languages.length > index
+                ? languages[index]
+                : codeInfo?.language
+                ? codeInfo?.language
+                : null;
         const highlightedCodeString = codeElementWithNewLines
             ? currentLang !== null
                 ? hljs.highlight(codeElementWithNewLines, {
@@ -73,12 +76,37 @@ export const languageDetector = (htmlString: string) => {
             "\n"
         );
         if (codeElementWithNewLines) {
-            languages.push(
-                hljs.highlightAuto(codeElementWithNewLines).language ||
-                    "plaintext"
-            );
+            const codeInfo = getCodeInfo(codeElementWithNewLines);
+            if (codeInfo?.language) {
+                languages.push(codeInfo.language);
+            } else {
+                languages.push(
+                    hljs.highlightAuto(codeElementWithNewLines).language ||
+                        "plaintext"
+                );
+            }
         }
     });
     div.remove();
     return languages;
 };
+
+function getChildrenElementsString(elements: HTMLCollection) {
+    let result = "";
+    for (let i = 0; i < elements.length; i++) {
+        result += elements[i].outerHTML;
+    }
+    return result;
+}
+
+function getCodeInfo(code: string) {
+    let language = "";
+    if (code.indexOf("~!") !== -1 && code.indexOf("!~") !== -1) {
+        language = code.substring(code.indexOf("~!") + 2, code.indexOf("!~"));
+
+        if (hljs.listLanguages().includes(language)) {
+            return { language, code: code.split("!~")[1] };
+        }
+    }
+    return undefined;
+}
