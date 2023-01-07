@@ -76,7 +76,7 @@ export const updateComment = async (req: Request, res: Response) => {
             `No comment with id : ${commentId}`
         );
     }
-    checkAuthor(req, commentId);
+    checkAuthor(req, comment.user.id.toString());
     //check if user is banned
     const user = await User.findOne({ _id: comment.user.id });
     if (!user) {
@@ -105,7 +105,7 @@ export const deleteComment = async (req: Request, res: Response) => {
             `No comment with id : ${commentId}`
         );
     }
-    checkAuthor(req, commentId);
+    checkAuthor(req, comment.user.id.toString());
     //check if user is banned
     const user = await User.findOne({ _id: comment.user.id });
     if (!user) {
@@ -141,7 +141,7 @@ export const deleteCommentsAdmin = async (req: Request, res: Response) => {
             `No comment with id : ${commentId}`
         );
     }
-    checkAuthor(req, commentId);
+    checkAuthor(req, comment.user.id.toString());
 
     //adds all ids of nested elements to array
     const parseReplies = (comments: IComment[], array: number[]) => {
