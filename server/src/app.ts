@@ -32,7 +32,6 @@ cloudinary.config({
 });
 
 /* middleware */
-app.set("trust proxy", 1);
 app.use(
     rateLimit({
         windowMs: 60 * 1000,
