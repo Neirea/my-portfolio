@@ -1,4 +1,3 @@
-import crypto from "crypto";
 import type { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import CustomError from "../errors";
@@ -6,9 +5,7 @@ import User from "../models/User";
 
 export const showMe = (req: Request, res: Response) => {
     const user = req.session.user;
-    const newToken = crypto.randomUUID();
-    req.session.csrfToken = newToken;
-    res.status(StatusCodes.OK).json({ user, csrfToken: newToken });
+    res.status(StatusCodes.OK).json({ user, csrfToken: req.session.csrfToken });
 };
 
 export const getAllUsers = async (req: Request, res: Response) => {

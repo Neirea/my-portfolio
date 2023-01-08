@@ -44,6 +44,7 @@ const callbackFunction = (req: Request, res: Response) => {
     }
     if (req.session) {
         req.session.user = req.user.user;
+        req.session.csrfToken = crypto.randomUUID();
     }
 
     // Successful authentication, redirect to page where user specifies username
