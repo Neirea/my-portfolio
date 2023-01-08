@@ -167,7 +167,7 @@ describe("updateArticle", () => {
     test("should successfully update article's image", async () => {
         const createdArticle = await Article.create(articleData[0]);
         const response = await request(app)
-            .patch(`/api/article/${createdArticle._id.toString()}`)
+            .put(`/api/article/${createdArticle._id.toString()}`)
             .send(articleData[3]);
 
         const result = await Article.findOne({ title: "updated article" });
@@ -179,7 +179,7 @@ describe("updateArticle", () => {
     test("should fail and not call cloudinary while updating article using same image", async () => {
         const createdArticle = await Article.create(articleData[0]);
         const response = await request(app)
-            .patch(`/api/article/${createdArticle._id.toString()}`)
+            .put(`/api/article/${createdArticle._id.toString()}`)
             .send(articleData[2]);
         //should not call destroy
         expect(mockedCloudinary.uploader.destroy).toHaveBeenCalledTimes(0);

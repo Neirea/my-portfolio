@@ -21,7 +21,7 @@ export default function useEditArticle() {
 			newArticle: ICreatedArticle;
 		}) =>
 			axios
-				.patch<{ article: IArticle }>(`/api/article/${articleId}`, newArticle)
+				.put<{ article: IArticle }>(`/api/article/${articleId}`, newArticle)
 				.then((res) => res.data.article),
 		{
 			onSuccess(newArticle) {

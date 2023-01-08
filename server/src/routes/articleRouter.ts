@@ -35,7 +35,7 @@ router
 router
     .route("/:id")
     .get(getSingleArticle)
-    .patch(
+    .put(
         [isAuthenticated, authorizePermissions(userRoles.admin), checkCsrf],
         updateArticle
     )
