@@ -28,7 +28,7 @@ export const logout = (req: Request, res: Response) => {
             }
         });
     }
-    res.clearCookie("sid");
+    res.clearCookie("s_id");
     res.status(200).json({ msg: "Log out" });
 };
 
