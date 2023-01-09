@@ -4,8 +4,6 @@ import CustomError from "../errors";
 import User from "../models/User";
 
 export const showMe = (req: Request, res: Response) => {
-    console.log(req.session.cookie);
-
     const user = req.session.user;
     res.status(StatusCodes.OK).json({ user, csrfToken: req.session.csrfToken });
 };
