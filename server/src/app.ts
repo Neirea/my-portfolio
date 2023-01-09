@@ -32,7 +32,10 @@ cloudinary.config({
 });
 
 /* middleware */
-app.set("trust proxy", 1);
+app.set("trust proxy", (ip: string) => {
+    console.log(ip);
+    return true;
+});
 app.use(
     rateLimit({
         windowMs: 60 * 1000,
@@ -77,6 +80,8 @@ if (process.env.NODE_ENV !== "test") {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === "production",
                 maxAge: 1000 * 60 * 60 * 24 * 30, //30 days
+                // sameSite:
+                //     process.env.NODE_ENV === "production" ? "none" : undefined,
             },
         })
     );
