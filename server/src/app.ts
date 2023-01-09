@@ -75,6 +75,10 @@ if (process.env.NODE_ENV !== "test") {
             store: sessionStore,
             cookie: {
                 httpOnly: true,
+                domain:
+                    process.env.NODE_ENV === "production"
+                        ? "neirea.com"
+                        : undefined,
                 secure: process.env.NODE_ENV === "production",
                 maxAge: 1000 * 60 * 60 * 24 * 30, //30 days
                 sameSite:
