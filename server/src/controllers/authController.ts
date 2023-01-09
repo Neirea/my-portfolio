@@ -28,7 +28,7 @@ export const logout = (req: Request, res: Response) => {
             }
         });
     }
-    res.clearCookie("s_id");
+    res.clearCookie("s_id", { domain: "neirea.com" });
     res.status(200).json({ msg: "Log out" });
 };
 
