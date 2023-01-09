@@ -32,6 +32,7 @@ cloudinary.config({
 });
 
 /* middleware */
+app.set("trust proxy", 1); // trust 1 hop from proxy
 app.use(
     rateLimit({
         windowMs: 60 * 1000,
@@ -68,7 +69,6 @@ if (process.env.NODE_ENV !== "test") {
     app.use(
         session({
             secret: process.env.SESSION_SECRET!,
-            proxy: true,
             name: "s_id",
             saveUninitialized: false, // don't create session until something stored
             resave: false, //don't save session if unmodified
