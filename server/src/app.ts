@@ -22,7 +22,6 @@ import articleRouter from "./routes/articleRouter";
 import authRouter from "./routes/authRouter";
 import commentRouter from "./routes/commentRouter";
 import userRouter from "./routes/userRouter";
-import cloudflareIps from "./utils/cloudflareIps";
 
 const app = express();
 
@@ -33,11 +32,7 @@ cloudinary.config({
 });
 
 /* middleware */
-app.set("trust proxy", (ip: string) => {
-    console.log(ip);
-    if (cloudflareIps.includes(ip)) return true;
-    return false;
-});
+app.set("trust proxy", 1);
 app.use(
     rateLimit({
         windowMs: 60 * 1000,
