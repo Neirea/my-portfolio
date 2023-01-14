@@ -1,20 +1,21 @@
 name: Fly Deploy
 on:
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - "client/**"
+    push:
+        branches:
+            - main
+        paths-ignore:
+            - "client/**"
+            - "README.md"
 env:
-  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+    FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 defaults:
-  run:
-    working-directory: ./server
+    run:
+        working-directory: ./server
 jobs:
-  deploy:
-    name: Deploy app
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --remote-only
+    deploy:
+        name: Deploy app
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: superfly/flyctl-actions/setup-flyctl@master
+            - run: flyctl deploy --remote-only
