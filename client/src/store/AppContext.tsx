@@ -6,7 +6,7 @@ import {
     useEffect,
     useState,
 } from "react";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { mainBgDarkColor, mainBgLightColor } from "../styles/theme";
 import type { AppContextValues, IUser } from "../types/appTypes";
 
@@ -31,6 +31,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
                 .get<{ user: IUser; csrfToken: string }>("/api/user/showMe")
                 .then((res) => res.data),
         {
+            refetchOnWindowFocus: false,
             onSuccess: (data) => {
                 if (!data) return;
                 setUser(data.user);

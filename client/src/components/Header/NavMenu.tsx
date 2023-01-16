@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 
-import { useQueryClient } from "react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { getArticles } from "../../hooks/Articles/useArticles";
 import { categoriesEnum } from "../../types/articleTypes";
 import { menuItems } from "../../utils/data";

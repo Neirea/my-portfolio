@@ -1,14 +1,15 @@
 import axios from "axios";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export default function useBanUser() {
-	const queryClient = useQueryClient();
+    const queryClient = useQueryClient();
 
-	return useMutation((userId: string) => axios.delete(`/api/user/${userId}`), {
-		onSuccess() {
-			queryClient.invalidateQueries(["users"], {
-				refetchInactive: true,
-			});
-		},
-	});
+    return useMutation(
+        (userId: string) => axios.delete(`/api/user/${userId}`),
+        {
+            onSuccess() {
+                queryClient.invalidateQueries(["users"]);
+            },
+        }
+    );
 }
