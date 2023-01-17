@@ -35,7 +35,7 @@ export const HomeEditor = styled.div`
     flex-direction: column;
     border-radius: 1rem;
     overflow: hidden;
-    box-shadow: var(--shadow-1);
+    box-shadow: 0 0 1rem 0 var(--header-shadow-color);
     max-width: 100%;
 
     @media (min-width: 1000px) {
@@ -48,6 +48,7 @@ export const HomeEditor = styled.div`
         gap: 0.5rem;
         padding: 0 1rem;
         background: var(--article-bg-color);
+        border-bottom: 1px solid var(--tag-color);
         height: var(--icon-size);
         .red-circle,
         .yellow-circle,

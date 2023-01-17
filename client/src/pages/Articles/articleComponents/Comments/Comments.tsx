@@ -31,11 +31,11 @@ const Comments = () => {
             <>
                 {/* Comments Header */}
                 {isShowCommentsHeader && (
-                    <h5>
+                    <h4 className="comments-section-header">
                         {comments
                             ? `Comments(${comments.length}):`
                             : "Loading comments..."}
-                    </h5>
+                    </h4>
                 )}
                 {user && user.isBanned && (
                     <AlertMsg>
@@ -66,7 +66,7 @@ const Comments = () => {
                         <span>
                             <NavLink
                                 to="/login"
-                                style={{ color: "var(--button-color" }}
+                                style={{ color: "var(--button-color)" }}
                                 state={{ from: location }}
                                 replace
                             >

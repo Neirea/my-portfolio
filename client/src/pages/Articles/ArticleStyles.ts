@@ -118,8 +118,8 @@ export const ArticleContentWrapper = styled.section`
                 padding-left: 0.3rem;
             }
             pre,
-            pre > * {
-                font-size: 0.8rem;
+            pre * {
+                font-size: 0.9rem;
             }
             pre {
                 display: block;
@@ -323,11 +323,10 @@ export const TagsGroup = styled.div`
     & > button,
     & > a {
         display: block;
-        height: 100%;
         padding: 0 0.25rem;
         background: none;
         border: 1px solid var(--tag-color);
-        color: var(--faded-text-color);
+        color: var(--main-text-color);
         border-radius: var(--border-radius);
         font-size: 1rem;
         line-height: var(--line-height);
@@ -337,7 +336,6 @@ export const TagsGroup = styled.div`
         @media (hover: hover) and (pointer: fine) {
             &:hover {
                 border: 1px solid var(--main-text-color);
-                color: var(--main-text-color);
             }
         }
         &.activated {

@@ -96,10 +96,10 @@ h6 {
 		font-size: 4vw;
 	}
 }
-header > * {
+header  {
 	font-size: 1.2rem;
 }
-main > * {
+main  {
 	font-size: var(--main-text-size);
 }
 h1 {

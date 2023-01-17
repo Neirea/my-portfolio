@@ -38,7 +38,7 @@ const Home = () => {
     };
 
     const codeText =
-        'const aboutMe = {\n   background: "6 years in e-Sports",\n   specialty:  "web development",\n   enjoying: "building in Typescript"],\n}';
+        'const aboutMe = {\n   background: "6 years in e-Sports",\n   specialty:  "web development",\n   enjoying: "building in Typescript",\n}';
 
     const formatCode = (text: string) => {
         return hljs.highlight(text, { language: "javascript" }).value;
