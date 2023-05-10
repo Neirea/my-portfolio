@@ -138,7 +138,7 @@ const Home = () => {
                 </HomeProjects>
             </HomePageWrapper>
             <FooterWrapper>
-                <p className="footer-name">Eugene Shumilin 2022</p>
+                <p className="footer-name">Eugene Shumilin 2023</p>
             </FooterWrapper>
         </>
     );
