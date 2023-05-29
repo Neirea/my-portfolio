@@ -33,6 +33,8 @@ const errorHandlerMiddleware = (
 	const image = req.files?.image as UploadedFile | undefined;
 	if (image) fs.unlinkSync(image.tempFilePath);
 
+	console.error(customError.msg);
+
 	return res.status(customError.statusCode).json({ msg: customError.msg });
 };
 
