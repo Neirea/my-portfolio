@@ -53,10 +53,13 @@ export const GlobalStyles = createGlobalStyle`
 	--header-transition: width 0.3s linear;
 	--slider-transition: all 0.3s linear, color 0s;
 }
-//firefox
+
 html {
+	//firefox
 	scrollbar-width: thin;
 	scrollbar-color: var(--faded-text-color) var(--header-bg-color);
+	//scroll snapping to projects
+	scroll-snap-type: y proximity;
 }
 //others
 html::-webkit-scrollbar {

@@ -166,40 +166,11 @@ export const TitleHighlight = styled.span<{ item: number }>`
     }
 `;
 
-export const HomeArrow = styled.button`
-    position: absolute;
-    width: var(--icon-size);
-    height: var(--icon-size);
-    color: var(--button-color);
-    bottom: 1rem; //tweak number
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    animation: movearrow 1s infinite;
-
-    @media (hover: hover) and (pointer: fine) {
-        &:hover,
-        &:focus {
-            color: var(--comment-header-color);
-        }
-    }
-    @keyframes movearrow {
-        0% {
-            transform: translateY(-0.25rem);
-        }
-        50% {
-            transform: translateY(0.25rem);
-        }
-        100% {
-            transform: translateY(-0.25rem);
-        }
-    }
-`;
-
 export const HomeProjects = styled.section`
     display: flex;
     flex-direction: column;
     justify-content: center;
+    scroll-snap-align: start;
     align-items: center;
     min-height: calc(100vh - 2 * var(--header-height));
     .projects-title {

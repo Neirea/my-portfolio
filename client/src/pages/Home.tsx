@@ -7,7 +7,6 @@ import { socialMediaLinks } from "../utils/data";
 import ArticleCards from "./Articles/articleComponents/ArticleCards";
 import {
     FooterWrapper,
-    HomeArrow,
     HomeEditor,
     HomeIntroText,
     HomePageWrapper,
@@ -23,19 +22,6 @@ const Home = () => {
             new Date(a.createdAt) > new Date(b.createdAt) ? -1 : 1
         )
         .slice(0, 4);
-
-    const handleScroll = () => {
-        const arrowElem =
-            document.querySelector<HTMLButtonElement>("#home-arrow");
-        if (arrowElem) {
-            arrowElem.scrollIntoView({
-                behavior: "smooth",
-            });
-            setTimeout(() => {
-                arrowElem.style.display = "none";
-            }, 500);
-        }
-    };
 
     const codeText =
         'const aboutMe = {\n   background: "6 years in e-Sports",\n   specialty:  "web development",\n   enjoying: "building in Typescript",\n}';
@@ -112,13 +98,6 @@ const Home = () => {
                             ></pre>
                         </div>
                     </HomeEditor>
-                    <HomeArrow
-                        id="home-arrow"
-                        aria-label="scroll-to-projects"
-                        onClick={handleScroll}
-                    >
-                        <BsArrowDown size={"100%"} />
-                    </HomeArrow>
                 </section>
                 <HomeProjects>
                     <h3 className="projects-title">PROJECTS</h3>
