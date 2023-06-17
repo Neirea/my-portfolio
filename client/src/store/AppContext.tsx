@@ -13,13 +13,7 @@ import type { AppContextValues, IUser } from "../types/appTypes";
 export const AppContext = createContext({} as AppContextValues);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-    const isDarkMode =
-        localStorage.getItem("darkMode") === "on" ||
-        (localStorage.getItem("darkMode") === null &&
-            window.matchMedia &&
-            window.matchMedia("(prefers-color-scheme: dark)").matches)
-            ? true
-            : false;
+    const isDarkMode = localStorage.getItem("darkMode") === "0" ? false : true;
     const [darkMode, setDarkMode] = useState(isDarkMode);
     const [user, setUser] = useState<IUser | null>(null);
 
@@ -53,8 +47,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     };
 
     useEffect(() => {
-        localStorage.setItem("darkMode", darkMode ? "on" : "off");
-        // override index.html style
+        localStorage.setItem("darkMode", darkMode ? "1" : "0");
         document.body.style.background = darkMode
             ? mainBgDarkColor
             : mainBgLightColor;
