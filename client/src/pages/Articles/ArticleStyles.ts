@@ -369,7 +369,7 @@ export const CUArticleForm = styled(StyledForm)`
     align-items: center;
     padding: 0 0 1rem 0;
     margin: 0;
-    width: var(--article-width);
+    flex: 1;
 
     .article-form-inputs {
         display: flex;

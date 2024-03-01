@@ -36,7 +36,7 @@ export const GlobalStyles = createGlobalStyle`
 
 	--form-width: min(30rem, 90vw);
 	--icon-size: min(2rem, 10vw);
-	--article-width: min(44rem,95%);
+	--article-width: min(60rem, 95%);
 	--article-card-width: min(22rem,95%);
 	--header-height: 4rem;
 	--border-radius: 0.25rem;
