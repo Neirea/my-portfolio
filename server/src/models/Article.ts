@@ -65,16 +65,4 @@ const ArticleSchema = new Schema(
     }
 );
 
-//creates virtual field to connect Article with Comments
-ArticleSchema.virtual("comments", {
-    ref: "Comment",
-    localField: "_id",
-    foreignField: "article",
-    justOne: false,
-});
-//delete comments on article removal
-ArticleSchema.post("deleteOne", async function (doc) {
-    await Comment.deleteMany({ articleId: doc._id });
-});
-
 export default model<IArticle>("Article", ArticleSchema);

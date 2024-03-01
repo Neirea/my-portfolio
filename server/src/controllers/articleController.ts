@@ -6,6 +6,7 @@ import { StatusCodes } from "http-status-codes";
 import sanitizeHtml from "sanitize-html";
 import CustomError from "../errors";
 import Article from "../models/Article";
+import Comment from "../models/Comment";
 
 const sanitizeOptions = {
     allowedIframeHostnames: ["www.youtube.com"],
@@ -117,7 +118,7 @@ export const deleteArticle = async (req: Request, res: Response) => {
     }
     await cloudinary.uploader.destroy(article.img_id);
 
-    await article.deleteOne();
+    await article.deleteOne().then(() => Comment.deleteMany({ articleId }));
 
     res.status(StatusCodes.OK).json({ msg: "Success! Article is removed" });
 };
