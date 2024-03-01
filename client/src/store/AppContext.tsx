@@ -13,7 +13,11 @@ import type { AppContextValues, IUser } from "../types/appTypes";
 export const AppContext = createContext({} as AppContextValues);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-    const isDarkMode = localStorage.getItem("darkMode") === "0" ? false : true;
+    const osDarkMode =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const isDarkMode =
+        localStorage.getItem("darkMode") === "1" || osDarkMode ? true : false;
     const [darkMode, setDarkMode] = useState(isDarkMode);
     const [user, setUser] = useState<IUser | null>(null);
     const [userLoading, setUserLoading] = useState(true);
