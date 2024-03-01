@@ -34,6 +34,18 @@ const ArticlePost = ({ article }: { article: IArticle }) => {
         };
     }, []);
 
+    useEffect(() => {
+        const title = document.querySelector("title");
+        if (title) {
+            title.textContent = article.title + " | Neirea";
+        }
+        return () => {
+            if (title) {
+                title.textContent = "Neirea";
+            }
+        };
+    }, [article]);
+
     return (
         <article className="article-post" ref={articleRef}>
             {imagePortal != null && (
