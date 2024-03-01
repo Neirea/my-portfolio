@@ -27,10 +27,10 @@ import { categoriesEnum } from "./types/articleTypes";
 import { recaptchaKey } from "./utils/data";
 
 function App() {
-    const { isLoading, darkMode } = useGlobalContext();
+    const { darkMode, userLoading } = useGlobalContext();
     const selectedTheme = darkMode ? darkTheme : lightTheme;
 
-    if (isLoading) return null;
+    if (userLoading) return null;
 
     return (
         <ThemeProvider theme={selectedTheme}>

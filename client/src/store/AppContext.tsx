@@ -16,9 +16,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     const isDarkMode = localStorage.getItem("darkMode") === "0" ? false : true;
     const [darkMode, setDarkMode] = useState(isDarkMode);
     const [user, setUser] = useState<IUser | null>(null);
+    const [userLoading, setUserLoading] = useState(true);
 
     //fetch only once on load
-    const { isLoading } = useQuery(
+    useQuery(
         ["user"],
         () =>
             axios
@@ -38,6 +39,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
                     return config;
                 });
+            },
+            onSettled() {
+                setUserLoading(false);
             },
         }
     );
@@ -65,7 +69,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     return (
         <AppContext.Provider
             value={{
-                isLoading,
+                userLoading,
                 setUser,
                 user,
                 logoutUser,
