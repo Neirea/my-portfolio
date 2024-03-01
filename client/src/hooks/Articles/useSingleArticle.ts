@@ -41,7 +41,7 @@ const useSingleArticle = (
     return {
         ...queryInfo,
         data: data,
-        isError: queryInfo.isError || !data,
+        isError: queryInfo.isError,
         articlesData: getArticlesData(queryInfo.data),
     };
 };
