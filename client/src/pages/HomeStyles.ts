@@ -170,7 +170,6 @@ export const HomeProjects = styled.section`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    scroll-snap-align: start;
     align-items: center;
     min-height: calc(100vh - 2 * var(--header-height));
     .projects-title {
