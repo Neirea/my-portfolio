@@ -117,7 +117,7 @@ export const deleteArticle = async (req: Request, res: Response) => {
     }
     await cloudinary.uploader.destroy(article.img_id);
 
-    await article.remove();
+    await article.deleteOne();
 
     res.status(StatusCodes.OK).json({ msg: "Success! Article is removed" });
 };

@@ -73,7 +73,7 @@ ArticleSchema.virtual("comments", {
     justOne: false,
 });
 //delete comments on article removal
-ArticleSchema.post("remove", async function (doc) {
+ArticleSchema.post("deleteOne", async function (doc) {
     await Comment.deleteMany({ articleId: doc._id });
 });
 

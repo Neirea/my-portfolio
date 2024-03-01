@@ -121,7 +121,7 @@ export const deleteComment = async (req: Request, res: Response) => {
     }
 
     if (!comment.replies.length) {
-        await comment.remove();
+        await comment.deleteOne();
         res.status(StatusCodes.OK).json({
             msg: "Success! Comment was deleted",
         });
