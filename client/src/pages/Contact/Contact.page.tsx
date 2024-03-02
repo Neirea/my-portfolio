@@ -11,6 +11,7 @@ import {
 } from "../../styles/styled-components";
 import { socialMediaLinks } from "../../utils/data";
 import { LinkGroup } from "./Contact.style";
+import { useTitle } from "../../utils/useTitle";
 
 const Contact = () => {
     const { user } = useGlobalContext();
@@ -24,7 +25,7 @@ const Contact = () => {
         email: "",
         message: "",
     });
-
+    useTitle("Contact");
     //auto-fill form hen user logged in
     useEffect(() => {
         if (!user) return;

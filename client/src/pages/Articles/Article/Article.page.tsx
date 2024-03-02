@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import LoadingSpinner from "../../../components/LoadingSpinner";
 import { CommentsProvider } from "../../../hooks/Articles/comments/useCommentsContext";
@@ -11,13 +12,14 @@ import {
 } from "../../../styles/styled-components";
 import { userRoles } from "../../../types/app.type";
 import type { categoriesEnum } from "../../../types/article.type";
-import ArticlePost from "../components/ArticlePost";
-import Comments from "../components/Comments/Comments";
 import {
     ArticleContentWrapper,
     ArticlePageWrapper,
     ArticleSideMenuWrapper,
 } from "../Articles.style";
+import ArticlePost from "./ArticlePost";
+import Comments from "./Comments/Comments";
+import { useTitle } from "../../../utils/useTitle";
 
 const Article = ({ type }: { type: categoriesEnum }) => {
     const { articleId } = useParams();
@@ -42,6 +44,8 @@ const Article = ({ type }: { type: categoriesEnum }) => {
         deleteArticle({ articleId, type });
         navigate(`/${type}`);
     };
+
+    useTitle(article?.title);
 
     if (articleIsError || deleteIsError) {
         const errorObj: any = articleError || deleteError;

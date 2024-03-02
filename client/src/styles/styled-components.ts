@@ -5,7 +5,7 @@ const buttonCSS = css`
     display: block;
     border-radius: var(--border-radius);
     background-color: var(--button-color);
-    color: white;
+    color: var(--main-bg-color);
     border: transparent;
     letter-spacing: var(--letter-spacing);
     text-transform: capitalize;
@@ -36,7 +36,7 @@ const ReadButtonCSS = css`
             opacity: 1;
             transition: all var(--transition);
             background-color: var(--button-color);
-            color: white;
+            color: var(--main-bg-color);
         }
     }
 `;

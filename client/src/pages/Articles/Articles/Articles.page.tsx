@@ -13,6 +13,7 @@ import {
     ArticlePageWrapper,
     ArticleSideMenuWrapper,
 } from "../Articles.style";
+import { useTitle } from "../../../utils/useTitle";
 
 const Articles = ({ type }: { type: categoriesEnum }) => {
     const { user } = useGlobalContext();
@@ -23,6 +24,9 @@ const Articles = ({ type }: { type: categoriesEnum }) => {
         isError: articlesIsError,
         error: articlesError,
     } = useArticles(type);
+
+    const titleText = type.charAt(0).toUpperCase() + type.slice(1);
+    useTitle(titleText);
 
     //set tags
     useEffect(() => {
