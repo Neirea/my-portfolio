@@ -102,7 +102,7 @@ const articleData = [
 
 describe("getAllArticles", () => {
     test("no projects found", async () => {
-        const response = await request(app).get("/api/article/project");
+        const response = await request(app).get("/api/article/projects");
 
         expect(response.status).toBe(404);
         expect(response.body.msg).toStrictEqual("No projects found");

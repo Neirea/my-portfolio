@@ -23,7 +23,7 @@ router
     .get(getAllArticles);
 
 router.get("/blog", getAllArticles);
-router.get("/project", getAllArticles);
+router.get("/projects", getAllArticles);
 
 router
     .route("/upload")

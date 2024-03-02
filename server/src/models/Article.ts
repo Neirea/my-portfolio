@@ -1,5 +1,4 @@
 import { model, Schema, Types } from "mongoose";
-import Comment from "./Comment";
 
 export interface IArticle {
     title: string;
@@ -34,7 +33,7 @@ const ArticleSchema = new Schema(
         category: {
             type: String,
             required: [true, "Please provide category"],
-            enum: ["blog", "project"],
+            enum: ["blog", "projects"],
         },
         code_languages: { type: [{ type: String }], default: [] },
         source_link: {

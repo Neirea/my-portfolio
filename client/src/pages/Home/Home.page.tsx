@@ -110,7 +110,7 @@ const Home = () => {
                             />
                         </div>
                     )}
-                    <MoreButton to="/project" className="more-btn">
+                    <MoreButton to="/projects" className="more-btn">
                         More projects
                     </MoreButton>
                 </HomeProjects>

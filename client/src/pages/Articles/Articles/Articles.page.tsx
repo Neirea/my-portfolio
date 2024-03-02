@@ -7,7 +7,7 @@ import { AdminButton, AlertContainer } from "../../../styles/styled-components";
 import { userRoles } from "../../../types/app.type";
 import type { categoriesEnum, IArticle } from "../../../types/article.type";
 import ArticleCards from "../components/ArticleCards";
-import ArticleSideMenu from "../components/ArticleSideMenu";
+import ArticleSideMenu from "./ArticleSideMenu";
 import {
     ArticleCardsWrapper,
     ArticlePageWrapper,

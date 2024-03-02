@@ -22,7 +22,7 @@ export const socialMediaLinks = [
 export const menuItems = [
     { name: "HOME", link: "/" },
     { name: "BLOG", link: "/blog" },
-    { name: "PROJECTS", link: "/project" },
+    { name: "PROJECTS", link: "/projects" },
     { name: "CONTACT", link: "/contact" },
 ];
 export const recaptchaKey = import.meta.env.VITE_RECAPTCHA_CLIENT!; //personal recaptcha sit key

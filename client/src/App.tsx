@@ -54,9 +54,12 @@ function App() {
                     element={<Articles key="blog" type={categoriesEnum.blog} />}
                 />
                 <Route
-                    path="/project"
+                    path="/projects"
                     element={
-                        <Articles key="project" type={categoriesEnum.project} />
+                        <Articles
+                            key="projects"
+                            type={categoriesEnum.project}
+                        />
                     }
                 />
                 <Route
@@ -64,7 +67,7 @@ function App() {
                     element={<Article type={categoriesEnum.blog} />}
                 ></Route>
                 <Route
-                    path="/project/:articleId"
+                    path="/projects/:articleId"
                     element={<Article type={categoriesEnum.project} />}
                 ></Route>
                 <Route path="/unauthorized" element={<Unauthorized />} />
