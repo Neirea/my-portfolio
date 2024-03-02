@@ -51,6 +51,7 @@ export const LinkButton = styled(Link)`
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    cursor: pointer;
 `;
 
 export const SuccessButton = styled.button`
