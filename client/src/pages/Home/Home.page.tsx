@@ -1,9 +1,9 @@
-import { BsArrowDown } from "@react-icons/all-files/bs/BsArrowDown";
-import hljs from "../../utils/hljsLangs";
+import LoadingSpinner from "../../components/LoadingSpinner";
 import useArticles from "../../hooks/Articles/useArticles";
 import { MoreButton } from "../../styles/styled-components";
 import { categoriesEnum } from "../../types/article.type";
 import { socialMediaLinks } from "../../utils/data";
+import hljs from "../../utils/hljsLangs";
 import ArticleCards from "../Articles/components/ArticleCards";
 import {
     FooterWrapper,
@@ -13,7 +13,6 @@ import {
     HomeProjects,
     TitleHighlight,
 } from "./Home.style";
-import LoadingSpinner from "../../components/LoadingSpinner";
 
 const Home = () => {
     const { data } = useArticles(categoriesEnum.project);
@@ -58,7 +57,7 @@ const Home = () => {
                             </div>
                         </h3>
                         <p className="home-bottom-text">
-                            a Software Engineer who loves creating useful things
+                            a Software Engineer who likes to make life simpler
                         </p>
                         <div className="home-top-links">
                             {socialMediaLinks.map((item, index) => {
