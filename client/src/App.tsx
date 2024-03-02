@@ -15,15 +15,15 @@ import {
     Error,
     Home,
     Login,
-    SingleArticle,
+    Article,
     Unauthorized,
 } from "./pages";
-import AdminDashboard from "./pages/AdminDashboard";
+import AdminDashboard from "./pages/Admin/Admin.page";
 import { useGlobalContext } from "./store/AppContext";
-import { GlobalStyles } from "./styles/GlobalStyles";
+import { GlobalStyles } from "./styles/global.style";
 import { darkTheme, lightTheme } from "./styles/theme";
-import { userRoles } from "./types/appTypes";
-import { categoriesEnum } from "./types/articleTypes";
+import { userRoles } from "./types/app.type";
+import { categoriesEnum } from "./types/article.type";
 import { recaptchaKey } from "./utils/data";
 
 function App() {
@@ -61,11 +61,11 @@ function App() {
                 />
                 <Route
                     path="/blog/:articleId"
-                    element={<SingleArticle type={categoriesEnum.blog} />}
+                    element={<Article type={categoriesEnum.blog} />}
                 ></Route>
                 <Route
                     path="/project/:articleId"
-                    element={<SingleArticle type={categoriesEnum.project} />}
+                    element={<Article type={categoriesEnum.project} />}
                 ></Route>
                 <Route path="/unauthorized" element={<Unauthorized />} />
                 {/*public only routes */}

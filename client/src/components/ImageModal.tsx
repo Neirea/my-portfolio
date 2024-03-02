@@ -1,6 +1,6 @@
 import { useLayoutEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import { PortalModal } from "../styles/StyledComponents";
+import { PortalModal } from "../styles/styled-components";
 import createWrapperAndAppend from "../utils/modalWrapper";
 
 const ImageModal = ({

@@ -2,7 +2,7 @@ import type {
     categoriesEnum,
     IArticle,
     IArticleData,
-} from "../../types/articleTypes";
+} from "../../types/article.type";
 import { handleHtmlString } from "../../utils/handleHtmlString";
 import useArticles from "./useArticles";
 

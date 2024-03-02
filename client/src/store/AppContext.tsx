@@ -8,7 +8,7 @@ import {
 } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { mainBgDarkColor, mainBgLightColor } from "../styles/theme";
-import type { AppContextValues, IUser } from "../types/appTypes";
+import type { AppContextValues, IUser } from "../types/app.type";
 
 export const AppContext = createContext({} as AppContextValues);
 

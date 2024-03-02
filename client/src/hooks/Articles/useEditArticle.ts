@@ -4,7 +4,7 @@ import type {
     IArticle,
     IArticleValues,
     IUploadedImageResponse,
-} from "../../types/articleTypes";
+} from "../../types/article.type";
 
 interface ICreatedArticle extends IArticleValues {
     tags: string[];

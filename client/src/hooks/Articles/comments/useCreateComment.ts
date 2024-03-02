@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { IComment } from "../../../types/articleTypes";
+import type { IComment } from "../../../types/article.type";
 import useCommentsContext from "./useCommentsContext";
 
 interface ISubmitComment {

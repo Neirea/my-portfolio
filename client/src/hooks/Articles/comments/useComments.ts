@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import type { IComment, IJsxComment } from "../../../types/articleTypes";
+import type { IComment, IJsxComment } from "../../../types/article.type";
 
 export const parseComments = async (
     comments: IComment[],

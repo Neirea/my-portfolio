@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import type { categoriesEnum, IArticle } from "../../types/articleTypes";
+import type { categoriesEnum, IArticle } from "../../types/article.type";
 
 export const getArticles = (type: categoriesEnum) => {
     return axios

@@ -1,6 +1,6 @@
 import { useLayoutEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import { PortalModal, SuccessButton } from "../styles/StyledComponents";
+import { PortalModal, SuccessButton } from "../styles/styled-components";
 import createWrapperAndAppend from "../utils/modalWrapper";
 
 const SuccessModal = ({ closeModal }: { closeModal: () => void }) => {
