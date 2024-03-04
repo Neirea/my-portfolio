@@ -4,7 +4,7 @@ const sharedStyle = css`
     display: grid;
     justify-items: center;
     align-items: center;
-    grid-template-columns: repeat(5, 20%);
+    grid-template-columns: repeat(5, 1fr);
     width: 80%;
 `;
 

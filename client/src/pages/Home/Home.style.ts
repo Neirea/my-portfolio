@@ -173,7 +173,10 @@ export const HomeProjects = styled.section`
         position: relative;
         gap: 1rem;
         width: 100%;
-        grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+        grid-template-columns: repeat(
+            auto-fill,
+            minmax(var(--article-card-width), 1fr)
+        );
     }
     .more-btn {
         position: relative;

@@ -212,10 +212,13 @@ export const ArticleCardsWrapper = styled.section`
     position: relative;
     width: var(--article-card-width);
     gap: 1rem;
+    grid-template-columns: repeat(
+        auto-fill,
+        minmax(var(--article-card-width), 1fr)
+    );
 
     @media (min-width: 768px) {
         width: var(--article-width);
-        grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
     }
 `;
 
