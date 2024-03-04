@@ -70,7 +70,7 @@ const ArticleCards = ({
                             <p className="acard-text">{htmlContent}</p>
                             <div className="acard-buttons">
                                 {element.source_link ? (
-                                    <LinkButton as="a" to={element.source_link}>
+                                    <LinkButton to={element.source_link}>
                                         <FaGithub />
                                         Source
                                     </LinkButton>
@@ -78,7 +78,7 @@ const ArticleCards = ({
                                     <div></div>
                                 )}
                                 {element.demo_link && (
-                                    <LinkButton as="a" to={element.demo_link}>
+                                    <LinkButton to={element.demo_link}>
                                         <FaEye />
                                         View Live
                                     </LinkButton>

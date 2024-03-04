@@ -73,13 +73,13 @@ const ArticlePost = ({ article }: { article: IArticle }) => {
             />
             <div className="article-links">
                 {article.source_link && (
-                    <LinkButton as="a" to={article.source_link}>
+                    <LinkButton to={article.source_link}>
                         <FaGithub />
                         Source
                     </LinkButton>
                 )}
                 {article.demo_link && (
-                    <LinkButton as="a" to={article.demo_link}>
+                    <LinkButton to={article.demo_link}>
                         <FaEye />
                         View Live
                     </LinkButton>
