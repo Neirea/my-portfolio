@@ -1,26 +1,37 @@
-import sgMail from "@sendgrid/mail";
 import CustomError from "../errors";
+import mailer from "nodemailer";
 
 interface sendEmailProps {
-	to: string | undefined;
-	subject: string;
-	html: string;
+    to: string | undefined;
+    subject: string;
+    html: string;
 }
 
+const transporter = mailer.createTransport({
+    host: process.env.EMAIL_HOST,
+    port: +process.env.EMAIL_PORT!,
+    secure: true,
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
+    },
+});
+
 const sendEmail = async ({ to, subject, html }: sendEmailProps) => {
-	if (!process.env.SENDGRID_API_KEY || !process.env.SENDGRID_EMAIL) {
-		throw new CustomError.BadRequestError("Failed to send an email");
-	}
+    transporter.verify((error) => {
+        console.log(error);
+        if (error) {
+            throw new CustomError.BadRequestError("Failed to send an email");
+        }
+    });
 
-	sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-	const info = await sgMail.send({
-		to,
-		from: process.env.SENDGRID_EMAIL,
-		subject,
-		html,
-	});
-	return info;
+    const info = await transporter.sendMail({
+        to,
+        from: process.env.EMAIL_USER,
+        subject,
+        html,
+    });
+    return info;
 };
 
 export default sendEmail;
