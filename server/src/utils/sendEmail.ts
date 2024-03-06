@@ -18,13 +18,6 @@ const transporter = mailer.createTransport({
 });
 
 const sendEmail = async ({ to, subject, html }: sendEmailProps) => {
-    transporter.verify((error) => {
-        console.log(error);
-        if (error) {
-            throw new CustomError.BadRequestError("Failed to send an email");
-        }
-    });
-
     const info = await transporter.sendMail({
         to,
         from: process.env.EMAIL_USER,

@@ -55,6 +55,7 @@ export const sendContactMessage = async (req: Request, res: Response) => {
             userText: cleanHtml,
         });
     } catch (error) {
+        console.log(error);
         res.status(StatusCodes.BAD_REQUEST).json({
             msg: "Failed to send an email",
         });
