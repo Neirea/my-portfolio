@@ -239,6 +239,7 @@ const EditorLayout = ({
                                 height: "auto",
                                 width: "100%",
                             },
+                            alt: { present: true, mandatory: true },
                         },
                     }}
                     onEditorStateChange={onEditorStateChange}
