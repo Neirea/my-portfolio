@@ -17,7 +17,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         window.matchMedia &&
         window.matchMedia("(prefers-color-scheme: dark)").matches;
     const isDarkMode =
-        localStorage.getItem("darkMode") === "1" || osDarkMode ? true : false;
+        localStorage.getItem("darkMode") === "1" ||
+        (!("darkMode" in localStorage) && osDarkMode ? true : false);
     const [darkMode, setDarkMode] = useState(isDarkMode);
     const [user, setUser] = useState<IUser | null>(null);
     const [userLoading, setUserLoading] = useState(true);
