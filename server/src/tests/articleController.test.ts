@@ -53,7 +53,7 @@ const articleData = [
         title: "unsanitized content",
         content:
             "hello darkness, my old friend!<script><div>test</div<</script>",
-        category: "project",
+        category: "projects",
         code_languages: [],
         tags: ["javascript"],
         source_link: undefined,
@@ -77,7 +77,7 @@ const articleData = [
     {
         title: "failed to create",
         content: "123",
-        category: "blogs",
+        category: "blog",
         code_languages: [],
         tags: ["typescript", "jsx"],
         source_link: undefined,
@@ -89,7 +89,7 @@ const articleData = [
     {
         title: "updated article",
         content: "12312312312312313123 asdasdasd",
-        category: "project",
+        category: "projects",
         code_languages: [],
         tags: ["javascript"],
         source_link: "http://test.com/src",

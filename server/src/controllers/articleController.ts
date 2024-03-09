@@ -36,7 +36,7 @@ export const getAllArticles = async (req: Request, res: Response) => {
         !getCategory ? {} : { category: `${getCategory}` }
     ).sort({ createdAt: "descending" });
     if (!articles.length) {
-        throw new CustomError.NotFoundError(`No ${getCategory}s found`);
+        throw new CustomError.NotFoundError(`No ${getCategory} found`);
     }
     res.status(StatusCodes.OK).json({ articles });
 };
