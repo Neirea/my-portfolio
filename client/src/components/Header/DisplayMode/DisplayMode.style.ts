@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 import { MenuItem } from "../Header.style";
 
 interface DisplayModeWrapperProps {
-    darkMode: boolean;
+    $darkMode: boolean;
 }
 
 export const DisplayModeWrapper = styled(MenuItem)<DisplayModeWrapperProps>`
@@ -38,7 +38,7 @@ export const DisplayModeWrapper = styled(MenuItem)<DisplayModeWrapperProps>`
         .darkmode-indicator {
             position: absolute;
             top: 0;
-            left: ${(props) => (props.darkMode === true ? "50%" : "0")};
+            left: ${(props) => (props.$darkMode === true ? "50%" : "0")};
             width: 50%;
             height: 100%;
             background: linear-gradient(

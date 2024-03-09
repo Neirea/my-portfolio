@@ -17,7 +17,7 @@ const LoadingSpinner = (props: Partial<React.CSSProperties>) => {
                 ...restProps,
             }}
         >
-            <StyledLoading as="div" darkMode={darkMode}>
+            <StyledLoading as="div" $darkMode={darkMode}>
                 <div />
             </StyledLoading>
         </div>

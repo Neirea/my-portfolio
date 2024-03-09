@@ -6,7 +6,7 @@ import { DisplayModeWrapper } from "./DisplayMode.style";
 const DisplayMode = () => {
     const { darkMode, toggleDarkMode } = useGlobalContext();
     return (
-        <DisplayModeWrapper darkMode={darkMode}>
+        <DisplayModeWrapper $darkMode={darkMode}>
             <button
                 className="darkmode-container"
                 aria-label="dark-mode"

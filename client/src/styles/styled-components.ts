@@ -177,7 +177,7 @@ export const StyledForm = styled.form`
 `;
 
 interface LoadingProps {
-    darkMode: boolean;
+    $darkMode: boolean;
 }
 
 /* spinning animation before page loads */
@@ -198,7 +198,7 @@ export const StyledLoading = styled.section<LoadingProps>`
         border-radius: 50%;
         border: 0.3rem solid
             ${(props) =>
-                props.darkMode === true
+                props.$darkMode === true
                     ? "rgb(255,255,255,0.1)"
                     : "rgb(0,0,0,0.1)"};
 

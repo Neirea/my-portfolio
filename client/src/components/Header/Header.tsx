@@ -46,7 +46,7 @@ const Header = () => {
                     ref={navMenuButton}
                     aria-label="menu"
                     onClick={toggleNavMenu}
-                    showNavMenu={showNavMenu}
+                    $showNavMenu={showNavMenu}
                 >
                     <FaBars />
                 </StyledMenuButton>
