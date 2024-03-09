@@ -36,7 +36,7 @@ const Admin = () => {
                                     width={32}
                                     height={32}
                                     referrerPolicy="no-referrer"
-                                    alt={user.name}
+                                    alt={`${user.name} avatar`}
                                 />
                                 <div className="user-ban-container">
                                     <span>{user.isBanned.toString()}</span>

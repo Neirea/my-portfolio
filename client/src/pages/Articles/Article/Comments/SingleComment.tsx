@@ -58,7 +58,7 @@ const SingleComment = ({ index, commentElement }: SingleCommentProps) => {
                         src={comment.user.avatar}
                         width={24}
                         height={24}
-                        alt=""
+                        alt="user avatar"
                         referrerPolicy="no-referrer"
                     />
                     <span className="comment-author">{comment.user.name}</span>

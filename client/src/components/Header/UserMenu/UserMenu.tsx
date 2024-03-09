@@ -93,7 +93,7 @@ const UserMenu = ({ showUserMenu, setShowUserMenu }: UserMenuProps) => {
                                 <img
                                     className="user-menu-avatar"
                                     src={user.avatar_url}
-                                    alt=""
+                                    alt="user avatar"
                                     width={32}
                                     height={32}
                                     referrerPolicy="no-referrer"
