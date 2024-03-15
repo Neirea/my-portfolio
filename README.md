@@ -21,7 +21,7 @@ My portfolio/blog website built with MERN stack and Typescript.
 
 -   Session authentication with Passport.js
 -   Data/Session is stored in MongoDB
--   Emails(contact messages) are sent by Sendgrid
+-   Emails(contact messages) are sent by nodemailer
 -   Recaptcha v3 verification for contact messages
 -   Cloudinary for image uploading/hosting
 
@@ -30,3 +30,4 @@ My portfolio/blog website built with MERN stack and Typescript.
 -   Express with Typescript
 -   Mongoose to manage MongoDB
 -   Jest for testing
+-   Redis for caching
