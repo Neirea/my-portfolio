@@ -14,4 +14,11 @@ WORKDIR /portfolio
 
 COPY --from=builder /portfolio/node_modules /portfolio/node_modules
 COPY --from=builder /portfolio/build /portfolio
-CMD node index.js
+EXPOSE 8080
+
+ENV REDIS_HOST redis
+ENV REDIS_PORT 6379
+RUN apk update && apk add --no-cache redis
+EXPOSE 6379
+
+CMD redis-server --daemonize yes && node index.js

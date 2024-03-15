@@ -7,6 +7,7 @@ import sanitizeHtml from "sanitize-html";
 import CustomError from "../errors";
 import Article from "../models/Article";
 import Comment from "../models/Comment";
+import { redisClient } from "../db/redis";
 
 const sanitizeOptions = {
     allowedIframeHostnames: ["www.youtube.com"],
@@ -30,14 +31,24 @@ const sanitizeOptions = {
 
 export const getAllArticles = async (req: Request, res: Response) => {
     //gets category based on url of get request
-    let getCategory = req.url.toString().replace("/", "");
+    const articleCategory = req.url.toString().replace("/", "");
+
+    const cachedArticles = await redisClient.get(articleCategory);
+    if (cachedArticles) {
+        res.status(StatusCodes.OK).json({
+            articles: JSON.parse(cachedArticles),
+        });
+        return;
+    }
 
     const articles = await Article.find(
-        !getCategory ? {} : { category: `${getCategory}` }
+        !articleCategory ? {} : { category: `${articleCategory}` }
     ).sort({ createdAt: "descending" });
     if (!articles.length) {
-        throw new CustomError.NotFoundError(`No ${getCategory} found`);
+        throw new CustomError.NotFoundError(`No ${articleCategory} found`);
     }
+
+    redisClient.set(articleCategory, JSON.stringify(articles), { EX: 86400 });
     res.status(StatusCodes.OK).json({ articles });
 };
 
@@ -94,6 +105,7 @@ export const updateArticle = async (req: Request, res: Response) => {
             if (article.img_id !== currentImgId) {
                 await cloudinary.uploader.destroy(currentImgId);
             }
+            await redisClient.del(req.body.category);
             res.status(StatusCodes.OK).json({ article });
         })
         .catch(async () => {
@@ -119,6 +131,8 @@ export const deleteArticle = async (req: Request, res: Response) => {
     await cloudinary.uploader.destroy(article.img_id);
 
     await article.deleteOne().then(() => Comment.deleteMany({ articleId }));
+
+    await redisClient.del(req.body.category);
 
     res.status(StatusCodes.OK).json({ msg: "Success! Article is removed" });
 };
