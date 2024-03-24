@@ -63,6 +63,7 @@ export interface IUploadedImageResponse {
 
 export interface IArticleValues {
     title: string;
+    slug: string;
     category: categoriesEnum;
     demo_link: string;
     source_link: string;

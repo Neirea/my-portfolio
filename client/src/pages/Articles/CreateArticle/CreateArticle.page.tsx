@@ -7,6 +7,7 @@ import type { LocationState } from "../../../types/app.type";
 import { categoriesEnum, IArticleValues } from "../../../types/article.type";
 import { languageDetector } from "../../../utils/handleHtmlString";
 import EditorLayout from "../components/EditorLayout";
+import { generateSlug } from "../../../utils/generateSlug";
 
 const CreateArticle = () => {
     const createArticle = useCreateArticle();
@@ -15,6 +16,7 @@ const CreateArticle = () => {
 
     const [articleValues, setArticleValues] = useState<IArticleValues>({
         title: "",
+        slug: "",
         category:
             (location.state?.from?.toString() as categoriesEnum) ||
             categoriesEnum.blog,
@@ -35,6 +37,7 @@ const CreateArticle = () => {
 
         const createdArticle = {
             ...articleValues,
+            slug: generateSlug(articleValues.title),
             tags: articleTags,
             content: editorHTML,
             image: "",

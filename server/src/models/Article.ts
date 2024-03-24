@@ -2,6 +2,7 @@ import { model, Schema, Types } from "mongoose";
 
 export interface IArticle {
     title: string;
+    slug: string;
     content: string;
     category: string;
     code_languages: string[];
@@ -23,7 +24,13 @@ const ArticleSchema = new Schema(
             type: String,
             trim: true,
             required: [true, "Please provide article name"],
-            maxlength: [100, "Name can not be more than 100 characters"],
+            maxlength: [100, "Title can not be more than 100 characters"],
+        },
+        slug: {
+            type: String,
+            unique: true,
+            required: [true, "Please provide article slug"],
+            maxlength: [100, "Slug can not be more than 100 characters"],
         },
         content: {
             type: String,

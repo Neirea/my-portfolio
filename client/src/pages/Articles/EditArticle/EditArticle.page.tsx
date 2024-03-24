@@ -12,12 +12,14 @@ import {
 } from "../../../types/article.type";
 import { languageDetector } from "../../../utils/handleHtmlString";
 import EditorLayout from "../components/EditorLayout";
+import { generateSlug } from "../../../utils/generateSlug";
 
 const EditArticle = () => {
     const { articleId } = useParams();
 
     const [articleValues, setArticleValues] = useState<IArticleValues>({
         title: "",
+        slug: "",
         category: categoriesEnum.blog,
         demo_link: "",
         source_link: "",
@@ -52,6 +54,7 @@ const EditArticle = () => {
         setArticleValues({
             userId: article.userId,
             title: article.title,
+            slug: generateSlug(article.title),
             content: article.content,
             category: article.category,
             image: article.image,
