@@ -63,11 +63,11 @@ function App() {
                     }
                 />
                 <Route
-                    path="/blog/:articleId"
+                    path="/blog/:slug"
                     element={<Article type={categoriesEnum.blog} />}
                 ></Route>
                 <Route
-                    path="/projects/:articleId"
+                    path="/projects/:slug"
                     element={<Article type={categoriesEnum.project} />}
                 ></Route>
                 <Route path="/unauthorized" element={<Unauthorized />} />

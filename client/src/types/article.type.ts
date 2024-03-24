@@ -7,6 +7,7 @@ export enum categoriesEnum {
 
 export interface IArticle {
     title: string;
+    slug: string;
     content: string;
     category: categoriesEnum;
     code_languages: string[];
@@ -44,6 +45,7 @@ export interface IJsxComment {
 
 export interface IArticleData {
     title: string;
+    slug: string;
     category: string;
     _id: string;
 }

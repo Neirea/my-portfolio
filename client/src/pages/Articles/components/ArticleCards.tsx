@@ -28,8 +28,8 @@ const ArticleCards = ({
                 tempDiv.remove();
 
                 return (
-                    <ArticleCardContainer key={element._id}>
-                        <Link to={`/${type}/${element._id}`}>
+                    <ArticleCardContainer key={element.slug}>
+                        <Link to={`/${type}/${element.slug}`}>
                             <img
                                 className="acard-image"
                                 loading={idx > 3 ? "lazy" : "eager"}
@@ -40,7 +40,7 @@ const ArticleCards = ({
                         <div className="acard-content">
                             <Link
                                 className="acard-title"
-                                to={`/${type}/${element._id}`}
+                                to={`/${type}/${element.slug}`}
                             >
                                 <h4>{element.title}</h4>
                             </Link>

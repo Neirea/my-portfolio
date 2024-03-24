@@ -6,10 +6,7 @@ import type {
 import { handleHtmlString } from "../../utils/handleHtmlString";
 import useArticles from "./useArticles";
 
-const useSingleArticle = (
-    type: categoriesEnum,
-    articleId: string | undefined
-) => {
+const useSingleArticle = (type: categoriesEnum, slug: string | undefined) => {
     const queryInfo = useArticles(type);
 
     const getArticlesData = (
@@ -21,13 +18,14 @@ const useSingleArticle = (
                 _id: item._id,
                 category: item.category,
                 title: item.title,
+                slug: item.slug,
             };
         });
     };
 
     const getArticle = (articles: IArticle[] | undefined): IArticle | null => {
         if (!articles) return null;
-        const article = articles.find((item) => item._id === articleId);
+        const article = articles.find((item) => item.slug === slug);
         if (!article) return null;
 
         return {

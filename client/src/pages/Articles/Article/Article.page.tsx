@@ -22,7 +22,7 @@ import Comments from "./Comments/Comments";
 import { useTitle } from "../../../utils/useTitle";
 
 const Article = ({ type }: { type: categoriesEnum }) => {
-    const { articleId } = useParams();
+    const { slug } = useParams();
     const navigate = useNavigate();
     const { user } = useGlobalContext();
     const {
@@ -31,7 +31,7 @@ const Article = ({ type }: { type: categoriesEnum }) => {
         isError: articleIsError,
         error: articleError,
         articlesData,
-    } = useSingleArticle(type, articleId);
+    } = useSingleArticle(type, slug);
 
     const {
         mutate: deleteArticle,
@@ -87,7 +87,7 @@ const Article = ({ type }: { type: categoriesEnum }) => {
                             </AdminButton>
                         </div>
                     )}
-                    <CommentsProvider value={{ articleId }}>
+                    <CommentsProvider value={{ articleId: article._id }}>
                         <Comments />
                     </CommentsProvider>
                 </ArticleContentWrapper>
@@ -103,7 +103,7 @@ const Article = ({ type }: { type: categoriesEnum }) => {
                                                 <li key={`title-${index}`}>
                                                     <Link
                                                         className="article-aside-title"
-                                                        to={`/${article?.category}/${item._id}`}
+                                                        to={`/${article?.category}/${item.slug}`}
                                                     >
                                                         {item.title}
                                                     </Link>
