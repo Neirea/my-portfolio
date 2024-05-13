@@ -427,4 +427,11 @@ export const CUArticleForm = styled(StyledForm)`
     .rdw-block-wrapper {
         width: 7.25rem;
     }
+    .rdw-editor-toolbar {
+        position: sticky;
+        z-index: 2;
+        top: var(--header-height);
+        border-radius: 0;
+        box-shadow: 0 4px 0 var(--article-bg-color);
+    }
 `;
