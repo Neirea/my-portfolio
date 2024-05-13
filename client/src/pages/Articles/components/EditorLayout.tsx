@@ -263,7 +263,11 @@ const EditorLayout = ({
                                 })}
                             </TagsGroup>
                             <p className="article-date">
-                                {handleDate("2022-06-12T12:17:17.717+00:00")}
+                                {new Date().toLocaleDateString("en-US", {
+                                    day: "numeric",
+                                    month: "short",
+                                    year: "2-digit",
+                                })}
                             </p>
                         </div>
                         {preview && (
