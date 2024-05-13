@@ -30,7 +30,6 @@ const sanitizeOptions = {
 };
 
 export const getAllArticles = async (req: Request, res: Response) => {
-    //gets category based on url of get request
     const articleCategory = req.url.toString().replace("/", "");
 
     const cachedArticles = await redisClient.get(articleCategory);
@@ -42,7 +41,7 @@ export const getAllArticles = async (req: Request, res: Response) => {
     }
 
     const articles = await Article.find(
-        !articleCategory ? {} : { category: `${articleCategory}` }
+        !articleCategory ? {} : { category: articleCategory }
     ).sort({ createdAt: "descending" });
     if (!articles.length) {
         throw new CustomError.NotFoundError(`No ${articleCategory} found`);
@@ -70,9 +69,9 @@ export const createArticle = async (req: Request, res: Response) => {
             content: sanitizeHtml(req.body.content, sanitizeOptions),
         };
         const article = await Article.create(newArticle);
+        await redisClient.del(req.body.category);
         res.status(StatusCodes.CREATED).json({ article });
     } catch (error) {
-        //delete uploaded image if creation has failed
         await cloudinary.uploader.destroy(req.body.img_id);
         throw new CustomError.BadRequestError("Failed to create article");
     }
@@ -95,13 +94,11 @@ export const updateArticle = async (req: Request, res: Response) => {
         ...req.body,
         content: sanitizeHtml(req.body.content, sanitizeOptions),
     };
-    //assigns newArticle values to article
     Object.assign(article, newArticle);
 
     article
         .save()
         .then(async () => {
-            //delete deprecated image on success
             if (article.img_id !== currentImgId) {
                 await cloudinary.uploader.destroy(currentImgId);
             }
@@ -109,7 +106,6 @@ export const updateArticle = async (req: Request, res: Response) => {
             res.status(StatusCodes.OK).json({ article });
         })
         .catch(async () => {
-            //delete uploaded image if update has failed
             if (req.body.img_id !== currentImgId) {
                 await cloudinary.uploader.destroy(req.body.img_id);
             }
@@ -137,7 +133,6 @@ export const deleteArticle = async (req: Request, res: Response) => {
     res.status(StatusCodes.OK).json({ msg: "Success! Article is removed" });
 };
 
-//upload image to cloudinary
 export const uploadArticleImage = async (req: Request, res: Response) => {
     const imageFile = req.files?.image as UploadedFile;
     if (!imageFile) {
