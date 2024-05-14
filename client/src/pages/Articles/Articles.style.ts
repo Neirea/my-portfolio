@@ -333,7 +333,6 @@ export const TagsGroup = styled.div`
         border-radius: var(--border-radius);
         font-size: 1rem;
         line-height: var(--line-height);
-        text-transform: capitalize;
         user-select: none;
 
         @media (hover: hover) and (pointer: fine) {
