@@ -68,7 +68,6 @@ describe("sendContactMessage", () => {
         const response = await request(app)
             .post("/api/action/sendContactMessage")
             .send(dataInput);
-        console.log(response);
 
         expect(response.body.userText).toEqual("<p>123<b>456</b></p>");
         expect(response.body.msg).toEqual("Message was successfully sent");

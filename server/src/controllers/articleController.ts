@@ -128,7 +128,7 @@ export const deleteArticle = async (req: Request, res: Response) => {
 
     await article.deleteOne().then(() => Comment.deleteMany({ articleId }));
 
-    await redisClient.del(req.body.category);
+    await redisClient.del(article.category);
 
     res.status(StatusCodes.OK).json({ msg: "Success! Article is removed" });
 };

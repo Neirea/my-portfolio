@@ -28,6 +28,7 @@ import Article from "../models/Article";
 import * as dbHandler from "./db";
 
 jest.mock("cloudinary");
+jest.mock("../db/redis");
 const mockedCloudinary = cloudinary as jest.Mocked<typeof cloudinary>;
 
 //spin fake mongodb server before each
@@ -61,6 +62,7 @@ const articleData = [
         image: "test.jpg",
         img_id: "5dbff32e367a343830cd2f42",
         userId: "5dbff32e367a343830cd2f45",
+        slug: "project 1",
     },
     {
         title: "basic article",
@@ -73,6 +75,7 @@ const articleData = [
         image: "test.jpg",
         img_id: "5dbff32e367a343830cd2f41",
         userId: "5dbff32e367a343830cd2f46",
+        slug: "blog 1",
     },
     {
         title: "failed to create",
@@ -85,6 +88,7 @@ const articleData = [
         image: "test.jpg",
         img_id: "5dbff32e367a343830cd2f42",
         userId: "5dbff32e367a343830cd2f46",
+        slug: "blog 2",
     },
     {
         title: "updated article",
@@ -97,6 +101,7 @@ const articleData = [
         image: "updated.jpg",
         img_id: "5dbff32e367a343830cd2f40",
         userId: "5dbff32e367a343830cd2f45",
+        slug: "project 2",
     },
 ];
 

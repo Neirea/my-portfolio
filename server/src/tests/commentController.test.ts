@@ -60,6 +60,7 @@ const fakeArticle = {
     image: "test.jpg",
     img_id: "5dbff32e367a343830cd2f41",
     userId: "5dbff32e367a343830cd2f46",
+    slug: "blog 1",
 };
 
 const createArticleUserComment = async () => {
