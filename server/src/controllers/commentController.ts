@@ -145,9 +145,9 @@ export const deleteCommentsAdmin = async (req: Request, res: Response) => {
 
     //adds all ids of nested elements to array
     const parseReplies = (comments: IComment[], array: number[]) => {
-        for (let i = 0; i < comments.length; i++) {
-            array.push(comments[i]._id);
-            parseReplies(comments[i].replies, array);
+        for (const comment of comments) {
+            array.push(comment._id);
+            parseReplies(comment.replies, array);
         }
     };
     let repliesArray: number[] = [];
