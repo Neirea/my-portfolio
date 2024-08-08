@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { type ChangeEvent, type FormEvent, useEffect, useState } from "react";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 import useCreateComment from "../../../../hooks/Articles/comments/useCreateComment";
 import { useGlobalContext } from "../../../../store/AppContext";

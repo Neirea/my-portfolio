@@ -1,8 +1,8 @@
 import {
-    ChangeEvent,
-    Dispatch,
-    FormEvent,
-    SetStateAction,
+    type ChangeEvent,
+    type Dispatch,
+    type FormEvent,
+    type SetStateAction,
     useEffect,
 } from "react";
 import { Link } from "react-router-dom";
@@ -24,7 +24,6 @@ import "../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.cs
 import FormRow from "../../../components/FormRow";
 import type { IArticleValues } from "../../../types/article.type";
 import { useDebounce } from "../../../utils/debounce";
-import { handleDate } from "../../../utils/handleDate";
 import { handleHtmlString } from "../../../utils/handleHtmlString";
 
 interface EditorLayoutProps {

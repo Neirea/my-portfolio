@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { type Dispatch, type SetStateAction, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import type { LocationState } from "../../../types/app.type";
 import { TagsGroup } from "../Articles.style";

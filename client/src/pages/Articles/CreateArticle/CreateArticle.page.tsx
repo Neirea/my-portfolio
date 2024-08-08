@@ -4,7 +4,10 @@ import { useLocation } from "react-router-dom";
 import useCreateArticle from "../../../hooks/Articles/useCreateArticle";
 import { useGlobalContext } from "../../../store/AppContext";
 import type { LocationState } from "../../../types/app.type";
-import { categoriesEnum, IArticleValues } from "../../../types/article.type";
+import {
+    categoriesEnum,
+    type IArticleValues,
+} from "../../../types/article.type";
 import { languageDetector } from "../../../utils/handleHtmlString";
 import EditorLayout from "../components/EditorLayout";
 import { generateSlug } from "../../../utils/generateSlug";

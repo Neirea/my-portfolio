@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { type ChangeEvent, useState } from "react";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 import useUpdateComment from "../../../../hooks/Articles/comments/useUpdateComment";
 import { ReadButton } from "../../../../styles/styled-components";

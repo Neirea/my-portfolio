@@ -1,9 +1,9 @@
 import { BiChevronDown } from "@react-icons/all-files/bi/BiChevronDown";
-import { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import { type Dispatch, type SetStateAction, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../../../store/AppContext";
 import { ReadButton } from "../../../styles/styled-components";
-import { LocationState, userRoles } from "../../../types/app.type";
+import { type LocationState, userRoles } from "../../../types/app.type";
 import { useOutsideClick } from "../../../utils/useOutsideClick";
 import { StyledMenuLink } from "../Header.style";
 import { UserMenuWrapper } from "./UserMenu.style";

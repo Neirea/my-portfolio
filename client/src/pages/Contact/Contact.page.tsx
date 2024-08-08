@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { type ChangeEvent, type FormEvent, useEffect, useState } from "react";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import FormRow from "../../components/FormRow";
 import SuccessModal from "../../components/SuccessModal";

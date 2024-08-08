@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useGlobalContext } from "../store/AppContext";
-import type { userRoles } from "../types/app.type";
+import { userRoles } from "../types/app.type";
 import LoadingSpinner from "./LoadingSpinner";
 
 interface RequireAuthProps {

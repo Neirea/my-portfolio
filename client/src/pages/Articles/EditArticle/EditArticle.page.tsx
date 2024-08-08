@@ -7,8 +7,8 @@ import { useParams } from "react-router-dom";
 import useEditArticle from "../../../hooks/Articles/useEditArticle";
 import {
     categoriesEnum,
-    IArticle,
-    IArticleValues,
+    type IArticle,
+    type IArticleValues,
 } from "../../../types/article.type";
 import { languageDetector } from "../../../utils/handleHtmlString";
 import EditorLayout from "../components/EditorLayout";

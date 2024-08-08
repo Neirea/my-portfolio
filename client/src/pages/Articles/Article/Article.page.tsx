@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import LoadingSpinner from "../../../components/LoadingSpinner";
 import { CommentsProvider } from "../../../hooks/Articles/comments/useCommentsContext";
