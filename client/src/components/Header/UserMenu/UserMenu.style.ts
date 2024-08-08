@@ -4,6 +4,10 @@ import { MenuItem } from "../Header.style";
 export const UserMenuWrapper = styled(MenuItem)`
     display: flex;
     margin-right: 0.5rem;
+    width: 5rem;
+    overflow: visible;
+    white-space: nowrap;
+    justify-content: flex-end;
     color: var(--faded-text-color);
 
     .user-name {

@@ -3,7 +3,6 @@ import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import Header from "./components/Header/Header";
-import LoadingSpinner from "./components/LoadingSpinner";
 import RequireAuth from "./components/RequireAuth";
 import RequirePublic from "./components/RequirePublic";
 import ScrollToTop from "./components/ScrollToTop";
@@ -27,10 +26,8 @@ import { categoriesEnum } from "./types/article.type";
 import { recaptchaKey } from "./utils/data";
 
 function App() {
-    const { darkMode, userLoading } = useGlobalContext();
+    const { darkMode } = useGlobalContext();
     const selectedTheme = darkMode ? darkTheme : lightTheme;
-
-    if (userLoading) return null;
 
     return (
         <ThemeProvider theme={selectedTheme}>
@@ -87,7 +84,7 @@ function App() {
                     <Route
                         path="/admin-dashboard"
                         element={
-                            <Suspense fallback={<LoadingSpinner />}>
+                            <Suspense fallback={<div />}>
                                 <AdminDashboard />
                             </Suspense>
                         }
@@ -95,7 +92,7 @@ function App() {
                     <Route
                         path="/create-article"
                         element={
-                            <Suspense fallback={<LoadingSpinner />}>
+                            <Suspense fallback={<div />}>
                                 <CreateArticle />
                             </Suspense>
                         }
@@ -103,7 +100,7 @@ function App() {
                     <Route
                         path="/edit-article/:articleId"
                         element={
-                            <Suspense fallback={<LoadingSpinner />}>
+                            <Suspense fallback={<div />}>
                                 <EditArticle />
                             </Suspense>
                         }
