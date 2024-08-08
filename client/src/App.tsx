@@ -11,13 +11,13 @@ import {
     Contact,
     CreateArticle,
     EditArticle,
+    AdminDashboard,
     Error,
     Home,
     Login,
     Article,
     Unauthorized,
 } from "./pages";
-import AdminDashboard from "./pages/Admin/Admin.page";
 import { useGlobalContext } from "./store/AppContext";
 import { GlobalStyles } from "./styles/global.style";
 import { darkTheme, lightTheme } from "./styles/theme";

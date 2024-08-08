@@ -3,10 +3,10 @@ import { FaWrench } from "@react-icons/all-files/fa/FaWrench";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import useBanUser from "../../hooks/useBanUser";
-import { IUser, userRoles } from "../../types/app.type";
-import { AdminDashboardWrapper } from "./Admin.style";
+import { type IUser, userRoles } from "../../types/app.type";
+import { AdminDashboardWrapper } from "./AdminDashboard.style";
 
-const Admin = () => {
+const AdminDashboard = () => {
     const { mutate: banUser } = useBanUser();
     const { data: users } = useQuery<IUser[]>(["users"], () =>
         axios.get("/api/user").then((res) => res.data.users)
@@ -59,4 +59,4 @@ const Admin = () => {
     );
 };
 
-export default Admin;
+export default AdminDashboard;

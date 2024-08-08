@@ -14,6 +14,8 @@ const CreateArticle = lazy(
 const EditArticle = lazy(
     () => import("./Articles/EditArticle/EditArticle.page")
 );
+/* admin */
+const AdminDashboard = lazy(() => import("./Admin/AdminDashboard.page"));
 
 export {
     Home,
@@ -25,4 +27,5 @@ export {
     Error,
     CreateArticle,
     EditArticle,
+    AdminDashboard,
 };
