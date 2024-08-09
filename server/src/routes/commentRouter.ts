@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { rateLimit } from "express-rate-limit";
 import {
     createComment,
     deleteComment,
@@ -11,27 +10,25 @@ import authorizePermissions from "../middleware/authorizePermissions";
 import checkCsrf from "../middleware/checkCsrf";
 import isAuthenticated from "../middleware/isAuthenticated";
 import { userRoles } from "../models/User";
+import { RateLimiter } from "rate-limiter-algorithms";
+import rateLimit from "../middleware/rateLimit";
 
 const router = Router();
 
-const commentLimiter = rateLimit({
-    windowMs: 60 * 1000,
-    max: 5,
-    standardHeaders: true,
-    legacyHeaders: false,
-    message: {
-        msg: "Too many requests, please try again in 1 minute",
-    },
+const limiter = new RateLimiter({
+    algorithm: "token-bucket",
+    limit: 5,
+    windowMs: 60_000,
 });
 
 router
     .route("/:articleId")
-    .post([isAuthenticated, commentLimiter, checkCsrf], createComment)
+    .post([isAuthenticated, rateLimit(limiter), checkCsrf], createComment)
     .get(getAllComments);
 
 router
     .route("/:articleId/:id")
-    .patch([isAuthenticated, commentLimiter, checkCsrf], updateComment)
+    .patch([isAuthenticated, rateLimit(limiter), checkCsrf], updateComment)
     .delete([isAuthenticated, checkCsrf], deleteComment);
 
 router

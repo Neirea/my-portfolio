@@ -1,23 +1,20 @@
 import { Router } from "express";
-import { rateLimit } from "express-rate-limit";
+import { RateLimiter } from "rate-limiter-algorithms";
 import {
-	sendContactMessage,
-	testRecaptcha,
+    sendContactMessage,
+    testRecaptcha,
 } from "../controllers/actionController";
+import rateLimit from "../middleware/rateLimit";
 
 const router = Router();
 
-const emailLimiter = rateLimit({
-	windowMs: 60 * 1000,
-	max: 2,
-	standardHeaders: true,
-	legacyHeaders: false,
-	message: {
-		msg: "Too many requests, please try again in 1 minute",
-	},
+const limiter = new RateLimiter({
+    algorithm: "token-bucket",
+    limit: 2,
+    windowMs: 60_000,
 });
 
-router.post("/sendContactMessage", emailLimiter, sendContactMessage);
+router.post("/sendContactMessage", rateLimit(limiter), sendContactMessage);
 router.post("/testCaptcha", testRecaptcha);
 
 export default router;

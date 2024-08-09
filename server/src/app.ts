@@ -8,7 +8,8 @@ import MongoStore from "connect-mongo";
 import cors from "cors";
 import fileUpload from "express-fileupload";
 import mongoSanitize from "express-mongo-sanitize";
-import { rateLimit } from "express-rate-limit";
+import rateLimit from "./middleware/rateLimit";
+import { RateLimiter } from "rate-limiter-algorithms";
 import session from "express-session";
 import { buildCheckFunction } from "express-validator";
 import helmet from "helmet";
@@ -34,11 +35,13 @@ cloudinary.config({
 /* middleware */
 app.set("trust proxy", 1); // trust 1 hop from proxy
 app.use(
-    rateLimit({
-        windowMs: 60 * 1000,
-        max: 50,
-        message: { msg: "Too many requests..." },
-    })
+    rateLimit(
+        new RateLimiter({
+            algorithm: "token-bucket",
+            windowMs: 60_000,
+            limit: 50,
+        })
+    )
 ); //set numbers that fit best and check if needed in production
 app.use(helmet());
 app.use(
