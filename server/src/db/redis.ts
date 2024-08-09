@@ -6,7 +6,6 @@ const getRedisClient = () => {
         console.error(error);
         process.exit(1);
     });
-    redisClient.connect();
     return redisClient;
 };
 
