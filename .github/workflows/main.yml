@@ -5,16 +5,28 @@ on:
             - main
         paths:
             - "server/**"
-env:
-    FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
 defaults:
     run:
         working-directory: ./server
 jobs:
+    test:
+        name: Running tests
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - run: npm ci
+            - run: npm run test
     deploy:
         name: Deploy app
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
             - uses: superfly/flyctl-actions/setup-flyctl@master
             - run: flyctl deploy --remote-only
+        env:
+            FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
