@@ -19,14 +19,11 @@ const rateLimit =
             }
 
             if (!isAllowed) {
-                res.writeHead(429, "Too many requests");
-                res.end(
-                    JSON.stringify({
-                        msg: `Too many requests. Try again in ${Math.floor(
-                            limiter.windowMs / 1000
-                        )} seconds`,
-                    })
-                );
+                res.status(429).json({
+                    msg: `Too many requests. Try again in ${Math.floor(
+                        limiter.windowMs / 1000
+                    )} seconds`,
+                });
                 return;
             }
             next();
