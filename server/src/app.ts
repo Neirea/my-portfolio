@@ -32,17 +32,15 @@ cloudinary.config({
     api_secret: process.env.CLDNRY_API_SECRET,
 });
 
+const limiter = new RateLimiter({
+    algorithm: "token-bucket",
+    windowMs: 1_000,
+    limit: 50,
+});
+
 /* middleware */
-app.set("trust proxy", 1); // trust 1 hop from proxy
-app.use(
-    rateLimit(
-        new RateLimiter({
-            algorithm: "token-bucket",
-            windowMs: 60_000,
-            limit: 50,
-        })
-    )
-); //set numbers that fit best and check if needed in production
+app.set("trust proxy", 1);
+app.use(rateLimit(limiter));
 app.use(helmet());
 app.use(
     cors({
@@ -73,8 +71,8 @@ if (process.env.NODE_ENV !== "test") {
         session({
             secret: process.env.SESSION_SECRET!,
             name: "s_id",
-            saveUninitialized: false, // don't create session until something stored
-            resave: false, //don't save session if unmodified
+            saveUninitialized: false,
+            resave: false,
             store: sessionStore,
             cookie: {
                 httpOnly: true,

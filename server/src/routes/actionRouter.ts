@@ -11,7 +11,7 @@ const router = Router();
 const limiter = new RateLimiter({
     algorithm: "token-bucket",
     limit: 2,
-    windowMs: 60_000,
+    windowMs: 30_000,
 });
 
 router.post("/sendContactMessage", rateLimit(limiter), sendContactMessage);

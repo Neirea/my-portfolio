@@ -18,7 +18,7 @@ const router = Router();
 const limiter = new RateLimiter({
     algorithm: "token-bucket",
     limit: 5,
-    windowMs: 60_000,
+    windowMs: 12_000,
 });
 
 router
