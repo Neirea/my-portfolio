@@ -21,8 +21,11 @@ jobs:
                   node-version: ${{ matrix.node-version }}
             - run: npm ci
             - run: npm run test
+        env:
+            GITHUB_CLIENT_ID: test
+            GOOGLLE_CLIENT_ID: test
     deploy:
-        needs: [test]
+        needs: test
         name: Deploy app
         runs-on: ubuntu-latest
         steps:
