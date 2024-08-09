@@ -23,7 +23,7 @@ jobs:
             - run: npm run test
         env:
             GITHUB_CLIENT_ID: test
-            GOOGLLE_CLIENT_ID: test
+            GOOGLE_CLIENT_ID: test
     deploy:
         needs: test
         name: Deploy app
