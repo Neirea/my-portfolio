@@ -101,7 +101,7 @@ describe("createComment", () => {
         const updatedComment = await Comment.findOne({
             _id: comment._id.toString(),
         });
-        expect(updatedComment!.replies[0]._id.toString()).toStrictEqual(
+        expect(updatedComment!.replies[0]?._id.toString()).toStrictEqual(
             response.body.comment._id
         );
     });
