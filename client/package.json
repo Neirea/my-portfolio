@@ -13,7 +13,7 @@
         "@react-icons/all-files": "^4.1.0",
         "@tanstack/react-query": "^4.22.0",
         "@tanstack/react-query-devtools": "^4.22.0",
-        "axios": "^1.7.3",
+        "axios": "^1.7.4",
         "draft-js": "^0.11.7",
         "draftjs-to-html": "^0.9.1",
         "highlight.js": "^11.9.0",
