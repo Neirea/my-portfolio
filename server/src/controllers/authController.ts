@@ -99,7 +99,6 @@ export async function loginGoogle(
             avatar_url: _json.picture,
         });
     }
-    user = user.toObject();
     done(null, { user });
 }
 
@@ -149,6 +148,5 @@ export const loginGithub = async (
             avatar_url: _json.avatar_url,
         });
     }
-    user = user.toObject();
     done(null, { user });
 };

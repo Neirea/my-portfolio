@@ -1,6 +1,7 @@
-import type { Request, Response } from "express";
+import type { RequestHandler } from "express";
 
-const notFound = (req: Request, res: Response) =>
-	res.status(404).send("Route does not exist");
+const notFound: RequestHandler = (req, res) => {
+    res.status(404).send("Route does not exist");
+};
 
 export default notFound;
