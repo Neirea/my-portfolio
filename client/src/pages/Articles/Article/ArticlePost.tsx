@@ -20,17 +20,22 @@ const ArticlePost = ({ article }: { article: IArticle }) => {
 
     useEffect(() => {
         if (!articleRef.current) return;
-
-        const handleClick = (e: MouseEvent) => {
-            if (e.target instanceof HTMLImageElement) {
-                setImagePortal(e.target);
+        const controller = new AbortController();
+        articleRef.current.addEventListener(
+            "click",
+            (e) => {
+                if (e.target instanceof HTMLImageElement) {
+                    setImagePortal(e.target);
+                }
+            },
+            {
+                signal: controller.signal,
             }
-        };
-        articleRef.current.addEventListener("click", handleClick);
+        );
 
         return () => {
             if (!articleRef.current) return;
-            articleRef.current.removeEventListener("click", handleClick);
+            controller.abort();
         };
     }, []);
 

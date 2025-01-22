@@ -11,14 +11,18 @@ export const useOutsideClick = (
     set: Dispatch<SetStateAction<any>>
 ) => {
     useEffect(() => {
-        const handleClickOutside = (e: MouseEvent) => {
-            if (ref.current && !ref.current.contains(e.target)) {
-                set(false);
-            }
-        };
-        document.addEventListener("click", handleClickOutside);
+        const controller = new AbortController();
+        document.addEventListener(
+            "click",
+            (e: MouseEvent) => {
+                if (ref.current && !ref.current.contains(e.target)) {
+                    set(false);
+                }
+            },
+            { signal: controller.signal }
+        );
         return () => {
-            document.removeEventListener("click", handleClickOutside);
+            controller.abort();
         };
     }, [ref, set]);
 };
