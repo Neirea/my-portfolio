@@ -21,7 +21,7 @@ describe("testCaptcha", () => {
         mockedAxios.post.mockReturnValueOnce(Promise.resolve(googleResponse));
         const response = await request(app)
             .post("/api/action/testCaptcha")
-            .send({ googleInput });
+            .send(googleInput);
 
         expect(response.status).toBe(200);
         expect(response.headers["content-type"]).toEqual(
@@ -39,7 +39,7 @@ describe("testCaptcha", () => {
         mockedAxios.post.mockReturnValueOnce(Promise.resolve(googleResponse));
         const response = await request(app)
             .post("/api/action/testCaptcha")
-            .send({ dataInput });
+            .send(dataInput);
 
         expect(response.status).toBe(400);
         expect(response.body.msg).toBe("Bad recaptcha token");
@@ -56,7 +56,7 @@ describe("testCaptcha", () => {
         mockedAxios.post.mockReturnValueOnce(Promise.resolve(googleResponse));
         const response = await request(app)
             .post("/api/action/testCaptcha")
-            .send({ dataInput });
+            .send(dataInput);
 
         expect(response.status).toBe(400);
         expect(response.body.msg).toBe("Can't fool us, bot!");
