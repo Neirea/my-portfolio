@@ -8,7 +8,7 @@ import {
     BlockButton,
     StyledForm,
 } from "../../styles/styled-components";
-import { socialMediaLinks } from "../../utils/data";
+import { recaptchaKey, socialMediaLinks } from "../../utils/data";
 import { LinkGroup } from "./Contact.style";
 import { useTitle } from "../../utils/useTitle";
 import { getRecaptchaToken } from "../../utils/recaptcha";
@@ -25,6 +25,31 @@ const Contact = () => {
         message: "",
     });
     useTitle("Contact");
+
+    useEffect(() => {
+        const script = document.createElement("script");
+        const scriptId = "recaptcha-script";
+        script.id = scriptId;
+        script.src = `https://www.google.com/recaptcha/enterprise.js?render=${recaptchaKey}`;
+        script.async = true;
+        document.body.appendChild(script);
+        return () => {
+            // Remove the reCAPTCHA script
+            const script = document.getElementById(scriptId);
+            if (script) {
+                script.remove();
+            }
+            // Remove the reCAPTCHA badge
+            const badge =
+                document.querySelector(".grecaptcha-badge")?.parentElement;
+            if (badge) {
+                badge.remove();
+            }
+            // Clean up global reCAPTCHA instance
+            delete window.grecaptcha;
+        };
+    }, []);
+
     //auto-fill form hen user logged in
     useEffect(() => {
         if (!user) return;
