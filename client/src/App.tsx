@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import Header from "./components/Header/Header";
@@ -23,7 +22,6 @@ import { GlobalStyles } from "./styles/global.style";
 import { darkTheme, lightTheme } from "./styles/theme";
 import { userRoles } from "./types/app.type";
 import { categoriesEnum } from "./types/article.type";
-import { recaptchaKey } from "./utils/data";
 
 function App() {
     const { darkMode } = useGlobalContext();
@@ -38,14 +36,7 @@ function App() {
                 {/* public routes */}
                 <Route path="/" element={<Home />} />
 
-                <Route
-                    path="/contact"
-                    element={
-                        <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
-                            <Contact />
-                        </GoogleReCaptchaProvider>
-                    }
-                />
+                <Route path="/contact" element={<Contact />} />
                 <Route
                     path="/blog"
                     element={<Articles key="blog" type={categoriesEnum.blog} />}

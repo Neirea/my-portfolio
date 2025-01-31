@@ -5,30 +5,42 @@ import sanitizeHtml from "sanitize-html";
 import CustomError from "../errors";
 import sendEmail from "../utils/sendEmail";
 
-interface validateResponseData {
-    success: boolean;
-    challenge_ts: string;
-    hostname: string;
-    score: number;
-    error_codes?: string[];
-}
-
 /* RECAPTCHA */
 const validateRecaptcha = async (token: string | null) => {
-    const secret = process.env.RECAPTCHA_SECRET_KEY;
-    const response = await axios.post<validateResponseData>(
-        `https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${token}`
-    );
+    const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+    const apiKey = process.env.RECAPTCHA_API_KEY;
+    const projectName = process.env.RECAPTCHA_PROJECT_ID;
+
+    if (!token) {
+        throw new CustomError.BadRequestError("Missing reCAPTCHA token");
+    }
+
+    const recaptchaURL = `https://recaptchaenterprise.googleapis.com/v1/projects/${projectName}/assessments?key=${apiKey}`;
+    const body = {
+        event: {
+            token: token,
+            siteKey: secretKey,
+            expectedAction: "contact_email",
+        },
+    };
+    let response;
+    try {
+        response = await axios.post(recaptchaURL, body);
+    } catch (error) {
+        throw new CustomError.ServiceUnavailableError(
+            "Failed to verify reCAPTCHA"
+        );
+    }
     if (!response) {
         throw new CustomError.ServiceUnavailableError(
             "Couldn't login to google captcha servers"
         );
     }
-    if (!response.data.success) {
+    if (response.data.tokenProperties.valid === false) {
         throw new CustomError.BadRequestError("Bad recaptcha token");
     }
 
-    return response.data.score;
+    return response.data.riskAnalysis.score || -1;
 };
 
 export const testRecaptcha = async (req: Request, res: Response) => {

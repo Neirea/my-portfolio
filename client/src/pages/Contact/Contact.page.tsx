@@ -1,6 +1,5 @@
 import axios, { AxiosError } from "axios";
 import { type ChangeEvent, type FormEvent, useEffect, useState } from "react";
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import FormRow from "../../components/FormRow";
 import SuccessModal from "../../components/SuccessModal";
 import { useGlobalContext } from "../../store/AppContext";
@@ -12,10 +11,10 @@ import {
 import { socialMediaLinks } from "../../utils/data";
 import { LinkGroup } from "./Contact.style";
 import { useTitle } from "../../utils/useTitle";
+import { getRecaptchaToken } from "../../utils/recaptcha";
 
 const Contact = () => {
     const { user } = useGlobalContext();
-    const { executeRecaptcha } = useGoogleReCaptcha();
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
@@ -45,22 +44,16 @@ const Contact = () => {
         setValues({ ...values, [e.target.name]: e.target.value });
     };
 
-    const handleRecaptchaVeify = async () => {
-        if (!executeRecaptcha) {
-            setError("recaptcha is not ready yet");
-            return false;
-        }
-        const token = await executeRecaptcha("contactMessage");
-        return token;
-    };
-
     const onSubmit = async (e: FormEvent) => {
         e.preventDefault();
         setLoading(true);
 
         try {
-            const token = await handleRecaptchaVeify();
-            if (token === false) return;
+            const token = await getRecaptchaToken("contact_email");
+            if (token === "") {
+                setError("Failed to verify reCAPTCHA");
+                return;
+            }
             await axios.post("/api/action/testCaptcha", { token });
 
             const { name, email, message } = values;
