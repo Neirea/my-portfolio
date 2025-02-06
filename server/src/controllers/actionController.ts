@@ -1,9 +1,8 @@
-import axios from "axios";
 import type { Request, Response } from "express";
-import { StatusCodes } from "http-status-codes";
 import sanitizeHtml from "sanitize-html";
 import CustomError from "../errors";
 import sendEmail from "../utils/sendEmail";
+import { StatusCodes } from "../utils/http-status-codes";
 
 /* RECAPTCHA */
 const validateRecaptcha = async (token: string | null) => {
@@ -25,8 +24,15 @@ const validateRecaptcha = async (token: string | null) => {
     };
     let response;
     try {
-        response = await axios.post(recaptchaURL, body);
+        response = await (
+            await fetch(recaptchaURL, {
+                body: JSON.stringify(body),
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+            })
+        ).json();
     } catch (error) {
+        console.log(error);
         throw new CustomError.ServiceUnavailableError(
             "Failed to verify reCAPTCHA"
         );
@@ -36,11 +42,11 @@ const validateRecaptcha = async (token: string | null) => {
             "Couldn't login to google captcha servers"
         );
     }
-    if (response.data.tokenProperties.valid === false) {
+    if (response.tokenProperties.valid === false) {
         throw new CustomError.BadRequestError("Bad recaptcha token");
     }
 
-    return response.data.riskAnalysis.score || -1;
+    return response.riskAnalysis.score || -1;
 };
 
 export const testRecaptcha = async (req: Request, res: Response) => {

@@ -1,8 +1,8 @@
 import type { ErrorRequestHandler } from "express";
 import type { UploadedFile } from "express-fileupload";
 import fs from "fs";
-import { StatusCodes } from "http-status-codes";
 import { Error as MongooseError } from "mongoose";
+import { StatusCodes } from "../utils/http-status-codes";
 
 const errorHandlerMiddleware: ErrorRequestHandler = (err, req, res, next) => {
     // set default error

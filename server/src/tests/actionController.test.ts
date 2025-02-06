@@ -1,24 +1,25 @@
-import axios from "axios";
 import request from "supertest";
 import app from "../app";
 import "../utils/sendEmail";
 
-jest.mock("axios");
 jest.mock("../utils/sendEmail", () => jest.fn());
 
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+const fetchMock = (value: any) =>
+    jest
+        .fn()
+        .mockReturnValueOnce(
+            Promise.resolve({ json: () => Promise.resolve(value) })
+        );
 
 describe("testCaptcha", () => {
     test("should be positive response", async () => {
         const googleInput = { token: "123" };
         const googleResponse = {
-            data: {
-                riskAnalysis: { score: 1 },
-                tokenProperties: { valid: true },
-            },
+            riskAnalysis: { score: 1 },
+            tokenProperties: { valid: true },
         };
 
-        mockedAxios.post.mockReturnValueOnce(Promise.resolve(googleResponse));
+        global.fetch = fetchMock(googleResponse);
         const response = await request(app)
             .post("/api/action/testCaptcha")
             .send(googleInput);
@@ -31,12 +32,10 @@ describe("testCaptcha", () => {
     test("should be bad recaptcha token response", async () => {
         const dataInput = { token: "123" };
         const googleResponse = {
-            data: {
-                tokenProperties: { valid: false },
-            },
+            tokenProperties: { valid: false },
         };
 
-        mockedAxios.post.mockReturnValueOnce(Promise.resolve(googleResponse));
+        global.fetch = fetchMock(googleResponse);
         const response = await request(app)
             .post("/api/action/testCaptcha")
             .send(dataInput);
@@ -47,13 +46,12 @@ describe("testCaptcha", () => {
     test("should be negative response", async () => {
         const dataInput = { token: "123" };
         const googleResponse = {
-            data: {
-                riskAnalysis: { score: 0.49 },
-                tokenProperties: { valid: true },
-            },
+            riskAnalysis: { score: 0.49 },
+            tokenProperties: { valid: true },
         };
 
-        mockedAxios.post.mockReturnValueOnce(Promise.resolve(googleResponse));
+        global.fetch = fetchMock(googleResponse);
+
         const response = await request(app)
             .post("/api/action/testCaptcha")
             .send(dataInput);

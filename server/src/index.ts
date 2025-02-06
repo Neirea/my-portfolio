@@ -1,4 +1,3 @@
-import "dotenv/config";
 import app from "./app";
 import { connectDB } from "./db/connect";
 import { redisClient } from "./db/redis";

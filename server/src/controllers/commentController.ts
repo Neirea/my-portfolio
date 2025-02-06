@@ -1,10 +1,10 @@
 import type { Request, Response } from "express";
-import { StatusCodes } from "http-status-codes";
 import CustomError from "../errors";
 import Article from "../models/Article";
 import Comment, { IComment } from "../models/Comment";
 import User from "../models/User";
 import checkAuthor from "../utils/checkAuthor";
+import { StatusCodes } from "../utils/http-status-codes";
 
 export const getAllComments = async (req: Request, res: Response) => {
     const { articleId } = req.params;

@@ -2,12 +2,12 @@ import { v2 as cloudinary } from "cloudinary";
 import type { Request, Response } from "express";
 import type { UploadedFile } from "express-fileupload";
 import fs from "fs";
-import { StatusCodes } from "http-status-codes";
 import sanitizeHtml from "sanitize-html";
 import CustomError from "../errors";
 import Article from "../models/Article";
 import Comment from "../models/Comment";
 import { redisClient } from "../db/redis";
+import { StatusCodes } from "../utils/http-status-codes";
 
 const sanitizeOptions = {
     allowedIframeHostnames: ["www.youtube.com"],
