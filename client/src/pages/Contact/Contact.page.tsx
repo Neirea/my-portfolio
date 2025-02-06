@@ -117,7 +117,7 @@ const Contact = () => {
                     handleChange={handleChange}
                     isRequired={true}
                     title="Must be names separated by spaces"
-                    pattern="^([a-zA-Z]+( [a-zA-Z]+)*)"
+                    pattern="^([a-zA-Z\u0400-\u04FF\u0500-\u052F]+( [a-zA-Z\u0400-\u04FF\u0500-\u052F]+)*)"
                 />
                 <FormRow
                     type="email"
