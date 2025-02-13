@@ -2,17 +2,18 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import type { IComment, IJsxComment } from "../../../types/article.type";
 
-export const parseComments = async (
-    comments: IComment[],
-    depth: number,
-    array: IJsxComment[]
-) => {
-    for (let i = 0; i < comments?.length; i++) {
-        if (!i) depth++;
-        const response = { level: depth, comment: comments[i] };
-        array.push(response);
-        parseComments(comments[i].replies, depth, array);
-    }
+export const parseComments = (comments: IComment[]): IJsxComment[] => {
+    const result: IJsxComment[] = [];
+
+    const parse = (comments: IComment[], depth = 0) => {
+        for (const comment of comments) {
+            result.push({ level: depth, comment });
+            parse(comment.replies, depth + 1);
+        }
+    };
+
+    parse(comments);
+    return result;
 };
 
 export default function useComments(articleId: string | undefined) {
@@ -23,13 +24,7 @@ export default function useComments(articleId: string | undefined) {
                 .get<{ comments: IComment[] }>(`/api/comment/${articleId}`)
                 .then((res) => res.data.comments),
         {
-            select: (comments) => {
-                const commentsArray: IJsxComment[] = [];
-                //make styled code in content
-                parseComments(comments, -1, commentsArray);
-
-                return commentsArray;
-            },
+            select: (comments) => parseComments(comments),
         }
     );
 }
