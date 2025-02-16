@@ -7,7 +7,7 @@ export default function useDeleteCommentTree() {
     const { articleId, setCommentError, resetCommentState } =
         useCommentsContext();
     return useMutation(
-        ({ commentId, index }: { commentId: string; index: number }) =>
+        ({ commentId }: { commentId: string; index: number }) =>
             axios.delete(`/api/comment/${articleId}/d_all/${commentId}`),
         {
             onSuccess() {

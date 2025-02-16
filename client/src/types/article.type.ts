@@ -1,15 +1,13 @@
 export type ACTIONS = "reply" | "edit" | "none";
 
-export enum categoriesEnum {
-    blog = "blog",
-    project = "projects",
-}
+export const CATEGORIES = ["blog", "projects"] as const;
+export type Category = (typeof CATEGORIES)[number];
 
-export interface IArticle {
+export type Article = {
     title: string;
     slug: string;
     content: string;
-    category: categoriesEnum;
+    category: Category;
     code_languages: string[];
     source_link: string;
     demo_link: string;
@@ -21,13 +19,13 @@ export interface IArticle {
     createdAt: string;
     updatedAt: string;
     __v: number;
-}
+};
 
-export interface IComment {
+export type Comment = {
     articleId: string;
     parentId: string;
     message: string;
-    replies: IComment[];
+    replies: Comment[];
     user: {
         id: string;
         name: string;
@@ -36,41 +34,45 @@ export interface IComment {
     _id: string;
     createdAt: string;
     editedAt: string;
-}
+};
 
-export interface IJsxComment {
+export type CommentJsx = {
     level: number;
-    comment: IComment;
-}
+    comment: Comment;
+};
 
-export interface IArticleData {
+export type ArticleData = {
     title: string;
     slug: string;
     category: string;
     _id: string;
-}
+};
 
-export interface ICommentState {
+export type CommentState = {
     type: ACTIONS;
     id: string | null;
-}
-export interface ICommentError {
+};
+export type CommentError = {
     index: number | undefined;
     msg: string;
-}
+};
 
-export interface IUploadedImageResponse {
+export type UploadedImageResponse = {
     image: { src: string; img_id: string };
-}
+};
 
-export interface IArticleValues {
+export type ArticleEditor = {
     title: string;
     slug: string;
-    category: categoriesEnum;
+    category: Category;
     demo_link: string;
     source_link: string;
     content?: string;
     image?: string;
     img_id?: string;
     userId?: string;
-}
+};
+
+export type ArticleCreated = ArticleEditor & {
+    tags: string[];
+};

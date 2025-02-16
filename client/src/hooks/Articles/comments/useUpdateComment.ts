@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { IComment } from "../../../types/article.type";
+import type { Comment } from "../../../types/article.type";
 import useCommentsContext from "./useCommentsContext";
 
 export default function useUpdateComment() {
@@ -18,7 +18,7 @@ export default function useUpdateComment() {
             msg: string;
             index: number;
         }) =>
-            axios.patch<{ comment: IComment }>(
+            axios.patch<{ comment: Comment }>(
                 `/api/comment/${articleId}/${commentId}`,
                 { message: msg }
             ),

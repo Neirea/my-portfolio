@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import CustomError from "../errors";
 import Article from "../models/Article";
-import Comment, { IComment } from "../models/Comment";
+import Comment, { type Comment as TComment } from "../models/Comment";
 import User from "../models/User";
 import checkAuthor from "../utils/checkAuthor";
 import { StatusCodes } from "../utils/http-status-codes";
@@ -144,7 +144,7 @@ export const deleteCommentsAdmin = async (req: Request, res: Response) => {
     checkAuthor(req, comment.user.id.toString());
 
     //adds all ids of nested elements to array
-    const parseReplies = (comments: IComment[], array: number[]) => {
+    const parseReplies = (comments: TComment[], array: number[]) => {
         for (const comment of comments) {
             array.push(comment._id);
             parseReplies(comment.replies, array);

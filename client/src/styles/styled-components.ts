@@ -176,9 +176,9 @@ export const StyledForm = styled.form`
     }
 `;
 
-interface LoadingProps {
+type LoadingProps = {
     $darkMode: boolean;
-}
+};
 
 /* spinning animation before page loads */
 export const StyledLoading = styled.section<LoadingProps>`

@@ -4,25 +4,20 @@ import { useLocation } from "react-router-dom";
 import useCreateArticle from "../../../hooks/Articles/useCreateArticle";
 import { useGlobalContext } from "../../../store/AppContext";
 import type { LocationState } from "../../../types/app.type";
-import {
-    categoriesEnum,
-    type IArticleValues,
-} from "../../../types/article.type";
+import type { ArticleEditor } from "../../../types/article.type";
+import { generateSlug } from "../../../utils/generateSlug";
 import { languageDetector } from "../../../utils/handleHtmlString";
 import EditorLayout from "../components/EditorLayout";
-import { generateSlug } from "../../../utils/generateSlug";
 
 const CreateArticle = () => {
     const createArticle = useCreateArticle();
     const location = useLocation<LocationState>();
     const { user } = useGlobalContext();
 
-    const [articleValues, setArticleValues] = useState<IArticleValues>({
+    const [articleValues, setArticleValues] = useState<ArticleEditor>({
         title: "",
         slug: "",
-        category:
-            (location.state?.from?.toString() as categoriesEnum) ||
-            categoriesEnum.blog,
+        category: location.state?.from?.toString() || "blog",
         demo_link: "",
         source_link: "",
     });
@@ -56,7 +51,6 @@ const CreateArticle = () => {
         <EditorLayout
             articleValues={articleValues}
             setArticleValues={setArticleValues}
-            categories={Object.values(categoriesEnum)}
             onSubmit={onSubmit}
             editorState={editorState}
             setEditorState={setEditorState}

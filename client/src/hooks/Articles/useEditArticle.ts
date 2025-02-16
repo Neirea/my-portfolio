@@ -1,14 +1,10 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type {
-    IArticle,
-    IArticleValues,
-    IUploadedImageResponse,
+    Article,
+    ArticleCreated,
+    UploadedImageResponse,
 } from "../../types/article.type";
-
-interface ICreatedArticle extends IArticleValues {
-    tags: string[];
-}
 
 export default function useEditArticle() {
     const queryClient = useQueryClient();
@@ -18,10 +14,10 @@ export default function useEditArticle() {
             newArticle,
         }: {
             articleId: string | undefined;
-            newArticle: ICreatedArticle;
+            newArticle: ArticleCreated;
         }) =>
             axios
-                .put<{ article: IArticle }>(
+                .put<{ article: Article }>(
                     `/api/article/${articleId}`,
                     newArticle
                 )
@@ -43,7 +39,7 @@ export default function useEditArticle() {
         }: {
             articleId: string | undefined;
             selectedImage: File | undefined;
-            newArticle: ICreatedArticle;
+            newArticle: ArticleCreated;
         }) => {
             if (!selectedImage) {
                 editArticle.mutate({ articleId, newArticle });
@@ -52,7 +48,7 @@ export default function useEditArticle() {
                 const data = new FormData();
                 data.append("image", selectedImage);
                 return axios
-                    .post<IUploadedImageResponse>("/api/article/upload", data)
+                    .post<UploadedImageResponse>("/api/article/upload", data)
                     .then((res) => {
                         newArticle.image = res.data.image.src;
                         newArticle.img_id = res.data.image.img_id;

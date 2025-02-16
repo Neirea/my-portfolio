@@ -1,6 +1,6 @@
 import { model, Schema, Types } from "mongoose";
 
-export interface IArticle {
+export type Article = {
     title: string;
     slug: string;
     content: string;
@@ -16,7 +16,7 @@ export interface IArticle {
     createdAt: Date;
     updatedAt: Date;
     __v: number;
-}
+};
 
 const ArticleSchema = new Schema(
     {
@@ -69,4 +69,4 @@ const ArticleSchema = new Schema(
     }
 );
 
-export default model<IArticle>("Article", ArticleSchema);
+export default model<Article>("Article", ArticleSchema);

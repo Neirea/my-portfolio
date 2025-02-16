@@ -3,12 +3,12 @@ import { FaWrench } from "@react-icons/all-files/fa/FaWrench";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import useBanUser from "../../hooks/useBanUser";
-import { type IUser, userRoles } from "../../types/app.type";
+import type { User } from "../../types/app.type";
 import { AdminDashboardWrapper } from "./AdminDashboard.style";
 
 const AdminDashboard = () => {
     const { mutate: banUser } = useBanUser();
-    const { data: users } = useQuery<IUser[]>(["users"], () =>
+    const { data: users } = useQuery<User[]>(["users"], () =>
         axios.get("/api/user").then((res) => res.data.users)
     );
 
@@ -25,7 +25,7 @@ const AdminDashboard = () => {
             {users &&
                 users.map((user) => {
                     return (
-                        !user.roles.includes(userRoles.admin) && (
+                        !user.roles.includes("admin") && (
                             <div className="user-container">
                                 <div>{user.platform_id}</div>
                                 <div>{user.platform_name}</div>

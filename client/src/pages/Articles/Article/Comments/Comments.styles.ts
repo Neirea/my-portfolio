@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
-interface StyledCommentsProps {
+type StyledCommentsProps = {
     step: number;
     depth: number;
-}
-interface CommentFormProps {
+};
+type CommentFormProps = {
     step?: number;
     depth?: number;
-}
+};
 
 export const CommentsWrapper = styled.section`
     display: flex;

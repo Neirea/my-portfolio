@@ -7,20 +7,20 @@ import {
     useContext,
     useState,
 } from "react";
-import type { ICommentError, ICommentState } from "../../../types/article.type";
+import type { CommentError, CommentState } from "../../../types/article.type";
 
-interface commentsContextValues {
+type CommentsContext = {
     articleId: string | undefined;
-    commentState: ICommentState;
-    setCommentState: Dispatch<SetStateAction<ICommentState>>;
-    commentError: ICommentError;
-    setCommentError: Dispatch<SetStateAction<ICommentError>>;
+    commentState: CommentState;
+    setCommentState: Dispatch<SetStateAction<CommentState>>;
+    commentError: CommentError;
+    setCommentError: Dispatch<SetStateAction<CommentError>>;
     resetCommentState: () => void;
-}
+};
 
-export const CommentsContext = createContext({} as commentsContextValues);
+export const CommentsContext = createContext({} as CommentsContext);
 
-const initialCommentState: ICommentState = {
+const initialCommentState: CommentState = {
     type: "none",
     id: null,
 };
@@ -38,9 +38,9 @@ export const CommentsProvider = ({
 }) => {
     const articleId = value.articleId;
     const [commentState, setCommentState] =
-        useState<ICommentState>(initialCommentState);
+        useState<CommentState>(initialCommentState);
     const [commentError, setCommentError] =
-        useState<ICommentError>(initialCommentError);
+        useState<CommentError>(initialCommentError);
 
     const resetCommentState = useCallback(() => {
         setCommentState(initialCommentState);

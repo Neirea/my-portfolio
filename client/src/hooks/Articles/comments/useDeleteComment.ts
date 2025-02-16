@@ -8,7 +8,7 @@ export default function useDeleteComment() {
         useCommentsContext();
 
     return useMutation(
-        ({ commentId, index }: { commentId: string; index: number }) =>
+        ({ commentId }: { commentId: string; index: number }) =>
             axios.delete(`/api/comment/${articleId}/${commentId}`),
         {
             onSuccess() {

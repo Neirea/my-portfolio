@@ -1,18 +1,18 @@
 import axios from "axios";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import type { categoriesEnum, IArticle } from "../../types/article.type";
+import type { Article, Category } from "../../types/article.type";
 
-export const getArticles = (type: categoriesEnum) => {
+export const getArticles = (type: Category) => {
     return axios
-        .get<{ articles: IArticle[] }>(`/api/article/${type}`)
+        .get<{ articles: Article[] }>(`/api/article/${type}`)
         .then((res) => res.data.articles);
 };
 
-export default function useArticles(type: categoriesEnum) {
+export default function useArticles(type: Category) {
     const queryClient = useQueryClient();
     return useQuery(["articles", type], () => getArticles(type), {
         initialData: () => {
-            return queryClient.getQueryData<IArticle[]>(["articles", type]);
+            return queryClient.getQueryData<Article[]>(["articles", type]);
         },
     });
 }

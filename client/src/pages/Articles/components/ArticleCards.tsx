@@ -2,7 +2,7 @@ import { FaEye } from "@react-icons/all-files/fa/FaEye";
 import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
 import { Link } from "react-router-dom";
 import { LinkButton } from "../../../styles/styled-components";
-import type { IArticle } from "../../../types/article.type";
+import type { Article, Category } from "../../../types/article.type";
 import { handleDate } from "../../../utils/handleDate";
 import { ArticleCardContainer } from "../Articles.style";
 
@@ -12,8 +12,8 @@ const ArticleCards = ({
     articleCards,
     type,
 }: {
-    articleCards: IArticle[];
-    type: string;
+    articleCards: Article[];
+    type: Category;
 }) => {
     return (
         <>

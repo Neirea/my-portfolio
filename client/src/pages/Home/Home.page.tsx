@@ -1,7 +1,6 @@
 import LoadingSpinner from "../../components/LoadingSpinner";
 import useArticles from "../../hooks/Articles/useArticles";
 import { MoreButton } from "../../styles/styled-components";
-import { categoriesEnum } from "../../types/article.type";
 import { socialMediaLinks } from "../../utils/data";
 import hljs from "../../utils/hljsLangs";
 import ArticleCards from "../Articles/components/ArticleCards";
@@ -15,7 +14,7 @@ import {
 } from "./Home.style";
 
 const Home = () => {
-    const { data } = useArticles(categoriesEnum.project);
+    const { data } = useArticles("projects");
     const projects = data
         ?.sort((a, b) =>
             new Date(a.createdAt) > new Date(b.createdAt) ? -1 : 1
@@ -105,7 +104,7 @@ const Home = () => {
                     ) : (
                         <div className="projects-wrapper">
                             <ArticleCards
-                                type={categoriesEnum.project}
+                                type={"projects"}
                                 articleCards={projects}
                             />
                         </div>

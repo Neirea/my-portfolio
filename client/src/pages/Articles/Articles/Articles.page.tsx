@@ -4,8 +4,7 @@ import LoadingSpinner from "../../../components/LoadingSpinner";
 import useArticles from "../../../hooks/Articles/useArticles";
 import { useGlobalContext } from "../../../store/AppContext";
 import { AdminButton, AlertContainer } from "../../../styles/styled-components";
-import { userRoles } from "../../../types/app.type";
-import { categoriesEnum, type IArticle } from "../../../types/article.type";
+import type { Article, Category } from "../../../types/article.type";
 import ArticleCards from "../components/ArticleCards";
 import ArticleSideMenu from "./ArticleSideMenu";
 import {
@@ -15,7 +14,7 @@ import {
 } from "../Articles.style";
 import { useTitle } from "../../../utils/useTitle";
 
-const Articles = ({ type }: { type: categoriesEnum }) => {
+const Articles = ({ type }: { type: Category }) => {
     const { user } = useGlobalContext();
     const [tags, setTags] = useState<string[]>([]);
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -44,7 +43,7 @@ const Articles = ({ type }: { type: categoriesEnum }) => {
         setTags(articleTags);
     }, [type, articles]);
 
-    const isArticleShow = (element: IArticle) => {
+    const isArticleShow = (element: Article) => {
         return (
             !selectedTags.length ||
             selectedTags.every((tag) => element.tags.indexOf(tag) > -1)
@@ -64,7 +63,7 @@ const Articles = ({ type }: { type: categoriesEnum }) => {
                     <Link className="alert-link" to="/">
                         Go back to Home page
                     </Link>
-                    {user && user.roles.includes(userRoles.admin) && (
+                    {user && user.roles.includes("admin") && (
                         <>
                             <br />
                             <NavLink
@@ -108,7 +107,7 @@ const Articles = ({ type }: { type: categoriesEnum }) => {
                     />
                 )}
             </ArticleSideMenuWrapper>
-            {user && user.roles.includes(userRoles.admin) && (
+            {user && user.roles.includes("admin") && (
                 <NavLink
                     className="create-article-button"
                     to="/create-article"

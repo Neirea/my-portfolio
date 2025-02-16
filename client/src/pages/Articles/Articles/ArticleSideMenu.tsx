@@ -3,11 +3,11 @@ import { useLocation } from "react-router-dom";
 import type { LocationState } from "../../../types/app.type";
 import { TagsGroup } from "../Articles.style";
 
-interface ArticlePostsSideMenuProps {
+type ArticlePostsSideMenuProps = {
     tags: string[];
     selectedTags: string[];
     setSelectedTags: Dispatch<SetStateAction<string[]>>;
-}
+};
 
 const ArticlePostsSideMenu = ({
     tags,

@@ -1,17 +1,13 @@
-import type {
-    categoriesEnum,
-    IArticle,
-    IArticleData,
-} from "../../types/article.type";
+import type { Article, ArticleData, Category } from "../../types/article.type";
 import { handleHtmlString } from "../../utils/handleHtmlString";
 import useArticles from "./useArticles";
 
-const useSingleArticle = (type: categoriesEnum, slug: string | undefined) => {
+const useSingleArticle = (type: Category, slug: string | undefined) => {
     const queryInfo = useArticles(type);
 
     const getArticlesData = (
-        articles: IArticle[] | undefined
-    ): IArticleData[] | null => {
+        articles: Article[] | undefined
+    ): ArticleData[] | null => {
         if (!articles) return null;
         return articles?.map((item) => {
             return {
@@ -23,7 +19,7 @@ const useSingleArticle = (type: categoriesEnum, slug: string | undefined) => {
         });
     };
 
-    const getArticle = (articles: IArticle[] | undefined): IArticle | null => {
+    const getArticle = (articles: Article[] | undefined): Article | null => {
         if (!articles) return null;
         const article = articles.find((item) => item.slug === slug);
         if (!article) return null;

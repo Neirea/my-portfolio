@@ -1,10 +1,10 @@
 import { model, Query, Schema, Types } from "mongoose";
 
-export interface IComment {
+export type Comment = {
     articleId: number;
     parentId: number;
     message: string;
-    replies: IComment[];
+    replies: Comment[];
     user: {
         id: number;
         name: string;
@@ -13,9 +13,9 @@ export interface IComment {
     _id: number;
     createdAt: Date;
     editedAt: Date;
-}
+};
 
-function isMessageRequired(this: IComment) {
+function isMessageRequired(this: Comment) {
     return typeof this.message === "string" ? false : true;
 }
 const CommentSchema = new Schema(
@@ -54,12 +54,12 @@ const CommentSchema = new Schema(
 );
 
 //middleware to populate replies of top level comments in recursive way
-function autoPopulateReplies(this: Query<IComment, IComment>) {
+function autoPopulateReplies(this: Query<Comment, Comment>) {
     this.populate("replies");
 }
-CommentSchema.pre<Query<IComment, IComment>>("find", autoPopulateReplies).pre(
+CommentSchema.pre<Query<Comment, Comment>>("find", autoPopulateReplies).pre(
     "findOne",
     autoPopulateReplies
 );
 
-export default model<IComment>("Comment", CommentSchema);
+export default model<Comment>("Comment", CommentSchema);

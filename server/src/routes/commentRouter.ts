@@ -9,7 +9,6 @@ import {
 import authorizePermissions from "../middleware/authorizePermissions";
 import checkCsrf from "../middleware/checkCsrf";
 import isAuthenticated from "../middleware/isAuthenticated";
-import { userRoles } from "../models/User";
 import { RateLimiter } from "rate-limiter-algorithms";
 import rateLimit from "../middleware/rateLimit";
 
@@ -34,7 +33,7 @@ router
 router
     .route("/:articleId/d_all/:id")
     .delete(
-        [isAuthenticated, authorizePermissions(userRoles.admin), checkCsrf],
+        [isAuthenticated, authorizePermissions("admin"), checkCsrf],
         deleteCommentsAdmin
     );
 

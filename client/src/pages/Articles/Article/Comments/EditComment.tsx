@@ -2,12 +2,12 @@ import { type ChangeEvent, useState } from "react";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 import useUpdateComment from "../../../../hooks/Articles/comments/useUpdateComment";
 import { ReadButton } from "../../../../styles/styled-components";
-import type { IComment } from "../../../../types/article.type";
+import type { Comment } from "../../../../types/article.type";
 
-interface EditCommentProps {
+type EditCommentProps = {
     index: number;
-    comment: IComment;
-}
+    comment: Comment;
+};
 
 const EditComment = ({ index, comment }: EditCommentProps) => {
     const [message, setMessage] = useState(comment.message);

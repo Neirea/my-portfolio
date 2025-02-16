@@ -8,7 +8,7 @@ import {
 } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { mainBgDarkColor, mainBgLightColor } from "../styles/theme";
-import type { AppContextValues, IUser } from "../types/app.type";
+import type { AppContextValues, User } from "../types/app.type";
 
 export const AppContext = createContext({} as AppContextValues);
 
@@ -20,7 +20,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         localStorage.getItem("darkMode") === "1" ||
         (!("darkMode" in localStorage) && osDarkMode ? true : false);
     const [darkMode, setDarkMode] = useState(isDarkMode);
-    const [user, setUser] = useState<IUser | null>(null);
+    const [user, setUser] = useState<User | null>(null);
     const [userLoading, setUserLoading] = useState(true);
 
     //fetch only once on load
@@ -28,7 +28,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         ["user"],
         () =>
             axios
-                .get<{ user: IUser; csrfToken: string }>("/api/user/showMe")
+                .get<{ user: User; csrfToken: string }>("/api/user/showMe")
                 .then((res) => res.data),
         {
             refetchOnWindowFocus: false,
@@ -36,9 +36,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
                 if (!data) return;
                 setUser(data.user);
                 axios.interceptors.request.use(function (config) {
-                    interface CustomHeaders extends AxiosHeaders {
+                    type CustomHeaders = AxiosHeaders & {
                         "csrf-token": string;
-                    }
+                    };
                     (config.headers as CustomHeaders)["csrf-token"] =
                         data.csrfToken;
 

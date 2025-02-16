@@ -5,7 +5,7 @@ export const NavMenuWrapper = styled.nav`
     position: relative;
     top: 0;
 
-    height: 100%; //overrides height:0px from useEffect
+    height: 100%;
     box-shadow: none;
     background-color: transparent;
 

@@ -1,11 +1,10 @@
-import CustomError from "../errors";
 import mailer from "nodemailer";
 
-interface sendEmailProps {
+type SendEmailProps = {
     to: string | undefined;
     subject: string;
     html: string;
-}
+};
 
 const transporter = mailer.createTransport({
     host: process.env.EMAIL_HOST,
@@ -17,7 +16,7 @@ const transporter = mailer.createTransport({
     },
 });
 
-const sendEmail = async ({ to, subject, html }: sendEmailProps) => {
+const sendEmail = async ({ to, subject, html }: SendEmailProps) => {
     const info = await transporter.sendMail({
         to,
         from: process.env.EMAIL_USER,

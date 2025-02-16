@@ -3,15 +3,15 @@ import { type Dispatch, type SetStateAction, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../../../store/AppContext";
 import { ReadButton } from "../../../styles/styled-components";
-import { type LocationState, userRoles } from "../../../types/app.type";
+import type { LocationState } from "../../../types/app.type";
 import { useOutsideClick } from "../../../utils/useOutsideClick";
 import { StyledMenuLink } from "../Header.style";
 import { UserMenuWrapper } from "./UserMenu.style";
 
-interface UserMenuProps {
+type UserMenuProps = {
     showUserMenu: boolean;
     setShowUserMenu: Dispatch<SetStateAction<boolean>>;
-}
+};
 
 const UserMenu = ({ showUserMenu, setShowUserMenu }: UserMenuProps) => {
     const location = useLocation<LocationState>();
@@ -78,7 +78,7 @@ const UserMenu = ({ showUserMenu, setShowUserMenu }: UserMenuProps) => {
             ) : (
                 <>
                     <div className="user-menu-group" ref={toggleMenuRef}>
-                        {user.roles.includes(userRoles.admin) ? (
+                        {user.roles.includes("admin") ? (
                             <Link
                                 className="user-name admin-link"
                                 to="/admin-dashboard"

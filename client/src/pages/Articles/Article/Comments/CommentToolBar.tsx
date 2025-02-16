@@ -9,11 +9,10 @@ import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsC
 import useDeleteComment from "../../../../hooks/Articles/comments/useDeleteComment";
 import useDeleteCommentTree from "../../../../hooks/Articles/comments/useDeleteCommentTree";
 import { useGlobalContext } from "../../../../store/AppContext";
-import { userRoles } from "../../../../types/app.type";
-import type { IComment } from "../../../../types/article.type";
+import type { Comment } from "../../../../types/article.type";
 import { ReplyButton, ToolsButton } from "./Comments.styles";
 
-const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
+const ToolBar = ({ index, comment }: { index: number; comment: Comment }) => {
     const { user } = useGlobalContext();
 
     const { articleId, setCommentState, commentState, resetCommentState } =
@@ -30,9 +29,8 @@ const ToolBar = ({ index, comment }: { index: number; comment: IComment }) => {
     const isShowReplyButton = commentState.type !== "edit" && comment.message;
 
     const isShowUserTools =
-        user &&
-        (user._id === comment.user.id || user.roles.includes(userRoles.admin));
-    const isShowAdminTools = user && user.roles.includes(userRoles.admin);
+        user && (user._id === comment.user.id || user.roles.includes("admin"));
+    const isShowAdminTools = user && user.roles.includes("admin");
 
     const isActiveReply =
         commentState.type === "reply" && comment._id === commentState.id;

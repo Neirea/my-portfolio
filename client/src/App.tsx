@@ -20,8 +20,6 @@ import {
 import { useGlobalContext } from "./store/AppContext";
 import { GlobalStyles } from "./styles/global.style";
 import { darkTheme, lightTheme } from "./styles/theme";
-import { userRoles } from "./types/app.type";
-import { categoriesEnum } from "./types/article.type";
 
 function App() {
     const { darkMode } = useGlobalContext();
@@ -39,24 +37,19 @@ function App() {
                 <Route path="/contact" element={<Contact />} />
                 <Route
                     path="/blog"
-                    element={<Articles key="blog" type={categoriesEnum.blog} />}
+                    element={<Articles key="blog" type={"blog"} />}
                 />
                 <Route
                     path="/projects"
-                    element={
-                        <Articles
-                            key="projects"
-                            type={categoriesEnum.project}
-                        />
-                    }
+                    element={<Articles key="projects" type={"projects"} />}
                 />
                 <Route
                     path="/blog/:slug"
-                    element={<Article type={categoriesEnum.blog} />}
+                    element={<Article type={"blog"} />}
                 ></Route>
                 <Route
                     path="/projects/:slug"
-                    element={<Article type={categoriesEnum.project} />}
+                    element={<Article type={"projects"} />}
                 ></Route>
                 <Route path="/unauthorized" element={<Unauthorized />} />
                 {/*public only routes */}
@@ -66,10 +59,7 @@ function App() {
                 {/* admin routes */}
                 <Route
                     element={
-                        <RequireAuth
-                            key={"admin"}
-                            allowedRoles={[userRoles.admin]}
-                        />
+                        <RequireAuth key={"admin"} allowedRoles={["admin"]} />
                     }
                 >
                     <Route

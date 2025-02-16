@@ -2,7 +2,6 @@ import { type Dispatch, type SetStateAction, useEffect, useRef } from "react";
 
 import { useQueryClient } from "@tanstack/react-query";
 import { getArticles } from "../../../hooks/Articles/useArticles";
-import { categoriesEnum } from "../../../types/article.type";
 import { menuItems } from "../../../utils/data";
 import { StyledMenuLink } from "../Header.style";
 import {
@@ -13,20 +12,20 @@ import {
     NavMenuWrapper,
 } from "./NavMenu.style";
 
-interface NavMenuItemsProps {
+type NavMenuItemsProps = {
     handleMenuClick?: () => void;
-}
-interface NavMenuProps {
+};
+type NavMenuProps = {
     showMenu: boolean;
     setShowMenu: Dispatch<SetStateAction<boolean>>;
-}
+};
 
 const NavMenuItems = ({ handleMenuClick }: NavMenuItemsProps) => {
     const queryClient = useQueryClient();
     const fetchBlogs = (link: string) => {
         if (link === "/blog") {
-            queryClient.prefetchQuery(["articles", categoriesEnum.blog], () =>
-                getArticles(categoriesEnum.blog)
+            queryClient.prefetchQuery(["articles", "blog"], () =>
+                getArticles("blog")
             );
         }
     };

@@ -4,11 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import ImageModal from "../../../components/ImageModal";
 import { LinkButton } from "../../../styles/styled-components";
-import type { IArticle } from "../../../types/article.type";
+import type { Article } from "../../../types/article.type";
 import { handleDate } from "../../../utils/handleDate";
 import { TagsGroup } from "../Articles.style";
 
-const ArticlePost = ({ article }: { article: IArticle }) => {
+const ArticlePost = ({ article }: { article: Article }) => {
     const articleRef = useRef<HTMLElement>(null);
     const [imagePortal, setImagePortal] = useState<HTMLImageElement | null>(
         null

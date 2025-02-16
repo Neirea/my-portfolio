@@ -1,35 +1,34 @@
+import { convertToRaw, EditorState } from "draft-js";
+import draftToHtml from "draftjs-to-html";
 import {
+    useEffect,
     type ChangeEvent,
     type Dispatch,
     type FormEvent,
     type SetStateAction,
-    useEffect,
 } from "react";
+import { Editor } from "react-draft-wysiwyg";
 import { Link } from "react-router-dom";
+import "../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import FormRow from "../../../components/FormRow";
 import {
     AdminButton,
     AlertContainer,
     AlertMsg,
 } from "../../../styles/styled-components";
+import { CATEGORIES, type ArticleEditor } from "../../../types/article.type";
+import { useDebounce } from "../../../utils/debounce";
+import { handleHtmlString } from "../../../utils/handleHtmlString";
 import {
     ArticleContentWrapper,
     CUArticleForm,
     CUArticleWrapper,
     TagsGroup,
 } from "../Articles.style";
-import { convertToRaw, EditorState } from "draft-js";
-import draftToHtml from "draftjs-to-html";
-import { Editor } from "react-draft-wysiwyg";
-import "../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import FormRow from "../../../components/FormRow";
-import type { IArticleValues } from "../../../types/article.type";
-import { useDebounce } from "../../../utils/debounce";
-import { handleHtmlString } from "../../../utils/handleHtmlString";
 
-interface EditorLayoutProps {
-    articleValues: IArticleValues;
-    setArticleValues: Dispatch<SetStateAction<IArticleValues>>;
-    categories: string[];
+type EditorLayoutProps = {
+    articleValues: ArticleEditor;
+    setArticleValues: Dispatch<SetStateAction<ArticleEditor>>;
     onSubmit: (value: string) => void;
     editorState: EditorState;
     setEditorState: Dispatch<SetStateAction<EditorState>>;
@@ -42,12 +41,11 @@ interface EditorLayoutProps {
     success: boolean;
     loading: boolean;
     alert: any;
-}
+};
 
 const EditorLayout = ({
     articleValues,
     setArticleValues,
-    categories,
     onSubmit,
     editorState,
     setEditorState,
@@ -168,8 +166,8 @@ const EditorLayout = ({
                             value={articleValues.category}
                             onChange={handleChange}
                         >
-                            {categories &&
-                                categories.map((element, index) => {
+                            {CATEGORIES &&
+                                CATEGORIES.map((element, index) => {
                                     return (
                                         <option key={index}>{element}</option>
                                     );

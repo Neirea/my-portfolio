@@ -8,7 +8,7 @@ export default function useDeleteArticle() {
         (vars: { articleId: string; type: string }) =>
             axios.delete(`/api/article/${vars.articleId}`),
         {
-            onSuccess(data, vars) {
+            onSuccess(_, vars) {
                 queryClient.invalidateQueries(["articles", vars.type]);
             },
         }

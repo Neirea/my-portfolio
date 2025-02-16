@@ -3,15 +3,15 @@ import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsC
 import useCreateComment from "../../../../hooks/Articles/comments/useCreateComment";
 import { useGlobalContext } from "../../../../store/AppContext";
 import { ReadButton } from "../../../../styles/styled-components";
-import type { IComment } from "../../../../types/article.type";
+import type { Comment } from "../../../../types/article.type";
 import { CommentFormWrapper } from "./Comments.styles";
 
-interface ReplyFormProps {
-    comment?: IComment;
+type ReplyFormProps = {
+    comment?: Comment;
     index?: number;
     step?: number;
     depth?: number;
-}
+};
 
 const ReplyForm = ({ comment, index, step, depth }: ReplyFormProps) => {
     const { user } = useGlobalContext();

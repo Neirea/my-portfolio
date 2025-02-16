@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { IComment } from "../../../types/article.type";
+import type { Comment } from "../../../types/article.type";
 import useCommentsContext from "./useCommentsContext";
 
-interface ISubmitComment {
+type SubmitComment = {
     userId: string;
     message: string;
     parentId: string | null;
-}
+};
 
 export default function useCreateComment() {
     const queryClient = useQueryClient();
@@ -15,15 +15,9 @@ export default function useCreateComment() {
         useCommentsContext();
 
     return useMutation(
-        ({
-            submitData,
-            index,
-        }: {
-            submitData: ISubmitComment;
-            index?: number;
-        }) =>
+        ({ submitData }: { submitData: SubmitComment; index?: number }) =>
             axios
-                .post<{ comment: IComment }>(
+                .post<{ comment: Comment }>(
                     `/api/comment/${articleId}`,
                     submitData
                 )
@@ -33,7 +27,7 @@ export default function useCreateComment() {
                 resetCommentState();
                 queryClient.invalidateQueries(["comments", articleId]);
 
-                const oldData = queryClient.getQueryData<IComment[]>([
+                const oldData = queryClient.getQueryData<Comment[]>([
                     "comments",
                     articleId,
                 ]);
@@ -46,7 +40,7 @@ export default function useCreateComment() {
                 if (index !== undefined) {
                     repliedTo?.replies.push(newData);
                 } else {
-                    queryClient.setQueriesData<IComment[]>(
+                    queryClient.setQueriesData<Comment[]>(
                         ["comments", articleId],
                         [newData, ...oldData]
                     );

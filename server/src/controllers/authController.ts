@@ -6,7 +6,7 @@ import type {
 } from "passport-google-oauth20";
 import app from "../app";
 import CustomError from "../errors";
-import User, { platformEnum, userRoles } from "../models/User";
+import User from "../models/User";
 import { randomUserName } from "../utils/randomUserName";
 import crypto from "crypto";
 
@@ -68,7 +68,7 @@ export async function loginGoogle(
 ) {
     let user = await User.findOne({
         platform_id: profile.id,
-        platform_type: platformEnum.google,
+        platform_type: "google",
     });
     const { id, name, displayName, _json } = profile;
 
@@ -93,20 +93,20 @@ export async function loginGoogle(
         user = await User.create({
             platform_id: id,
             platform_name: name?.givenName || randomUserName(),
-            platform_type: platformEnum.google,
+            platform_type: "google",
             name: displayName || randomUserName(),
-            roles: isFirstAccount ? Object.values(userRoles) : [userRoles.user],
+            roles: isFirstAccount ? ["admin", "user"] : ["user"],
             avatar_url: _json.picture,
         });
     }
     done(null, { user });
 }
 
-interface GithubUserProfile extends GithubProfile {
+type GithubUserProfile = GithubProfile & {
     _json: {
         [key: string]: string;
     };
-}
+};
 
 export const loginGithub = async (
     accessToken: string | undefined,
@@ -117,7 +117,7 @@ export const loginGithub = async (
     //check if user is in DB, if not -> create one
     let user = await User.findOne({
         platform_id: profile.id,
-        platform_type: platformEnum.github,
+        platform_type: "github",
     });
     const { id, username, displayName, _json } = profile;
 
@@ -142,7 +142,7 @@ export const loginGithub = async (
         user = await User.create({
             platform_id: id,
             platform_name: username || randomUserName(),
-            platform_type: platformEnum.github,
+            platform_type: "github",
             name: displayName || randomUserName(),
             roles: isFirstAccount ? ["admin", "user"] : ["user"],
             avatar_url: _json.avatar_url,

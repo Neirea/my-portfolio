@@ -1,11 +1,11 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useGlobalContext } from "../store/AppContext";
-import { userRoles } from "../types/app.type";
+import type { Role } from "../types/app.type";
 import LoadingSpinner from "./LoadingSpinner";
 
-interface RequireAuthProps {
-    allowedRoles: userRoles[];
-}
+type RequireAuthProps = {
+    allowedRoles: Role[];
+};
 
 const RequireAuth = ({ allowedRoles }: RequireAuthProps) => {
     const { user, userLoading } = useGlobalContext();

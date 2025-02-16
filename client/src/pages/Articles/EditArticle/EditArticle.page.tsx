@@ -5,11 +5,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import useEditArticle from "../../../hooks/Articles/useEditArticle";
-import {
-    categoriesEnum,
-    type IArticle,
-    type IArticleValues,
-} from "../../../types/article.type";
+import type { Article, ArticleEditor } from "../../../types/article.type";
 import { languageDetector } from "../../../utils/handleHtmlString";
 import EditorLayout from "../components/EditorLayout";
 import { generateSlug } from "../../../utils/generateSlug";
@@ -17,10 +13,10 @@ import { generateSlug } from "../../../utils/generateSlug";
 const EditArticle = () => {
     const { articleId } = useParams();
 
-    const [articleValues, setArticleValues] = useState<IArticleValues>({
+    const [articleValues, setArticleValues] = useState<ArticleEditor>({
         title: "",
         slug: "",
-        category: categoriesEnum.blog,
+        category: "blog",
         demo_link: "",
         source_link: "",
     });
@@ -38,7 +34,7 @@ const EditArticle = () => {
         error: articleError,
     } = useQuery(["article", articleId], () =>
         axios
-            .get<{ article: IArticle }>(`/api/article/${articleId}`)
+            .get<{ article: Article }>(`/api/article/${articleId}`)
             .then((res) => res.data.article)
     );
 
@@ -82,7 +78,6 @@ const EditArticle = () => {
         <EditorLayout
             articleValues={articleValues}
             setArticleValues={setArticleValues}
-            categories={Object.values(categoriesEnum)}
             onSubmit={onSubmit}
             editorState={editorState}
             setEditorState={setEditorState}

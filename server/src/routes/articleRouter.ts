@@ -10,14 +10,13 @@ import {
 import authorizePermissions from "../middleware/authorizePermissions";
 import checkCsrf from "../middleware/checkCsrf";
 import isAuthenticated from "../middleware/isAuthenticated";
-import { userRoles } from "../models/User";
 
 const router = Router();
 
 router
     .route("/")
     .post(
-        [isAuthenticated, authorizePermissions(userRoles.admin), checkCsrf],
+        [isAuthenticated, authorizePermissions("admin"), checkCsrf],
         createArticle
     )
     .get(getAllArticles);
@@ -28,7 +27,7 @@ router.get("/projects", getAllArticles);
 router
     .route("/upload")
     .post(
-        [isAuthenticated, authorizePermissions(userRoles.admin), checkCsrf],
+        [isAuthenticated, authorizePermissions("admin"), checkCsrf],
         uploadArticleImage
     );
 
@@ -36,11 +35,11 @@ router
     .route("/:id")
     .get(getSingleArticle)
     .put(
-        [isAuthenticated, authorizePermissions(userRoles.admin), checkCsrf],
+        [isAuthenticated, authorizePermissions("admin"), checkCsrf],
         updateArticle
     )
     .delete(
-        [isAuthenticated, authorizePermissions(userRoles.admin), checkCsrf],
+        [isAuthenticated, authorizePermissions("admin"), checkCsrf],
         deleteArticle
     );
 

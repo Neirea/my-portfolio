@@ -9,8 +9,7 @@ import {
     AdminButtonLink,
     AlertContainer,
 } from "../../../styles/styled-components";
-import { userRoles } from "../../../types/app.type";
-import type { categoriesEnum } from "../../../types/article.type";
+import type { Category } from "../../../types/article.type";
 import {
     ArticleContentWrapper,
     ArticlePageWrapper,
@@ -20,7 +19,7 @@ import ArticlePost from "./ArticlePost";
 import Comments from "./Comments/Comments";
 import { useTitle } from "../../../utils/useTitle";
 
-const Article = ({ type }: { type: categoriesEnum }) => {
+const Article = ({ type }: { type: Category }) => {
     const { slug } = useParams();
     const navigate = useNavigate();
     const { user } = useGlobalContext();
@@ -70,7 +69,7 @@ const Article = ({ type }: { type: categoriesEnum }) => {
             <>
                 <ArticleContentWrapper>
                     <ArticlePost article={article} />
-                    {user && user.roles.includes(userRoles.admin) && (
+                    {user && user.roles.includes("admin") && (
                         <div className="admin-buttons">
                             <AdminButtonLink
                                 to={`/edit-article/${article._id}`}

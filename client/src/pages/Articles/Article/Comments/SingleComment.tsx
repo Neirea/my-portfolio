@@ -2,17 +2,17 @@ import { FaArrowUp } from "@react-icons/all-files/fa/FaArrowUp";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 import { useGlobalContext } from "../../../../store/AppContext";
 import { AlertMsg } from "../../../../styles/styled-components";
-import type { IJsxComment } from "../../../../types/article.type";
+import type { CommentJsx } from "../../../../types/article.type";
 import { handleDate } from "../../../../utils/handleDate";
 import CommentForm from "./CommentForm";
 import { SingleCommentContainer } from "./Comments.styles";
 import ToolBar from "./CommentToolBar";
 import EditComment from "./EditComment";
 
-interface SingleCommentProps {
+type SingleCommentProps = {
     index: number;
-    commentElement: IJsxComment;
-}
+    commentElement: CommentJsx;
+};
 
 const SingleComment = ({ index, commentElement }: SingleCommentProps) => {
     const { user } = useGlobalContext();

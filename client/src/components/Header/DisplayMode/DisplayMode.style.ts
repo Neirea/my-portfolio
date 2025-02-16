@@ -1,9 +1,9 @@
 import { styled } from "styled-components";
 import { MenuItem } from "../Header.style";
 
-interface DisplayModeWrapperProps {
+type DisplayModeWrapperProps = {
     $darkMode: boolean;
-}
+};
 
 export const DisplayModeWrapper = styled(MenuItem)<DisplayModeWrapperProps>`
     display: flex;

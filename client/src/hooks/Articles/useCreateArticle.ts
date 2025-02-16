@@ -1,21 +1,17 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type {
-    IArticle,
-    IArticleValues,
-    IUploadedImageResponse,
+    Article,
+    ArticleCreated,
+    UploadedImageResponse,
 } from "../../types/article.type";
-
-interface ICreatedArticle extends IArticleValues {
-    tags: string[];
-}
 
 export default function useCreateArticle() {
     const queryClient = useQueryClient();
     const createArticle = useMutation(
-        (newArticle: ICreatedArticle) =>
+        (newArticle: ArticleCreated) =>
             axios
-                .post<{ article: IArticle }>("/api/article/", newArticle)
+                .post<{ article: Article }>("/api/article/", newArticle)
                 .then((res) => res.data.article),
         {
             onSuccess(newArticle) {
@@ -32,13 +28,13 @@ export default function useCreateArticle() {
             newArticle,
         }: {
             selectedImage: File | undefined;
-            newArticle: ICreatedArticle;
+            newArticle: ArticleCreated;
         }) => {
             if (!selectedImage) throw new Error("Missing image");
             const data = new FormData();
             data.append("image", selectedImage);
             return axios
-                .post<IUploadedImageResponse>("/api/article/upload", data)
+                .post<UploadedImageResponse>("/api/article/upload", data)
                 .then((res) => {
                     newArticle.image = res.data.image.src;
                     newArticle.img_id = res.data.image.img_id;

@@ -1,40 +1,38 @@
 import type { Dispatch, SetStateAction } from "react";
 
-export enum userRoles {
-    admin = "admin",
-    user = "user",
-}
+export const ROLES = ["admin", "user"] as const;
+export type Role = (typeof ROLES)[number];
 
-export interface IUser {
+export type User = {
     platform_id: number;
     platform_name: string;
     platfrom_type: string;
     name: string;
-    roles: userRoles[];
+    roles: Role[];
     avatar_url: string;
     isBanned: boolean;
     _id: string;
     createdAt: Date;
     updatedAt: Date;
     __v: number;
-}
+};
 
-export interface AppContextValues {
+export type AppContextValues = {
     darkMode: boolean;
     userLoading: boolean;
-    user: IUser | null;
-    setUser: Dispatch<SetStateAction<IUser | null>>;
+    user: User | null;
+    setUser: Dispatch<SetStateAction<User | null>>;
     logoutUser: () => void;
     toggleDarkMode: () => void;
-}
+};
 
-export interface IAlert {
+export type Alert = {
     show: boolean;
     text: string;
     type: string;
-}
+};
 
-export interface LocationState {
+export type LocationState = {
     from?: Location;
     tag?: string;
-}
+};
