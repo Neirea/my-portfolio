@@ -7,6 +7,7 @@ import type { LocationState } from "../../../types/app.type";
 import { useOutsideClick } from "../../../utils/useOutsideClick";
 import { StyledMenuLink } from "../Header.style";
 import { UserMenuWrapper } from "./UserMenu.style";
+import { hasPermission } from "../../../utils/abac";
 
 type UserMenuProps = {
     showUserMenu: boolean;
@@ -78,7 +79,7 @@ const UserMenu = ({ showUserMenu, setShowUserMenu }: UserMenuProps) => {
             ) : (
                 <>
                     <div className="user-menu-group" ref={toggleMenuRef}>
-                        {user.roles.includes("admin") ? (
+                        {hasPermission(user, "users", "read") ? (
                             <Link
                                 className="user-name admin-link"
                                 to="/admin-dashboard"

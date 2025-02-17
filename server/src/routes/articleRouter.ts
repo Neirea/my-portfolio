@@ -16,7 +16,11 @@ const router = Router();
 router
     .route("/")
     .post(
-        [isAuthenticated, authorizePermissions("admin"), checkCsrf],
+        [
+            isAuthenticated,
+            authorizePermissions("articles", "create"),
+            checkCsrf,
+        ],
         createArticle
     )
     .get(getAllArticles);
@@ -27,7 +31,11 @@ router.get("/projects", getAllArticles);
 router
     .route("/upload")
     .post(
-        [isAuthenticated, authorizePermissions("admin"), checkCsrf],
+        [
+            isAuthenticated,
+            authorizePermissions("articles", "create"),
+            checkCsrf,
+        ],
         uploadArticleImage
     );
 
@@ -35,11 +43,19 @@ router
     .route("/:id")
     .get(getSingleArticle)
     .put(
-        [isAuthenticated, authorizePermissions("admin"), checkCsrf],
+        [
+            isAuthenticated,
+            authorizePermissions("articles", "update"),
+            checkCsrf,
+        ],
         updateArticle
     )
     .delete(
-        [isAuthenticated, authorizePermissions("admin"), checkCsrf],
+        [
+            isAuthenticated,
+            authorizePermissions("articles", "delete"),
+            checkCsrf,
+        ],
         deleteArticle
     );
 

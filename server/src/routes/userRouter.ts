@@ -6,13 +6,18 @@ import isAuthenticated from "../middleware/isAuthenticated";
 
 const router = Router();
 
-router.get("/", isAuthenticated, authorizePermissions("admin"), getAllUsers);
+router.get(
+    "/",
+    isAuthenticated,
+    authorizePermissions("users", "read"),
+    getAllUsers
+);
 
 router.get("/showMe", isAuthenticated, showMe);
 router
     .route("/:id")
     .delete(
-        [isAuthenticated, authorizePermissions("admin"), checkCsrf],
+        [isAuthenticated, authorizePermissions("users", "delete"), checkCsrf],
         banUser
     );
 

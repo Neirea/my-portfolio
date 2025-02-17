@@ -18,6 +18,7 @@ import {
 import ArticlePost from "./ArticlePost";
 import Comments from "./Comments/Comments";
 import { useTitle } from "../../../utils/useTitle";
+import { hasPermission } from "../../../utils/abac";
 
 const Article = ({ type }: { type: Category }) => {
     const { slug } = useParams();
@@ -37,6 +38,9 @@ const Article = ({ type }: { type: Category }) => {
         isError: deleteIsError,
         isLoading: deleteLoading,
     } = useDeleteArticle();
+
+    const canUpdate = hasPermission(user, "articles", "update");
+    const canDelete = hasPermission(user, "articles", "delete");
 
     const handleDelete = async (articleId: string) => {
         deleteArticle({ articleId, type });
@@ -69,20 +73,23 @@ const Article = ({ type }: { type: Category }) => {
             <>
                 <ArticleContentWrapper>
                     <ArticlePost article={article} />
-                    {user && user.roles.includes("admin") && (
+                    {(canUpdate || canDelete) && (
                         <div className="admin-buttons">
-                            <AdminButtonLink
-                                to={`/edit-article/${article._id}`}
-                            >
-                                Edit
-                            </AdminButtonLink>
-
-                            <AdminButton
-                                disabled={deleteLoading || articleLoading}
-                                onClick={() => handleDelete(article._id)}
-                            >
-                                Delete
-                            </AdminButton>
+                            {canUpdate && (
+                                <AdminButtonLink
+                                    to={`/edit-article/${article._id}`}
+                                >
+                                    Edit
+                                </AdminButtonLink>
+                            )}
+                            {canDelete && (
+                                <AdminButton
+                                    disabled={deleteLoading || articleLoading}
+                                    onClick={() => handleDelete(article._id)}
+                                >
+                                    Delete
+                                </AdminButton>
+                            )}
                         </div>
                     )}
                     <CommentsProvider value={{ articleId: article._id }}>

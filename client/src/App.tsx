@@ -3,20 +3,11 @@ import { Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import Header from "./components/Header/Header";
 import RequireAuth from "./components/RequireAuth";
+import RequirePermission from "./components/RequirePermission";
 import RequirePublic from "./components/RequirePublic";
 import ScrollToTop from "./components/ScrollToTop";
-import {
-    Articles,
-    Contact,
-    CreateArticle,
-    EditArticle,
-    AdminDashboard,
-    Error,
-    Home,
-    Login,
-    Article,
-    Unauthorized,
-} from "./pages";
+import { Error } from "./pages";
+import { protectedRoutes, publicOnlyRoutes, publicRoutes } from "./routes";
 import { useGlobalContext } from "./store/AppContext";
 import { GlobalStyles } from "./styles/global.style";
 import { darkTheme, lightTheme } from "./styles/theme";
@@ -32,60 +23,40 @@ function App() {
             <Header />
             <Routes>
                 {/* public routes */}
-                <Route path="/" element={<Home />} />
+                {publicRoutes.map(({ path, component }) => (
+                    <Route key={path} path={path} element={component} />
+                ))}
 
-                <Route path="/contact" element={<Contact />} />
-                <Route
-                    path="/blog"
-                    element={<Articles key="blog" type={"blog"} />}
-                />
-                <Route
-                    path="/projects"
-                    element={<Articles key="projects" type={"projects"} />}
-                />
-                <Route
-                    path="/blog/:slug"
-                    element={<Article type={"blog"} />}
-                ></Route>
-                <Route
-                    path="/projects/:slug"
-                    element={<Article type={"projects"} />}
-                ></Route>
-                <Route path="/unauthorized" element={<Unauthorized />} />
                 {/*public only routes */}
                 <Route element={<RequirePublic />}>
-                    <Route path="/login" element={<Login />} />
+                    {publicOnlyRoutes.map(({ path, component }) => (
+                        <Route key={path} path={path} element={component} />
+                    ))}
                 </Route>
-                {/* admin routes */}
-                <Route
-                    element={
-                        <RequireAuth key={"admin"} allowedRoles={["admin"]} />
-                    }
-                >
-                    <Route
-                        path="/admin-dashboard"
-                        element={
-                            <Suspense fallback={<div />}>
-                                <AdminDashboard />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="/create-article"
-                        element={
-                            <Suspense fallback={<div />}>
-                                <CreateArticle />
-                            </Suspense>
-                        }
-                    />
-                    <Route
-                        path="/edit-article/:articleId"
-                        element={
-                            <Suspense fallback={<div />}>
-                                <EditArticle />
-                            </Suspense>
-                        }
-                    />
+                {/* auth routes */}
+                <Route element={<RequireAuth key="auth" />}>
+                    {protectedRoutes.map(
+                        ({ path, resource, action, component }) => (
+                            <Route
+                                key={path}
+                                element={
+                                    <RequirePermission
+                                        resource={resource}
+                                        action={action}
+                                    />
+                                }
+                            >
+                                <Route
+                                    path={path}
+                                    element={
+                                        <Suspense fallback={<div />}>
+                                            {component}
+                                        </Suspense>
+                                    }
+                                />
+                            </Route>
+                        )
+                    )}
                 </Route>
                 {/* Any other routes */}
                 <Route path="*" element={<Error />} />

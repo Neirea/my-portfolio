@@ -48,7 +48,6 @@ const EditArticle = () => {
         setEditorState(EditorState.createWithContent(contentState));
         setPreview(article.image);
         setArticleValues({
-            userId: article.userId,
             title: article.title,
             slug: generateSlug(article.title),
             content: article.content,
@@ -62,10 +61,12 @@ const EditArticle = () => {
     }, [article, articleId]);
 
     const onSubmit = async (editorHTML: string) => {
+        if (!article) return;
         const articleTags = tags.split(" ");
 
         const newArticle = {
             ...articleValues,
+            userId: article.userId,
             tags: articleTags,
             content: editorHTML,
             code_languages: languageDetector(editorHTML),

@@ -2,7 +2,7 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type {
     Article,
-    ArticleCreated,
+    ArticleUpdated,
     UploadedImageResponse,
 } from "../../types/article.type";
 
@@ -14,7 +14,7 @@ export default function useEditArticle() {
             newArticle,
         }: {
             articleId: string | undefined;
-            newArticle: ArticleCreated;
+            newArticle: ArticleUpdated;
         }) =>
             axios
                 .put<{ article: Article }>(
@@ -39,7 +39,7 @@ export default function useEditArticle() {
         }: {
             articleId: string | undefined;
             selectedImage: File | undefined;
-            newArticle: ArticleCreated;
+            newArticle: ArticleUpdated;
         }) => {
             if (!selectedImage) {
                 editArticle.mutate({ articleId, newArticle });
@@ -47,14 +47,13 @@ export default function useEditArticle() {
             } else {
                 const data = new FormData();
                 data.append("image", selectedImage);
-                return axios
-                    .post<UploadedImageResponse>("/api/article/upload", data)
-                    .then((res) => {
-                        newArticle.image = res.data.image.src;
-                        newArticle.img_id = res.data.image.img_id;
-                        editArticle.mutate({ articleId, newArticle });
-                        return editArticle.data;
-                    });
+                const imageResponse = await axios.post<UploadedImageResponse>(
+                    "/api/article/upload",
+                    data
+                );
+                newArticle.image = imageResponse.data.image.src;
+                newArticle.img_id = imageResponse.data.image.img_id;
+                return editArticle.mutateAsync({ articleId, newArticle });
             }
         },
         {

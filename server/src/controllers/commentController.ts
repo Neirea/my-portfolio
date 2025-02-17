@@ -2,8 +2,6 @@ import type { Request, Response } from "express";
 import CustomError from "../errors";
 import Article from "../models/Article";
 import Comment, { type Comment as TComment } from "../models/Comment";
-import User from "../models/User";
-import checkAuthor from "../utils/checkAuthor";
 import { StatusCodes } from "../utils/http-status-codes";
 
 export const getAllComments = async (req: Request, res: Response) => {
@@ -19,25 +17,14 @@ export const getAllComments = async (req: Request, res: Response) => {
 };
 
 export const createComment = async (req: Request, res: Response) => {
-    const { userId, message, parentId } = req.body;
+    const { message, parentId } = req.body;
 
     const { articleId } = req.params;
 
-    const author = await User.findOne({ _id: userId });
-    if (!author) {
-        throw new CustomError.NotFoundError(`No user with id : ${userId}`);
-    }
-
-    if (author.isBanned) {
-        throw new CustomError.BadRequestError(
-            "You are currently suspended from posting comments"
-        );
-    }
-
     const user = {
-        id: author._id,
-        name: author.name,
-        avatar: author.avatar_url,
+        id: req.session.user?._id,
+        name: req.session.user?.name,
+        avatar: req.session.user?.avatar_url,
     };
 
     const isValidProduct = await Article.findOne({ _id: articleId });
@@ -76,20 +63,6 @@ export const updateComment = async (req: Request, res: Response) => {
             `No comment with id : ${commentId}`
         );
     }
-    checkAuthor(req, comment.user.id.toString());
-    //check if user is banned
-    const user = await User.findOne({ _id: comment.user.id });
-    if (!user) {
-        throw new CustomError.NotFoundError(
-            `No user with id : ${comment.user.id}`
-        );
-    }
-
-    if (user.isBanned) {
-        throw new CustomError.BadRequestError(
-            "You are currently suspended to delete comment"
-        );
-    }
     comment.editedAt = new Date();
     comment.message = message;
     await comment.save();
@@ -103,20 +76,6 @@ export const deleteComment = async (req: Request, res: Response) => {
     if (!comment) {
         throw new CustomError.NotFoundError(
             `No comment with id : ${commentId}`
-        );
-    }
-    checkAuthor(req, comment.user.id.toString());
-    //check if user is banned
-    const user = await User.findOne({ _id: comment.user.id });
-    if (!user) {
-        throw new CustomError.NotFoundError(
-            `No user with id : ${comment.user.id}`
-        );
-    }
-
-    if (user.isBanned) {
-        throw new CustomError.BadRequestError(
-            "You are currently suspended to delete comment"
         );
     }
 
@@ -133,7 +92,7 @@ export const deleteComment = async (req: Request, res: Response) => {
 };
 
 //deletes comment and all of its nested comments
-export const deleteCommentsAdmin = async (req: Request, res: Response) => {
+export const deleteCommentsCascade = async (req: Request, res: Response) => {
     const { id: commentId } = req.params;
     const comment = await Comment.findOne({ _id: commentId });
     if (!comment) {
@@ -141,7 +100,6 @@ export const deleteCommentsAdmin = async (req: Request, res: Response) => {
             `No comment with id : ${commentId}`
         );
     }
-    checkAuthor(req, comment.user.id.toString());
 
     //adds all ids of nested elements to array
     const parseReplies = (comments: TComment[], array: number[]) => {

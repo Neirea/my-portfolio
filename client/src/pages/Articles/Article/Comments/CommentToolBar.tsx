@@ -7,10 +7,11 @@ import type { MouseEvent } from "react";
 import useComments from "../../../../hooks/Articles/comments/useComments";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 import useDeleteComment from "../../../../hooks/Articles/comments/useDeleteComment";
-import useDeleteCommentTree from "../../../../hooks/Articles/comments/useDeleteCommentTree";
+import useDeleteCommentCascade from "../../../../hooks/Articles/comments/useDeleteCommentCascade";
 import { useGlobalContext } from "../../../../store/AppContext";
 import type { Comment } from "../../../../types/article.type";
 import { ReplyButton, ToolsButton } from "./Comments.styles";
+import { hasPermission } from "../../../../utils/abac";
 
 const ToolBar = ({ index, comment }: { index: number; comment: Comment }) => {
     const { user } = useGlobalContext();
@@ -21,16 +22,12 @@ const ToolBar = ({ index, comment }: { index: number; comment: Comment }) => {
     const { mutate: deleteOneComment, isLoading: deleteOneLoading } =
         useDeleteComment();
 
-    const { mutate: deleteCommentTree, isLoading: deleteTreeLoading } =
-        useDeleteCommentTree();
+    const { mutate: deleteCascade, isLoading: deleteCascadeLoading } =
+        useDeleteCommentCascade();
 
-    const isLoading = deleteOneLoading || deleteTreeLoading || isFetching;
+    const isLoading = deleteOneLoading || deleteCascadeLoading || isFetching;
 
     const isShowReplyButton = commentState.type !== "edit" && comment.message;
-
-    const isShowUserTools =
-        user && (user._id === comment.user.id || user.roles.includes("admin"));
-    const isShowAdminTools = user && user.roles.includes("admin");
 
     const isActiveReply =
         commentState.type === "reply" && comment._id === commentState.id;
@@ -72,7 +69,7 @@ const ToolBar = ({ index, comment }: { index: number; comment: Comment }) => {
                         )}
                     </ReplyButton>
                 )}
-                {isShowUserTools && (
+                {hasPermission(user, "comments", "update", comment) && (
                     <ToolsButton
                         aria-label={`edit #${index} comment`}
                         title={"Edit Comment"}
@@ -85,7 +82,7 @@ const ToolBar = ({ index, comment }: { index: number; comment: Comment }) => {
             </div>
             <div className="tool-bar-group">
                 {(comment.replies.length === 0 || comment.message) &&
-                    isShowUserTools && (
+                    hasPermission(user, "comments", "delete", comment) && (
                         <ToolsButton
                             aria-label={`delete #${index} comment`}
                             title="Delete Comment"
@@ -100,14 +97,14 @@ const ToolBar = ({ index, comment }: { index: number; comment: Comment }) => {
                             <MdDelete size={"100%"} />
                         </ToolsButton>
                     )}
-                {isShowAdminTools && (
+                {hasPermission(user, "comments", "deleteCascade", comment) && (
                     <>
                         <ToolsButton
-                            aria-label={`delete tree of #${index} comment`}
-                            title="Delete Comment Tree"
+                            aria-label={`cascade delete of #${index} comment`}
+                            title="Cascade Delete"
                             disabled={isLoading}
                             onClick={() =>
-                                deleteCommentTree({
+                                deleteCascade({
                                     commentId: comment._id,
                                     index,
                                 })

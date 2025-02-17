@@ -2,7 +2,7 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useCommentsContext from "./useCommentsContext";
 
-export default function useDeleteCommentTree() {
+export default function useDeleteCommentCascade() {
     const queryClient = useQueryClient();
     const { articleId, setCommentError, resetCommentState } =
         useCommentsContext();

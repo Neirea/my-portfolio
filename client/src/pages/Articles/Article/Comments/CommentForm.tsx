@@ -1,7 +1,6 @@
 import { type ChangeEvent, type FormEvent, useEffect, useState } from "react";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 import useCreateComment from "../../../../hooks/Articles/comments/useCreateComment";
-import { useGlobalContext } from "../../../../store/AppContext";
 import { ReadButton } from "../../../../styles/styled-components";
 import type { Comment } from "../../../../types/article.type";
 import { CommentFormWrapper } from "./Comments.styles";
@@ -14,7 +13,6 @@ type ReplyFormProps = {
 };
 
 const ReplyForm = ({ comment, index, step, depth }: ReplyFormProps) => {
-    const { user } = useGlobalContext();
     const { commentState } = useCommentsContext();
     const { mutate: createComment, isLoading, isSuccess } = useCreateComment();
     const [message, setMessage] = useState("");
@@ -27,7 +25,6 @@ const ReplyForm = ({ comment, index, step, depth }: ReplyFormProps) => {
         e.preventDefault();
 
         const submitData = {
-            userId: user!._id,
             message: message,
             parentId: commentState.id,
         };

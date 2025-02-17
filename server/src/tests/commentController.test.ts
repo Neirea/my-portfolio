@@ -7,6 +7,11 @@ jest.mock("../middleware/isAuthenticated", () =>
 jest.mock("../middleware/authorizePermissions", () =>
     jest.fn(() => {
         return (req: Request, res: Response, next: NextFunction) => {
+            req.session = {} as Session;
+            req.session.user = {
+                _id: "56cb91bdc3464f14678934ca",
+                name: "fake user",
+            } as TUser;
             next();
         };
     })
@@ -16,14 +21,14 @@ jest.mock("../middleware/checkCsrf", () =>
         next();
     })
 );
-jest.mock("../utils/checkAuthor", jest.fn);
 
 import type { NextFunction, Request, Response } from "express";
+import { Session } from "express-session";
 import request from "supertest";
 import app from "../app";
 import Article from "../models/Article";
 import Comment from "../models/Comment";
-import User from "../models/User";
+import User, { User as TUser } from "../models/User";
 import * as dbHandler from "./db";
 
 //spin fake mongodb server before each
@@ -40,15 +45,18 @@ afterAll(async () => {
 });
 
 const fakeUser = {
-    platform_id: "12345",
-    platform_name: "google",
+    platform_id: 12345,
+    platform_name: "Fake",
+    platform_type: "google",
     name: "fake user",
     roles: ["user"],
     avatar_url: "http://some_image",
     isBanned: false,
-    createdAt: Date.now(),
-    updatedAt: Date.now(),
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    __v: 0,
 };
+
 const fakeArticle = {
     title: "basic article",
     content: "12312312312312313123",
@@ -81,10 +89,9 @@ const createArticleUserComment = async () => {
 
 describe("createComment", () => {
     test("should create comment and reply to it", async () => {
-        const { user, article, comment } = await createArticleUserComment();
+        const { article, comment } = await createArticleUserComment();
 
         const commentData = {
-            userId: user._id.toString(),
             parentId: comment._id.toString(),
             message: "hello world",
         };
@@ -161,11 +168,10 @@ describe("deleteComment", () => {
         expect(response.body.msg).toStrictEqual("Success! Comment was deleted");
     });
     test("should delete comment that has replies", async () => {
-        const { user, article, comment } = await createArticleUserComment();
+        const { article, comment } = await createArticleUserComment();
 
         //reply
         const commentData = {
-            userId: user._id.toString(),
             parentId: comment._id.toString(),
             message: "hello world",
         };
@@ -186,11 +192,10 @@ describe("deleteComment", () => {
 
 describe("deleteCommentsAdmin", () => {
     test("should delete comment and its replies", async () => {
-        const { user, article, comment } = await createArticleUserComment();
+        const { article, comment } = await createArticleUserComment();
 
         //reply
         const commentData = {
-            userId: user._id.toString(),
             parentId: comment._id.toString(),
             message: "hello world",
         };

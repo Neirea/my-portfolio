@@ -1,12 +1,19 @@
 import type { NextFunction, Request, Response } from "express";
 import CustomError from "../errors";
-import type { Role } from "../models/User";
+import { hasPermission, Permissions } from "../utils/abac";
 
-/* authorize permissions */
-//checks for correct role (function gets invoked right away and returns callback function as middleware)
-const authorizePermissions = (...roles: Role[]) => {
+const authorizePermissions = <Resource extends keyof Permissions>(
+    resource: Resource,
+    action: Permissions[Resource]["action"]
+) => {
     return (req: Request, res: Response, next: NextFunction) => {
-        if (!roles.some((item) => req.session.user?.roles.includes(item))) {
+        const isAllowed = hasPermission(
+            req.session.user,
+            resource,
+            action,
+            req.params as any
+        );
+        if (!isAllowed) {
             throw new CustomError.UnauthorizedError(
                 "Unauthorized to access this route"
             );

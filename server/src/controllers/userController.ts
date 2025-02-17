@@ -27,14 +27,6 @@ export const banUser = async (req: Request, res: Response) => {
     }
     const bannedValue = user.isBanned ? false : true;
 
-    if (bannedValue && user.id === req.session.user?._id) {
-        throw new CustomError.BadRequestError("Cannot ban yourself");
-    }
-
-    if (bannedValue && user.roles.includes("admin")) {
-        throw new CustomError.BadRequestError("Cannot ban an admin");
-    }
-
     //marks user as banned/unbanned
     user.isBanned = bannedValue;
     user.save();

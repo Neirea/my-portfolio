@@ -66,6 +66,7 @@ export const createArticle = async (req: Request, res: Response) => {
     try {
         const newArticle = {
             ...req.body,
+            userId: req.session.user?._id,
             content: sanitizeHtml(req.body.content, sanitizeOptions),
         };
         const article = await Article.create(newArticle);

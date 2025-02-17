@@ -8,7 +8,8 @@ import {
 } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { mainBgDarkColor, mainBgLightColor } from "../styles/theme";
-import type { AppContextValues, User } from "../types/app.type";
+import type { AppContextValues } from "../types/app.type";
+import type { User } from "../types/abac.type";
 
 export const AppContext = createContext({} as AppContextValues);
 
@@ -20,7 +21,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         localStorage.getItem("darkMode") === "1" ||
         (!("darkMode" in localStorage) && osDarkMode ? true : false);
     const [darkMode, setDarkMode] = useState(isDarkMode);
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<User | undefined>(undefined);
     const [userLoading, setUserLoading] = useState(true);
 
     //fetch only once on load
@@ -65,7 +66,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     const logoutUser = async () => {
         try {
             await axios.delete("/api/auth/logout");
-            setUser(null);
+            setUser(undefined);
         } catch (error) {
             console.log(error);
         }

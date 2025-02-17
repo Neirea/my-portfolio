@@ -13,6 +13,7 @@ import {
     ArticleSideMenuWrapper,
 } from "../Articles.style";
 import { useTitle } from "../../../utils/useTitle";
+import { hasPermission } from "../../../utils/abac";
 
 const Articles = ({ type }: { type: Category }) => {
     const { user } = useGlobalContext();
@@ -63,7 +64,7 @@ const Articles = ({ type }: { type: Category }) => {
                     <Link className="alert-link" to="/">
                         Go back to Home page
                     </Link>
-                    {user && user.roles.includes("admin") && (
+                    {hasPermission(user, "articles", "create") && (
                         <>
                             <br />
                             <NavLink
@@ -107,7 +108,7 @@ const Articles = ({ type }: { type: Category }) => {
                     />
                 )}
             </ArticleSideMenuWrapper>
-            {user && user.roles.includes("admin") && (
+            {hasPermission(user, "articles", "create") && (
                 <NavLink
                     className="create-article-button"
                     to="/create-article"

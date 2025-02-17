@@ -10,7 +10,7 @@ export type Role = (typeof MongoUserRoles)[number];
 export type User = {
     platform_id: number;
     platform_name: string;
-    platfrom_type: Platform;
+    platform_type: Platform;
     name: string;
     roles: Role[];
     avatar_url: string;

@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
     createComment,
     deleteComment,
-    deleteCommentsAdmin,
+    deleteCommentsCascade,
     getAllComments,
     updateComment,
 } from "../controllers/commentController";
@@ -22,19 +22,46 @@ const limiter = new RateLimiter({
 
 router
     .route("/:articleId")
-    .post([isAuthenticated, rateLimit(limiter), checkCsrf], createComment)
+    .post(
+        [
+            isAuthenticated,
+            rateLimit(limiter),
+            authorizePermissions("comments", "create"),
+            checkCsrf,
+        ],
+        createComment
+    )
     .get(getAllComments);
 
 router
     .route("/:articleId/:id")
-    .patch([isAuthenticated, rateLimit(limiter), checkCsrf], updateComment)
-    .delete([isAuthenticated, checkCsrf], deleteComment);
+    .patch(
+        [
+            isAuthenticated,
+            rateLimit(limiter),
+            authorizePermissions("comments", "update"),
+            checkCsrf,
+        ],
+        updateComment
+    )
+    .delete(
+        [
+            isAuthenticated,
+            authorizePermissions("comments", "delete"),
+            checkCsrf,
+        ],
+        deleteComment
+    );
 
 router
     .route("/:articleId/d_all/:id")
     .delete(
-        [isAuthenticated, authorizePermissions("admin"), checkCsrf],
-        deleteCommentsAdmin
+        [
+            isAuthenticated,
+            authorizePermissions("comments", "deleteCascade"),
+            checkCsrf,
+        ],
+        deleteCommentsCascade
     );
 
 export default router;

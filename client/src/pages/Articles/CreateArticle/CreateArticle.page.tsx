@@ -40,7 +40,6 @@ const CreateArticle = () => {
             content: editorHTML,
             image: "",
             img_id: "",
-            userId: user!._id,
             code_languages: languageDetector(editorHTML),
         };
 

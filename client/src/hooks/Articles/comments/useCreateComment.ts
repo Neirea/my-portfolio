@@ -4,7 +4,6 @@ import type { Comment } from "../../../types/article.type";
 import useCommentsContext from "./useCommentsContext";
 
 type SubmitComment = {
-    userId: string;
     message: string;
     parentId: string | null;
 };

@@ -70,9 +70,13 @@ export type ArticleEditor = {
     content?: string;
     image?: string;
     img_id?: string;
-    userId?: string;
 };
 
 export type ArticleCreated = ArticleEditor & {
+    tags: string[];
+};
+
+export type ArticleUpdated = ArticleEditor & {
+    userId: string;
     tags: string[];
 };

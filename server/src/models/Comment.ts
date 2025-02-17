@@ -6,7 +6,7 @@ export type Comment = {
     message: string;
     replies: Comment[];
     user: {
-        id: number;
+        id: string;
         name: string;
         avatar: string;
     };

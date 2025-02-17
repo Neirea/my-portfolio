@@ -7,6 +7,11 @@ jest.mock("../middleware/isAuthenticated", () =>
 jest.mock("../middleware/authorizePermissions", () =>
     jest.fn(() => {
         return (req: Request, res: Response, next: NextFunction) => {
+            req.session = {} as Session;
+            req.session.user = {
+                _id: "56cb91bdc3464f14678934ca",
+                name: "fake user",
+            } as TUser;
             next();
         };
     })
@@ -19,12 +24,14 @@ jest.mock("../middleware/checkCsrf", () =>
 
 import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
 import type { NextFunction, Request, Response } from "express";
+import { Session } from "express-session";
 import path from "path";
 import request from "supertest";
 import app from "../app";
 import authorizePermissions from "../middleware/authorizePermissions";
 import isAuthenticated from "../middleware/isAuthenticated";
 import Article from "../models/Article";
+import { User as TUser } from "../models/User";
 import * as dbHandler from "./db";
 
 jest.mock("cloudinary");

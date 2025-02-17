@@ -3,10 +3,13 @@ import { FaWrench } from "@react-icons/all-files/fa/FaWrench";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import useBanUser from "../../hooks/useBanUser";
-import type { User } from "../../types/app.type";
+import type { User } from "../../types/abac.type";
 import { AdminDashboardWrapper } from "./AdminDashboard.style";
+import { useGlobalContext } from "../../store/AppContext";
+import { hasPermission } from "../../utils/abac";
 
 const AdminDashboard = () => {
+    const { user: currentUser } = useGlobalContext();
     const { mutate: banUser } = useBanUser();
     const { data: users } = useQuery<User[]>(["users"], () =>
         axios.get("/api/user").then((res) => res.data.users)
@@ -24,35 +27,36 @@ const AdminDashboard = () => {
             </div>
             {users &&
                 users.map((user) => {
+                    if (!hasPermission(currentUser, "users", "delete", user)) {
+                        return null;
+                    }
                     return (
-                        !user.roles.includes("admin") && (
-                            <div className="user-container">
-                                <div>{user.platform_id}</div>
-                                <div>{user.platform_name}</div>
-                                <div>{user.name}</div>
-                                <img
-                                    className="user-image"
-                                    src={user.avatar_url}
-                                    width={32}
-                                    height={32}
-                                    referrerPolicy="no-referrer"
-                                    alt={`${user.name} avatar`}
-                                />
-                                <div className="user-ban-container">
-                                    <span>{user.isBanned.toString()}</span>
-                                    <button
-                                        className="user-ban"
-                                        onClick={() => banUser(user._id)}
-                                    >
-                                        {user.isBanned ? (
-                                            <FaWrench size={"100%"} />
-                                        ) : (
-                                            <FaBan size={"100%"} />
-                                        )}
-                                    </button>
-                                </div>
+                        <div className="user-container" key={user._id}>
+                            <div>{user.platform_id}</div>
+                            <div>{user.platform_name}</div>
+                            <div>{user.name}</div>
+                            <img
+                                className="user-image"
+                                src={user.avatar_url}
+                                width={32}
+                                height={32}
+                                referrerPolicy="no-referrer"
+                                alt={`${user.name} avatar`}
+                            />
+                            <div className="user-ban-container">
+                                <span>{user.isBanned.toString()}</span>
+                                <button
+                                    className="user-ban"
+                                    onClick={() => banUser(user._id)}
+                                >
+                                    {user.isBanned ? (
+                                        <FaWrench size={"100%"} />
+                                    ) : (
+                                        <FaBan size={"100%"} />
+                                    )}
+                                </button>
                             </div>
-                        )
+                        </div>
                     );
                 })}
         </AdminDashboardWrapper>

@@ -33,13 +33,14 @@ export default function useCreateArticle() {
             if (!selectedImage) throw new Error("Missing image");
             const data = new FormData();
             data.append("image", selectedImage);
-            return axios
-                .post<UploadedImageResponse>("/api/article/upload", data)
-                .then((res) => {
-                    newArticle.image = res.data.image.src;
-                    newArticle.img_id = res.data.image.img_id;
-                    createArticle.mutate(newArticle);
-                });
+            const imageResponse = await axios.post<UploadedImageResponse>(
+                "/api/article/upload",
+                data
+            );
+
+            newArticle.image = imageResponse.data.image.src;
+            newArticle.img_id = imageResponse.data.image.img_id;
+            return createArticle.mutateAsync(newArticle);
         },
 
         {
