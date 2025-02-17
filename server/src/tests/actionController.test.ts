@@ -1,8 +1,10 @@
+jest.mock("../utils/sendEmail", () => jest.fn());
+
 import request from "supertest";
 import app from "../app";
-import "../utils/sendEmail";
+import sendEmail from "../utils/sendEmail";
 
-jest.mock("../utils/sendEmail", () => jest.fn());
+const mockedSendEmail = sendEmail as jest.Mock;
 
 const fetchMock = (value: any) =>
     jest
@@ -73,9 +75,7 @@ describe("sendContactMessage", () => {
             headers: "kek",
         };
 
-        jest.mock("../utils/sendEmail", () =>
-            jest.fn().mockReturnValueOnce(Promise.resolve([emailRes, {}]))
-        );
+        mockedSendEmail.mockReturnValueOnce([emailRes, {}]);
 
         const response = await request(app)
             .post("/api/action/sendContactMessage")
