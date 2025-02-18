@@ -6,6 +6,13 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import { AppProvider } from "./store/AppContext";
+import { PostHogProvider } from "posthog-js/react";
+
+const options = {
+    api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST,
+};
+
+console.log(options, import.meta.env.VITE_PUBLIC_POSTHOG_KEY);
 
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
 axios.defaults.withCredentials = true;
@@ -19,13 +26,18 @@ const root = ReactDOM.createRoot(
 );
 root.render(
     <React.StrictMode>
-        <BrowserRouter>
-            <QueryClientProvider client={queryClient}>
-                <AppProvider>
-                    <App />
-                </AppProvider>
-                <ReactQueryDevtools initialIsOpen={false} />
-            </QueryClientProvider>
-        </BrowserRouter>
+        <PostHogProvider
+            apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY}
+            options={options}
+        >
+            <BrowserRouter>
+                <QueryClientProvider client={queryClient}>
+                    <AppProvider>
+                        <App />
+                    </AppProvider>
+                    <ReactQueryDevtools initialIsOpen={false} />
+                </QueryClientProvider>
+            </BrowserRouter>
+        </PostHogProvider>
     </React.StrictMode>
 );
