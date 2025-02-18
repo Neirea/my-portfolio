@@ -2,17 +2,11 @@ jest.mock("../middleware/isAuthenticated", () =>
     jest.fn((req: Request, res: Response, next: NextFunction) => {
         req.session = {} as Session;
         req.session.user = {
-            _id: new mongoose.Types.ObjectId("5dbff32e367a343830cd2f45"),
-            name: "fake user",
+            _id: fakeUser._id,
+            name: fakeUser.name,
+            roles: fakeUser.roles,
         } as TUser;
         next();
-    })
-);
-jest.mock("../middleware/authorizePermissions", () =>
-    jest.fn(() => {
-        return (req: Request, res: Response, next: NextFunction) => {
-            next();
-        };
     })
 );
 jest.mock("../middleware/checkCsrf", () =>
@@ -27,7 +21,6 @@ import { Session } from "express-session";
 import path from "path";
 import request from "supertest";
 import app from "../app";
-import authorizePermissions from "../middleware/authorizePermissions";
 import isAuthenticated from "../middleware/isAuthenticated";
 import Article from "../models/Article";
 import { User as TUser } from "../models/User";
@@ -55,6 +48,20 @@ afterAll(async () => {
     await dbHandler.closeDatabase();
 });
 
+const fakeUser: TUser = {
+    _id: new mongoose.Types.ObjectId("5dbff32e367a343830cd2f46"),
+    platform_id: 12345,
+    platform_name: "Fake",
+    platform_type: "google",
+    name: "fake user",
+    roles: ["admin"],
+    avatar_url: "http://some_image",
+    isBanned: false,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    __v: 0,
+};
+
 const articleData = [
     {
         title: "unsanitized content",
@@ -67,7 +74,7 @@ const articleData = [
         demo_link: undefined,
         image: "test.jpg",
         img_id: "5dbff32e367a343830cd2f42",
-        userId: new mongoose.Types.ObjectId("5dbff32e367a343830cd2f45"),
+        userId: fakeUser._id,
         slug: "project 1",
     },
     {
@@ -80,7 +87,7 @@ const articleData = [
         demo_link: undefined,
         image: "test.jpg",
         img_id: "5dbff32e367a343830cd2f41",
-        userId: new mongoose.Types.ObjectId("5dbff32e367a343830cd2f46"),
+        userId: fakeUser._id,
         slug: "blog 1",
     },
     {
@@ -93,7 +100,7 @@ const articleData = [
         demo_link: undefined,
         image: "test.jpg",
         img_id: "5dbff32e367a343830cd2f42",
-        userId: new mongoose.Types.ObjectId("5dbff32e367a343830cd2f46"),
+        userId: fakeUser._id,
         slug: "blog 2",
     },
     {
@@ -106,7 +113,7 @@ const articleData = [
         demo_link: "http://test.com/demo",
         image: "updated.jpg",
         img_id: "5dbff32e367a343830cd2f40",
-        userId: new mongoose.Types.ObjectId("5dbff32e367a343830cd2f45"),
+        userId: fakeUser._id,
         slug: "project 2",
     },
 ];
@@ -156,7 +163,6 @@ describe("createArticle", () => {
         });
 
         expect(isAuthenticated).toHaveBeenCalledTimes(1);
-        expect(authorizePermissions).not.toHaveBeenCalledTimes(0);
 
         expect(response.status).toBe(201);
         expect(response.body.article._id).toStrictEqual(result!._id.toString());
@@ -208,7 +214,7 @@ describe("deleteArticle", () => {
 
 describe("uploadArticleImage", () => {
     test("should upload image", async () => {
-        const fakeImage = path.resolve(__dirname, __filename); //faked current file as image
+        const fakeImage = path.resolve(__dirname, __filename);
         const result = {
             secure_url: "123",
             public_id: "456",

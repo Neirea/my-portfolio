@@ -38,7 +38,7 @@ afterAll(async () => {
     await dbHandler.closeDatabase();
 });
 
-const fakeUser = {
+const fakeUser: TUser = {
     _id: new mongoose.Types.ObjectId("5dbff32e367a343830cd2f46"),
     platform_id: 12345,
     platform_name: "Fake",
