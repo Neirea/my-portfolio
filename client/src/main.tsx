@@ -12,8 +12,6 @@ const options = {
     api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST,
 };
 
-console.log(options, import.meta.env.VITE_PUBLIC_POSTHOG_KEY);
-
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
 axios.defaults.withCredentials = true;
 
