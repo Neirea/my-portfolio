@@ -1,21 +1,16 @@
 //need to import this after middleware mock
 jest.mock("../middleware/isAuthenticated", () =>
     jest.fn((req: Request, res: Response, next: NextFunction) => {
+        req.session = {} as Session;
+        req.session.user = {
+            _id: fakeUser._id,
+            name: fakeUser.name,
+            roles: ["admin"],
+        } as TUser;
         next();
     })
 );
-jest.mock("../middleware/authorizePermissions", () =>
-    jest.fn(() => {
-        return (req: Request, res: Response, next: NextFunction) => {
-            req.session = {} as Session;
-            req.session.user = {
-                _id: "56cb91bdc3464f14678934ca",
-                name: "fake user",
-            } as TUser;
-            next();
-        };
-    })
-);
+
 jest.mock("../middleware/checkCsrf", () =>
     jest.fn((req: Request, res: Response, next: NextFunction) => {
         next();
@@ -24,11 +19,12 @@ jest.mock("../middleware/checkCsrf", () =>
 
 import type { NextFunction, Request, Response } from "express";
 import { Session } from "express-session";
+import mongoose from "mongoose";
 import request from "supertest";
 import app from "../app";
 import Article from "../models/Article";
 import Comment from "../models/Comment";
-import User, { User as TUser } from "../models/User";
+import { User as TUser } from "../models/User";
 import * as dbHandler from "./db";
 
 //spin fake mongodb server before each
@@ -45,6 +41,7 @@ afterAll(async () => {
 });
 
 const fakeUser = {
+    _id: new mongoose.Types.ObjectId("5dbff32e367a343830cd2f46"),
     platform_id: 12345,
     platform_name: "Fake",
     platform_type: "google",
@@ -67,24 +64,23 @@ const fakeArticle = {
     demo_link: undefined,
     image: "test.jpg",
     img_id: "5dbff32e367a343830cd2f41",
-    userId: "5dbff32e367a343830cd2f46",
+    userId: fakeUser._id,
     slug: "blog 1",
 };
 
 const createArticleUserComment = async () => {
-    const user = await User.create(fakeUser);
     const article = await Article.create(fakeArticle);
     const fakeComment = {
         user: {
-            id: user._id.toString(),
-            name: user.name,
+            id: fakeUser._id,
+            name: fakeUser.name,
         },
         articleId: article._id.toString(),
         message: "hello world",
         parentId: null,
     };
     const comment = await Comment.create(fakeComment);
-    return { user, article, comment };
+    return { article, comment };
 };
 
 describe("createComment", () => {
@@ -115,12 +111,12 @@ describe("createComment", () => {
 });
 
 describe("getAllComments", () => {
-    test("should get all root coments", async () => {
-        const { user, article, comment } = await createArticleUserComment();
+    test("should get all root comments", async () => {
+        const { article, comment } = await createArticleUserComment();
         const fakeReply = {
             user: {
-                id: user._id.toString(),
-                name: user.name,
+                id: fakeUser._id.toString(),
+                name: fakeUser.name,
             },
             articleId: article._id.toString(),
             message: "reply to hello world",
@@ -175,8 +171,6 @@ describe("deleteComment", () => {
             parentId: comment._id.toString(),
             message: "hello world",
         };
-
-        //already tested createComment request
         await request(app)
             .post(`/api/comment/${article._id.toString()}`)
             .send(commentData);
@@ -199,8 +193,6 @@ describe("deleteCommentsAdmin", () => {
             parentId: comment._id.toString(),
             message: "hello world",
         };
-
-        //already tested createComment request
         await request(app)
             .post(`/api/comment/${article._id.toString()}`)
             .send(commentData);

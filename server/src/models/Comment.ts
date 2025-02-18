@@ -1,16 +1,16 @@
 import { model, Query, Schema, Types } from "mongoose";
 
 export type Comment = {
-    articleId: number;
-    parentId: number;
+    articleId: Types.ObjectId;
+    parentId: Types.ObjectId | null;
     message: string;
     replies: Comment[];
     user: {
-        id: string;
+        id: Types.ObjectId;
         name: string;
         avatar: string;
     };
-    _id: number;
+    _id: Types.ObjectId;
     createdAt: Date;
     editedAt: Date;
 };

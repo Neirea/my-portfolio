@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import mongoose, { model, Schema } from "mongoose";
 
 export const MongoPlatforms = ["google", "github"] as const;
 
@@ -15,7 +15,7 @@ export type User = {
     roles: Role[];
     avatar_url: string;
     isBanned: boolean;
-    _id: string;
+    _id: mongoose.Types.ObjectId;
     createdAt: Date;
     updatedAt: Date;
     __v: number;

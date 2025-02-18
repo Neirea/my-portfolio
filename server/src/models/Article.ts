@@ -11,8 +11,8 @@ export type Article = {
     tags: string[];
     image: string;
     img_id: string;
-    userId: string;
-    _id: string;
+    userId: Types.ObjectId;
+    _id: Types.ObjectId;
     createdAt: Date;
     updatedAt: Date;
     __v: number;

@@ -1,4 +1,5 @@
 import type { Request, Response } from "express";
+import mongoose from "mongoose";
 import CustomError from "../errors";
 import Article from "../models/Article";
 import Comment, { type Comment as TComment } from "../models/Comment";
@@ -54,15 +55,9 @@ export const createComment = async (req: Request, res: Response) => {
 };
 //updates msg
 export const updateComment = async (req: Request, res: Response) => {
-    const { id: commentId } = req.params;
     const { message } = req.body;
+    const comment = req.fetchedData;
 
-    const comment = await Comment.findOne({ _id: commentId });
-    if (!comment) {
-        throw new CustomError.NotFoundError(
-            `No comment with id : ${commentId}`
-        );
-    }
     comment.editedAt = new Date();
     comment.message = message;
     await comment.save();
@@ -70,14 +65,7 @@ export const updateComment = async (req: Request, res: Response) => {
 };
 //deletes msg from comment
 export const deleteComment = async (req: Request, res: Response) => {
-    const { id: commentId } = req.params;
-
-    const comment = await Comment.findOne({ _id: commentId });
-    if (!comment) {
-        throw new CustomError.NotFoundError(
-            `No comment with id : ${commentId}`
-        );
-    }
+    const comment = req.fetchedData;
 
     if (!comment.replies.length) {
         await comment.deleteOne();
@@ -87,28 +75,25 @@ export const deleteComment = async (req: Request, res: Response) => {
         return;
     }
     comment.message = "";
-    comment.save();
+    await comment.save();
     res.status(StatusCodes.OK).json({ comment });
 };
 
 //deletes comment and all of its nested comments
 export const deleteCommentsCascade = async (req: Request, res: Response) => {
-    const { id: commentId } = req.params;
-    const comment = await Comment.findOne({ _id: commentId });
-    if (!comment) {
-        throw new CustomError.NotFoundError(
-            `No comment with id : ${commentId}`
-        );
-    }
+    const comment = req.fetchedData;
 
     //adds all ids of nested elements to array
-    const parseReplies = (comments: TComment[], array: number[]) => {
+    const parseReplies = (
+        comments: TComment[],
+        array: mongoose.Types.ObjectId[]
+    ) => {
         for (const comment of comments) {
             array.push(comment._id);
             parseReplies(comment.replies, array);
         }
     };
-    let repliesArray: number[] = [];
+    let repliesArray: mongoose.Types.ObjectId[] = [];
     parseReplies([comment], repliesArray);
 
     //delete comment and its replies

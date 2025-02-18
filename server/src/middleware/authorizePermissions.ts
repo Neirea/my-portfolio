@@ -7,12 +7,17 @@ const authorizePermissions = <Resource extends keyof Permissions>(
     action: Permissions[Resource]["action"]
 ) => {
     return (req: Request, res: Response, next: NextFunction) => {
+        let data = req.params as Permissions[Resource]["dataType"];
+        if (req.fetchedData) {
+            data = { ...data, fetchedData: req.fetchedData };
+        }
         const isAllowed = hasPermission(
             req.session.user,
             resource,
             action,
-            req.params as any
+            data
         );
+
         if (!isAllowed) {
             throw new CustomError.UnauthorizedError(
                 "Unauthorized to access this route"

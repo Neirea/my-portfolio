@@ -21,8 +21,7 @@ const ROLES = {
         },
         users: {
             read: true,
-            delete: (user, data) =>
-                user._id !== data._id && !data.roles.includes("admin"),
+            delete: (user, data) => user._id !== data._id,
         },
     },
     user: {

@@ -1,6 +1,5 @@
-import { Article } from "../models/Article";
-import { Role, User } from "../models/User";
 import { Comment } from "../models/Comment";
+import { Role, User } from "../models/User";
 
 export type PermissionCheck<Key extends keyof Permissions> =
     | boolean
@@ -16,15 +15,15 @@ export type RolesWithPermissions = {
 
 export type Permissions = {
     articles: {
-        dataType: Article;
+        dataType: { id: string };
         action: "create" | "read" | "update" | "delete";
     };
     comments: {
-        dataType: Comment;
+        dataType: { id: string; fetchedData: Comment };
         action: "create" | "read" | "update" | "delete" | "deleteCascade";
     };
     users: {
-        dataType: User;
+        dataType: { id: string };
         action: "read" | "delete";
     };
 };
@@ -46,8 +45,7 @@ const ROLES = {
         },
         users: {
             read: true,
-            delete: (user, data) =>
-                user._id !== data._id && !data.roles.includes("admin"),
+            delete: (user, data) => user._id.toString() !== data.id,
         },
     },
     user: {
@@ -60,8 +58,12 @@ const ROLES = {
         comments: {
             create: (user) => !user.isBanned,
             read: true,
-            update: (user, data) => user._id === data.user.id && !user.isBanned,
-            delete: (user, data) => user._id === data.user.id && !user.isBanned,
+            update: (user, data) =>
+                user._id.toString() === data.fetchedData.user.id.toString() &&
+                !user.isBanned,
+            delete: (user, data) =>
+                user._id.toString() === data.fetchedData.user.id.toString() &&
+                !user.isBanned,
             deleteCascade: false,
         },
         users: { read: false, delete: false },

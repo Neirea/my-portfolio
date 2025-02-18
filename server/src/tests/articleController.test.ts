@@ -1,17 +1,17 @@
 //need to import this after middleware mock
 jest.mock("../middleware/isAuthenticated", () =>
     jest.fn((req: Request, res: Response, next: NextFunction) => {
+        req.session = {} as Session;
+        req.session.user = {
+            _id: new mongoose.Types.ObjectId("5dbff32e367a343830cd2f45"),
+            name: "fake user",
+        } as TUser;
         next();
     })
 );
 jest.mock("../middleware/authorizePermissions", () =>
     jest.fn(() => {
         return (req: Request, res: Response, next: NextFunction) => {
-            req.session = {} as Session;
-            req.session.user = {
-                _id: "56cb91bdc3464f14678934ca",
-                name: "fake user",
-            } as TUser;
             next();
         };
     })
@@ -33,6 +33,7 @@ import isAuthenticated from "../middleware/isAuthenticated";
 import Article from "../models/Article";
 import { User as TUser } from "../models/User";
 import * as dbHandler from "./db";
+import mongoose from "mongoose";
 
 jest.mock("cloudinary");
 jest.mock("../db/redis");
@@ -68,7 +69,7 @@ const articleData = [
         demo_link: undefined,
         image: "test.jpg",
         img_id: "5dbff32e367a343830cd2f42",
-        userId: "5dbff32e367a343830cd2f45",
+        userId: new mongoose.Types.ObjectId("5dbff32e367a343830cd2f45"),
         slug: "project 1",
     },
     {
@@ -81,7 +82,7 @@ const articleData = [
         demo_link: undefined,
         image: "test.jpg",
         img_id: "5dbff32e367a343830cd2f41",
-        userId: "5dbff32e367a343830cd2f46",
+        userId: new mongoose.Types.ObjectId("5dbff32e367a343830cd2f46"),
         slug: "blog 1",
     },
     {
@@ -94,7 +95,7 @@ const articleData = [
         demo_link: undefined,
         image: "test.jpg",
         img_id: "5dbff32e367a343830cd2f42",
-        userId: "5dbff32e367a343830cd2f46",
+        userId: new mongoose.Types.ObjectId("5dbff32e367a343830cd2f46"),
         slug: "blog 2",
     },
     {
@@ -107,7 +108,7 @@ const articleData = [
         demo_link: "http://test.com/demo",
         image: "updated.jpg",
         img_id: "5dbff32e367a343830cd2f40",
-        userId: "5dbff32e367a343830cd2f45",
+        userId: new mongoose.Types.ObjectId("5dbff32e367a343830cd2f45"),
         slug: "project 2",
     },
 ];
