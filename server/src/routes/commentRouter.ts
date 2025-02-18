@@ -9,10 +9,8 @@ import {
 } from "../controllers/commentController";
 import authorizePermissions from "../middleware/authorizePermissions";
 import checkCsrf from "../middleware/checkCsrf";
-import fetchResource from "../middleware/fetchResource";
 import isAuthenticated from "../middleware/isAuthenticated";
 import rateLimit from "../middleware/rateLimit";
-import Comment from "../models/Comment";
 
 const router = Router();
 
@@ -41,7 +39,6 @@ router
         [
             isAuthenticated,
             rateLimit(limiter),
-            fetchResource(Comment),
             authorizePermissions("comments", "update"),
             checkCsrf,
         ],
@@ -50,7 +47,6 @@ router
     .delete(
         [
             isAuthenticated,
-            fetchResource(Comment),
             authorizePermissions("comments", "delete"),
             checkCsrf,
         ],
@@ -62,7 +58,6 @@ router
     .delete(
         [
             isAuthenticated,
-            fetchResource(Comment),
             authorizePermissions("comments", "deleteCascade"),
             checkCsrf,
         ],

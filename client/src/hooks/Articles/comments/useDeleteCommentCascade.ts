@@ -7,8 +7,17 @@ export default function useDeleteCommentCascade() {
     const { articleId, setCommentError, resetCommentState } =
         useCommentsContext();
     return useMutation(
-        ({ commentId }: { commentId: string; index: number }) =>
-            axios.delete(`/api/comment/${articleId}/d_all/${commentId}`),
+        ({
+            commentId,
+            authorId,
+        }: {
+            commentId: string;
+            authorId: string;
+            index: number;
+        }) =>
+            axios.delete(
+                `/api/comment/${articleId}/d_all/${commentId}?authorId=${authorId}`
+            ),
         {
             onSuccess() {
                 resetCommentState();

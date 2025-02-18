@@ -12,14 +12,16 @@ export default function useUpdateComment() {
         ({
             commentId,
             msg,
+            authorId,
             index,
         }: {
             commentId: string;
             msg: string;
+            authorId: string;
             index: number;
         }) =>
             axios.patch<{ comment: Comment }>(
-                `/api/comment/${articleId}/${commentId}`,
+                `/api/comment/${articleId}/${commentId}?authorId=${authorId}`,
                 { message: msg }
             ),
         {

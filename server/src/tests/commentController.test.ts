@@ -115,7 +115,7 @@ describe("getAllComments", () => {
         const { article, comment } = await createArticleUserComment();
         const fakeReply = {
             user: {
-                id: fakeUser._id.toString(),
+                id: fakeUser._id,
                 name: fakeUser.name,
             },
             articleId: article._id.toString(),
@@ -144,7 +144,9 @@ describe("updateComment", () => {
 
         const response = await request(app)
             .patch(
-                `/api/comment/${article._id.toString()}/${comment._id.toString()}`
+                `/api/comment/${article._id.toString()}/${comment._id.toString()}?authorId=${
+                    fakeUser._id
+                }`
             )
             .send({ message: "updated comment" });
 
@@ -158,7 +160,9 @@ describe("deleteComment", () => {
         const { article, comment } = await createArticleUserComment();
 
         const response = await request(app).delete(
-            `/api/comment/${article._id.toString()}/${comment._id.toString()}`
+            `/api/comment/${article._id.toString()}/${comment._id.toString()}?authorId=${
+                fakeUser._id
+            }`
         );
         expect(response.status).toBe(200);
         expect(response.body.msg).toStrictEqual("Success! Comment was deleted");
@@ -176,7 +180,9 @@ describe("deleteComment", () => {
             .send(commentData);
 
         const response = await request(app).delete(
-            `/api/comment/${article._id.toString()}/${comment._id.toString()}`
+            `/api/comment/${article._id.toString()}/${comment._id.toString()}?authorId=${
+                fakeUser._id
+            }`
         );
 
         expect(response.status).toBe(200);
@@ -198,7 +204,9 @@ describe("deleteCommentsAdmin", () => {
             .send(commentData);
 
         const response = await request(app).delete(
-            `/api/comment/${article._id.toString()}/d_all/${comment._id.toString()}`
+            `/api/comment/${article._id.toString()}/d_all/${comment._id.toString()}?authorId=${
+                fakeUser._id
+            }`
         );
         //check if comments are gone
         const comments = await Comment.find({});

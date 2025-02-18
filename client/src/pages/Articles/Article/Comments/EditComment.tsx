@@ -15,7 +15,12 @@ const EditComment = ({ index, comment }: EditCommentProps) => {
     const { mutate: updateComment, isLoading } = useUpdateComment();
 
     const handleSaveUpdate = async () => {
-        updateComment({ commentId: comment._id, msg: message, index });
+        updateComment({
+            commentId: comment._id,
+            msg: message,
+            authorId: comment.user.id,
+            index,
+        });
     };
 
     const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {

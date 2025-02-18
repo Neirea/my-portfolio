@@ -7,10 +7,10 @@ const authorizePermissions = <Resource extends keyof Permissions>(
     action: Permissions[Resource]["action"]
 ) => {
     return (req: Request, res: Response, next: NextFunction) => {
-        let data = req.params as Permissions[Resource]["dataType"];
-        if (req.fetchedData) {
-            data = { ...data, fetchedData: req.fetchedData };
-        }
+        const data = {
+            ...req.params,
+            ...req.query,
+        } as Permissions[Resource]["dataType"];
         const isAllowed = hasPermission(
             req.session.user,
             resource,

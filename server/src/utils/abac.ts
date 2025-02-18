@@ -1,4 +1,3 @@
-import { Comment } from "../models/Comment";
 import { Role, User } from "../models/User";
 
 export type PermissionCheck<Key extends keyof Permissions> =
@@ -19,7 +18,7 @@ export type Permissions = {
         action: "create" | "read" | "update" | "delete";
     };
     comments: {
-        dataType: { id: string; fetchedData: Comment };
+        dataType: { id: string; authorId: string };
         action: "create" | "read" | "update" | "delete" | "deleteCascade";
     };
     users: {
@@ -59,11 +58,9 @@ const ROLES = {
             create: (user) => !user.isBanned,
             read: true,
             update: (user, data) =>
-                user._id.toString() === data.fetchedData.user.id.toString() &&
-                !user.isBanned,
+                user._id.toString() === data.authorId && !user.isBanned,
             delete: (user, data) =>
-                user._id.toString() === data.fetchedData.user.id.toString() &&
-                !user.isBanned,
+                user._id.toString() === data.authorId && !user.isBanned,
             deleteCascade: false,
         },
         users: { read: false, delete: false },

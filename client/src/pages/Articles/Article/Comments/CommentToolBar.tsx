@@ -90,6 +90,7 @@ const ToolBar = ({ index, comment }: { index: number; comment: Comment }) => {
                             onClick={() =>
                                 deleteOneComment({
                                     commentId: comment._id,
+                                    authorId: comment.user.id,
                                     index,
                                 })
                             }
@@ -106,6 +107,7 @@ const ToolBar = ({ index, comment }: { index: number; comment: Comment }) => {
                             onClick={() =>
                                 deleteCascade({
                                     commentId: comment._id,
+                                    authorId: comment.user.id,
                                     index,
                                 })
                             }

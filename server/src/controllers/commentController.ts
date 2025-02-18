@@ -56,7 +56,9 @@ export const createComment = async (req: Request, res: Response) => {
 //updates msg
 export const updateComment = async (req: Request, res: Response) => {
     const { message } = req.body;
-    const comment = req.fetchedData;
+    const id = req.params.id;
+    const authorId = req.query.authorId as string | undefined;
+    const comment = await fetchComment(id, authorId);
 
     comment.editedAt = new Date();
     comment.message = message;
@@ -65,7 +67,9 @@ export const updateComment = async (req: Request, res: Response) => {
 };
 //deletes msg from comment
 export const deleteComment = async (req: Request, res: Response) => {
-    const comment = req.fetchedData;
+    const id = req.params.id;
+    const authorId = req.query.authorId as string | undefined;
+    const comment = await fetchComment(id, authorId);
 
     if (!comment.replies.length) {
         await comment.deleteOne();
@@ -81,7 +85,9 @@ export const deleteComment = async (req: Request, res: Response) => {
 
 //deletes comment and all of its nested comments
 export const deleteCommentsCascade = async (req: Request, res: Response) => {
-    const comment = req.fetchedData;
+    const id = req.params.id;
+    const authorId = req.query.authorId as string | undefined;
+    const comment = await fetchComment(id, authorId);
 
     //adds all ids of nested elements to array
     const parseReplies = (
@@ -103,3 +109,21 @@ export const deleteCommentsCascade = async (req: Request, res: Response) => {
         msg: "Success! Comment and its children were deleted",
     });
 };
+
+async function fetchComment(
+    id: string | undefined,
+    authorId: string | undefined
+) {
+    if (!id || !authorId) {
+        throw new CustomError.BadRequestError(
+            "Comment id or/and authorId are missing"
+        );
+    }
+
+    const comment = await Comment.findOne({ _id: id, "user.id": authorId });
+
+    if (!comment) {
+        throw new CustomError.NotFoundError(`Comment not found with id: ${id}`);
+    }
+    return comment;
+}

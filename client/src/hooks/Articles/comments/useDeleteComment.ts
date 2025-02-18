@@ -8,8 +8,17 @@ export default function useDeleteComment() {
         useCommentsContext();
 
     return useMutation(
-        ({ commentId }: { commentId: string; index: number }) =>
-            axios.delete(`/api/comment/${articleId}/${commentId}`),
+        ({
+            commentId,
+            authorId,
+        }: {
+            commentId: string;
+            authorId: string;
+            index: number;
+        }) =>
+            axios.delete(
+                `/api/comment/${articleId}/${commentId}?authorId=${authorId}`
+            ),
         {
             onSuccess() {
                 resetCommentState();
