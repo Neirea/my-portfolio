@@ -21,7 +21,6 @@ export type User = {
     __v: number;
 };
 
-/* mb need more fields */
 const UserSchema = new Schema(
     {
         platform_id: {

@@ -38,7 +38,6 @@ const EditArticle = () => {
             .then((res) => res.data.article)
     );
 
-    //get html from article id and put it into editor
     useEffect(() => {
         if (!article) return;
         const contentState = ContentState.createFromBlockArray(

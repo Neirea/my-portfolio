@@ -22,18 +22,14 @@ function App() {
             <GlobalStyles />
             <Header />
             <Routes>
-                {/* public routes */}
                 {publicRoutes.map(({ path, component }) => (
                     <Route key={path} path={path} element={component} />
                 ))}
-
-                {/*public only routes */}
                 <Route element={<RequirePublic />}>
                     {publicOnlyRoutes.map(({ path, component }) => (
                         <Route key={path} path={path} element={component} />
                     ))}
                 </Route>
-                {/* auth routes */}
                 <Route element={<RequireAuth key="auth" />}>
                     {protectedRoutes.map(
                         ({ path, resource, action, component }) => (
@@ -58,7 +54,6 @@ function App() {
                         )
                     )}
                 </Route>
-                {/* Any other routes */}
                 <Route path="*" element={<Error />} />
             </Routes>
         </ThemeProvider>

@@ -21,7 +21,6 @@ export const failedLogin = (req: Request, res: Response) => {
 
 export const logout = (req: Request, res: Response) => {
     if (req.session) {
-        //deletes from session from mongoDB too
         req.session.destroy((err) => {
             if (err) {
                 res.status(400).send("Unable to log out");
@@ -32,7 +31,6 @@ export const logout = (req: Request, res: Response) => {
     res.status(200).json({ msg: "Log out" });
 };
 
-/* OAuth Callbacks */
 const callbackFunction = (req: Request, res: Response) => {
     const redirect = app.get("redirect");
     app.set("redirect", undefined);
@@ -47,7 +45,6 @@ const callbackFunction = (req: Request, res: Response) => {
         req.session.csrfToken = crypto.randomUUID();
     }
 
-    // Successful authentication, redirect to page where user specifies username
     res.redirect(`${clientUrl}/${redirect}`);
 };
 
@@ -58,7 +55,6 @@ export const googleCallback = (req: Request, res: Response) => {
     callbackFunction(req, res);
 };
 
-/* login actions */
 export async function loginGoogle(
     req: Request,
     accessToken: string | undefined,
@@ -73,7 +69,6 @@ export async function loginGoogle(
     const { id, name, displayName, _json } = profile;
 
     if (user) {
-        //update profile if different
         let changed = false;
         if (_json.picture && user.avatar_url !== _json.picture) {
             user.avatar_url = _json.picture;
@@ -114,7 +109,6 @@ export const loginGithub = async (
     profile: GithubUserProfile,
     done: (err: any, id?: unknown) => void
 ) => {
-    //check if user is in DB, if not -> create one
     let user = await User.findOne({
         platform_id: profile.id,
         platform_type: "github",
@@ -122,7 +116,6 @@ export const loginGithub = async (
     const { id, username, displayName, _json } = profile;
 
     if (user) {
-        //update profile if different
         let changed = false;
         if (_json.avatar_url && user.avatar_url !== _json.avatar_url) {
             user.avatar_url = _json.avatar_url;

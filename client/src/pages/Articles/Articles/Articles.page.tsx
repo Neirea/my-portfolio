@@ -28,14 +28,12 @@ const Articles = ({ type }: { type: Category }) => {
     const titleText = type.charAt(0).toUpperCase() + type.slice(1);
     useTitle(titleText);
 
-    //set tags
     useEffect(() => {
         if (!articles) return;
 
         let articleTags: string[] = [];
         for (let i = 0; i < articles.length; i++) {
             articles[i].tags.forEach((elem) => {
-                //check for correct type and if it already is in array
                 articles[i].category === type &&
                     articleTags.indexOf(elem) === -1 &&
                     articleTags.push(elem);

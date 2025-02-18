@@ -22,7 +22,6 @@ const UserMenu = ({ showUserMenu, setShowUserMenu }: UserMenuProps) => {
     const toggleMenuRef = useRef<HTMLDivElement | null>(null);
     useOutsideClick(toggleMenuRef, setShowUserMenu);
 
-    // if page is refreshed or clicked multiple times
     const fromUrl = location.state?.from || location;
     const logoutUrl = location.pathname
         ? location.pathname + location.search
@@ -35,7 +34,6 @@ const UserMenu = ({ showUserMenu, setShowUserMenu }: UserMenuProps) => {
         transform: showUserMenu ? "rotate(180deg)" : "rotate(0)",
     };
 
-    //shows menu on small screen if true
     useEffect(() => {
         if (userMenuContainerRef.current == null) return;
         if (showUserMenu) {

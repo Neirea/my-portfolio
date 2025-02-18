@@ -8,11 +8,11 @@ import { CommentFormWrapper } from "./Comments.styles";
 type ReplyFormProps = {
     comment?: Comment;
     index?: number;
-    step?: number;
+    margin?: number;
     depth?: number;
 };
 
-const ReplyForm = ({ comment, index, step, depth }: ReplyFormProps) => {
+const ReplyForm = ({ comment, index, margin, depth }: ReplyFormProps) => {
     const { commentState } = useCommentsContext();
     const { mutate: createComment, isLoading, isSuccess } = useCreateComment();
     const [message, setMessage] = useState("");
@@ -39,7 +39,7 @@ const ReplyForm = ({ comment, index, step, depth }: ReplyFormProps) => {
     return (
         <CommentFormWrapper
             depth={depth}
-            step={step}
+            margin={margin}
             onSubmit={(e) => handleSubmit(e, index)}
         >
             {comment && (

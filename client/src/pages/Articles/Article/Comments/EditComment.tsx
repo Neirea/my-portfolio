@@ -35,7 +35,6 @@ const EditComment = ({ index, comment }: EditCommentProps) => {
                 maxLength={280}
                 autoFocus
                 onFocus={(e) => {
-                    //sets cursor at the end of input
                     e.target.setSelectionRange(message.length, message.length);
                 }}
                 minLength={10}
@@ -44,13 +43,10 @@ const EditComment = ({ index, comment }: EditCommentProps) => {
                 required={true}
                 onChange={handleChange}
             ></textarea>
-            {/* buttons in the bottom */}
             <div className="edit-comment-buttons">
-                {/* Save Edited Content */}
                 <ReadButton onClick={handleSaveUpdate} disabled={isLoading}>
                     {isLoading ? "Saving..." : "Submit"}
                 </ReadButton>
-                {/* Cancel Editing */}
                 <ReadButton onClick={resetCommentState}>Cancel</ReadButton>
             </div>
         </>

@@ -1,4 +1,3 @@
-//need to import this after middleware mock
 jest.mock("../middleware/isAuthenticated", () =>
     jest.fn((req: Request, res: Response, next: NextFunction) => {
         next();
@@ -23,7 +22,6 @@ import app from "../app";
 import User from "../models/User";
 import * as dbHandler from "./db";
 
-//spin fake mongodb server before each
 beforeAll(async () => {
     await dbHandler.connect();
 });

@@ -3,15 +3,14 @@ import { AiOutlineDeleteColumn } from "@react-icons/all-files/ai/AiOutlineDelete
 import { BsReplyFill } from "@react-icons/all-files/bs/BsReplyFill";
 import { MdClose } from "@react-icons/all-files/md/MdClose";
 import { MdDelete } from "@react-icons/all-files/md/MdDelete";
-import type { MouseEvent } from "react";
 import useComments from "../../../../hooks/Articles/comments/useComments";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 import useDeleteComment from "../../../../hooks/Articles/comments/useDeleteComment";
 import useDeleteCommentCascade from "../../../../hooks/Articles/comments/useDeleteCommentCascade";
 import { useGlobalContext } from "../../../../store/AppContext";
 import type { Comment } from "../../../../types/article.type";
-import { ReplyButton, ToolsButton } from "./Comments.styles";
 import { hasPermission } from "../../../../utils/abac";
+import { ReplyButton, ToolsButton } from "./Comments.styles";
 
 const ToolBar = ({ index, comment }: { index: number; comment: Comment }) => {
     const { user } = useGlobalContext();
@@ -40,8 +39,7 @@ const ToolBar = ({ index, comment }: { index: number; comment: Comment }) => {
         });
     };
 
-    const handleReply = (e: MouseEvent<HTMLButtonElement>) => {
-        //on Cancel click
+    const handleReply = () => {
         if (commentState.id === comment._id) {
             resetCommentState();
             return;

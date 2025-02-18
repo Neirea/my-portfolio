@@ -12,7 +12,6 @@ const rateLimit =
         try {
             const { isAllowed, clientData } = await limiter.consume(ip);
 
-            // set rate limiting headers
             const headers = limiter.getHeaders(clientData);
             for (const header of headers) {
                 res.setHeader(header[0], header[1]);

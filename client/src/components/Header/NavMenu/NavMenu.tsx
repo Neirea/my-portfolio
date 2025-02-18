@@ -57,12 +57,10 @@ const NavMenuItems = ({ handleMenuClick }: NavMenuItemsProps) => {
     );
 };
 
-//One menu for sidemenu and big screen menu(just different css)
 const NavMenu = ({ showMenu, setShowMenu }: NavMenuProps) => {
     const menuContainerRef = useRef<HTMLElement | null>(null);
     const menuRef = useRef<HTMLUListElement | null>(null);
 
-    //shows menu on small screen if true
     useEffect(() => {
         if (menuContainerRef.current == null) return;
         if (showMenu) {
@@ -78,13 +76,11 @@ const NavMenu = ({ showMenu, setShowMenu }: NavMenuProps) => {
 
     return (
         <>
-            {/* menu on big screen */}
             <NavMenuWrapper>
                 <NavMenuList>
                     <NavMenuItems />
                 </NavMenuList>
             </NavMenuWrapper>
-            {/* menu on small screen */}
             <MobileNavMenuWrapper ref={menuContainerRef}>
                 <MobileNavMenuList ref={menuRef}>
                     <NavMenuItems handleMenuClick={handleMenuClick} />

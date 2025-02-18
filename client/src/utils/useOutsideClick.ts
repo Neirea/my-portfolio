@@ -5,7 +5,6 @@ import {
     useEffect,
 } from "react";
 
-/* Hook that sets state to false on click outside of the passed ref */
 export const useOutsideClick = (
     ref: MutableRefObject<any>,
     set: Dispatch<SetStateAction<any>>

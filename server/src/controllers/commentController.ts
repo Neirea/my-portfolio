@@ -8,7 +8,6 @@ import { StatusCodes } from "../utils/http-status-codes";
 export const getAllComments = async (req: Request, res: Response) => {
     const { articleId } = req.params;
 
-    //gets all top level comments
     const comments = await Comment.find({
         articleId: articleId,
         parentId: null,
@@ -39,7 +38,6 @@ export const createComment = async (req: Request, res: Response) => {
 
     const comment = await Comment.create(newComment);
 
-    //update parent's replies property
     if (comment.parentId) {
         const updateParent = await Comment.findOne({ _id: comment.parentId });
         if (!updateParent) {
@@ -53,7 +51,7 @@ export const createComment = async (req: Request, res: Response) => {
 
     res.status(StatusCodes.CREATED).json({ comment });
 };
-//updates msg
+
 export const updateComment = async (req: Request, res: Response) => {
     const { message } = req.body;
     const id = req.params.id;
@@ -65,7 +63,7 @@ export const updateComment = async (req: Request, res: Response) => {
     await comment.save();
     res.status(StatusCodes.OK).json({ comment });
 };
-//deletes msg from comment
+
 export const deleteComment = async (req: Request, res: Response) => {
     const id = req.params.id;
     const authorId = req.query.authorId as string | undefined;
@@ -83,13 +81,11 @@ export const deleteComment = async (req: Request, res: Response) => {
     res.status(StatusCodes.OK).json({ comment });
 };
 
-//deletes comment and all of its nested comments
 export const deleteCommentsCascade = async (req: Request, res: Response) => {
     const id = req.params.id;
     const authorId = req.query.authorId as string | undefined;
     const comment = await fetchComment(id, authorId);
 
-    //adds all ids of nested elements to array
     const parseReplies = (
         comments: TComment[],
         array: mongoose.Types.ObjectId[]
@@ -102,7 +98,6 @@ export const deleteCommentsCascade = async (req: Request, res: Response) => {
     let repliesArray: mongoose.Types.ObjectId[] = [];
     parseReplies([comment], repliesArray);
 
-    //delete comment and its replies
     await Comment.deleteMany({ _id: repliesArray });
 
     res.status(StatusCodes.OK).json({

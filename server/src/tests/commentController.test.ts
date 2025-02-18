@@ -1,4 +1,3 @@
-//need to import this after middleware mock
 jest.mock("../middleware/isAuthenticated", () =>
     jest.fn((req: Request, res: Response, next: NextFunction) => {
         req.session = {} as Session;
@@ -27,7 +26,6 @@ import Comment from "../models/Comment";
 import { User as TUser } from "../models/User";
 import * as dbHandler from "./db";
 
-//spin fake mongodb server before each
 beforeAll(async () => {
     await dbHandler.connect();
 });
@@ -100,7 +98,6 @@ describe("createComment", () => {
         expect(response.body.comment.parentId).toStrictEqual(
             comment._id.toString()
         );
-        //check if it updated parent's replies
         const updatedComment = await Comment.findOne({
             _id: comment._id.toString(),
         });
@@ -122,7 +119,6 @@ describe("getAllComments", () => {
             message: "reply to hello world",
             parentId: comment._id.toString(),
         };
-        //reply
         await Comment.create(fakeReply);
 
         const response = await request(app).get(
@@ -132,7 +128,6 @@ describe("getAllComments", () => {
         expect(response.body.comments[0]._id).toStrictEqual(
             comment._id.toString()
         );
-        //should return only 1 value and ignore reply
         expect(response.body.comments.length).toBe(1);
         expect(response.status).toBe(200);
     });
@@ -170,14 +165,13 @@ describe("deleteComment", () => {
     test("should delete comment that has replies", async () => {
         const { article, comment } = await createArticleUserComment();
 
-        //reply
-        const commentData = {
+        const replyCommentData = {
             parentId: comment._id.toString(),
             message: "hello world",
         };
         await request(app)
             .post(`/api/comment/${article._id.toString()}`)
-            .send(commentData);
+            .send(replyCommentData);
 
         const response = await request(app).delete(
             `/api/comment/${article._id.toString()}/${comment._id.toString()}?authorId=${
@@ -194,21 +188,19 @@ describe("deleteCommentsAdmin", () => {
     test("should delete comment and its replies", async () => {
         const { article, comment } = await createArticleUserComment();
 
-        //reply
-        const commentData = {
+        const replyCommentData = {
             parentId: comment._id.toString(),
             message: "hello world",
         };
         await request(app)
             .post(`/api/comment/${article._id.toString()}`)
-            .send(commentData);
+            .send(replyCommentData);
 
         const response = await request(app).delete(
             `/api/comment/${article._id.toString()}/d_all/${comment._id.toString()}?authorId=${
                 fakeUser._id
             }`
         );
-        //check if comments are gone
         const comments = await Comment.find({});
         expect(response.status).toBe(200);
         expect(comments.length).toBe(0);

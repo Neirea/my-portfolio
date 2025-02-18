@@ -41,7 +41,6 @@ const ReadButtonCSS = css`
     }
 `;
 
-/* Buttons */
 export const ReadButton = styled.button`
     ${ReadButtonCSS}
 `;
@@ -101,7 +100,6 @@ export const BlockButton = styled.button`
     width: 100%;
 `;
 
-/* alerts */
 export const AlertMsg = styled.p`
     margin: 0 auto;
     color: var(--alert-color);
@@ -135,7 +133,6 @@ export const AlertContainer = styled.div`
     }
 `;
 
-/* forms */
 export const StyledForm = styled.form`
     position: relative;
     padding: 2rem 2.5rem;
@@ -155,8 +152,8 @@ export const StyledForm = styled.form`
         letter-spacing: var(--letter-spacing);
         font-weight: 500;
     }
-    & .form-input, // for article create/edit check same ones
-	& .form-textarea {
+    & .form-input,
+    & .form-textarea {
         display: block;
         width: 100%;
         padding: 0.375rem 0.75rem;
@@ -180,7 +177,6 @@ type LoadingProps = {
     $darkMode: boolean;
 };
 
-/* spinning animation before page loads */
 export const StyledLoading = styled.section<LoadingProps>`
     @keyframes spinner {
         to {

@@ -27,7 +27,6 @@ export const banUser = async (req: Request, res: Response) => {
     }
     const bannedValue = user.isBanned ? false : true;
 
-    //marks user as banned/unbanned
     user.isBanned = bannedValue;
     user.save();
 

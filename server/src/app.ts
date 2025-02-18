@@ -1,6 +1,5 @@
-//global config
 import "express-async-errors";
-//packages
+
 import express from "express";
 import { v2 as cloudinary } from "cloudinary";
 import MongoStore from "connect-mongo";
@@ -13,7 +12,7 @@ import session from "express-session";
 import { buildCheckFunction } from "express-validator";
 import helmet from "helmet";
 import passport from "passport";
-/* user imports */
+
 import "./passport";
 import errorHandlerMiddleware from "./middleware/error-handle";
 import notFoundMiddleware from "./middleware/not-found";
@@ -37,7 +36,6 @@ const limiter = new RateLimiter({
     limit: 50,
 });
 
-/* middleware */
 app.set("trust proxy", 1);
 app.use(rateLimit(limiter));
 app.use(helmet());
@@ -55,7 +53,6 @@ app.use(express.json());
 app.use(mongoSanitize());
 app.use(buildCheckFunction(["body", "query", "params"])());
 
-//dev middleware
 if (process.env.NODE_ENV !== "production") {
     const morgan = require("morgan");
     app.use(morgan("tiny"));
@@ -65,7 +62,6 @@ if (process.env.NODE_ENV !== "test") {
         mongoUrl: process.env.MONGO_URL,
         collectionName: "sessions",
     });
-    /* session middleware */
     app.use(
         session({
             secret: process.env.SESSION_SECRET!,
@@ -88,16 +84,14 @@ if (process.env.NODE_ENV !== "test") {
     );
 }
 
-app.use(passport.initialize()); //passport init
+app.use(passport.initialize());
 
-/* use routers */
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/article", articleRouter);
 app.use("/api/comment", commentRouter);
 app.use("/api/action", actionRouter);
 
-/* error middleware */
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 

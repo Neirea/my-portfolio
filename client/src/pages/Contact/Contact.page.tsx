@@ -34,23 +34,19 @@ const Contact = () => {
         script.async = true;
         document.body.appendChild(script);
         return () => {
-            // Remove the reCAPTCHA script
             const script = document.getElementById(scriptId);
             if (script) {
                 script.remove();
             }
-            // Remove the reCAPTCHA badge
             const badge =
                 document.querySelector(".grecaptcha-badge")?.parentElement;
             if (badge) {
                 badge.remove();
             }
-            // Clean up global reCAPTCHA instance
             delete window.grecaptcha;
         };
     }, []);
 
-    //auto-fill form hen user logged in
     useEffect(() => {
         if (!user) return;
 

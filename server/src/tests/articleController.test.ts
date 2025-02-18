@@ -1,4 +1,3 @@
-//need to import this after middleware mock
 jest.mock("../middleware/isAuthenticated", () =>
     jest.fn((req: Request, res: Response, next: NextFunction) => {
         req.session = {} as Session;
@@ -39,7 +38,6 @@ jest.mock("cloudinary");
 jest.mock("../db/redis");
 const mockedCloudinary = cloudinary as jest.Mocked<typeof cloudinary>;
 
-//spin fake mongodb server before each
 beforeAll(async () => {
     await dbHandler.connect();
 });
@@ -157,9 +155,7 @@ describe("createArticle", () => {
             content: "hello darkness, my old friend!",
         });
 
-        //check if middleware was called
         expect(isAuthenticated).toHaveBeenCalledTimes(1);
-        //this called multiple times because it uses wrapper with custom parameter
         expect(authorizePermissions).not.toHaveBeenCalledTimes(0);
 
         expect(response.status).toBe(201);
@@ -184,7 +180,6 @@ describe("updateArticle", () => {
             .send(articleData[3]);
 
         const result = await Article.findOne({ title: "updated article" });
-        //check if different img id's
         expect(mockedCloudinary.uploader.destroy).toHaveBeenCalledTimes(1);
         expect(response.body.article.title).toStrictEqual(result!.title);
         expect(response.status).toBe(200);
@@ -194,7 +189,6 @@ describe("updateArticle", () => {
         const response = await request(app)
             .put(`/api/article/${createdArticle._id.toString()}`)
             .send(articleData[2]);
-        //should not call destroy
         expect(mockedCloudinary.uploader.destroy).toHaveBeenCalledTimes(0);
         expect(response.status).toBe(400);
     });

@@ -29,7 +29,6 @@ const Comments = () => {
     return (
         <CommentsWrapper ref={commentsWrapperRef}>
             <>
-                {/* Comments Header */}
                 {isShowCommentsHeader && (
                     <h4 className="comments-section-header">
                         {comments
@@ -42,7 +41,6 @@ const Comments = () => {
                         You are currently suspended from posting comments
                     </AlertMsg>
                 )}
-                {/* mapping through comments */}
                 {comments?.map((element, index) => {
                     return (
                         <Fragment key={index}>
@@ -54,11 +52,7 @@ const Comments = () => {
                     );
                 })}
             </>
-            {
-                /* alert for "Create New Comment" */
-                isShowCommentError && <AlertMsg>{commentError.msg}</AlertMsg>
-            }
-            {/*show "Create New Comment" only if "Reply Form" and "Edit Message" are disabled */}
+            {isShowCommentError && <AlertMsg>{commentError.msg}</AlertMsg>}
             {isShowNewCommentForm && <CommentForm />}
             {!user && (
                 <>

@@ -1,6 +1,5 @@
 {
     "compilerOptions": {
-        /* Base Options */
         "esModuleInterop": true,
         "skipLibCheck": true,
         "target": "es2022",
@@ -8,14 +7,11 @@
         "resolveJsonModule": true,
         "moduleDetection": "force",
         "isolatedModules": true,
-        /* Strictness */
         "strict": true,
         "noUncheckedIndexedAccess": true,
         "noImplicitOverride": true,
-        /* Transpiling with Typescript */
         "module": "NodeNext",
         "outDir": "./build",
-        /* Custom typings */
         "typeRoots": ["./src/typings", "./node_modules/@types"]
     }
 }

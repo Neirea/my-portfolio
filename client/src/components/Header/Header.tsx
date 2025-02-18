@@ -30,18 +30,13 @@ const Header = () => {
                 </h3>
             </MenuItem>
 
-            {/* NAVBAR MENU */}
             <NavMenu showMenu={showNavMenu} setShowMenu={setShowNavMenu} />
-            {/* ICON BAR WITH USER MENU */}
             <SideMenuContainer>
-                {/* LOGIN/USER */}
                 <UserMenu
                     showUserMenu={showUserMenu}
                     setShowUserMenu={setShowUserMenu}
                 />
-                {/*DARK MODE */}
                 <DisplayMode />
-                {/* MENU BUTTON ON SMALL SCREEN */}
                 <StyledMenuButton
                     ref={navMenuButton}
                     aria-label="menu"

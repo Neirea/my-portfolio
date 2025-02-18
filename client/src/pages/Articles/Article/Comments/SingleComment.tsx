@@ -18,11 +18,10 @@ const SingleComment = ({ index, commentElement }: SingleCommentProps) => {
     const { user } = useGlobalContext();
 
     const { level, comment } = commentElement;
-    const step = 3; // % of marginLeft and cut on width
-    const depth = level >= 5 ? 5 : level; //max depth to show
+    const margin = 3;
+    const depth = level >= 5 ? 5 : level;
     const { commentState, commentError } = useCommentsContext();
 
-    /* show conditions */
     const isShowToolBar =
         commentState.type !== "edit" && user && user.isBanned === false;
 
@@ -43,9 +42,7 @@ const SingleComment = ({ index, commentElement }: SingleCommentProps) => {
 
     return (
         <>
-            {/* {isShowSingleCommentAlert && <AlertMsg>{commentError.msg}</AlertMsg>} */}
-            <SingleCommentContainer step={step} depth={depth}>
-                {/* Comment Header */}
+            <SingleCommentContainer margin={margin} depth={depth}>
                 <div className="comment-header">
                     {level > 5 && (
                         <>
@@ -66,29 +63,24 @@ const SingleComment = ({ index, commentElement }: SingleCommentProps) => {
                         {handleDate(comment.createdAt, comment.editedAt)}
                     </span>
                 </div>
-                {/* Message */}
                 {isShowMessage && (
                     <p className="comment-message">
                         {comment.message || <i>Message was deleted</i>}
                     </p>
                 )}
-                {/* Single Comment Errors */}
                 {isShowSingleCommentAlert && (
                     <AlertMsg>{commentError.msg}</AlertMsg>
                 )}
-                {/* Edit Comment Form && Buttons */}
                 {isShowEditUI && (
                     <EditComment index={index} comment={comment} />
                 )}
-                {/* Toolbar for comment */}
                 {isShowToolBar && <ToolBar index={index} comment={comment} />}
             </SingleCommentContainer>
-            {/* Reply Form */}
             {isShowReplyForm && (
                 <CommentForm
                     comment={comment}
                     index={index}
-                    step={step}
+                    margin={margin}
                     depth={depth}
                 />
             )}

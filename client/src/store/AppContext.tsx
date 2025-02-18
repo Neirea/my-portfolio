@@ -24,7 +24,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | undefined>(undefined);
     const [userLoading, setUserLoading] = useState(true);
 
-    //fetch only once on load
     useQuery(
         ["user"],
         () =>

@@ -12,7 +12,6 @@ export const GlobalStyles = createGlobalStyle`
 	color: ${({ theme }) => theme.mainBgColor};
 }
 :root {
-	/* vars that are transformed for dark mode */
 	--main-bg-color : ${({ theme }) => theme.mainBgColor};
 	--main-text-color: ${({ theme }) => theme.mainTextColor};
 	--header-bg-color: ${({ theme }) => theme.headerBgColor};
@@ -27,7 +26,7 @@ export const GlobalStyles = createGlobalStyle`
 	--icon-invert-hover: ${({ theme }) => theme.iconInvertHover};
 	--tag-color: ${({ theme }) => theme.tagColor};
 	--comment-header-color: ${({ theme }) => theme.commentAuthorColor};
-	/* other vars */
+
 	--header-shadow-color: rgba(0, 0, 0, 0.5);
 	--editor-color: #fff;
 	--form-field-color: #fff;
@@ -54,12 +53,12 @@ export const GlobalStyles = createGlobalStyle`
 	--slider-transition: all 0.3s linear, color 0s;
 }
 
+// firefox
 html {
-	//firefox
 	scrollbar-width: thin;
 	scrollbar-color: var(--faded-text-color) var(--header-bg-color);
 }
-//others
+// other browsers
 html::-webkit-scrollbar {
 	width: 0.5vw;
 }
@@ -73,7 +72,7 @@ html::-webkit-scrollbar-thumb:hover {
 html::-webkit-scrollbar-track {
 	background-color: var(--header-bg-color);
 }
-//------------------------------------------------
+
 body {  
 	line-height: var(--main-line-height);
 	color: var(--main-text-color);
@@ -158,12 +157,10 @@ img {
 ul {
 	list-style: none;
 }
-//for deleted stuff
 i {
 	color: var(--deleted-color);
 }
 
-/* CODE HIGHLIGHT CLASSES */
 .hljs-subst {
 	color: ${({ theme }) => theme.codeSubStr};
 }

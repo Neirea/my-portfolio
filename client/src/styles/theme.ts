@@ -18,7 +18,7 @@ export const lightTheme = {
     codeBorderColor: "rgb(211, 211, 211)",
     tagColor: "rgba(0,0,0,0.2)",
     commentAuthorColor: "rgb(131, 88, 219)",
-    /* code highlight */
+
     codeSubStr: "#2f3337",
     codeComment: "#656e77",
     codeKeyword: "#015692",
@@ -49,7 +49,7 @@ export const darkTheme: ThemeType = {
     codeBorderColor: "rgb(60, 60, 60)",
     tagColor: "rgba(255,255,255,0.2)",
     commentAuthorColor: "rgb(165, 138, 219)",
-    /* code highlight */
+
     codeSubStr: "#fff",
     codeComment: "#999",
     codeKeyword: "#88aece",

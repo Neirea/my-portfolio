@@ -36,7 +36,6 @@ export const MenuItem = styled.div`
     }
 `;
 
-// button on small screen that toggles menu
 export const StyledMenuButton = styled.button<{ $showNavMenu: boolean }>`
     display: flex;
     justify-content: center;
@@ -60,7 +59,6 @@ export const StyledMenuButton = styled.button<{ $showNavMenu: boolean }>`
     }
 `;
 
-//user-menu + darkmode
 export const SideMenuContainer = styled.div`
     display: flex;
     justify-content: flex-start;
@@ -79,7 +77,6 @@ export const StyledMenuLink = styled(NavLink)`
     color: var(--faded-text-color);
     z-index: 1;
 
-    /* animation on menu being active */
     &::after {
         content: "";
         display: block;
@@ -100,7 +97,6 @@ export const StyledMenuLink = styled(NavLink)`
             transition: color var(--transition);
         }
     }
-    /* current link is active */
     &[class*="active"] {
         color: var(--main-text-color);
     }

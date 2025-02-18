@@ -53,7 +53,6 @@ const CommentSchema = new Schema(
     { timestamps: true }
 );
 
-//middleware to populate replies of top level comments in recursive way
 function autoPopulateReplies(this: Query<Comment, Comment>) {
     this.populate("replies");
 }

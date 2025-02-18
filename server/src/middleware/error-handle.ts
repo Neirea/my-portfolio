@@ -5,7 +5,6 @@ import { Error as MongooseError } from "mongoose";
 import { StatusCodes } from "../utils/http-status-codes";
 
 const errorHandlerMiddleware: ErrorRequestHandler = (err, req, res, next) => {
-    // set default error
     const customError = {
         statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
         msg: err.message || "Something went wrong try again later",
@@ -24,7 +23,6 @@ const errorHandlerMiddleware: ErrorRequestHandler = (err, req, res, next) => {
         customError.msg = `This ${Object.keys(err.keyValue)} already exists`;
         customError.statusCode = 400;
     }
-    //delete tmp file
     const image = req.files?.image as UploadedFile | undefined;
     if (image) fs.unlinkSync(image.tempFilePath);
 

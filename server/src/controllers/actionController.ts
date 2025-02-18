@@ -4,7 +4,6 @@ import CustomError from "../errors";
 import sendEmail from "../utils/sendEmail";
 import { StatusCodes } from "../utils/http-status-codes";
 
-/* RECAPTCHA */
 const validateRecaptcha = async (token: string | null) => {
     const secretKey = process.env.RECAPTCHA_SECRET_KEY;
     const apiKey = process.env.RECAPTCHA_API_KEY;
@@ -57,7 +56,6 @@ export const testRecaptcha = async (req: Request, res: Response) => {
     res.status(StatusCodes.OK).json({ msg: "Success" });
 };
 
-/* send contact message on email */
 export const sendContactMessage = async (req: Request, res: Response) => {
     const { subject, msg }: { subject: string; msg: string } = req.body;
     const cleanHtml = sanitizeHtml(msg);

@@ -103,7 +103,6 @@ export const ArticleContentWrapper = styled.section`
                 }
             }
         }
-        //article text formatting
         .article-text {
             ul,
             ol {
@@ -348,7 +347,6 @@ export const TagsGroup = styled.div`
     }
 `;
 
-//create/update article
 export const CUArticleWrapper = styled.main`
     display: flex;
     flex-direction: column;
@@ -399,7 +397,6 @@ export const CUArticleForm = styled(StyledForm)`
         height: 0;
     }
 
-    //editor
     .editor-wrapper {
         margin-top: 0.5rem;
         width: 95%;

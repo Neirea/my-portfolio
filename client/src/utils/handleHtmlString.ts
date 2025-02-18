@@ -1,6 +1,6 @@
 import hljs from "./hljsLangs";
 
-//replace html symbols to real ones
+//replace html character references to real characters
 function formatString(str: string) {
     return str
         .replace(/&amp;/g, "&")
@@ -12,19 +12,14 @@ export const handleHtmlString = (
     articleContent: string,
     languages: string[]
 ) => {
-    //wrapping whole thing in div
     const div = document.createElement("div");
 
     div.innerHTML = articleContent;
-    //looking for code element
     let codeElements = div.querySelectorAll("pre");
-    //quit if no code elements found
     if (!codeElements.length) return articleContent;
 
-    //loop through all <pre> element
     codeElements.forEach((elem, index) => {
         const newCodeWrapper = document.createElement("pre");
-        // swapping <br> with '/n'
         const regex = /<br[^>]*>/gi;
         let codeElementWithNewLines = formatString(elem.innerHTML).replace(
             regex,
@@ -51,7 +46,6 @@ export const handleHtmlString = (
             : "";
         newCodeWrapper.innerHTML = highlightedCodeString;
 
-        //replace original code element with new one
         elem.parentNode?.replaceChild(newCodeWrapper, elem);
     });
 
@@ -69,7 +63,6 @@ export const languageDetector = (htmlString: string) => {
     let codeElements = div.querySelectorAll("pre");
 
     codeElements.forEach((elem) => {
-        // swapping <br> with '/n'
         const regex = /<br[^>]*>/gi;
         let codeElementWithNewLines = formatString(elem.innerHTML).replace(
             regex,

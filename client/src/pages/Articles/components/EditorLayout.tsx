@@ -64,7 +64,6 @@ const EditorLayout = ({
     );
     const debouncedPreview = useDebounce(handleHtmlString(editorHTML, []), 500);
 
-    //gets url for img preview
     useEffect(() => {
         if (!selectedImage) {
             setPreview(undefined);
@@ -72,11 +71,10 @@ const EditorLayout = ({
         }
         const objectUrl = URL.createObjectURL(selectedImage);
         setPreview(objectUrl);
-        // free memory when ever this component is unmounted
+
         return () => URL.revokeObjectURL(objectUrl);
     }, [selectedImage, setPreview]);
 
-    //update state of Editor
     const onEditorStateChange = (state: EditorState) => {
         setEditorState(state);
     };
@@ -97,7 +95,6 @@ const EditorLayout = ({
             setSelectedImage(undefined);
             return;
         }
-        // using the first image instead of multiple
         setSelectedImage(e.target.files[0]);
     };
 
@@ -189,7 +186,6 @@ const EditorLayout = ({
                     </div>
                 </div>
                 {alert && <AlertMsg>{alert.message}</AlertMsg>}
-                {/* validator for input */}
                 <input
                     type="html-validator"
                     className="html-validator"

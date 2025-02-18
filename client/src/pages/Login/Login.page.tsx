@@ -34,7 +34,6 @@ const Login = () => {
         );
     };
 
-    //check if user is logged in then redirect to main page
     return (
         <LoginWrapper>
             <div className="login-container">

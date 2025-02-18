@@ -16,7 +16,6 @@ const ArticlePostsSideMenu = ({
 }: ArticlePostsSideMenuProps) => {
     const location = useLocation<LocationState>();
 
-    //check if it comes from another page
     useEffect(() => {
         const prevTag = location.state?.tag || null;
         if (!prevTag) return;
@@ -31,7 +30,6 @@ const ArticlePostsSideMenu = ({
         } else {
             setSelectedTags((old) => [...old, elem]);
         }
-        //scroll to top of screen on mobile
         window.innerWidth < 1000 &&
             window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     };
