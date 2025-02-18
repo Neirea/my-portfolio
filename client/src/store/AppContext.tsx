@@ -68,7 +68,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
             await axios.delete("/api/auth/logout");
             setUser(undefined);
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     };
 

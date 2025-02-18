@@ -32,7 +32,7 @@ const validateRecaptcha = async (token: string | null) => {
             })
         ).json();
     } catch (error) {
-        console.log(error);
+        console.error(error);
         throw new CustomError.ServiceUnavailableError(
             "Failed to verify reCAPTCHA"
         );
@@ -73,7 +73,7 @@ export const sendContactMessage = async (req: Request, res: Response) => {
             userText: cleanHtml,
         });
     } catch (error) {
-        console.log(error);
+        console.error(error);
         res.status(StatusCodes.BAD_REQUEST).json({
             msg: "Failed to send an email",
         });

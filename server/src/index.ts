@@ -16,7 +16,7 @@ const start = async () => {
             app.listen(8080, "0.0.0.0");
         }
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 };
 

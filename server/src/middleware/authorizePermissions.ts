@@ -11,19 +11,26 @@ const authorizePermissions = <Resource extends keyof Permissions>(
             ...req.params,
             ...req.query,
         } as Permissions[Resource]["dataType"];
-        const isAllowed = hasPermission(
-            req.session.user,
-            resource,
-            action,
-            data
-        );
 
-        if (!isAllowed) {
-            throw new CustomError.UnauthorizedError(
-                "Unauthorized to access this route"
+        try {
+            const isAllowed = hasPermission(
+                req.session.user,
+                resource,
+                action,
+                data
+            );
+            if (!isAllowed) {
+                throw new CustomError.UnauthorizedError(
+                    "Unauthorized to access this route"
+                );
+            }
+            next();
+        } catch (error) {
+            console.error(error);
+            throw new CustomError.BadRequestError(
+                "Failed to perform authorization"
             );
         }
-        next();
     };
 };
 
