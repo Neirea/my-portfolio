@@ -5,10 +5,18 @@ import type { Comment, CommentJsx } from "../../../types/article.type";
 export const parseComments = (comments: Comment[]): CommentJsx[] => {
     const result: CommentJsx[] = [];
 
-    const parse = (comments: Comment[], depth = 0) => {
+    const parse = (
+        comments: Comment[],
+        parentComment: Comment | null = null,
+        depth = 0
+    ) => {
         for (const comment of comments) {
-            result.push({ level: depth, comment });
-            parse(comment.replies, depth + 1);
+            result.push({
+                level: depth,
+                comment,
+                parentComment,
+            });
+            parse(comment.replies, comment, depth + 1);
         }
     };
 

@@ -1,4 +1,3 @@
-import { FaArrowUp } from "@react-icons/all-files/fa/FaArrowUp";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 import { useGlobalContext } from "../../../../store/AppContext";
 import { AlertMsg } from "../../../../styles/styled-components";
@@ -17,7 +16,7 @@ type SingleCommentProps = {
 const SingleComment = ({ index, commentElement }: SingleCommentProps) => {
     const { user } = useGlobalContext();
 
-    const { level, comment } = commentElement;
+    const { level, comment, parentComment } = commentElement;
     const margin = 3;
     const depth = level >= 5 ? 5 : level;
     const { commentState, commentError } = useCommentsContext();
@@ -40,16 +39,38 @@ const SingleComment = ({ index, commentElement }: SingleCommentProps) => {
         commentState.type === "reply" &&
         commentState.id === comment._id;
 
+    const isShowParentComment = level > 5 && parentComment;
+
+    function truncateText(text: string, limit: number) {
+        return text.length > limit ? text.slice(0, limit) + "..." : text;
+    }
+
     return (
         <>
             <SingleCommentContainer margin={margin} depth={depth}>
+                {isShowParentComment && (
+                    <div className="comment-header">
+                        <span
+                            className="comment-header-reply"
+                            title={parentComment.user.name}
+                        >{`to: \"${truncateText(
+                            parentComment.message,
+                            20
+                        )}\" by:`}</span>
+                        <img
+                            className="comment-img"
+                            src={parentComment.user.avatar}
+                            width={20}
+                            height={20}
+                            alt="user avatar"
+                            referrerPolicy="no-referrer"
+                        />
+                        <span className="comment-author comment-header-reply">
+                            {parentComment.user.name}
+                        </span>
+                    </div>
+                )}
                 <div className="comment-header">
-                    {level > 5 && (
-                        <>
-                            <FaArrowUp />
-                            <span>{"from:"}</span>
-                        </>
-                    )}
                     <img
                         className="comment-img"
                         src={comment.user.avatar}

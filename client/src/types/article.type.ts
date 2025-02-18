@@ -39,6 +39,7 @@ export type Comment = {
 export type CommentJsx = {
     level: number;
     comment: Comment;
+    parentComment: Comment | null;
 };
 
 export type ArticleData = {

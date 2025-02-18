@@ -94,10 +94,13 @@ export const SingleCommentContainer = styled.div<StyledCommentsProps>`
     .comment-header {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.25rem;
         position: relative;
         color: var(--comment-header-color);
         font-style: italic;
+        font-size: 0.9em;
+        white-space: nowrap;
+
         .comment-img {
             width: 1.5rem;
             height: 1.5rem;
@@ -109,11 +112,13 @@ export const SingleCommentContainer = styled.div<StyledCommentsProps>`
             }
             font-weight: 500;
             font-style: normal;
-            font-size: 0.9rem;
         }
         .comment-date {
             color: var(--faded-text-color);
             font-size: 0.8rem;
+        }
+        .comment-header-reply {
+            font-size: 0.8em;
         }
     }
 
