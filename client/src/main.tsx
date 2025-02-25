@@ -1,15 +1,18 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import axios from "axios";
+import type { PostHogConfig } from "posthog-js";
+import { PostHogProvider } from "posthog-js/react";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import { AppProvider } from "./store/AppContext";
-import { PostHogProvider } from "posthog-js/react";
 
-const options = {
+const options: Partial<PostHogConfig> = {
     api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST,
+    persistence: "memory",
+    disable_session_recording: true,
 };
 
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
