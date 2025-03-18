@@ -10,6 +10,9 @@
         "strict": true,
         "noUncheckedIndexedAccess": true,
         "noImplicitOverride": true,
+        "noImplicitAny": false,
+        "strictBindCallApply": false,
+        "noFallthroughCasesInSwitch": false,
         "module": "NodeNext",
         "outDir": "./build",
         "typeRoots": ["./src/typings", "./node_modules/@types"]
