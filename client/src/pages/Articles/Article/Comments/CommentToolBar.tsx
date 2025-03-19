@@ -3,6 +3,7 @@ import { AiOutlineDeleteColumn } from "@react-icons/all-files/ai/AiOutlineDelete
 import { BsReplyFill } from "@react-icons/all-files/bs/BsReplyFill";
 import { MdClose } from "@react-icons/all-files/md/MdClose";
 import { MdDelete } from "@react-icons/all-files/md/MdDelete";
+import type { JSX } from "react";
 import useComments from "../../../../hooks/Articles/comments/useComments";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 import useDeleteComment from "../../../../hooks/Articles/comments/useDeleteComment";

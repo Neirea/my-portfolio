@@ -2,11 +2,12 @@ import { FaBan } from "@react-icons/all-files/fa/FaBan";
 import { FaWrench } from "@react-icons/all-files/fa/FaWrench";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import type { JSX } from "react";
 import useBanUser from "../../hooks/useBanUser";
-import type { User } from "../../types/abac.type";
-import { AdminDashboardWrapper } from "./AdminDashboard.style";
 import { useGlobalContext } from "../../store/AppContext";
+import type { User } from "../../types/abac.type";
 import { hasPermission } from "../../utils/abac";
+import { AdminDashboardWrapper } from "./AdminDashboard.style";
 
 const AdminDashboard = (): JSX.Element => {
     const { user: currentUser } = useGlobalContext();

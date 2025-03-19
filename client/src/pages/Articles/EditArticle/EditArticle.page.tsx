@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ContentState, EditorState } from "draft-js";
 import htmlToDraft from "html-to-draftjs";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type JSX } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
 import useEditArticle from "../../../hooks/Articles/useEditArticle";

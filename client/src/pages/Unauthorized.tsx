@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { useNavigate } from "react-router";
 import { AlertContainer, ReadButton } from "../styles/common.style";
 

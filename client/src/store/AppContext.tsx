@@ -1,15 +1,16 @@
+import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosHeaders } from "axios";
 import {
     createContext,
+    type JSX,
     type ReactNode,
     useContext,
     useEffect,
     useState,
 } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { mainBgDarkColor, mainBgLightColor } from "../styles/theme";
-import type { AppContextValues } from "../types/app.type";
 import type { User } from "../types/abac.type";
+import type { AppContextValues } from "../types/app.type";
 
 export const AppContext = createContext({} as AppContextValues);
 

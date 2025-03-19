@@ -1,5 +1,6 @@
 import { BsMoon } from "@react-icons/all-files/bs/BsMoon";
 import { CgSun } from "@react-icons/all-files/cg/CgSun";
+import type { JSX } from "react";
 import { useGlobalContext } from "../../../store/AppContext";
 import { DisplayModeWrapper } from "./DisplayMode.style";
 

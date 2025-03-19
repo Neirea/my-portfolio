@@ -5,6 +5,7 @@ import {
     type ChangeEvent,
     type Dispatch,
     type FormEvent,
+    type JSX,
     type SetStateAction,
 } from "react";
 import { Editor } from "react-draft-wysiwyg";

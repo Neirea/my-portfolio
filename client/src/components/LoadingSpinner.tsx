@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { useGlobalContext } from "../store/AppContext";
 import { StyledLoading } from "../styles/common.style";
 

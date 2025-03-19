@@ -1,4 +1,4 @@
-import { Fragment, useRef, useEffect } from "react";
+import { Fragment, useRef, useEffect, type JSX } from "react";
 import { NavLink, useLocation } from "react-router";
 import { AlertMsg } from "../../../../styles/common.style";
 import CommentForm from "./CommentForm";

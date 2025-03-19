@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { Navigate, Outlet, useLocation } from "react-router";
 import { useGlobalContext } from "../store/AppContext";
 import LoadingSpinner from "./LoadingSpinner";

@@ -1,5 +1,5 @@
 import { FaBars } from "@react-icons/all-files/fa/FaBars";
-import { useRef, useState } from "react";
+import { useRef, useState, type JSX } from "react";
 import { useOutsideClick } from "../../utils/useOutsideClick";
 import {
     HeaderWrapper,

@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import type { Article, Comment } from "./article.type";
 
 export const ROLES = ["admin", "user"] as const;

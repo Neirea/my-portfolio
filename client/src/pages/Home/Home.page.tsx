@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import useArticles from "../../hooks/Articles/useArticles";
 import { MoreButton } from "../../styles/common.style";

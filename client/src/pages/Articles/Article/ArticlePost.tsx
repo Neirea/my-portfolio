@@ -1,6 +1,6 @@
 import { FaEye } from "@react-icons/all-files/fa/FaEye";
 import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type JSX } from "react";
 import { NavLink } from "react-router";
 import ImageModal from "../../../components/ImageModal";
 import { LinkButton } from "../../../styles/common.style";

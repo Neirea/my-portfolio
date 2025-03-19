@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 import { useGlobalContext } from "../../../../store/AppContext";
 import { AlertMsg } from "../../../../styles/common.style";

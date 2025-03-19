@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { AlertContainer, LinkButton } from "../styles/common.style";
 
 const Error = (): JSX.Element => {

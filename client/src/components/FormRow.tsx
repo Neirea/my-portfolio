@@ -1,4 +1,4 @@
-import type { HTMLInputTypeAttribute, ChangeEvent } from "react";
+import type { HTMLInputTypeAttribute, ChangeEvent, JSX } from "react";
 
 type FormRowProps = {
     type: HTMLInputTypeAttribute | undefined;

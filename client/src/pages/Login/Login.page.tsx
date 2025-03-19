@@ -1,11 +1,12 @@
 import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
 import { FaGoogle } from "@react-icons/all-files/fa/FaGoogle";
+import type { JSX } from "react";
 import { useLocation } from "react-router";
 import { AlertMsg, LoginButton } from "../../styles/common.style";
 import type { LocationState } from "../../types/app.type";
+import { serverUrl } from "../../utils/data";
 import { useSearchParams } from "../../utils/useSearchParams";
 import { LoginWrapper } from "./Login.style";
-import { serverUrl } from "../../utils/data";
 
 const Login = (): JSX.Element => {
     const location = useLocation<LocationState>();

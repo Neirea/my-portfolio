@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState, type JSX } from "react";
 import ReactDOM from "react-dom";
 import { PortalModal } from "../styles/common.style";
 import { createModalWrapper } from "../utils/modalWrapper";
