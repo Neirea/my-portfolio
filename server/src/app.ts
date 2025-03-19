@@ -12,6 +12,7 @@ import session from "express-session";
 import { buildCheckFunction } from "express-validator";
 import helmet from "helmet";
 import passport from "passport";
+import morgan from "morgan";
 
 import "./passport";
 import errorHandlerMiddleware from "./middleware/errorHandle";
@@ -53,14 +54,8 @@ app.use(express.json());
 app.use(mongoSanitize());
 app.use(buildCheckFunction(["body", "query", "params"])());
 
-if (process.env.NODE_ENV === "development") {
-    import("morgan")
-        .then(({ default: morgan }) => {
-            app.use(morgan("tiny"));
-        })
-        .catch((err) => {
-            console.error("Failed to load morgan:", err);
-        });
+if (process.env.NODE_ENV === "development" || !process.env.NODE_ENV) {
+    app.use(morgan("tiny"));
 }
 if (process.env.NODE_ENV !== "test") {
     const sessionStore = new MongoStore({
