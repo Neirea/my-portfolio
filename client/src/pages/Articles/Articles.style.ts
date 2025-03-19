@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { StyledForm } from "../../styles/styled-components";
+import { StyledForm } from "../../styles/common.style";
 
 export const ArticlePageWrapper = styled.main`
     display: flex;
@@ -230,10 +230,14 @@ export const ArticleCardContainer = styled.div`
     background-color: var(--article-bg-color);
     overflow-wrap: break-word;
     overflow: hidden;
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    transition:
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
 
     &:hover {
-        box-shadow: var(--shadow-1), 0 0 0.5rem var(--tag-color);
+        box-shadow:
+            var(--shadow-1),
+            0 0 0.5rem var(--tag-color);
         transform: translateY(-2px);
     }
 

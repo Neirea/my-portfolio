@@ -1,6 +1,6 @@
 import LoadingSpinner from "../../components/LoadingSpinner";
 import useArticles from "../../hooks/Articles/useArticles";
-import { MoreButton } from "../../styles/styled-components";
+import { MoreButton } from "../../styles/common.style";
 import { socialMediaLinks } from "../../utils/data";
 import hljs from "../../utils/hljsLangs";
 import ArticleCards from "../Articles/components/ArticleCards";
@@ -13,18 +13,18 @@ import {
     TitleHighlight,
 } from "./Home.style";
 
-const Home = () => {
+const Home = (): JSX.Element => {
     const { data } = useArticles("projects");
     const projects = data
         ?.sort((a, b) =>
-            new Date(a.createdAt) > new Date(b.createdAt) ? -1 : 1
+            new Date(a.createdAt) > new Date(b.createdAt) ? -1 : 1,
         )
         .slice(0, 4);
 
     const codeText =
         'const aboutMe = {\n   background: "6 years in e-Sports",\n   specialty:  "web development",\n   favorites: ["Typescript", "Go"],\n}';
 
-    const formatCode = (text: string) => {
+    const formatCode = (text: string): string => {
         return hljs.highlight(text, { language: "javascript" }).value;
     };
 

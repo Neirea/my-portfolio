@@ -1,21 +1,21 @@
 import hljs from "./hljsLangs";
 
 //replace html character references to real characters
-function formatString(str: string) {
+const formatString = (str: string): string => {
     return str
         .replace(/&amp;/g, "&")
         .replace(/&lt;/g, "<")
         .replace(/&gt;/g, ">");
-}
+};
 
 export const handleHtmlString = (
     articleContent: string,
-    languages: string[]
-) => {
+    languages: string[],
+): string => {
     const div = document.createElement("div");
 
     div.innerHTML = articleContent;
-    let codeElements = div.querySelectorAll("pre");
+    const codeElements = div.querySelectorAll("pre");
     if (!codeElements.length) return articleContent;
 
     codeElements.forEach((elem, index) => {
@@ -23,7 +23,7 @@ export const handleHtmlString = (
         const regex = /<br[^>]*>/gi;
         let codeElementWithNewLines = formatString(elem.innerHTML).replace(
             regex,
-            "\n"
+            "\n",
         );
         const codeInfo = getCodeInfo(codeElementWithNewLines);
 
@@ -35,8 +35,8 @@ export const handleHtmlString = (
             languages.length > index
                 ? languages[index]
                 : codeInfo?.language
-                ? codeInfo?.language
-                : null;
+                  ? codeInfo?.language
+                  : null;
         const highlightedCodeString = codeElementWithNewLines
             ? currentLang !== null
                 ? hljs.highlight(codeElementWithNewLines, {
@@ -55,18 +55,18 @@ export const handleHtmlString = (
     return resultString;
 };
 
-export const languageDetector = (htmlString: string) => {
-    let languages: string[] = [];
+export const languageDetector = (htmlString: string): string[] => {
+    const languages: string[] = [];
     const div = document.createElement("div");
 
     div.innerHTML = htmlString;
-    let codeElements = div.querySelectorAll("pre");
+    const codeElements = div.querySelectorAll("pre");
 
     codeElements.forEach((elem) => {
         const regex = /<br[^>]*>/gi;
-        let codeElementWithNewLines = formatString(elem.innerHTML).replace(
+        const codeElementWithNewLines = formatString(elem.innerHTML).replace(
             regex,
-            "\n"
+            "\n",
         );
         if (codeElementWithNewLines) {
             const codeInfo = getCodeInfo(codeElementWithNewLines);
@@ -75,7 +75,7 @@ export const languageDetector = (htmlString: string) => {
             } else {
                 languages.push(
                     hljs.highlightAuto(codeElementWithNewLines).language ||
-                        "plaintext"
+                        "plaintext",
                 );
             }
         }
@@ -84,15 +84,17 @@ export const languageDetector = (htmlString: string) => {
     return languages;
 };
 
-function getChildrenElementsString(elements: HTMLCollection) {
+const getChildrenElementsString = (elements: HTMLCollection): string => {
     let result = "";
     for (let i = 0; i < elements.length; i++) {
         result += elements[i].outerHTML;
     }
     return result;
-}
+};
 
-function getCodeInfo(code: string) {
+const getCodeInfo = (
+    code: string,
+): { language: string; code: string } | undefined => {
     let language = "";
     if (code.indexOf("~!") !== -1 && code.indexOf("!~") !== -1) {
         language = code.substring(code.indexOf("~!") + 2, code.indexOf("!~"));
@@ -102,4 +104,4 @@ function getCodeInfo(code: string) {
         }
     }
     return undefined;
-}
+};

@@ -68,9 +68,9 @@ export type ArticleEditor = {
     category: Category;
     demo_link: string;
     source_link: string;
-    content?: string;
-    image?: string;
-    img_id?: string;
+    content: string;
+    image: string;
+    img_id: string;
 };
 
 export type ArticleCreated = ArticleEditor & {

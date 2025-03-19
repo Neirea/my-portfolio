@@ -20,12 +20,13 @@ type NavMenuProps = {
     setShowMenu: Dispatch<SetStateAction<boolean>>;
 };
 
-const NavMenuItems = ({ handleMenuClick }: NavMenuItemsProps) => {
+const NavMenuItems = ({ handleMenuClick }: NavMenuItemsProps): JSX.Element => {
     const queryClient = useQueryClient();
-    const fetchBlogs = (link: string) => {
+
+    const fetchBlogs = (link: string): void => {
         if (link === "/blog") {
-            queryClient.prefetchQuery(["articles", "blog"], () =>
-                getArticles("blog")
+            void queryClient.prefetchQuery(["articles", "blog"], () =>
+                getArticles("blog"),
             );
         }
     };
@@ -57,7 +58,7 @@ const NavMenuItems = ({ handleMenuClick }: NavMenuItemsProps) => {
     );
 };
 
-const NavMenu = ({ showMenu, setShowMenu }: NavMenuProps) => {
+const NavMenu = ({ showMenu, setShowMenu }: NavMenuProps): JSX.Element => {
     const menuContainerRef = useRef<HTMLElement | null>(null);
     const menuRef = useRef<HTMLUListElement | null>(null);
 
@@ -70,7 +71,7 @@ const NavMenu = ({ showMenu, setShowMenu }: NavMenuProps) => {
         }
     }, [showMenu]);
 
-    const handleMenuClick = () => {
+    const handleMenuClick = (): void => {
         if (showMenu) setShowMenu(false);
     };
 

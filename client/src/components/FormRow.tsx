@@ -6,7 +6,7 @@ type FormRowProps = {
     label: string;
     value: string;
     handleChange: (
-        e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+        e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
     ) => void;
     focus?: boolean;
     isRequired?: boolean;
@@ -24,7 +24,7 @@ const FormRow = ({
     focus = false,
     isRequired = true,
     ...rest
-}: FormRowProps) => {
+}: FormRowProps): JSX.Element => {
     return (
         <div className="form-row">
             <label htmlFor={name} className="form-label">

@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useCommentsContext from "./useCommentsContext";
+import { getErrorMessage } from "../../../utils/getErrorMessage";
 
-export default function useDeleteCommentCascade() {
+const useDeleteCommentCascade = () => {
     const queryClient = useQueryClient();
     const { articleId, setCommentError, resetCommentState } =
         useCommentsContext();
@@ -16,18 +17,22 @@ export default function useDeleteCommentCascade() {
             index: number;
         }) =>
             axios.delete(
-                `/api/comment/${articleId}/d_all/${commentId}?authorId=${authorId}`
+                `/api/comment/${articleId}/d_all/${commentId}?authorId=${authorId}`,
             ),
         {
             onSuccess() {
                 resetCommentState();
-                queryClient.invalidateQueries(["comments", articleId]);
+                void queryClient.invalidateQueries(["comments", articleId]);
             },
             onError(error: any, { index }) {
-                const errorMessage =
-                    error.response?.data?.msg || "There was some error";
+                const errorMessage = getErrorMessage(
+                    error,
+                    "There was some error",
+                );
                 setCommentError({ index: index, msg: errorMessage });
             },
-        }
+        },
     );
-}
+};
+
+export default useDeleteCommentCascade;

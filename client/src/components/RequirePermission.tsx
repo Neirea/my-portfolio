@@ -9,7 +9,7 @@ const RequirePermission = <Resource extends keyof Permissions>({
 }: {
     resource: Resource;
     action: Permissions[Resource]["action"];
-}) => {
+}): JSX.Element => {
     const { user } = useGlobalContext();
     const location = useLocation();
 

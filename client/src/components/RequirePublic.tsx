@@ -2,7 +2,7 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useGlobalContext } from "../store/AppContext";
 import LoadingSpinner from "./LoadingSpinner";
 
-const RequirePublic = () => {
+const RequirePublic = (): JSX.Element => {
     const { user, userLoading } = useGlobalContext();
     const location = useLocation();
 

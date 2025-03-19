@@ -2,35 +2,37 @@ import { EditorState } from "draft-js";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import useCreateArticle from "../../../hooks/Articles/useCreateArticle";
-import { useGlobalContext } from "../../../store/AppContext";
 import type { LocationState } from "../../../types/app.type";
-import type { ArticleEditor } from "../../../types/article.type";
+import type { ArticleEditor, Category } from "../../../types/article.type";
 import { generateSlug } from "../../../utils/generateSlug";
 import { languageDetector } from "../../../utils/handleHtmlString";
 import EditorLayout from "../components/EditorLayout";
 
-const CreateArticle = () => {
+const CreateArticle = (): JSX.Element => {
     const createArticle = useCreateArticle();
     const location = useLocation<LocationState>();
-    const { user } = useGlobalContext();
 
     const [articleValues, setArticleValues] = useState<ArticleEditor>({
         title: "",
         slug: "",
-        category: location.state?.from?.toString() || "blog",
+        category:
+            (location.state?.from?.pathname.slice(1) as Category) || "blog",
         demo_link: "",
         source_link: "",
+        img_id: "",
+        image: "",
+        content: "",
     });
     const [tags, setTags] = useState("");
     const [selectedImage, setSelectedImage] = useState<File | undefined>(
-        undefined
+        undefined,
     );
     const [preview, setPreview] = useState<string | undefined>(undefined);
     const [editorState, setEditorState] = useState<EditorState>(
-        EditorState.createEmpty()
+        EditorState.createEmpty(),
     );
 
-    const onSubmit = async (editorHTML: string) => {
+    const handleSubmit = (editorHTML: string): void => {
         const articleTags = tags.split(" ");
 
         const createdArticle = {
@@ -50,7 +52,7 @@ const CreateArticle = () => {
         <EditorLayout
             articleValues={articleValues}
             setArticleValues={setArticleValues}
-            onSubmit={onSubmit}
+            onSubmit={handleSubmit}
             editorState={editorState}
             setEditorState={setEditorState}
             preview={preview}

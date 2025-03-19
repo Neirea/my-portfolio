@@ -5,8 +5,9 @@ import type {
     ArticleCreated,
     UploadedImageResponse,
 } from "../../types/article.type";
+import { getErrorMessage } from "../../utils/getErrorMessage";
 
-export default function useCreateArticle() {
+const useCreateArticle = () => {
     const queryClient = useQueryClient();
     const createArticle = useMutation(
         (newArticle: ArticleCreated) =>
@@ -15,12 +16,12 @@ export default function useCreateArticle() {
                 .then((res) => res.data.article),
         {
             onSuccess(newArticle) {
-                queryClient.invalidateQueries([
+                void queryClient.invalidateQueries([
                     "articles",
                     newArticle.category,
                 ]);
             },
-        }
+        },
     );
     return useMutation(
         async ({
@@ -35,7 +36,7 @@ export default function useCreateArticle() {
             data.append("image", selectedImage);
             const imageResponse = await axios.post<UploadedImageResponse>(
                 "/api/article/upload",
-                data
+                data,
             );
 
             newArticle.image = imageResponse.data.image.src;
@@ -44,10 +45,14 @@ export default function useCreateArticle() {
         },
 
         {
-            onError(error: any) {
-                error.message =
-                    error.response?.data?.msg || "There was some error";
+            onError(error) {
+                (error as Error).message = getErrorMessage(
+                    error,
+                    "There was some error",
+                );
             },
-        }
+        },
     );
-}
+};
+
+export default useCreateArticle;

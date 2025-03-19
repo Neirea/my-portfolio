@@ -1,19 +1,16 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { type ChangeEvent, type FormEvent, useEffect, useState } from "react";
 import FormRow from "../../components/FormRow";
 import SuccessModal from "../../components/SuccessModal";
 import { useGlobalContext } from "../../store/AppContext";
-import {
-    AlertMsg,
-    BlockButton,
-    StyledForm,
-} from "../../styles/styled-components";
+import { AlertMsg, BlockButton, StyledForm } from "../../styles/common.style";
 import { recaptchaKey, socialMediaLinks } from "../../utils/data";
-import { LinkGroup } from "./Contact.style";
-import { useTitle } from "../../utils/useTitle";
+import { getErrorMessage } from "../../utils/getErrorMessage";
 import { getRecaptchaToken } from "../../utils/recaptcha";
+import { useTitle } from "../../utils/useTitle";
+import { LinkGroup } from "./Contact.style";
 
-const Contact = () => {
+const Contact = (): JSX.Element => {
     const { user } = useGlobalContext();
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
@@ -33,7 +30,7 @@ const Contact = () => {
         script.src = `https://www.google.com/recaptcha/enterprise.js?render=${recaptchaKey}`;
         script.async = true;
         document.body.appendChild(script);
-        return () => {
+        return (): void => {
             const script = document.getElementById(scriptId);
             if (script) {
                 script.remove();
@@ -60,12 +57,12 @@ const Contact = () => {
     }, [user]);
 
     const handleChange = (
-        e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-    ) => {
+        e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+    ): void => {
         setValues({ ...values, [e.target.name]: e.target.value });
     };
 
-    const onSubmit = async (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent): Promise<void> => {
         e.preventDefault();
         setLoading(true);
 
@@ -88,22 +85,21 @@ const Contact = () => {
             setValues({ ...values, message: "" });
             setError("");
         } catch (error) {
-            if (error instanceof AxiosError) {
-                setError(error?.response?.data?.msg || "There was an error!");
-            }
+            const errorMessage = getErrorMessage(error, "There was an error");
+            setError(errorMessage);
         } finally {
             setLoading(false);
         }
     };
 
-    const closeModal = () => {
+    const closeModal = (): void => {
         setModalOpen(false);
     };
 
     return (
         <main>
             {modalOpen && <SuccessModal closeModal={closeModal} />}
-            <StyledForm onSubmit={onSubmit}>
+            <StyledForm onSubmit={(e) => void handleSubmit(e)}>
                 <FormRow
                     focus={true}
                     type="name"

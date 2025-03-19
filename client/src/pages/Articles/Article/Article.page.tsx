@@ -8,8 +8,11 @@ import {
     AdminButton,
     AdminButtonLink,
     AlertContainer,
-} from "../../../styles/styled-components";
+} from "../../../styles/common.style";
 import type { Category } from "../../../types/article.type";
+import { hasPermission } from "../../../utils/abac";
+import { getErrorMessage } from "../../../utils/getErrorMessage";
+import { useTitle } from "../../../utils/useTitle";
 import {
     ArticleContentWrapper,
     ArticlePageWrapper,
@@ -17,10 +20,8 @@ import {
 } from "../Articles.style";
 import ArticlePost from "./ArticlePost";
 import Comments from "./Comments/Comments";
-import { useTitle } from "../../../utils/useTitle";
-import { hasPermission } from "../../../utils/abac";
 
-const Article = ({ type }: { type: Category }) => {
+const Article = ({ type }: { type: Category }): JSX.Element => {
     const { slug } = useParams();
     const navigate = useNavigate();
     const { user } = useGlobalContext();
@@ -42,7 +43,7 @@ const Article = ({ type }: { type: Category }) => {
     const canUpdate = hasPermission(user, "articles", "update");
     const canDelete = hasPermission(user, "articles", "delete");
 
-    const handleDelete = async (articleId: string) => {
+    const handleDelete = (articleId: string): void => {
         deleteArticle({ articleId, type });
         navigate(`/${type}`);
     };
@@ -50,9 +51,8 @@ const Article = ({ type }: { type: Category }) => {
     useTitle(article?.title);
 
     if (articleIsError || deleteIsError) {
-        const errorObj: any = articleError || deleteError;
-        const errorMsg =
-            errorObj?.response?.data?.msg || "There was some error";
+        const errorObj = articleError || deleteError;
+        const errorMsg = getErrorMessage(errorObj, "There was some error");
 
         return (
             <AlertContainer>

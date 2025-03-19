@@ -12,13 +12,13 @@ import DisplayMode from "./DisplayMode/DisplayMode";
 import NavMenu from "./NavMenu/NavMenu";
 import UserMenu from "./UserMenu/UserMenu";
 
-const Header = () => {
+const Header = (): JSX.Element => {
     const [showNavMenu, setShowNavMenu] = useState(false);
     const [showUserMenu, setShowUserMenu] = useState(false);
     const navMenuButton = useRef(null);
     useOutsideClick(navMenuButton, setShowNavMenu);
 
-    const toggleNavMenu = () => {
+    const toggleNavMenu = (): void => {
         setShowNavMenu(!showNavMenu);
     };
 

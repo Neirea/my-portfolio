@@ -5,8 +5,9 @@ import type {
     ArticleUpdated,
     UploadedImageResponse,
 } from "../../types/article.type";
+import { getErrorMessage } from "../../utils/getErrorMessage";
 
-export default function useEditArticle() {
+const useEditArticle = () => {
     const queryClient = useQueryClient();
     const editArticle = useMutation(
         ({
@@ -17,19 +18,18 @@ export default function useEditArticle() {
             newArticle: ArticleUpdated;
         }) =>
             axios
-                .put<{ article: Article }>(
-                    `/api/article/${articleId}`,
-                    newArticle
-                )
+                .put<{
+                    article: Article;
+                }>(`/api/article/${articleId}`, newArticle)
                 .then((res) => res.data.article),
         {
             onSuccess(newArticle) {
-                queryClient.invalidateQueries([
+                void queryClient.invalidateQueries([
                     "articles",
                     newArticle.category,
                 ]);
             },
-        }
+        },
     );
     return useMutation(
         async ({
@@ -49,7 +49,7 @@ export default function useEditArticle() {
                 data.append("image", selectedImage);
                 const imageResponse = await axios.post<UploadedImageResponse>(
                     "/api/article/upload",
-                    data
+                    data,
                 );
                 newArticle.image = imageResponse.data.image.src;
                 newArticle.img_id = imageResponse.data.image.img_id;
@@ -57,9 +57,14 @@ export default function useEditArticle() {
             }
         },
         {
-            onError(error: any) {
-                error.msg = error.response?.data?.msg || "There was some error";
+            onError(error) {
+                (error as Error).message = getErrorMessage(
+                    error,
+                    "There was some error",
+                );
             },
-        }
+        },
     );
-}
+};
+
+export default useEditArticle;

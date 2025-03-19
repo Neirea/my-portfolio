@@ -1,8 +1,9 @@
-import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { getErrorMessage } from "../../../utils/getErrorMessage";
 import useCommentsContext from "./useCommentsContext";
 
-export default function useDeleteComment() {
+const useDeleteComment = () => {
     const queryClient = useQueryClient();
     const { articleId, setCommentError, resetCommentState } =
         useCommentsContext();
@@ -16,20 +17,24 @@ export default function useDeleteComment() {
             authorId: string;
             index: number;
         }) =>
-            axios.delete(
-                `/api/comment/${articleId}/${commentId}?authorId=${authorId}`
+            axios.delete<void>(
+                `/api/comment/${articleId}/${commentId}?authorId=${authorId}`,
             ),
         {
             onSuccess() {
                 resetCommentState();
 
-                queryClient.invalidateQueries(["comments", articleId]);
+                void queryClient.invalidateQueries(["comments", articleId]);
             },
-            onError(error: any, { index }) {
-                const errorMessage =
-                    error.response?.data?.msg || "There was some error";
+            onError(error, { index }) {
+                const errorMessage = getErrorMessage(
+                    error,
+                    "There was some error",
+                );
                 setCommentError({ index: index, msg: errorMessage });
             },
-        }
+        },
     );
-}
+};
+
+export default useDeleteComment;

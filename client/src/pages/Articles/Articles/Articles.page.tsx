@@ -1,21 +1,23 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import LoadingSpinner from "../../../components/LoadingSpinner";
 import useArticles from "../../../hooks/Articles/useArticles";
 import { useGlobalContext } from "../../../store/AppContext";
-import { AdminButton, AlertContainer } from "../../../styles/styled-components";
+import { AdminButton, AlertContainer } from "../../../styles/common.style";
 import type { Article, Category } from "../../../types/article.type";
-import ArticleCards from "../components/ArticleCards";
-import ArticleSideMenu from "./ArticleSideMenu";
+import { hasPermission } from "../../../utils/abac";
+import { getErrorMessage } from "../../../utils/getErrorMessage";
+import { useTitle } from "../../../utils/useTitle";
 import {
     ArticleCardsWrapper,
     ArticlePageWrapper,
     ArticleSideMenuWrapper,
 } from "../Articles.style";
-import { useTitle } from "../../../utils/useTitle";
-import { hasPermission } from "../../../utils/abac";
+import ArticleCards from "../components/ArticleCards";
+import ArticleSideMenu from "./ArticleSideMenu";
 
-const Articles = ({ type }: { type: Category }) => {
+const Articles = ({ type }: { type: Category }): JSX.Element => {
+    const location = useLocation();
     const { user } = useGlobalContext();
     const [tags, setTags] = useState<string[]>([]);
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -31,18 +33,21 @@ const Articles = ({ type }: { type: Category }) => {
     useEffect(() => {
         if (!articles) return;
 
-        let articleTags: string[] = [];
+        const articleTags: string[] = [];
         for (let i = 0; i < articles.length; i++) {
             articles[i].tags.forEach((elem) => {
-                articles[i].category === type &&
-                    articleTags.indexOf(elem) === -1 &&
+                if (
+                    articles[i].category === type &&
+                    articleTags.indexOf(elem) === -1
+                ) {
                     articleTags.push(elem);
+                }
             });
         }
         setTags(articleTags);
     }, [type, articles]);
 
-    const isArticleShow = (element: Article) => {
+    const isArticleShow = (element: Article): boolean => {
         return (
             !selectedTags.length ||
             selectedTags.every((tag) => element.tags.indexOf(tag) > -1)
@@ -51,9 +56,7 @@ const Articles = ({ type }: { type: Category }) => {
     const articleCards = articles?.filter((item) => isArticleShow(item));
 
     if (articlesIsError) {
-        const errorObj: any = articlesError;
-        const errorMsg =
-            errorObj?.response?.data?.msg || "There was some error";
+        const errorMsg = getErrorMessage(articlesError, "There was some error");
 
         return (
             <>
@@ -85,7 +88,7 @@ const Articles = ({ type }: { type: Category }) => {
 
     return (
         <ArticlePageWrapper>
-            {!!articleCards?.length ? (
+            {articleCards?.length ? (
                 <ArticleCardsWrapper className="flex-item-1">
                     <ArticleCards type={type} articleCards={articleCards} />
                 </ArticleCardsWrapper>
@@ -110,7 +113,7 @@ const Articles = ({ type }: { type: Category }) => {
                 <NavLink
                     className="create-article-button"
                     to="/create-article"
-                    state={{ from: type }}
+                    state={{ from: location }}
                     replace
                 >
                     <AdminButton>Create Article</AdminButton>

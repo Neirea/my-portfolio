@@ -1,6 +1,6 @@
-import { AlertContainer, LinkButton } from "../styles/styled-components";
+import { AlertContainer, LinkButton } from "../styles/common.style";
 
-const Error = () => {
+const Error = (): JSX.Element => {
     return (
         <AlertContainer as="main">
             <b style={{ fontSize: "9rem" }}>404</b>

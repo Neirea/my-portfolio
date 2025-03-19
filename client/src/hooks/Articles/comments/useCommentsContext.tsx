@@ -35,7 +35,7 @@ export const CommentsProvider = ({
 }: {
     value: { articleId: string | undefined };
     children: ReactNode;
-}) => {
+}): JSX.Element => {
     const articleId = value.articleId;
     const [commentState, setCommentState] =
         useState<CommentState>(initialCommentState);
@@ -63,7 +63,7 @@ export const CommentsProvider = ({
     );
 };
 
-const useCommentsContext = () => {
+const useCommentsContext = (): CommentsContext => {
     return useContext(CommentsContext);
 };
 

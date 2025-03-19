@@ -2,7 +2,7 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useGlobalContext } from "../store/AppContext";
 import LoadingSpinner from "./LoadingSpinner";
 
-const RequireAuth = () => {
+const RequireAuth = (): JSX.Element => {
     const { user, userLoading } = useGlobalContext();
     const location = useLocation();
 

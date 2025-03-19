@@ -3,18 +3,18 @@ import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
 import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import ImageModal from "../../../components/ImageModal";
-import { LinkButton } from "../../../styles/styled-components";
+import { LinkButton } from "../../../styles/common.style";
 import type { Article } from "../../../types/article.type";
 import { handleDate } from "../../../utils/handleDate";
 import { TagsGroup } from "../Articles.style";
 
-const ArticlePost = ({ article }: { article: Article }) => {
+const ArticlePost = ({ article }: { article: Article }): JSX.Element => {
     const articleRef = useRef<HTMLElement>(null);
     const [imagePortal, setImagePortal] = useState<HTMLImageElement | null>(
-        null
+        null,
     );
 
-    const handleClose = () => {
+    const handleClose = (): void => {
         setImagePortal(null);
     };
 
@@ -30,10 +30,10 @@ const ArticlePost = ({ article }: { article: Article }) => {
             },
             {
                 signal: controller.signal,
-            }
+            },
         );
 
-        return () => {
+        return (): void => {
             if (!articleRef.current) return;
             controller.abort();
         };

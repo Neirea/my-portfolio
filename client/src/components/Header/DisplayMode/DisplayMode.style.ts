@@ -31,7 +31,8 @@ export const DisplayModeWrapper = styled(MenuItem)<DisplayModeWrapperProps>`
         height: 2rem;
         border-radius: 2rem;
         background-color: var(--main-bg-color);
-        box-shadow: inset 0 2px 0.75rem rgba(0, 0, 0, 0.1),
+        box-shadow:
+            inset 0 2px 0.75rem rgba(0, 0, 0, 0.1),
             inset 0 2px 2px rgba(0, 0, 0, 0.1),
             inset 0 -1px 1px rgba(0, 0, 0, 0.1);
 
@@ -48,7 +49,9 @@ export const DisplayModeWrapper = styled(MenuItem)<DisplayModeWrapperProps>`
             );
             border-radius: 50%;
             transform: scale(0.8);
-            transition: left var(--transition), color var(--transition);
+            transition:
+                left var(--transition),
+                color var(--transition);
             box-shadow: inset 0 0 0.15rem var(--faded-text-color);
 
             .darkmode-icon {

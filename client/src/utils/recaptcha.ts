@@ -1,17 +1,15 @@
 import { recaptchaKey } from "./data";
 
-export async function getRecaptchaToken(action: string) {
-    const recaptcha = (window as any).grecaptcha.enterprise;
-    return new Promise((resolve) => {
-        recaptcha.ready(async () => {
-            try {
-                const token: string = await recaptcha.execute(recaptchaKey, {
+export const getRecaptchaToken = async (action: string): Promise<string> => {
+    const recaptcha = window.grecaptcha?.enterprise;
+    return new Promise((resolve, reject) => {
+        recaptcha?.ready(() => {
+            void recaptcha
+                .execute(recaptchaKey, {
                     action,
-                });
-                resolve(token);
-            } catch (error) {
-                resolve("");
-            }
+                })
+                .then((token) => resolve(token))
+                .catch((e: Error) => reject(e));
         });
     });
-}
+};

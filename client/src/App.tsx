@@ -12,7 +12,7 @@ import { useGlobalContext } from "./store/AppContext";
 import { GlobalStyles } from "./styles/global.style";
 import { darkTheme, lightTheme } from "./styles/theme";
 
-function App() {
+const App = (): JSX.Element => {
     const { darkMode } = useGlobalContext();
     const selectedTheme = darkMode ? darkTheme : lightTheme;
 
@@ -51,13 +51,13 @@ function App() {
                                     }
                                 />
                             </Route>
-                        )
+                        ),
                     )}
                 </Route>
                 <Route path="*" element={<Error />} />
             </Routes>
         </ThemeProvider>
     );
-}
+};
 
 export default App;

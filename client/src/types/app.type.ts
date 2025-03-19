@@ -1,4 +1,6 @@
+import type { AxiosError } from "axios";
 import type { Dispatch, SetStateAction } from "react";
+import type { Location } from "react-router-dom";
 import type { User } from "./abac.type";
 
 export type AppContextValues = {
@@ -6,7 +8,7 @@ export type AppContextValues = {
     userLoading: boolean;
     user: User | undefined;
     setUser: Dispatch<SetStateAction<User | undefined>>;
-    logoutUser: () => void;
+    logoutUser: () => Promise<void>;
     toggleDarkMode: () => void;
 };
 
@@ -16,7 +18,15 @@ export type Alert = {
     type: string;
 };
 
-export type LocationState = {
-    from?: Location;
-    tag?: string;
-};
+export type LocationState =
+    | {
+          from?: Location;
+          tag?: string;
+      }
+    | undefined;
+
+export interface CustomAxiosError extends AxiosError {
+    response?: AxiosError["response"] & {
+        data?: { msg?: string };
+    };
+}

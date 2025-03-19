@@ -8,11 +8,11 @@ import { AdminDashboardWrapper } from "./AdminDashboard.style";
 import { useGlobalContext } from "../../store/AppContext";
 import { hasPermission } from "../../utils/abac";
 
-const AdminDashboard = () => {
+const AdminDashboard = (): JSX.Element => {
     const { user: currentUser } = useGlobalContext();
     const { mutate: banUser } = useBanUser();
     const { data: users } = useQuery<User[]>(["users"], () =>
-        axios.get("/api/user").then((res) => res.data.users)
+        axios.get<{ users: User[] }>("/api/user").then((res) => res.data.users),
     );
 
     return (

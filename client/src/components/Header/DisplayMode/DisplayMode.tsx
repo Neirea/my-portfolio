@@ -3,7 +3,7 @@ import { CgSun } from "@react-icons/all-files/cg/CgSun";
 import { useGlobalContext } from "../../../store/AppContext";
 import { DisplayModeWrapper } from "./DisplayMode.style";
 
-const DisplayMode = () => {
+const DisplayMode = (): JSX.Element => {
     const { darkMode, toggleDarkMode } = useGlobalContext();
     return (
         <DisplayModeWrapper $darkMode={darkMode}>

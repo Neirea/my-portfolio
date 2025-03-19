@@ -1,10 +1,10 @@
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 import { useGlobalContext } from "../../../../store/AppContext";
-import { AlertMsg } from "../../../../styles/styled-components";
+import { AlertMsg } from "../../../../styles/common.style";
 import type { CommentJsx } from "../../../../types/article.type";
 import { handleDate } from "../../../../utils/handleDate";
 import CommentForm from "./CommentForm";
-import { SingleCommentContainer } from "./Comments.styles";
+import { SingleCommentContainer } from "./Comments.style";
 import ToolBar from "./CommentToolBar";
 import EditComment from "./EditComment";
 
@@ -13,7 +13,10 @@ type SingleCommentProps = {
     commentElement: CommentJsx;
 };
 
-const SingleComment = ({ index, commentElement }: SingleCommentProps) => {
+const SingleComment = ({
+    index,
+    commentElement,
+}: SingleCommentProps): JSX.Element => {
     const { user } = useGlobalContext();
 
     const { level, comment, parentComment } = commentElement;
@@ -41,9 +44,9 @@ const SingleComment = ({ index, commentElement }: SingleCommentProps) => {
 
     const isShowParentComment = level > 5 && parentComment;
 
-    function truncateText(text: string, limit: number) {
+    const truncateText = (text: string, limit: number): string => {
         return text.length > limit ? text.slice(0, limit) + "..." : text;
-    }
+    };
 
     return (
         <>
@@ -53,10 +56,10 @@ const SingleComment = ({ index, commentElement }: SingleCommentProps) => {
                         <span
                             className="comment-header-reply"
                             title={parentComment.user.name}
-                        >{`to: \"${truncateText(
+                        >{`to: "${truncateText(
                             parentComment.message,
-                            20
-                        )}\" by:`}</span>
+                            20,
+                        )}" by:`}</span>
                         <img
                             className="comment-img"
                             src={parentComment.user.avatar}

@@ -13,7 +13,7 @@ const ArticlePostsSideMenu = ({
     tags,
     selectedTags,
     setSelectedTags,
-}: ArticlePostsSideMenuProps) => {
+}: ArticlePostsSideMenuProps): JSX.Element => {
     const location = useLocation<LocationState>();
 
     useEffect(() => {
@@ -23,15 +23,16 @@ const ArticlePostsSideMenu = ({
         window.history.replaceState({}, "");
     }, [location.state, setSelectedTags]);
 
-    const filterTags = (elem: string) => {
+    const filterTags = (elem: string): void => {
         const index = selectedTags.indexOf(elem);
         if (index > -1) {
             setSelectedTags((old) => old.filter((tag) => tag !== elem));
         } else {
             setSelectedTags((old) => [...old, elem]);
         }
-        window.innerWidth < 1000 &&
+        if (window.innerWidth < 1000) {
             window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+        }
     };
 
     return (
@@ -42,7 +43,7 @@ const ArticlePostsSideMenu = ({
                     <TagsGroup>
                         {tags.map((elem, i) => {
                             const isActive = selectedTags.some(
-                                (tag) => tag === elem
+                                (tag) => tag === elem,
                             );
                             return (
                                 <button

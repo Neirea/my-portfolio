@@ -10,9 +10,15 @@ import useDeleteCommentCascade from "../../../../hooks/Articles/comments/useDele
 import { useGlobalContext } from "../../../../store/AppContext";
 import type { Comment } from "../../../../types/article.type";
 import { hasPermission } from "../../../../utils/abac";
-import { ReplyButton, ToolsButton } from "./Comments.styles";
+import { ReplyButton, ToolsButton } from "./Comments.style";
 
-const ToolBar = ({ index, comment }: { index: number; comment: Comment }) => {
+const ToolBar = ({
+    index,
+    comment,
+}: {
+    index: number;
+    comment: Comment;
+}): JSX.Element => {
     const { user } = useGlobalContext();
 
     const { articleId, setCommentState, commentState, resetCommentState } =
@@ -31,7 +37,7 @@ const ToolBar = ({ index, comment }: { index: number; comment: Comment }) => {
     const isActiveReply =
         commentState.type === "reply" && comment._id === commentState.id;
 
-    const handleEditCommentClick = () => {
+    const handleEditCommentClick = (): void => {
         resetCommentState();
         setCommentState({
             type: "edit",
@@ -39,7 +45,7 @@ const ToolBar = ({ index, comment }: { index: number; comment: Comment }) => {
         });
     };
 
-    const handleReply = () => {
+    const handleReply = (): void => {
         if (commentState.id === comment._id) {
             resetCommentState();
             return;

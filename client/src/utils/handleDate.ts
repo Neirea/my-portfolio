@@ -1,4 +1,4 @@
-export const handleDate = (date: string, editedAt?: string) => {
+export const handleDate = (date: string, editedAt?: string): string => {
     const dateAt = new Date(date);
     const dateNowMs = Date.now();
     const timeDifference = dateNowMs - dateAt.getTime();

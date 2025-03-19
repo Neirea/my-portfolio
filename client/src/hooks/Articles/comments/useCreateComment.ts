@@ -1,6 +1,7 @@
-import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 import type { Comment } from "../../../types/article.type";
+import { getErrorMessage } from "../../../utils/getErrorMessage";
 import useCommentsContext from "./useCommentsContext";
 
 type SubmitComment = {
@@ -8,7 +9,7 @@ type SubmitComment = {
     parentId: string | null;
 };
 
-export default function useCreateComment() {
+const useCreateComment = () => {
     const queryClient = useQueryClient();
     const { articleId, setCommentError, resetCommentState } =
         useCommentsContext();
@@ -16,15 +17,13 @@ export default function useCreateComment() {
     return useMutation(
         ({ submitData }: { submitData: SubmitComment; index?: number }) =>
             axios
-                .post<{ comment: Comment }>(
-                    `/api/comment/${articleId}`,
-                    submitData
-                )
+                .post<{
+                    comment: Comment;
+                }>(`/api/comment/${articleId}`, submitData)
                 .then((res) => res.data.comment),
         {
-            onSuccess(newData, { submitData, index }) {
+            async onSuccess(newData, { submitData, index }) {
                 resetCommentState();
-                queryClient.invalidateQueries(["comments", articleId]);
 
                 const oldData = queryClient.getQueryData<Comment[]>([
                     "comments",
@@ -33,23 +32,29 @@ export default function useCreateComment() {
 
                 if (!oldData) return;
 
+                await queryClient.invalidateQueries(["comments", articleId]);
+
                 const repliedTo = oldData.find(
-                    (item) => item._id === submitData.parentId
+                    (item) => item._id === submitData.parentId,
                 );
                 if (index !== undefined) {
                     repliedTo?.replies.push(newData);
                 } else {
                     queryClient.setQueriesData<Comment[]>(
                         ["comments", articleId],
-                        [newData, ...oldData]
+                        [newData, ...oldData],
                     );
                 }
             },
-            onError(error: any, { index }) {
-                const errorMessage =
-                    error.response?.data?.msg || "There was some error";
+            onError(error, { index }) {
+                const errorMessage = getErrorMessage(
+                    error,
+                    "There was some error",
+                );
                 setCommentError({ index: index, msg: errorMessage });
             },
-        }
+        },
     );
-}
+};
+
+export default useCreateComment;

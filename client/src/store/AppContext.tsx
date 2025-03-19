@@ -13,7 +13,11 @@ import type { User } from "../types/abac.type";
 
 export const AppContext = createContext({} as AppContextValues);
 
-export const AppProvider = ({ children }: { children: ReactNode }) => {
+export const AppProvider = ({
+    children,
+}: {
+    children: ReactNode;
+}): JSX.Element => {
     const osDarkMode =
         window.matchMedia &&
         window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -35,7 +39,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
             onSuccess: (data) => {
                 if (!data) return;
                 setUser(data.user);
-                axios.interceptors.request.use(function (config) {
+                axios.interceptors.request.use((config) => {
                     type CustomHeaders = AxiosHeaders & {
                         "csrf-token": string;
                     };
@@ -48,10 +52,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
             onSettled() {
                 setUserLoading(false);
             },
-        }
+        },
     );
 
-    const toggleDarkMode = () => {
+    const toggleDarkMode = (): void => {
         setDarkMode(!darkMode);
     };
 
@@ -62,7 +66,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
             : mainBgLightColor;
     }, [darkMode]);
 
-    const logoutUser = async () => {
+    const logoutUser = async (): Promise<void> => {
         try {
             await axios.delete("/api/auth/logout");
             setUser(undefined);
@@ -87,6 +91,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     );
 };
 
-export const useGlobalContext = () => {
+export const useGlobalContext = (): AppContextValues => {
     return useContext(AppContext);
 };

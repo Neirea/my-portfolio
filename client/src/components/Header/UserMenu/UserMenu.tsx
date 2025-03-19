@@ -2,7 +2,7 @@ import { BiChevronDown } from "@react-icons/all-files/bi/BiChevronDown";
 import { type Dispatch, type SetStateAction, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../../../store/AppContext";
-import { ReadButton } from "../../../styles/styled-components";
+import { ReadButton } from "../../../styles/common.style";
 import type { LocationState } from "../../../types/app.type";
 import { useOutsideClick } from "../../../utils/useOutsideClick";
 import { StyledMenuLink } from "../Header.style";
@@ -14,7 +14,10 @@ type UserMenuProps = {
     setShowUserMenu: Dispatch<SetStateAction<boolean>>;
 };
 
-const UserMenu = ({ showUserMenu, setShowUserMenu }: UserMenuProps) => {
+const UserMenu = ({
+    showUserMenu,
+    setShowUserMenu,
+}: UserMenuProps): JSX.Element => {
     const location = useLocation<LocationState>();
     const navigate = useNavigate();
     const { user, logoutUser, userLoading } = useGlobalContext();
@@ -43,14 +46,15 @@ const UserMenu = ({ showUserMenu, setShowUserMenu }: UserMenuProps) => {
         }
     }, [showUserMenu]);
 
-    const toggleUserMenu = () => {
+    const toggleUserMenu = (): void => {
         setShowUserMenu(!showUserMenu);
     };
 
-    const handleLogout = () => {
-        showUserMenu && setShowUserMenu(false);
-        logoutUser();
-        navigate(logoutUrl);
+    const handleLogout = (): void => {
+        if (showUserMenu) {
+            setShowUserMenu(false);
+        }
+        void logoutUser().then(() => navigate(logoutUrl));
     };
 
     if (userLoading) {

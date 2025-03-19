@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 
-export const useTitle = (newTitle: string | undefined) => {
+export const useTitle = (newTitle: string | undefined): void => {
     useEffect(() => {
         if (!newTitle) return;
         const title = document.querySelector("title");
         if (title) {
             title.textContent = newTitle + " | Neirea";
         }
-        return () => {
+        return (): void => {
             if (title) {
                 title.textContent = "Neirea";
             }

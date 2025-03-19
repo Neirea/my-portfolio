@@ -1,15 +1,15 @@
 import { Fragment, useRef, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { AlertMsg } from "../../../../styles/styled-components";
+import { AlertMsg } from "../../../../styles/common.style";
 import CommentForm from "./CommentForm";
-import { CommentsWrapper } from "./Comments.styles";
+import { CommentsWrapper } from "./Comments.style";
 import SingleComment from "./SingleComment";
 import useComments from "../../../../hooks/Articles/comments/useComments";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 import { useGlobalContext } from "../../../../store/AppContext";
 import autoAnimate from "@formkit/auto-animate";
 
-const Comments = () => {
+const Comments = (): JSX.Element => {
     const location = useLocation();
     const { user } = useGlobalContext();
     const commentsWrapperRef = useRef<HTMLElement>(null);
@@ -23,7 +23,9 @@ const Comments = () => {
         user && user.isBanned === false && commentState.type === "none";
 
     useEffect(() => {
-        commentsWrapperRef.current && autoAnimate(commentsWrapperRef.current);
+        if (commentsWrapperRef.current) {
+            autoAnimate(commentsWrapperRef.current);
+        }
     }, [parent]);
 
     return (

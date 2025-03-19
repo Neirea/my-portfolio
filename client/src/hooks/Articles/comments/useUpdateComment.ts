@@ -2,8 +2,9 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Comment } from "../../../types/article.type";
 import useCommentsContext from "./useCommentsContext";
+import { getErrorMessage } from "../../../utils/getErrorMessage";
 
-export default function useUpdateComment() {
+const useUpdateComment = () => {
     const queryClient = useQueryClient();
     const { articleId, setCommentError, resetCommentState } =
         useCommentsContext();
@@ -13,7 +14,6 @@ export default function useUpdateComment() {
             commentId,
             msg,
             authorId,
-            index,
         }: {
             commentId: string;
             msg: string;
@@ -22,18 +22,22 @@ export default function useUpdateComment() {
         }) =>
             axios.patch<{ comment: Comment }>(
                 `/api/comment/${articleId}/${commentId}?authorId=${authorId}`,
-                { message: msg }
+                { message: msg },
             ),
         {
             onSuccess() {
                 resetCommentState();
-                queryClient.invalidateQueries(["comments", articleId]);
+                void queryClient.invalidateQueries(["comments", articleId]);
             },
             onError(error: any, { index }) {
-                const errorMessage =
-                    error.response?.data?.msg || "There was some error";
+                const errorMessage = getErrorMessage(
+                    error,
+                    "There was some error",
+                );
                 setCommentError({ index: index, msg: errorMessage });
             },
-        }
+        },
     );
-}
+};
+
+export default useUpdateComment;

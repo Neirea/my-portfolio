@@ -8,14 +8,15 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import { AppProvider } from "./store/AppContext";
+import { posthogHost, posthogKey, serverUrl } from "./utils/data";
 
 const options: Partial<PostHogConfig> = {
-    api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST,
+    api_host: posthogHost,
     persistence: "memory",
     disable_session_recording: true,
 };
 
-axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
+axios.defaults.baseURL = serverUrl;
 axios.defaults.withCredentials = true;
 
 const queryClient = new QueryClient();
@@ -23,14 +24,11 @@ queryClient.setQueryDefaults(["articles"], { staleTime: 5 * 60 * 1000 });
 queryClient.setQueryDefaults(["comments"], { staleTime: 60 * 1000 });
 
 const root = ReactDOM.createRoot(
-    document.getElementById("root") as HTMLElement
+    document.getElementById("root") as HTMLElement,
 );
 root.render(
     <React.StrictMode>
-        <PostHogProvider
-            apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY}
-            options={options}
-        >
+        <PostHogProvider apiKey={posthogKey} options={options}>
             <BrowserRouter>
                 <QueryClientProvider client={queryClient}>
                     <AppProvider>
@@ -40,5 +38,5 @@ root.render(
                 </QueryClientProvider>
             </BrowserRouter>
         </PostHogProvider>
-    </React.StrictMode>
+    </React.StrictMode>,
 );

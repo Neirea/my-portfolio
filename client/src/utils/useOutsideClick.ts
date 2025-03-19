@@ -6,21 +6,21 @@ import {
 } from "react";
 
 export const useOutsideClick = (
-    ref: MutableRefObject<any>,
-    set: Dispatch<SetStateAction<any>>
-) => {
+    ref: MutableRefObject<HTMLElement | null>,
+    set: Dispatch<SetStateAction<any>>,
+): void => {
     useEffect(() => {
         const controller = new AbortController();
         document.addEventListener(
             "click",
             (e: MouseEvent) => {
-                if (ref.current && !ref.current.contains(e.target)) {
+                if (ref.current && !ref.current.contains(e.target as Node)) {
                     set(false);
                 }
             },
-            { signal: controller.signal }
+            { signal: controller.signal },
         );
-        return () => {
+        return (): void => {
             controller.abort();
         };
     }, [ref, set]);

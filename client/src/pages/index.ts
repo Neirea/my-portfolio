@@ -7,10 +7,10 @@ import Unauthorized from "./Unauthorized";
 import Articles from "./Articles/Articles/Articles.page";
 import Article from "./Articles/Article/Article.page";
 const CreateArticle = lazy(
-    () => import("./Articles/CreateArticle/CreateArticle.page")
+    () => import("./Articles/CreateArticle/CreateArticle.page"),
 );
 const EditArticle = lazy(
-    () => import("./Articles/EditArticle/EditArticle.page")
+    () => import("./Articles/EditArticle/EditArticle.page"),
 );
 const AdminDashboard = lazy(() => import("./Admin/AdminDashboard.page"));
 

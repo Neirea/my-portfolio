@@ -1,24 +1,28 @@
 import { useLayoutEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import { PortalModal, SuccessButton } from "../styles/styled-components";
-import createWrapperAndAppend from "../utils/modalWrapper";
+import { PortalModal, SuccessButton } from "../styles/common.style";
+import { createModalWrapper } from "../utils/modalWrapper";
 
-const SuccessModal = ({ closeModal }: { closeModal: () => void }) => {
+const SuccessModal = ({
+    closeModal,
+}: {
+    closeModal: () => void;
+}): JSX.Element => {
     const [modalWrapper, setModalWrapper] = useState<HTMLElement | null>();
 
     useLayoutEffect(() => {
         let modalRoot = document.getElementById("success-portal");
         if (!modalRoot) {
-            modalRoot = createWrapperAndAppend("success-portal");
+            modalRoot = createModalWrapper("success-portal");
         }
 
         setModalWrapper(modalRoot);
-        return () => {
+        return (): void => {
             modalRoot?.parentNode?.removeChild(modalRoot);
         };
     }, []);
 
-    if (!modalWrapper) return null;
+    if (!modalWrapper) return <></>;
 
     return ReactDOM.createPortal(
         <PortalModal>
@@ -29,7 +33,7 @@ const SuccessModal = ({ closeModal }: { closeModal: () => void }) => {
                 </SuccessButton>
             </section>
         </PortalModal>,
-        modalWrapper
+        modalWrapper,
     );
 };
 

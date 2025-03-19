@@ -1,14 +1,15 @@
 import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
 import { FaGoogle } from "@react-icons/all-files/fa/FaGoogle";
 import { useLocation } from "react-router-dom";
-import { AlertMsg, LoginButton } from "../../styles/styled-components";
+import { AlertMsg, LoginButton } from "../../styles/common.style";
 import type { LocationState } from "../../types/app.type";
-import { useCurrentLocation } from "../../utils/useCurrentLocation";
+import { useSearchParams } from "../../utils/useSearchParams";
 import { LoginWrapper } from "./Login.style";
+import { serverUrl } from "../../utils/data";
 
-const Login = () => {
+const Login = (): JSX.Element => {
     const location = useLocation<LocationState>();
-    const queries = useCurrentLocation();
+    const queries = useSearchParams();
     const errorQuery = queries.get("error");
     const fromLocation = location.state?.from;
     const fromUrl =
@@ -16,21 +17,17 @@ const Login = () => {
             ? fromLocation.pathname.slice(1) + fromLocation.search
             : "";
 
-    const handleLoginGithub = async () => {
+    const handleLoginGithub = (): void => {
         window.open(
-            `${
-                import.meta.env.VITE_SERVER_URL
-            }/api/auth/login/github?path=${fromUrl}`,
-            "_self"
+            `${serverUrl}/api/auth/login/github?path=${fromUrl}`,
+            "_self",
         );
     };
 
-    const handleLoginGoogle = async () => {
+    const handleLoginGoogle = (): void => {
         window.open(
-            `${
-                import.meta.env.VITE_SERVER_URL
-            }/api/auth/login/google?path=${fromUrl}`,
-            "_self"
+            `${serverUrl}/api/auth/login/google?path=${fromUrl}`,
+            "_self",
         );
     };
 

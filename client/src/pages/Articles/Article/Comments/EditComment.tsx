@@ -1,7 +1,7 @@
 import { type ChangeEvent, useState } from "react";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 import useUpdateComment from "../../../../hooks/Articles/comments/useUpdateComment";
-import { ReadButton } from "../../../../styles/styled-components";
+import { ReadButton } from "../../../../styles/common.style";
 import type { Comment } from "../../../../types/article.type";
 
 type EditCommentProps = {
@@ -9,12 +9,12 @@ type EditCommentProps = {
     comment: Comment;
 };
 
-const EditComment = ({ index, comment }: EditCommentProps) => {
+const EditComment = ({ index, comment }: EditCommentProps): JSX.Element => {
     const [message, setMessage] = useState(comment.message);
     const { resetCommentState } = useCommentsContext();
     const { mutate: updateComment, isLoading } = useUpdateComment();
 
-    const handleSaveUpdate = async () => {
+    const handleSaveUpdate = (): void => {
         updateComment({
             commentId: comment._id,
             msg: message,
@@ -23,7 +23,7 @@ const EditComment = ({ index, comment }: EditCommentProps) => {
         });
     };
 
-    const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
         setMessage(e.target.value);
     };
 

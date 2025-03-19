@@ -15,9 +15,9 @@ import {
     AdminButton,
     AlertContainer,
     AlertMsg,
-} from "../../../styles/styled-components";
+} from "../../../styles/common.style";
 import { CATEGORIES, type ArticleEditor } from "../../../types/article.type";
-import { useDebounce } from "../../../utils/debounce";
+import { useDebounce } from "../../../utils/useDebounce";
 import { handleHtmlString } from "../../../utils/handleHtmlString";
 import {
     ArticleContentWrapper,
@@ -40,7 +40,7 @@ type EditorLayoutProps = {
     setTags: Dispatch<SetStateAction<string>>;
     success: boolean;
     loading: boolean;
-    alert: any;
+    alert: unknown;
 };
 
 const EditorLayout = ({
@@ -58,9 +58,9 @@ const EditorLayout = ({
     success,
     loading,
     alert,
-}: EditorLayoutProps) => {
+}: EditorLayoutProps): JSX.Element => {
     const editorHTML = draftToHtml(
-        convertToRaw(editorState.getCurrentContent())
+        convertToRaw(editorState.getCurrentContent()),
     );
     const debouncedPreview = useDebounce(handleHtmlString(editorHTML, []), 500);
 
@@ -72,25 +72,25 @@ const EditorLayout = ({
         const objectUrl = URL.createObjectURL(selectedImage);
         setPreview(objectUrl);
 
-        return () => URL.revokeObjectURL(objectUrl);
+        return (): void => URL.revokeObjectURL(objectUrl);
     }, [selectedImage, setPreview]);
 
-    const onEditorStateChange = (state: EditorState) => {
+    const onEditorStateChange = (state: EditorState): void => {
         setEditorState(state);
     };
 
     const handleChange = (
         e: ChangeEvent<
             HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-        >
-    ) => {
+        >,
+    ): void => {
         if (e.target.name === "tags") {
             setTags(e.target.value);
             return;
         }
         setArticleValues({ ...articleValues, [e.target.name]: e.target.value });
     };
-    const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleUpload = (e: ChangeEvent<HTMLInputElement>): void => {
         if (!e.target.files || !e.target.files.length) {
             setSelectedImage(undefined);
             return;
@@ -98,7 +98,7 @@ const EditorLayout = ({
         setSelectedImage(e.target.files[0]);
     };
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = (e: FormEvent): void => {
         e.preventDefault();
         onSubmit(editorHTML);
     };
@@ -185,7 +185,7 @@ const EditorLayout = ({
                         />
                     </div>
                 </div>
-                {alert && <AlertMsg>{alert.message}</AlertMsg>}
+                {alert instanceof Error && <AlertMsg>{alert.message}</AlertMsg>}
                 <input
                     type="html-validator"
                     className="html-validator"

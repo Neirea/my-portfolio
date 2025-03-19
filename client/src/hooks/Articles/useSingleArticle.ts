@@ -6,7 +6,7 @@ const useSingleArticle = (type: Category, slug: string | undefined) => {
     const queryInfo = useArticles(type);
 
     const getArticlesData = (
-        articles: Article[] | undefined
+        articles: Article[] | undefined,
     ): ArticleData[] | null => {
         if (!articles) return null;
         return articles?.map((item) => {

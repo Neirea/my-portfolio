@@ -1,5 +1,5 @@
-import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import type { Comment, CommentJsx } from "../../../types/article.type";
 
 export const parseComments = (comments: Comment[]): CommentJsx[] => {
@@ -8,8 +8,8 @@ export const parseComments = (comments: Comment[]): CommentJsx[] => {
     const parse = (
         comments: Comment[],
         parentComment: Comment | null = null,
-        depth = 0
-    ) => {
+        depth = 0,
+    ): void => {
         for (const comment of comments) {
             result.push({
                 level: depth,
@@ -24,7 +24,7 @@ export const parseComments = (comments: Comment[]): CommentJsx[] => {
     return result;
 };
 
-export default function useComments(articleId: string | undefined) {
+const useComments = (articleId: string | undefined) => {
     return useQuery(
         ["comments", articleId],
         () =>
@@ -33,6 +33,8 @@ export default function useComments(articleId: string | undefined) {
                 .then((res) => res.data.comments),
         {
             select: (comments) => parseComments(comments),
-        }
+        },
     );
-}
+};
+
+export default useComments;

@@ -25,4 +25,7 @@ export const menuItems = [
     { name: "PROJECTS", link: "/projects" },
     { name: "CONTACT", link: "/contact" },
 ];
-export const recaptchaKey = import.meta.env.VITE_RECAPTCHA_CLIENT!; //personal recaptcha sit key
+export const recaptchaKey = import.meta.env.VITE_RECAPTCHA_CLIENT as string;
+export const serverUrl = import.meta.env.VITE_SERVER_URL as string;
+export const posthogHost = import.meta.env.VITE_PUBLIC_POSTHOG_HOST as string;
+export const posthogKey = import.meta.env.VITE_PUBLIC_POSTHOG_KEY as string;

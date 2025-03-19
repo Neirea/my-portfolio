@@ -1,9 +1,9 @@
 import { type ChangeEvent, type FormEvent, useEffect, useState } from "react";
 import useCommentsContext from "../../../../hooks/Articles/comments/useCommentsContext";
 import useCreateComment from "../../../../hooks/Articles/comments/useCreateComment";
-import { ReadButton } from "../../../../styles/styled-components";
+import { ReadButton } from "../../../../styles/common.style";
 import type { Comment } from "../../../../types/article.type";
-import { CommentFormWrapper } from "./Comments.styles";
+import { CommentFormWrapper } from "./Comments.style";
 
 type ReplyFormProps = {
     comment?: Comment;
@@ -12,16 +12,21 @@ type ReplyFormProps = {
     depth?: number;
 };
 
-const ReplyForm = ({ comment, index, margin, depth }: ReplyFormProps) => {
+const ReplyForm = ({
+    comment,
+    index,
+    margin,
+    depth,
+}: ReplyFormProps): JSX.Element => {
     const { commentState } = useCommentsContext();
     const { mutate: createComment, isLoading, isSuccess } = useCreateComment();
     const [message, setMessage] = useState("");
 
-    const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
         setMessage(e.target.value);
     };
 
-    const handleSubmit = async (e: FormEvent, index?: number) => {
+    const handleSubmit = (e: FormEvent, index?: number): void => {
         e.preventDefault();
 
         const submitData = {

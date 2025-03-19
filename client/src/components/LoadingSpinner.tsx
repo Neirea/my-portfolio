@@ -1,7 +1,7 @@
 import { useGlobalContext } from "../store/AppContext";
-import { StyledLoading } from "../styles/styled-components";
+import { StyledLoading } from "../styles/common.style";
 
-const LoadingSpinner = (props: Partial<React.CSSProperties>) => {
+const LoadingSpinner = (props: Partial<React.CSSProperties>): JSX.Element => {
     const { darkMode } = useGlobalContext();
 
     const { height, ...restProps } = props;
@@ -13,7 +13,7 @@ const LoadingSpinner = (props: Partial<React.CSSProperties>) => {
                 justifyContent: "center",
                 alignItems: "center",
                 width: "100%",
-                height: props.height || "80vh",
+                height: height || "80vh",
                 ...restProps,
             }}
         >

@@ -10,7 +10,7 @@ import { languageDetector } from "../../../utils/handleHtmlString";
 import EditorLayout from "../components/EditorLayout";
 import { generateSlug } from "../../../utils/generateSlug";
 
-const EditArticle = () => {
+const EditArticle = (): JSX.Element => {
     const { articleId } = useParams();
 
     const [articleValues, setArticleValues] = useState<ArticleEditor>({
@@ -19,10 +19,13 @@ const EditArticle = () => {
         category: "blog",
         demo_link: "",
         source_link: "",
+        img_id: "",
+        image: "",
+        content: "",
     });
     const [tags, setTags] = useState<string>("");
     const [selectedImage, setSelectedImage] = useState<File | undefined>(
-        undefined
+        undefined,
     );
     const [preview, setPreview] = useState<string | undefined>(undefined);
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -35,13 +38,13 @@ const EditArticle = () => {
     } = useQuery(["article", articleId], () =>
         axios
             .get<{ article: Article }>(`/api/article/${articleId}`)
-            .then((res) => res.data.article)
+            .then((res) => res.data.article),
     );
 
     useEffect(() => {
         if (!article) return;
         const contentState = ContentState.createFromBlockArray(
-            htmlToDraft(article.content).contentBlocks
+            htmlToDraft(article.content).contentBlocks,
         );
 
         setEditorState(EditorState.createWithContent(contentState));
@@ -59,7 +62,7 @@ const EditArticle = () => {
         setTags(article.tags.join(" "));
     }, [article, articleId]);
 
-    const onSubmit = async (editorHTML: string) => {
+    const handleSubmit = (editorHTML: string): void => {
         if (!article) return;
         const articleTags = tags.split(" ");
 
@@ -78,7 +81,7 @@ const EditArticle = () => {
         <EditorLayout
             articleValues={articleValues}
             setArticleValues={setArticleValues}
-            onSubmit={onSubmit}
+            onSubmit={handleSubmit}
             editorState={editorState}
             setEditorState={setEditorState}
             preview={preview}
