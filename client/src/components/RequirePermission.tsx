@@ -1,4 +1,4 @@
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router";
 import { useGlobalContext } from "../store/AppContext";
 import type { Permissions } from "../types/abac.type";
 import { hasPermission } from "../utils/abac";

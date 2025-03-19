@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router";
 import LoadingSpinner from "../../../components/LoadingSpinner";
 import { CommentsProvider } from "../../../hooks/Articles/comments/useCommentsContext";
 import useDeleteArticle from "../../../hooks/Articles/useDeleteArticle";
@@ -45,7 +45,7 @@ const Article = ({ type }: { type: Category }): JSX.Element => {
 
     const handleDelete = (articleId: string): void => {
         deleteArticle({ articleId, type });
-        navigate(`/${type}`);
+        void navigate(`/${type}`);
     };
 
     useTitle(article?.title);

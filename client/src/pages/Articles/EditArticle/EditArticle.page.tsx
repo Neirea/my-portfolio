@@ -3,7 +3,7 @@ import { ContentState, EditorState } from "draft-js";
 import htmlToDraft from "html-to-draftjs";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import useEditArticle from "../../../hooks/Articles/useEditArticle";
 import type { Article, ArticleEditor } from "../../../types/article.type";
 import { languageDetector } from "../../../utils/handleHtmlString";

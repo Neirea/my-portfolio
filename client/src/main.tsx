@@ -5,7 +5,7 @@ import type { PostHogConfig } from "posthog-js";
 import { PostHogProvider } from "posthog-js/react";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router";
 import App from "./App";
 import { AppProvider } from "./store/AppContext";
 import { posthogHost, posthogKey, serverUrl } from "./utils/data";

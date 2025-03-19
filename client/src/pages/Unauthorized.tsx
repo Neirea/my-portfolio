@@ -1,9 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { AlertContainer, ReadButton } from "../styles/common.style";
 
 const Unauthorized = (): JSX.Element => {
     const navigate = useNavigate();
-    const goBack = (): void => navigate(-1);
+    const goBack = (): void => void navigate(-1);
     return (
         <AlertContainer as="main">
             <h2>Unauthorized</h2>

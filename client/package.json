@@ -20,12 +20,12 @@
         "draftjs-to-html": "^0.9.1",
         "highlight.js": "^11.11.1",
         "html-to-draftjs": "^1.5.0",
-        "posthog-js": "^1.231.0",
+        "posthog-js": "^1.231.2",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-draft-wysiwyg": "^1.15.0",
-        "react-router-dom": "^6.22.2",
-        "styled-components": "^6.1.15"
+        "react-router": "^7.4.0",
+        "styled-components": "^6.1.16"
     },
     "devDependencies": {
         "@eslint/js": "^9.22.0",

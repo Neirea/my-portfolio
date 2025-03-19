@@ -1,6 +1,6 @@
 import { FaEye } from "@react-icons/all-files/fa/FaEye";
 import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { LinkButton } from "../../../styles/common.style";
 import type { Article, Category } from "../../../types/article.type";
 import { handleDate } from "../../../utils/handleDate";

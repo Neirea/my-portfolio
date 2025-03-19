@@ -1,6 +1,6 @@
 import { EditorState } from "draft-js";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import useCreateArticle from "../../../hooks/Articles/useCreateArticle";
 import type { LocationState } from "../../../types/app.type";
 import type { ArticleEditor, Category } from "../../../types/article.type";

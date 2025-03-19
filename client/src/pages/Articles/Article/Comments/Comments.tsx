@@ -1,5 +1,5 @@
 import { Fragment, useRef, useEffect } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router";
 import { AlertMsg } from "../../../../styles/common.style";
 import CommentForm from "./CommentForm";
 import { CommentsWrapper } from "./Comments.style";

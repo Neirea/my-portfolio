@@ -1,6 +1,6 @@
 import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
 import { FaGoogle } from "@react-icons/all-files/fa/FaGoogle";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { AlertMsg, LoginButton } from "../../styles/common.style";
 import type { LocationState } from "../../types/app.type";
 import { useSearchParams } from "../../utils/useSearchParams";

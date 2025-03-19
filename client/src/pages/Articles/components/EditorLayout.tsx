@@ -8,7 +8,7 @@ import {
     type SetStateAction,
 } from "react";
 import { Editor } from "react-draft-wysiwyg";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import "../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import FormRow from "../../../components/FormRow";
 import {

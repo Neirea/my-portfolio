@@ -1,6 +1,6 @@
 import type { AxiosError } from "axios";
 import type { Dispatch, SetStateAction } from "react";
-import type { Location } from "react-router-dom";
+import type { Location } from "react-router";
 import type { User } from "./abac.type";
 
 export type AppContextValues = {

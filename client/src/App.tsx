@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 import { ThemeProvider } from "styled-components";
 import Header from "./components/Header/Header";
 import RequireAuth from "./components/RequireAuth";
