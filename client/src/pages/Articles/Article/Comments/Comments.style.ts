@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 type StyledCommentsProps = {
-    margin: number;
-    depth: number;
+    $margin: number;
+    $depth: number;
 };
 type CommentFormProps = {
-    margin?: number;
-    depth?: number;
+    $margin?: number;
+    $depth?: number;
 };
 
 export const CommentsWrapper = styled.section`
@@ -82,9 +82,9 @@ export const ReplyButton = styled(ToolsButton)`
 `;
 
 export const SingleCommentContainer = styled.div<StyledCommentsProps>`
-    margin-left: ${(props) => props.depth * props.margin || 0}%;
+    margin-left: ${(props) => props.$depth * props.$margin || 0}%;
     padding: 1rem 5%;
-    width: ${(props) => 100 - props.depth * props.margin || 100}%;
+    width: ${(props) => 100 - props.$depth * props.$margin || 100}%;
     height: auto;
 
     box-shadow: var(--shadow-1);
@@ -176,8 +176,8 @@ export const CommentFormWrapper = styled.form<CommentFormProps>`
     }
     position: relative;
     margin-left: ${(props) =>
-        (props.depth && props.margin && props.depth * props.margin) || 0}%;
+        (props.$depth && props.$margin && props.$depth * props.$margin) || 0}%;
     width: ${(props) =>
-        (props.depth && props.margin && 100 - props.depth * props.margin) ||
+        (props.$depth && props.$margin && 100 - props.$depth * props.$margin) ||
         100}%;
 `;

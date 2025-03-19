@@ -43,8 +43,8 @@ const ReplyForm = ({
 
     return (
         <CommentFormWrapper
-            depth={depth}
-            margin={margin}
+            $depth={depth}
+            $margin={margin}
             onSubmit={(e) => handleSubmit(e, index)}
         >
             {comment && (

@@ -50,7 +50,7 @@ const SingleComment = ({
 
     return (
         <>
-            <SingleCommentContainer margin={margin} depth={depth}>
+            <SingleCommentContainer $margin={margin} $depth={depth}>
                 {isShowParentComment && (
                     <div className="comment-header">
                         <span

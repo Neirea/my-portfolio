@@ -129,11 +129,11 @@ export const HomeIntroText = styled.div`
     }
 `;
 
-export const TitleHighlight = styled.span<{ item: number }>`
+export const TitleHighlight = styled.span<{ $item: number }>`
     display: inline-block;
     animation: wave 0.5s;
     animation-timing-function: ease-in-out;
-    animation-delay: ${(props) => 0.3 + 0.05 * props.item}s;
+    animation-delay: ${(props) => 0.3 + 0.05 * props.$item}s;
     transition: transform var(--transition);
 
     &:hover {

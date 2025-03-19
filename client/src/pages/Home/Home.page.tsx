@@ -36,23 +36,23 @@ const Home = (): JSX.Element => {
                         <p className="home-top-text">Hello, I'm</p>
                         <h3 className="home-top-title">
                             <div>
-                                <TitleHighlight item={1}>E</TitleHighlight>
-                                <TitleHighlight item={2}>u</TitleHighlight>
-                                <TitleHighlight item={3}>g</TitleHighlight>
-                                <TitleHighlight item={4}>e</TitleHighlight>
-                                <TitleHighlight item={5}>n</TitleHighlight>
-                                <TitleHighlight item={6}>e</TitleHighlight>
+                                <TitleHighlight $item={1}>E</TitleHighlight>
+                                <TitleHighlight $item={2}>u</TitleHighlight>
+                                <TitleHighlight $item={3}>g</TitleHighlight>
+                                <TitleHighlight $item={4}>e</TitleHighlight>
+                                <TitleHighlight $item={5}>n</TitleHighlight>
+                                <TitleHighlight $item={6}>e</TitleHighlight>
                             </div>
                             <span>&nbsp;</span>
                             <div>
-                                <TitleHighlight item={7}>S</TitleHighlight>
-                                <TitleHighlight item={8}>h</TitleHighlight>
-                                <TitleHighlight item={9}>u</TitleHighlight>
-                                <TitleHighlight item={10}>m</TitleHighlight>
-                                <TitleHighlight item={11}>i</TitleHighlight>
-                                <TitleHighlight item={12}>l</TitleHighlight>
-                                <TitleHighlight item={13}>i</TitleHighlight>
-                                <TitleHighlight item={14}>n</TitleHighlight>
+                                <TitleHighlight $item={7}>S</TitleHighlight>
+                                <TitleHighlight $item={8}>h</TitleHighlight>
+                                <TitleHighlight $item={9}>u</TitleHighlight>
+                                <TitleHighlight $item={10}>m</TitleHighlight>
+                                <TitleHighlight $item={11}>i</TitleHighlight>
+                                <TitleHighlight $item={12}>l</TitleHighlight>
+                                <TitleHighlight $item={13}>i</TitleHighlight>
+                                <TitleHighlight $item={14}>n</TitleHighlight>
                             </div>
                         </h3>
                         <p className="home-bottom-text">
