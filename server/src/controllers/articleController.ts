@@ -94,9 +94,7 @@ export const createArticle = async (
         res.status(StatusCodes.CREATED).json({ article });
     } catch (error) {
         await cloudinary.uploader.destroy(req.body.img_id);
-        throw new CustomError.BadRequestError(
-            `Failed to create article: ${(error as Error).message}`,
-        );
+        throw error;
     }
 };
 interface UpdateArticleRequest extends Request {

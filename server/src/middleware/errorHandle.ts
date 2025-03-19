@@ -14,6 +14,7 @@ const errorHandlerMiddleware: ErrorRequestHandler = (
     err: MyError,
     req,
     res,
+    next,
 ) => {
     const customError = {
         statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
@@ -39,6 +40,7 @@ const errorHandlerMiddleware: ErrorRequestHandler = (
     console.error(customError.msg);
 
     res.status(customError.statusCode).json({ msg: customError.msg });
+    next(err);
 };
 
 export default errorHandlerMiddleware;

@@ -26,7 +26,7 @@ const validateRecaptcha = async (token: string | null): Promise<number> => {
         tokenProperties: {
             valid: boolean;
         };
-        riskAnalysis: {
+        riskAnalysis?: {
             score?: number;
         };
     };
@@ -55,7 +55,7 @@ const validateRecaptcha = async (token: string | null): Promise<number> => {
         throw new CustomError.BadRequestError("Bad recaptcha token");
     }
 
-    return response.riskAnalysis.score || -1;
+    return response.riskAnalysis?.score || -1;
 };
 
 export interface TestRecaptchaRequest extends Request {

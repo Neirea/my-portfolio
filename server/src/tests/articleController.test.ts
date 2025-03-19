@@ -187,7 +187,7 @@ describe("createArticle", () => {
 
         expect(mockedCloudinary.uploader.destroy).toHaveBeenCalledTimes(1);
         expect((response.body as { msg: string }).msg).toStrictEqual(
-            "Failed to create article",
+            "Content can not be less than 10 characters",
         );
         expect(response.status).toBe(400);
     });
