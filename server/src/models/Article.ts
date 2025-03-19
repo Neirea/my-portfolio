@@ -4,7 +4,7 @@ export type Article = {
     title: string;
     slug: string;
     content: string;
-    category: string;
+    category: "blog" | "project";
     code_languages: string[];
     source_link: string | undefined;
     demo_link: string | undefined;
@@ -16,6 +16,18 @@ export type Article = {
     createdAt: Date;
     updatedAt: Date;
     __v: number;
+};
+
+export type UpsertArticle = {
+    title: string;
+    slug: string;
+    category: "blog" | "project";
+    demo_link: string;
+    source_link: string;
+    content: string;
+    image: string;
+    img_id: string;
+    tags: string[];
 };
 
 const ArticleSchema = new Schema(
@@ -66,7 +78,7 @@ const ArticleSchema = new Schema(
     },
     {
         timestamps: true,
-    }
+    },
 );
 
 export default model<Article>("Article", ArticleSchema);

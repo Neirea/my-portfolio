@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import passport from "passport";
 import app from "../app";
 import {
@@ -11,20 +11,31 @@ import isAuthenticated from "../middleware/isAuthenticated";
 
 const router = Router();
 
+type PassportAuthenticate = (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+) => void;
+
 router.get("/login/failed", failedLogin);
 
 router.get("/login/github", (req, res, next) => {
     app.set("redirect", req.query.path);
-    passport.authenticate("github", { session: false })(req, res, next);
+    (
+        passport.authenticate("github", {
+            session: false,
+        }) as PassportAuthenticate
+    )(req, res, next);
 });
 
 router.get("/login/google", (req, res, next) => {
     app.set("redirect", req.query.path);
-    passport.authenticate("google", { session: false, scope: ["profile"] })(
-        req,
-        res,
-        next
-    );
+    (
+        passport.authenticate("google", {
+            session: false,
+            scope: ["profile"],
+        }) as PassportAuthenticate
+    )(req, res, next);
 });
 
 router.get(
@@ -32,8 +43,8 @@ router.get(
     passport.authenticate("github", {
         session: false,
         failureRedirect: "/api/auth/login/failed",
-    }),
-    githubCallback
+    }) as PassportAuthenticate,
+    githubCallback,
 );
 
 router.get(
@@ -41,8 +52,8 @@ router.get(
     passport.authenticate("google", {
         session: false,
         failureRedirect: "/api/auth/login/failed",
-    }),
-    googleCallback
+    }) as PassportAuthenticate,
+    googleCallback,
 );
 
 router.delete("/logout", isAuthenticated, logout);

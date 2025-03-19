@@ -7,25 +7,26 @@ jest.mock("../middleware/isAuthenticated", () =>
             roles: fakeUser.roles,
         } as TUser;
         next();
-    })
+    }),
 );
 jest.mock("../middleware/checkCsrf", () =>
     jest.fn((req: Request, res: Response, next: NextFunction) => {
         next();
-    })
+    }),
 );
 
 import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
 import type { NextFunction, Request, Response } from "express";
 import { Session } from "express-session";
+import mongoose from "mongoose";
 import path from "path";
 import request from "supertest";
+import { type App } from "supertest/types";
 import app from "../app";
 import isAuthenticated from "../middleware/isAuthenticated";
-import Article from "../models/Article";
+import Article, { Article as TArticle } from "../models/Article";
 import { User as TUser } from "../models/User";
 import * as dbHandler from "./db";
-import mongoose from "mongoose";
 
 jest.mock("cloudinary");
 jest.mock("../db/redis");
@@ -40,7 +41,7 @@ beforeEach(() => {
 });
 
 afterEach(async () => {
-    (mockedCloudinary.uploader.destroy as any).mockReset();
+    (mockedCloudinary.uploader.destroy as jest.Mock).mockReset();
     await dbHandler.clearDatabase();
 });
 
@@ -120,41 +121,51 @@ const articleData = [
 
 describe("getAllArticles", () => {
     test("no projects found", async () => {
-        const response = await request(app).get("/api/article/projects");
+        const response = await request(app as App).get("/api/article/projects");
 
         expect(response.status).toBe(404);
-        expect(response.body.msg).toStrictEqual("No projects found");
+        expect((response.body as { msg: string }).msg).toStrictEqual(
+            "No projects found",
+        );
     });
     test("should return blogs", async () => {
         const result = await Article.create(articleData[1]);
-        const response = await request(app).get("/api/article/blog");
+        const response = await request(app as App).get("/api/article/blog");
 
         const createdId = result._id.toString();
         expect(response.status).toBe(200);
-        expect(response.body.articles[0]._id).toStrictEqual(createdId);
+        expect(
+            (response.body as { articles: TArticle[] }).articles[0]?._id,
+        ).toStrictEqual(createdId);
     });
 });
 
 describe("getSingleArticle", () => {
     test("no article Id found", async () => {
-        const response = await request(app).get("/api/article/123");
+        const response = await request(app as App).get("/api/article/123");
 
         expect(response.status).toBe(404);
-        expect(response.body.msg).toStrictEqual("No item found with id : 123");
+        expect((response.body as { msg: string }).msg).toStrictEqual(
+            "No item found with id : 123",
+        );
     });
     test("article with Id found", async () => {
         const result = await Article.create(articleData[1]);
         const createdId = result._id.toString();
-        const response = await request(app).get(`/api/article/${createdId}`);
+        const response = await request(app as App).get(
+            `/api/article/${createdId}`,
+        );
 
         expect(response.status).toBe(200);
-        expect(response.body.article._id).toStrictEqual(createdId);
+        expect(
+            (response.body as { article: TArticle }).article?._id,
+        ).toStrictEqual(createdId);
     });
 });
 
 describe("createArticle", () => {
     test("successfully creating article with sanitized content", async () => {
-        const response = await request(app)
+        const response = await request(app as App)
             .post("/api/article")
             .send(articleData[0]);
 
@@ -165,15 +176,19 @@ describe("createArticle", () => {
         expect(isAuthenticated).toHaveBeenCalledTimes(1);
 
         expect(response.status).toBe(201);
-        expect(response.body.article._id).toStrictEqual(result!._id.toString());
+        expect(
+            (response.body as { article: TArticle }).article._id,
+        ).toStrictEqual(result!._id.toString());
     });
     test("Error: failed to create article", async () => {
-        const response = await request(app)
+        const response = await request(app as App)
             .post("/api/article")
             .send(articleData[2]);
 
         expect(mockedCloudinary.uploader.destroy).toHaveBeenCalledTimes(1);
-        expect(response.body.msg).toStrictEqual("Failed to create article");
+        expect((response.body as { msg: string }).msg).toStrictEqual(
+            "Failed to create article",
+        );
         expect(response.status).toBe(400);
     });
 });
@@ -181,18 +196,20 @@ describe("createArticle", () => {
 describe("updateArticle", () => {
     test("should successfully update article's image", async () => {
         const createdArticle = await Article.create(articleData[0]);
-        const response = await request(app)
+        const response = await request(app as App)
             .put(`/api/article/${createdArticle._id.toString()}`)
             .send(articleData[3]);
 
         const result = await Article.findOne({ title: "updated article" });
         expect(mockedCloudinary.uploader.destroy).toHaveBeenCalledTimes(1);
-        expect(response.body.article.title).toStrictEqual(result!.title);
+        expect(
+            (response.body as { article: TArticle }).article.title,
+        ).toStrictEqual(result!.title);
         expect(response.status).toBe(200);
     });
     test("should fail and not call cloudinary while updating article using same image", async () => {
         const createdArticle = await Article.create(articleData[0]);
-        const response = await request(app)
+        const response = await request(app as App)
             .put(`/api/article/${createdArticle._id.toString()}`)
             .send(articleData[2]);
         expect(mockedCloudinary.uploader.destroy).toHaveBeenCalledTimes(0);
@@ -205,10 +222,14 @@ describe("deleteArticle", () => {
         const createdArticle = await Article.create(articleData[0]);
         const deletedId = createdArticle._id.toString();
 
-        const response = await request(app).delete(`/api/article/${deletedId}`);
+        const response = await request(app as App).delete(
+            `/api/article/${deletedId}`,
+        );
         expect(response.status).toBe(200);
         expect(cloudinary.uploader.destroy).toHaveBeenCalledTimes(1);
-        expect(response.body.msg).toStrictEqual("Success! Article is removed");
+        expect((response.body as { msg: string }).msg).toStrictEqual(
+            "Success! Article is removed",
+        );
     });
 });
 
@@ -224,10 +245,13 @@ describe("uploadArticleImage", () => {
             return Promise.resolve(result);
         });
 
-        const response = await request(app)
+        const response = await request(app as App)
             .post("/api/article/upload")
             .attach("image", fakeImage);
         expect(response.status).toBe(200);
-        expect(response.body.image.src).toStrictEqual(result.secure_url);
+        expect(
+            (response.body as { image: { src: string; img_id: string } }).image
+                .src,
+        ).toStrictEqual(result.secure_url);
     });
 });

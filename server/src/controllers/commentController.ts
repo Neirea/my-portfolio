@@ -3,9 +3,13 @@ import mongoose from "mongoose";
 import CustomError from "../errors";
 import Article from "../models/Article";
 import Comment, { type Comment as TComment } from "../models/Comment";
-import { StatusCodes } from "../utils/http-status-codes";
+import { StatusCodes } from "../utils/httpStatusCodes";
+import { MongooseDocument } from "../utils/mongoose.type";
 
-export const getAllComments = async (req: Request, res: Response) => {
+export const getAllComments = async (
+    req: Request,
+    res: Response,
+): Promise<void> => {
     const { articleId } = req.params;
 
     const comments = await Comment.find({
@@ -16,7 +20,17 @@ export const getAllComments = async (req: Request, res: Response) => {
     res.status(StatusCodes.OK).json({ comments });
 };
 
-export const createComment = async (req: Request, res: Response) => {
+interface CreateCommentRequest extends Request {
+    body: {
+        message: string;
+        parentId: string;
+    };
+}
+
+export const createComment = async (
+    req: CreateCommentRequest,
+    res: Response,
+): Promise<void> => {
     const { message, parentId } = req.body;
 
     const { articleId } = req.params;
@@ -30,7 +44,7 @@ export const createComment = async (req: Request, res: Response) => {
     const isValidProduct = await Article.findOne({ _id: articleId });
     if (!isValidProduct) {
         throw new CustomError.NotFoundError(
-            `No article with id : ${articleId}`
+            `No article with id : ${articleId}`,
         );
     }
 
@@ -42,7 +56,7 @@ export const createComment = async (req: Request, res: Response) => {
         const updateParent = await Comment.findOne({ _id: comment.parentId });
         if (!updateParent) {
             throw new CustomError.NotFoundError(
-                `No parent comment with id : ${comment.parentId}`
+                `No parent comment with id : ${comment.parentId.toString()}`,
             );
         }
         updateParent.replies.push(comment);
@@ -52,7 +66,17 @@ export const createComment = async (req: Request, res: Response) => {
     res.status(StatusCodes.CREATED).json({ comment });
 };
 
-export const updateComment = async (req: Request, res: Response) => {
+interface UpdateCommentRequest extends Request {
+    body: {
+        message: string;
+        parentId: string;
+    };
+}
+
+export const updateComment = async (
+    req: UpdateCommentRequest,
+    res: Response,
+): Promise<void> => {
     const { message } = req.body;
     const id = req.params.id;
     const authorId = req.query.authorId as string | undefined;
@@ -64,7 +88,10 @@ export const updateComment = async (req: Request, res: Response) => {
     res.status(StatusCodes.OK).json({ comment });
 };
 
-export const deleteComment = async (req: Request, res: Response) => {
+export const deleteComment = async (
+    req: Request,
+    res: Response,
+): Promise<void> => {
     const id = req.params.id;
     const authorId = req.query.authorId as string | undefined;
     const comment = await fetchComment(id, authorId);
@@ -81,21 +108,24 @@ export const deleteComment = async (req: Request, res: Response) => {
     res.status(StatusCodes.OK).json({ comment });
 };
 
-export const deleteCommentsCascade = async (req: Request, res: Response) => {
+export const deleteCommentsCascade = async (
+    req: Request,
+    res: Response,
+): Promise<void> => {
     const id = req.params.id;
     const authorId = req.query.authorId as string | undefined;
     const comment = await fetchComment(id, authorId);
 
     const parseReplies = (
         comments: TComment[],
-        array: mongoose.Types.ObjectId[]
-    ) => {
+        array: mongoose.Types.ObjectId[],
+    ): void => {
         for (const comment of comments) {
             array.push(comment._id);
             parseReplies(comment.replies, array);
         }
     };
-    let repliesArray: mongoose.Types.ObjectId[] = [];
+    const repliesArray: mongoose.Types.ObjectId[] = [];
     parseReplies([comment], repliesArray);
 
     await Comment.deleteMany({ _id: repliesArray });
@@ -105,13 +135,13 @@ export const deleteCommentsCascade = async (req: Request, res: Response) => {
     });
 };
 
-async function fetchComment(
+const fetchComment = async (
     id: string | undefined,
-    authorId: string | undefined
-) {
+    authorId: string | undefined,
+): Promise<MongooseDocument<TComment>> => {
     if (!id || !authorId) {
         throw new CustomError.BadRequestError(
-            "Comment id or/and authorId are missing"
+            "Comment id or/and authorId are missing",
         );
     }
 
@@ -121,4 +151,4 @@ async function fetchComment(
         throw new CustomError.NotFoundError(`Comment not found with id: ${id}`);
     }
     return comment;
-}
+};

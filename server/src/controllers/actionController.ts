@@ -1,10 +1,10 @@
 import type { Request, Response } from "express";
 import sanitizeHtml from "sanitize-html";
 import CustomError from "../errors";
+import { StatusCodes } from "../utils/httpStatusCodes";
 import sendEmail from "../utils/sendEmail";
-import { StatusCodes } from "../utils/http-status-codes";
 
-const validateRecaptcha = async (token: string | null) => {
+const validateRecaptcha = async (token: string | null): Promise<number> => {
     const secretKey = process.env.RECAPTCHA_SECRET_KEY;
     const apiKey = process.env.RECAPTCHA_API_KEY;
     const projectName = process.env.RECAPTCHA_PROJECT_ID;
@@ -21,24 +21,34 @@ const validateRecaptcha = async (token: string | null) => {
             expectedAction: "contact_email",
         },
     };
-    let response;
+
+    type TRecaptchaResponse = {
+        tokenProperties: {
+            valid: boolean;
+        };
+        riskAnalysis: {
+            score?: number;
+        };
+    };
+
+    let response: TRecaptchaResponse;
     try {
-        response = await (
+        response = (await (
             await fetch(recaptchaURL, {
                 body: JSON.stringify(body),
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
             })
-        ).json();
+        ).json()) as TRecaptchaResponse;
     } catch (error) {
         console.error(error);
         throw new CustomError.ServiceUnavailableError(
-            "Failed to verify reCAPTCHA"
+            "Failed to verify reCAPTCHA",
         );
     }
     if (!response) {
         throw new CustomError.ServiceUnavailableError(
-            "Couldn't login to google captcha servers"
+            "Couldn't login to google captcha servers",
         );
     }
     if (response.tokenProperties.valid === false) {
@@ -48,7 +58,16 @@ const validateRecaptcha = async (token: string | null) => {
     return response.riskAnalysis.score || -1;
 };
 
-export const testRecaptcha = async (req: Request, res: Response) => {
+export interface TestRecaptchaRequest extends Request {
+    body: {
+        token: string;
+    };
+}
+
+export const testRecaptcha = async (
+    req: TestRecaptchaRequest,
+    res: Response,
+): Promise<void> => {
     const recaptchaScore = await validateRecaptcha(req.body.token);
     if (recaptchaScore < 0.5) {
         throw new CustomError.BadRequestError("Can't fool us, bot!");
@@ -56,8 +75,18 @@ export const testRecaptcha = async (req: Request, res: Response) => {
     res.status(StatusCodes.OK).json({ msg: "Success" });
 };
 
-export const sendContactMessage = async (req: Request, res: Response) => {
-    const { subject, msg }: { subject: string; msg: string } = req.body;
+interface SendContactMessageRequest extends Request {
+    body: {
+        subject: string;
+        msg: string;
+    };
+}
+
+export const sendContactMessage = async (
+    req: SendContactMessageRequest,
+    res: Response,
+): Promise<void> => {
+    const { subject, msg } = req.body;
     const cleanHtml = sanitizeHtml(msg);
 
     try {

@@ -1,9 +1,9 @@
-import type { Request, Response, NextFunction } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { RateLimiter } from "rate-limiter-algorithms";
 
 const rateLimit =
     (limiter: RateLimiter) =>
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         const ip = req.ip;
 
         if (!ip) {
@@ -20,14 +20,16 @@ const rateLimit =
             if (!isAllowed) {
                 res.status(429).json({
                     msg: `Too many requests. Try again in ${Math.floor(
-                        limiter.windowMs / 1000
+                        limiter.windowMs / 1000,
                     )} seconds`,
                 });
                 return;
             }
             next();
         } catch (error) {
-            throw new Error(`Error in rate limiting: ${error}`);
+            throw new Error(
+                `Error in rate limiting: ${(error as Error).message}`,
+            );
         }
     };
 

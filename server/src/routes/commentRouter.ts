@@ -29,7 +29,7 @@ router
             authorizePermissions("comments", "create"),
             checkCsrf,
         ],
-        createComment
+        createComment,
     )
     .get(getAllComments);
 
@@ -42,7 +42,7 @@ router
             authorizePermissions("comments", "update"),
             checkCsrf,
         ],
-        updateComment
+        updateComment,
     )
     .delete(
         [
@@ -50,7 +50,7 @@ router
             authorizePermissions("comments", "delete"),
             checkCsrf,
         ],
-        deleteComment
+        deleteComment,
     );
 
 router
@@ -61,7 +61,7 @@ router
             authorizePermissions("comments", "deleteCascade"),
             checkCsrf,
         ],
-        deleteCommentsCascade
+        deleteCommentsCascade,
     );
 
 export default router;

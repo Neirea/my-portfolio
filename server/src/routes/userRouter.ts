@@ -10,7 +10,7 @@ router.get(
     "/",
     isAuthenticated,
     authorizePermissions("users", "read"),
-    getAllUsers
+    getAllUsers,
 );
 
 router.get("/showMe", isAuthenticated, showMe);
@@ -18,7 +18,7 @@ router
     .route("/:id")
     .delete(
         [isAuthenticated, authorizePermissions("users", "delete"), checkCsrf],
-        banUser
+        banUser,
     );
 
 export default router;

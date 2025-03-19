@@ -1,11 +1,11 @@
 import type { NextFunction, Request, Response } from "express";
 import CustomError from "../errors";
 
-const isAuthenticated = async (
+const isAuthenticated = (
     req: Request,
     res: Response,
-    next: NextFunction
-) => {
+    next: NextFunction,
+): void => {
     if (!req.session.user) {
         if (req.originalUrl === "/api/user/showMe") {
             res.status(200).json(false);

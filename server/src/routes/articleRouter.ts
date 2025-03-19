@@ -21,7 +21,7 @@ router
             authorizePermissions("articles", "create"),
             checkCsrf,
         ],
-        createArticle
+        createArticle,
     )
     .get(getAllArticles);
 
@@ -36,7 +36,7 @@ router
             authorizePermissions("articles", "create"),
             checkCsrf,
         ],
-        uploadArticleImage
+        uploadArticleImage,
     );
 
 router
@@ -48,7 +48,7 @@ router
             authorizePermissions("articles", "update"),
             checkCsrf,
         ],
-        updateArticle
+        updateArticle,
     )
     .delete(
         [
@@ -56,7 +56,7 @@ router
             authorizePermissions("articles", "delete"),
             checkCsrf,
         ],
-        deleteArticle
+        deleteArticle,
     );
 
 export default router;

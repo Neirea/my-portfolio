@@ -1,4 +1,5 @@
 import mailer from "nodemailer";
+import SMTPTransport from "nodemailer/lib/smtp-transport";
 
 type SendEmailProps = {
     to: string | undefined;
@@ -16,7 +17,11 @@ const transporter = mailer.createTransport({
     },
 });
 
-const sendEmail = async ({ to, subject, html }: SendEmailProps) => {
+const sendEmail = async ({
+    to,
+    subject,
+    html,
+}: SendEmailProps): Promise<SMTPTransport.SentMessageInfo> => {
     const info = await transporter.sendMail({
         to,
         from: process.env.EMAIL_USER,

@@ -15,7 +15,7 @@ export type Comment = {
     editedAt: Date;
 };
 
-function isMessageRequired(this: Comment) {
+function isMessageRequired(this: Comment): boolean {
     return typeof this.message === "string" ? false : true;
 }
 const CommentSchema = new Schema(
@@ -50,15 +50,15 @@ const CommentSchema = new Schema(
             avatar: { type: String },
         },
     },
-    { timestamps: true }
+    { timestamps: true },
 );
 
-function autoPopulateReplies(this: Query<Comment, Comment>) {
+function autoPopulateReplies(this: Query<Comment, Comment>): void {
     this.populate("replies");
 }
 CommentSchema.pre<Query<Comment, Comment>>("find", autoPopulateReplies).pre(
     "findOne",
-    autoPopulateReplies
+    autoPopulateReplies,
 );
 
 export default model<Comment>("Comment", CommentSchema);

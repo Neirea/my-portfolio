@@ -1,16 +1,17 @@
 jest.mock("../utils/sendEmail", () => jest.fn());
 
 import request from "supertest";
+import { type App } from "supertest/types";
 import app from "../app";
 import sendEmail from "../utils/sendEmail";
 
 const mockedSendEmail = sendEmail as jest.Mock;
 
-const fetchMock = (value: any) =>
+const fetchMock = (value: Record<string, any>): jest.Mock<any, any, any> =>
     jest
         .fn()
         .mockReturnValueOnce(
-            Promise.resolve({ json: () => Promise.resolve(value) })
+            Promise.resolve({ json: () => Promise.resolve(value) }),
         );
 
 describe("testCaptcha", () => {
@@ -22,13 +23,13 @@ describe("testCaptcha", () => {
         };
 
         global.fetch = fetchMock(googleResponse);
-        const response = await request(app)
+        const response = await request(app as App)
             .post("/api/action/testCaptcha")
             .send(googleInput);
 
         expect(response.status).toBe(200);
         expect(response.headers["content-type"]).toEqual(
-            expect.stringContaining("json")
+            expect.stringContaining("json"),
         );
     });
     test("should be bad recaptcha token response", async () => {
@@ -38,12 +39,14 @@ describe("testCaptcha", () => {
         };
 
         global.fetch = fetchMock(googleResponse);
-        const response = await request(app)
+        const response = await request(app as App)
             .post("/api/action/testCaptcha")
             .send(dataInput);
 
         expect(response.status).toBe(400);
-        expect(response.body.msg).toBe("Bad recaptcha token");
+        expect((response.body as { msg: string }).msg).toBe(
+            "Bad recaptcha token",
+        );
     });
     test("should be negative response", async () => {
         const dataInput = { token: "123" };
@@ -54,12 +57,14 @@ describe("testCaptcha", () => {
 
         global.fetch = fetchMock(googleResponse);
 
-        const response = await request(app)
+        const response = await request(app as App)
             .post("/api/action/testCaptcha")
             .send(dataInput);
 
         expect(response.status).toBe(400);
-        expect(response.body.msg).toBe("Can't fool us, bot!");
+        expect((response.body as { msg: string }).msg).toBe(
+            "Can't fool us, bot!",
+        );
     });
 });
 
@@ -77,12 +82,16 @@ describe("sendContactMessage", () => {
 
         mockedSendEmail.mockReturnValueOnce([emailRes, {}]);
 
-        const response = await request(app)
+        const response = await request(app as App)
             .post("/api/action/sendContactMessage")
             .send(dataInput);
 
-        expect(response.body.userText).toEqual("<p>123<b>456</b></p>");
-        expect(response.body.msg).toEqual("Message was successfully sent");
+        expect((response.body as { userText: string }).userText).toEqual(
+            "<p>123<b>456</b></p>",
+        );
+        expect((response.body as { msg: string }).msg).toEqual(
+            "Message was successfully sent",
+        );
         expect(response.status).toBe(201);
     });
 });

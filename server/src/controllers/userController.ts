@@ -1,14 +1,17 @@
 import type { Request, Response } from "express";
 import CustomError from "../errors";
 import User from "../models/User";
-import { StatusCodes } from "../utils/http-status-codes";
+import { StatusCodes } from "../utils/httpStatusCodes";
 
-export const showMe = (req: Request, res: Response) => {
+export const showMe = (req: Request, res: Response): void => {
     const user = req.session.user;
     res.status(StatusCodes.OK).json({ user, csrfToken: req.session.csrfToken });
 };
 
-export const getAllUsers = async (req: Request, res: Response) => {
+export const getAllUsers = async (
+    req: Request,
+    res: Response,
+): Promise<void> => {
     const users = await User.find({});
     if (!users) {
         throw new CustomError.NotFoundError("No users found");
@@ -16,19 +19,19 @@ export const getAllUsers = async (req: Request, res: Response) => {
     res.status(StatusCodes.OK).json({ users });
 };
 
-export const banUser = async (req: Request, res: Response) => {
+export const banUser = async (req: Request, res: Response): Promise<void> => {
     const { id: userId } = req.params;
     const user = await User.findOne({ _id: userId });
 
     if (!user) {
         throw new CustomError.NotFoundError(
-            `No user with id : ${req.params.id}`
+            `No user with id : ${req.params.id}`,
         );
     }
-    const bannedValue = user.isBanned ? false : true;
 
+    const bannedValue = user.isBanned ? false : true;
     user.isBanned = bannedValue;
-    user.save();
+    await user.save();
 
     res.status(StatusCodes.OK).json({
         msg: user.isBanned ? "User was banned" : "User was unbanned",

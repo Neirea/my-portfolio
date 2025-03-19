@@ -10,8 +10,8 @@ passport.use(
             clientSecret: process.env.GITHUB_CLIENT_SECRET!,
             callbackURL: "/api/auth/github/callback",
         },
-        loginGithub
-    )
+        loginGithub,
+    ),
 );
 passport.use(
     new GoogleStrategy(
@@ -21,6 +21,6 @@ passport.use(
             callbackURL: "/api/auth/google/callback",
             passReqToCallback: true,
         },
-        loginGoogle
-    )
+        loginGoogle,
+    ),
 );

@@ -1,4 +1,4 @@
-import { StatusCodes, TStatusCodes } from "../utils/http-status-codes";
+import { StatusCodes, TStatusCodes } from "../utils/httpStatusCodes";
 
 class CustomAPIError extends Error {
     statusCode: TStatusCodes;

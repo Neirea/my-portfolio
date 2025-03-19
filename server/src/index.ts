@@ -4,13 +4,13 @@ import { redisClient } from "./db/redis";
 
 const port = process.env.PORT || 5000;
 
-const start = async () => {
+const start = async (): Promise<void> => {
     try {
         await connectDB(process.env.MONGO_URL || "");
         await redisClient.connect();
         if (process.env.NODE_ENV !== "production") {
             app.listen(port, () =>
-                console.log(`Server is listening on port ${port}...`)
+                console.log(`Server is listening on port ${port}...`),
             );
         } else {
             app.listen(8080, "0.0.0.0");
@@ -20,4 +20,4 @@ const start = async () => {
     }
 };
 
-start();
+void start();

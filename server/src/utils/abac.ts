@@ -67,12 +67,12 @@ const ROLES = {
     },
 } as const as RolesWithPermissions;
 
-export function hasPermission<Resource extends keyof Permissions>(
+export const hasPermission = <Resource extends keyof Permissions>(
     user: User | undefined,
     resource: Resource,
     action: Permissions[Resource]["action"],
-    data?: Permissions[Resource]["dataType"]
-) {
+    data?: Permissions[Resource]["dataType"],
+): boolean => {
     if (user == null) return false;
 
     return user.roles.some((role) => {
@@ -82,4 +82,4 @@ export function hasPermission<Resource extends keyof Permissions>(
         if (typeof permission === "boolean") return permission;
         return data != null && permission(user, data);
     });
-}
+};

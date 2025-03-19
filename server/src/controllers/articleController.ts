@@ -3,11 +3,14 @@ import type { Request, Response } from "express";
 import type { UploadedFile } from "express-fileupload";
 import fs from "fs";
 import sanitizeHtml from "sanitize-html";
-import CustomError from "../errors";
-import Article from "../models/Article";
-import Comment from "../models/Comment";
 import { redisClient } from "../db/redis";
-import { StatusCodes } from "../utils/http-status-codes";
+import CustomError from "../errors";
+import Article, {
+    UpsertArticle,
+    type Article as TArticle,
+} from "../models/Article";
+import Comment from "../models/Comment";
+import { StatusCodes } from "../utils/httpStatusCodes";
 
 const sanitizeOptions = {
     allowedIframeHostnames: ["www.youtube.com"],
@@ -29,40 +32,57 @@ const sanitizeOptions = {
     },
 };
 
-export const getAllArticles = async (req: Request, res: Response) => {
+export const getAllArticles = async (
+    req: Request,
+    res: Response,
+): Promise<void> => {
     const articleCategory = req.url.toString().replace("/", "");
 
     const cachedArticles = await redisClient.get(articleCategory);
     if (cachedArticles) {
         res.status(StatusCodes.OK).json({
-            articles: JSON.parse(cachedArticles),
+            articles: JSON.parse(cachedArticles) as TArticle[],
         });
         return;
     }
 
     const articles = await Article.find(
-        !articleCategory ? {} : { category: articleCategory }
+        !articleCategory ? {} : { category: articleCategory },
     ).sort({ createdAt: "descending" });
     if (!articles.length) {
         throw new CustomError.NotFoundError(`No ${articleCategory} found`);
     }
 
-    redisClient.set(articleCategory, JSON.stringify(articles), { EX: 86400 });
+    void redisClient.set(articleCategory, JSON.stringify(articles), {
+        EX: 86400,
+    });
     res.status(StatusCodes.OK).json({ articles });
 };
 
-export const getSingleArticle = async (req: Request, res: Response) => {
+export const getSingleArticle = async (
+    req: Request,
+    res: Response,
+): Promise<void> => {
     const { id: articleId } = req.params;
     const article = await Article.findOne({ _id: articleId });
     if (!article) {
         throw new CustomError.NotFoundError(
-            `No article with id : ${articleId}`
+            `No article with id : ${articleId}`,
         );
     }
     res.status(StatusCodes.OK).json({ article });
 };
 
-export const createArticle = async (req: Request, res: Response) => {
+interface CreateArticleRequest extends Request {
+    body: {
+        content: "string";
+    } & UpsertArticle;
+}
+
+export const createArticle = async (
+    req: CreateArticleRequest,
+    res: Response,
+): Promise<void> => {
     try {
         const newArticle = {
             ...req.body,
@@ -74,18 +94,29 @@ export const createArticle = async (req: Request, res: Response) => {
         res.status(StatusCodes.CREATED).json({ article });
     } catch (error) {
         await cloudinary.uploader.destroy(req.body.img_id);
-        throw new CustomError.BadRequestError("Failed to create article");
+        throw new CustomError.BadRequestError(
+            `Failed to create article: ${(error as Error).message}`,
+        );
     }
 };
+interface UpdateArticleRequest extends Request {
+    body: {
+        content: string;
+        userId: string;
+    } & UpsertArticle;
+}
 
-export const updateArticle = async (req: Request, res: Response) => {
+export const updateArticle = async (
+    req: UpdateArticleRequest,
+    res: Response,
+): Promise<void> => {
     const { id: articleId } = req.params;
 
     const article = await Article.findOne({ _id: articleId });
 
     if (!article) {
         throw new CustomError.NotFoundError(
-            `No article with id : ${articleId}`
+            `No article with id : ${articleId}`,
         );
     }
 
@@ -116,13 +147,16 @@ export const updateArticle = async (req: Request, res: Response) => {
         });
 };
 
-export const deleteArticle = async (req: Request, res: Response) => {
+export const deleteArticle = async (
+    req: Request,
+    res: Response,
+): Promise<void> => {
     const { id: articleId } = req.params;
 
     const article = await Article.findOne({ _id: articleId });
     if (!article) {
         throw new CustomError.NotFoundError(
-            `No article with id : ${articleId}`
+            `No article with id : ${articleId}`,
         );
     }
     await cloudinary.uploader.destroy(article.img_id);
@@ -134,7 +168,10 @@ export const deleteArticle = async (req: Request, res: Response) => {
     res.status(StatusCodes.OK).json({ msg: "Success! Article is removed" });
 };
 
-export const uploadArticleImage = async (req: Request, res: Response) => {
+export const uploadArticleImage = async (
+    req: Request,
+    res: Response,
+): Promise<void> => {
     const imageFile = req.files?.image as UploadedFile;
     if (!imageFile) {
         throw new CustomError.BadRequestError("Image was not attached");

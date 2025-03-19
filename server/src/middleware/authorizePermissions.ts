@@ -4,9 +4,9 @@ import { hasPermission, Permissions } from "../utils/abac";
 
 const authorizePermissions = <Resource extends keyof Permissions>(
     resource: Resource,
-    action: Permissions[Resource]["action"]
+    action: Permissions[Resource]["action"],
 ) => {
-    return (req: Request, res: Response, next: NextFunction) => {
+    return (req: Request, res: Response, next: NextFunction): void => {
         const data = {
             ...req.params,
             ...req.query,
@@ -17,18 +17,18 @@ const authorizePermissions = <Resource extends keyof Permissions>(
                 req.session.user,
                 resource,
                 action,
-                data
+                data,
             );
             if (!isAllowed) {
                 throw new CustomError.UnauthorizedError(
-                    "Unauthorized to access this route"
+                    "Unauthorized to access this route",
                 );
             }
             next();
         } catch (error) {
             console.error(error);
             throw new CustomError.BadRequestError(
-                "Failed to perform authorization"
+                "Failed to perform authorization",
             );
         }
     };

@@ -14,8 +14,8 @@ import helmet from "helmet";
 import passport from "passport";
 
 import "./passport";
-import errorHandlerMiddleware from "./middleware/error-handle";
-import notFoundMiddleware from "./middleware/not-found";
+import errorHandlerMiddleware from "./middleware/errorHandle";
+import notFoundMiddleware from "./middleware/notFound";
 import actionRouter from "./routes/actionRouter";
 import articleRouter from "./routes/articleRouter";
 import authRouter from "./routes/authRouter";
@@ -46,7 +46,7 @@ app.use(
                 ? ["http://localhost:4173", "http://localhost:5173"]
                 : "https://www.neirea.com",
         credentials: true,
-    })
+    }),
 );
 app.use(fileUpload({ useTempFiles: true }));
 app.use(express.json());
@@ -54,8 +54,13 @@ app.use(mongoSanitize());
 app.use(buildCheckFunction(["body", "query", "params"])());
 
 if (process.env.NODE_ENV !== "production") {
-    const morgan = require("morgan");
-    app.use(morgan("tiny"));
+    import("morgan")
+        .then(({ default: morgan }) => {
+            app.use(morgan("tiny"));
+        })
+        .catch((err) => {
+            console.error("Failed to load morgan:", err);
+        });
 }
 if (process.env.NODE_ENV !== "test") {
     const sessionStore = new MongoStore({
@@ -80,7 +85,7 @@ if (process.env.NODE_ENV !== "test") {
                 sameSite:
                     process.env.NODE_ENV === "production" ? true : undefined,
             },
-        })
+        }),
     );
 }
 

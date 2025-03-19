@@ -1,5 +1,6 @@
 import { createClient } from "redis";
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const getRedisClient = () => {
     const redisClient = createClient();
     redisClient.on("error", (error) => {

@@ -7,23 +7,25 @@ jest.mock("../middleware/isAuthenticated", () =>
             roles: ["admin"],
         } as TUser;
         next();
-    })
+    }),
 );
 
 jest.mock("../middleware/checkCsrf", () =>
     jest.fn((req: Request, res: Response, next: NextFunction) => {
         next();
-    })
+    }),
 );
 
 import type { NextFunction, Request, Response } from "express";
 import { Session } from "express-session";
 import mongoose from "mongoose";
 import request from "supertest";
+import { type App } from "supertest/types";
 import app from "../app";
-import Article from "../models/Article";
-import Comment from "../models/Comment";
+import Article, { type Article as TArticle } from "../models/Article";
+import Comment, { type Comment as TComment } from "../models/Comment";
 import { User as TUser } from "../models/User";
+import { MongooseDocument } from "../utils/mongoose.type";
 import * as dbHandler from "./db";
 
 beforeAll(async () => {
@@ -66,7 +68,10 @@ const fakeArticle = {
     slug: "blog 1",
 };
 
-const createArticleUserComment = async () => {
+const createArticleUserComment = async (): Promise<{
+    article: MongooseDocument<TArticle>;
+    comment: MongooseDocument<TComment>;
+}> => {
     const article = await Article.create(fakeArticle);
     const fakeComment = {
         user: {
@@ -90,19 +95,20 @@ describe("createComment", () => {
             message: "hello world",
         };
 
-        const response = await request(app)
+        const response = await request(app as App)
             .post(`/api/comment/${article._id.toString()}`)
             .send(commentData);
 
+        const responseBody = response.body as { comment: TComment };
         expect(response.status).toBe(201);
-        expect(response.body.comment.parentId).toStrictEqual(
-            comment._id.toString()
+        expect(responseBody.comment.parentId).toStrictEqual(
+            comment._id.toString(),
         );
         const updatedComment = await Comment.findOne({
             _id: comment._id.toString(),
         });
-        expect(updatedComment!.replies[0]?._id.toString()).toStrictEqual(
-            response.body.comment._id
+        expect(updatedComment?.replies[0]?._id.toString()).toStrictEqual(
+            responseBody.comment._id,
         );
     });
 });
@@ -121,14 +127,16 @@ describe("getAllComments", () => {
         };
         await Comment.create(fakeReply);
 
-        const response = await request(app).get(
-            `/api/comment/${article._id.toString()}`
+        const response = await request(app as App).get(
+            `/api/comment/${article._id.toString()}`,
         );
 
-        expect(response.body.comments[0]._id).toStrictEqual(
-            comment._id.toString()
+        const responseBody = response.body as { comments: TComment[] };
+
+        expect(responseBody.comments[0]?._id).toStrictEqual(
+            comment._id.toString(),
         );
-        expect(response.body.comments.length).toBe(1);
+        expect(responseBody.comments.length).toBe(1);
         expect(response.status).toBe(200);
     });
 });
@@ -137,16 +145,16 @@ describe("updateComment", () => {
     test("should update comments text", async () => {
         const { article, comment } = await createArticleUserComment();
 
-        const response = await request(app)
+        const response = await request(app as App)
             .patch(
-                `/api/comment/${article._id.toString()}/${comment._id.toString()}?authorId=${
-                    fakeUser._id
-                }`
+                `/api/comment/${article._id.toString()}/${comment._id.toString()}?authorId=${fakeUser._id.toString()}`,
             )
             .send({ message: "updated comment" });
 
         expect(response.status).toBe(200);
-        expect(response.body.comment.message).toStrictEqual("updated comment");
+        expect(
+            (response.body as { comment: TComment }).comment.message,
+        ).toStrictEqual("updated comment");
     });
 });
 
@@ -154,13 +162,13 @@ describe("deleteComment", () => {
     test("should delete comment that has no replies", async () => {
         const { article, comment } = await createArticleUserComment();
 
-        const response = await request(app).delete(
-            `/api/comment/${article._id.toString()}/${comment._id.toString()}?authorId=${
-                fakeUser._id
-            }`
+        const response = await request(app as App).delete(
+            `/api/comment/${article._id.toString()}/${comment._id.toString()}?authorId=${fakeUser._id.toString()}`,
         );
         expect(response.status).toBe(200);
-        expect(response.body.msg).toStrictEqual("Success! Comment was deleted");
+        expect((response.body as { msg: string }).msg).toStrictEqual(
+            "Success! Comment was deleted",
+        );
     });
     test("should delete comment that has replies", async () => {
         const { article, comment } = await createArticleUserComment();
@@ -169,18 +177,18 @@ describe("deleteComment", () => {
             parentId: comment._id.toString(),
             message: "hello world",
         };
-        await request(app)
+        await request(app as App)
             .post(`/api/comment/${article._id.toString()}`)
             .send(replyCommentData);
 
-        const response = await request(app).delete(
-            `/api/comment/${article._id.toString()}/${comment._id.toString()}?authorId=${
-                fakeUser._id
-            }`
+        const response = await request(app as App).delete(
+            `/api/comment/${article._id.toString()}/${comment._id.toString()}?authorId=${fakeUser._id.toString()}`,
         );
 
         expect(response.status).toBe(200);
-        expect(response.body.comment.message).toStrictEqual("");
+        expect(
+            (response.body as { comment: TComment }).comment.message,
+        ).toStrictEqual("");
     });
 });
 
@@ -192,14 +200,12 @@ describe("deleteCommentsAdmin", () => {
             parentId: comment._id.toString(),
             message: "hello world",
         };
-        await request(app)
+        await request(app as App)
             .post(`/api/comment/${article._id.toString()}`)
             .send(replyCommentData);
 
-        const response = await request(app).delete(
-            `/api/comment/${article._id.toString()}/d_all/${comment._id.toString()}?authorId=${
-                fakeUser._id
-            }`
+        const response = await request(app as App).delete(
+            `/api/comment/${article._id.toString()}/d_all/${comment._id.toString()}?authorId=${fakeUser._id.toString()}`,
         );
         const comments = await Comment.find({});
         expect(response.status).toBe(200);

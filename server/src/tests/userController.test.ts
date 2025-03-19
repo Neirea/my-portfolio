@@ -1,23 +1,24 @@
 jest.mock("../middleware/isAuthenticated", () =>
     jest.fn((req: Request, res: Response, next: NextFunction) => {
         next();
-    })
+    }),
 );
 jest.mock("../middleware/authorizePermissions", () =>
     jest.fn(() => {
-        return (req: Request, res: Response, next: NextFunction) => {
+        return (req: Request, res: Response, next: NextFunction): void => {
             next();
         };
-    })
+    }),
 );
 jest.mock("../middleware/checkCsrf", () =>
     jest.fn((req: Request, res: Response, next: NextFunction) => {
         next();
-    })
+    }),
 );
 
 import type { NextFunction, Request, Response } from "express";
 import request from "supertest";
+import { type App } from "supertest/types";
 import app from "../app";
 import User from "../models/User";
 import * as dbHandler from "./db";
@@ -49,13 +50,17 @@ describe("banUser", () => {
     test("should successfully ban user", async () => {
         const user = await User.create(fakeUser);
 
-        const response = await request(app).delete(
-            `/api/user/${user._id.toString()}`
+        const response = await request(app as App).delete(
+            `/api/user/${user._id.toString()}`,
         );
-        expect(response.body.msg).toStrictEqual("User was banned");
-        const another = await request(app).delete(
-            `/api/user/${user._id.toString()}`
+        expect((response.body as { msg: string }).msg).toStrictEqual(
+            "User was banned",
         );
-        expect(another.body.msg).toStrictEqual("User was unbanned");
+        const another = await request(app as App).delete(
+            `/api/user/${user._id.toString()}`,
+        );
+        expect((another.body as { msg: string }).msg).toStrictEqual(
+            "User was unbanned",
+        );
     });
 });
