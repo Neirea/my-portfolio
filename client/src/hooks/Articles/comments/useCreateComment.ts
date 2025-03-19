@@ -14,47 +14,51 @@ const useCreateComment = () => {
     const { articleId, setCommentError, resetCommentState } =
         useCommentsContext();
 
-    return useMutation(
-        ({ submitData }: { submitData: SubmitComment; index?: number }) =>
+    return useMutation({
+        mutationFn: ({
+            submitData,
+        }: {
+            submitData: SubmitComment;
+            index?: number;
+        }) =>
             axios
                 .post<{
                     comment: Comment;
                 }>(`/api/comment/${articleId}`, submitData)
                 .then((res) => res.data.comment),
-        {
-            async onSuccess(newData, { submitData, index }) {
-                resetCommentState();
+        async onSuccess(newData, { submitData, index }) {
+            resetCommentState();
 
-                const oldData = queryClient.getQueryData<Comment[]>([
-                    "comments",
-                    articleId,
-                ]);
+            const oldData = queryClient.getQueryData<Comment[]>([
+                "comments",
+                articleId,
+            ]);
 
-                if (!oldData) return;
+            if (!oldData) return;
 
-                await queryClient.invalidateQueries(["comments", articleId]);
+            await queryClient.invalidateQueries({
+                queryKey: ["comments", articleId],
+            });
 
-                const repliedTo = oldData.find(
-                    (item) => item._id === submitData.parentId,
+            const repliedTo = oldData.find(
+                (item) => item._id === submitData.parentId,
+            );
+            if (index !== undefined) {
+                repliedTo?.replies.push(newData);
+            } else {
+                queryClient.setQueriesData<Comment[]>(
+                    {
+                        queryKey: ["comments", articleId],
+                    },
+                    [newData, ...oldData],
                 );
-                if (index !== undefined) {
-                    repliedTo?.replies.push(newData);
-                } else {
-                    queryClient.setQueriesData<Comment[]>(
-                        ["comments", articleId],
-                        [newData, ...oldData],
-                    );
-                }
-            },
-            onError(error, { index }) {
-                const errorMessage = getErrorMessage(
-                    error,
-                    "There was some error",
-                );
-                setCommentError({ index: index, msg: errorMessage });
-            },
+            }
         },
-    );
+        onError(error, { index }) {
+            const errorMessage = getErrorMessage(error, "There was some error");
+            setCommentError({ index: index, msg: errorMessage });
+        },
+    });
 };
 
 export default useCreateComment;

@@ -37,7 +37,7 @@ const Article = ({ type }: { type: Category }): JSX.Element => {
         mutate: deleteArticle,
         error: deleteError,
         isError: deleteIsError,
-        isLoading: deleteLoading,
+        isPending: deleteLoading,
     } = useDeleteArticle();
 
     const canUpdate = hasPermission(user, "articles", "update");

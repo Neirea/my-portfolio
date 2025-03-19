@@ -12,7 +12,7 @@ type EditCommentProps = {
 const EditComment = ({ index, comment }: EditCommentProps): JSX.Element => {
     const [message, setMessage] = useState(comment.message);
     const { resetCommentState } = useCommentsContext();
-    const { mutate: updateComment, isLoading } = useUpdateComment();
+    const { mutate: updateComment, isPending } = useUpdateComment();
 
     const handleSaveUpdate = (): void => {
         updateComment({
@@ -44,8 +44,8 @@ const EditComment = ({ index, comment }: EditCommentProps): JSX.Element => {
                 onChange={handleChange}
             ></textarea>
             <div className="edit-comment-buttons">
-                <ReadButton onClick={handleSaveUpdate} disabled={isLoading}>
-                    {isLoading ? "Saving..." : "Submit"}
+                <ReadButton onClick={handleSaveUpdate} disabled={isPending}>
+                    {isPending ? "Saving..." : "Submit"}
                 </ReadButton>
                 <ReadButton onClick={resetCommentState}>Cancel</ReadButton>
             </div>

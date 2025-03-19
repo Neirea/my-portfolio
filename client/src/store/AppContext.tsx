@@ -26,34 +26,32 @@ export const AppProvider = ({
         (!("darkMode" in localStorage) && osDarkMode ? true : false);
     const [darkMode, setDarkMode] = useState(isDarkMode);
     const [user, setUser] = useState<User | undefined>(undefined);
-    const [userLoading, setUserLoading] = useState(true);
 
-    useQuery(
-        ["user"],
-        () =>
+    const { data, isFetched } = useQuery({
+        queryKey: ["user"],
+        queryFn: () =>
             axios
                 .get<{ user: User; csrfToken: string }>("/api/user/showMe")
                 .then((res) => res.data),
-        {
-            refetchOnWindowFocus: false,
-            onSuccess: (data) => {
-                if (!data) return;
-                setUser(data.user);
-                axios.interceptors.request.use((config) => {
-                    type CustomHeaders = AxiosHeaders & {
-                        "csrf-token": string;
-                    };
+        refetchOnWindowFocus: false,
+    });
+
+    useEffect(() => {
+        if (data) {
+            setUser(data.user);
+            axios.interceptors.request.use((config) => {
+                type CustomHeaders = AxiosHeaders & {
+                    "csrf-token": string;
+                };
+                if (data.csrfToken) {
                     (config.headers as CustomHeaders)["csrf-token"] =
                         data.csrfToken;
+                }
 
-                    return config;
-                });
-            },
-            onSettled() {
-                setUserLoading(false);
-            },
-        },
-    );
+                return config;
+            });
+        }
+    }, [data]);
 
     const toggleDarkMode = (): void => {
         setDarkMode(!darkMode);
@@ -78,7 +76,7 @@ export const AppProvider = ({
     return (
         <AppContext.Provider
             value={{
-                userLoading,
+                userLoading: !isFetched,
                 setUser,
                 user,
                 logoutUser,

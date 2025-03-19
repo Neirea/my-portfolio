@@ -25,9 +25,10 @@ const NavMenuItems = ({ handleMenuClick }: NavMenuItemsProps): JSX.Element => {
 
     const fetchBlogs = (link: string): void => {
         if (link === "/blog") {
-            void queryClient.prefetchQuery(["articles", "blog"], () =>
-                getArticles("blog"),
-            );
+            void queryClient.prefetchQuery({
+                queryKey: ["articles", "blog"],
+                queryFn: () => getArticles("blog"),
+            });
         }
     };
     return (

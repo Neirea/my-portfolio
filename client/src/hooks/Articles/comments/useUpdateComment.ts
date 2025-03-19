@@ -9,8 +9,8 @@ const useUpdateComment = () => {
     const { articleId, setCommentError, resetCommentState } =
         useCommentsContext();
 
-    return useMutation(
-        ({
+    return useMutation({
+        mutationFn: ({
             commentId,
             msg,
             authorId,
@@ -24,20 +24,17 @@ const useUpdateComment = () => {
                 `/api/comment/${articleId}/${commentId}?authorId=${authorId}`,
                 { message: msg },
             ),
-        {
-            onSuccess() {
-                resetCommentState();
-                void queryClient.invalidateQueries(["comments", articleId]);
-            },
-            onError(error: any, { index }) {
-                const errorMessage = getErrorMessage(
-                    error,
-                    "There was some error",
-                );
-                setCommentError({ index: index, msg: errorMessage });
-            },
+        onSuccess() {
+            resetCommentState();
+            void queryClient.invalidateQueries({
+                queryKey: ["comments", articleId],
+            });
         },
-    );
+        onError(error: any, { index }) {
+            const errorMessage = getErrorMessage(error, "There was some error");
+            setCommentError({ index: index, msg: errorMessage });
+        },
+    });
 };
 
 export default useUpdateComment;

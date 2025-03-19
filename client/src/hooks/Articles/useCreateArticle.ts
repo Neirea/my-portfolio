@@ -9,22 +9,19 @@ import { getErrorMessage } from "../../utils/getErrorMessage";
 
 const useCreateArticle = () => {
     const queryClient = useQueryClient();
-    const createArticle = useMutation(
-        (newArticle: ArticleCreated) =>
+    const createArticle = useMutation({
+        mutationFn: (newArticle: ArticleCreated) =>
             axios
                 .post<{ article: Article }>("/api/article/", newArticle)
                 .then((res) => res.data.article),
-        {
-            onSuccess(newArticle) {
-                void queryClient.invalidateQueries([
-                    "articles",
-                    newArticle.category,
-                ]);
-            },
+        onSuccess(newArticle) {
+            void queryClient.invalidateQueries({
+                queryKey: ["articles", newArticle.category],
+            });
         },
-    );
-    return useMutation(
-        async ({
+    });
+    return useMutation({
+        mutationFn: async ({
             selectedImage,
             newArticle,
         }: {
@@ -44,15 +41,10 @@ const useCreateArticle = () => {
             return createArticle.mutateAsync(newArticle);
         },
 
-        {
-            onError(error) {
-                (error as Error).message = getErrorMessage(
-                    error,
-                    "There was some error",
-                );
-            },
+        onError(error) {
+            error.message = getErrorMessage(error, "There was some error");
         },
-    );
+    });
 };
 
 export default useCreateArticle;

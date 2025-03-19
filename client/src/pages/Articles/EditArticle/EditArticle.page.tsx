@@ -35,11 +35,13 @@ const EditArticle = (): JSX.Element => {
         data: article,
         isLoading: articleLoading,
         error: articleError,
-    } = useQuery(["article", articleId], () =>
-        axios
-            .get<{ article: Article }>(`/api/article/${articleId}`)
-            .then((res) => res.data.article),
-    );
+    } = useQuery({
+        queryKey: ["article", articleId],
+        queryFn: () =>
+            axios
+                .get<{ article: Article }>(`/api/article/${articleId}`)
+                .then((res) => res.data.article),
+    });
 
     useEffect(() => {
         if (!article) return;
@@ -91,7 +93,7 @@ const EditArticle = (): JSX.Element => {
             tags={tags}
             setTags={setTags}
             success={editArticle.isSuccess}
-            loading={articleLoading || editArticle.isLoading}
+            loading={articleLoading || editArticle.isPending}
             alert={articleError || editArticle.error}
         />
     );

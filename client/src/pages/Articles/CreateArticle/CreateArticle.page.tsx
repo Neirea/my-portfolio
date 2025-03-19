@@ -62,7 +62,7 @@ const CreateArticle = (): JSX.Element => {
             tags={tags}
             setTags={setTags}
             success={createArticle.isSuccess}
-            loading={createArticle.isLoading}
+            loading={createArticle.isPending}
             alert={createArticle.error}
         />
     );

@@ -7,8 +7,8 @@ const useDeleteCommentCascade = () => {
     const queryClient = useQueryClient();
     const { articleId, setCommentError, resetCommentState } =
         useCommentsContext();
-    return useMutation(
-        ({
+    return useMutation({
+        mutationFn: ({
             commentId,
             authorId,
         }: {
@@ -19,20 +19,17 @@ const useDeleteCommentCascade = () => {
             axios.delete(
                 `/api/comment/${articleId}/d_all/${commentId}?authorId=${authorId}`,
             ),
-        {
-            onSuccess() {
-                resetCommentState();
-                void queryClient.invalidateQueries(["comments", articleId]);
-            },
-            onError(error: any, { index }) {
-                const errorMessage = getErrorMessage(
-                    error,
-                    "There was some error",
-                );
-                setCommentError({ index: index, msg: errorMessage });
-            },
+        onSuccess() {
+            resetCommentState();
+            void queryClient.invalidateQueries({
+                queryKey: ["comments", articleId],
+            });
         },
-    );
+        onError(error: any, { index }) {
+            const errorMessage = getErrorMessage(error, "There was some error");
+            setCommentError({ index: index, msg: errorMessage });
+        },
+    });
 };
 
 export default useDeleteCommentCascade;

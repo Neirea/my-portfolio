@@ -11,9 +11,13 @@ import { hasPermission } from "../../utils/abac";
 const AdminDashboard = (): JSX.Element => {
     const { user: currentUser } = useGlobalContext();
     const { mutate: banUser } = useBanUser();
-    const { data: users } = useQuery<User[]>(["users"], () =>
-        axios.get<{ users: User[] }>("/api/user").then((res) => res.data.users),
-    );
+    const { data: users } = useQuery<User[]>({
+        queryKey: ["users"],
+        queryFn: () =>
+            axios
+                .get<{ users: User[] }>("/api/user")
+                .then((res) => res.data.users),
+    });
 
     return (
         <AdminDashboardWrapper>

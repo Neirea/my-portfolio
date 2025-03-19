@@ -24,10 +24,10 @@ const ToolBar = ({
     const { articleId, setCommentState, commentState, resetCommentState } =
         useCommentsContext();
     const { isFetching } = useComments(articleId);
-    const { mutate: deleteOneComment, isLoading: deleteOneLoading } =
+    const { mutate: deleteOneComment, isPending: deleteOneLoading } =
         useDeleteComment();
 
-    const { mutate: deleteCascade, isLoading: deleteCascadeLoading } =
+    const { mutate: deleteCascade, isPending: deleteCascadeLoading } =
         useDeleteCommentCascade();
 
     const isLoading = deleteOneLoading || deleteCascadeLoading || isFetching;

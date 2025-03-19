@@ -10,7 +10,9 @@ export const getArticles = (type: Category): Promise<Article[]> => {
 
 const useArticles = (type: Category) => {
     const queryClient = useQueryClient();
-    return useQuery(["articles", type], () => getArticles(type), {
+    return useQuery({
+        queryKey: ["articles", type],
+        queryFn: () => getArticles(type),
         initialData: () => {
             return queryClient.getQueryData<Article[]>(["articles", type]);
         },

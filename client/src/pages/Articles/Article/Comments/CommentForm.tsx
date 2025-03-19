@@ -19,7 +19,7 @@ const ReplyForm = ({
     depth,
 }: ReplyFormProps): JSX.Element => {
     const { commentState } = useCommentsContext();
-    const { mutate: createComment, isLoading, isSuccess } = useCreateComment();
+    const { mutate: createComment, isPending, isSuccess } = useCreateComment();
     const [message, setMessage] = useState("");
 
     const handleChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
@@ -63,8 +63,8 @@ const ReplyForm = ({
                 required={true}
                 onChange={handleChange}
             ></textarea>
-            <ReadButton type="submit" disabled={isLoading}>
-                {isLoading ? "Saving..." : "Submit"}
+            <ReadButton type="submit" disabled={isPending}>
+                {isPending ? "Saving..." : "Submit"}
             </ReadButton>
         </CommentFormWrapper>
     );

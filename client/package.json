@@ -13,8 +13,8 @@
     "dependencies": {
         "@formkit/auto-animate": "^0.8.2",
         "@react-icons/all-files": "^4.1.0",
-        "@tanstack/react-query": "^4.22.0",
-        "@tanstack/react-query-devtools": "^4.22.0",
+        "@tanstack/react-query": "^5.69.0",
+        "@tanstack/react-query-devtools": "^5.69.0",
         "axios": "^1.8.3",
         "draft-js": "^0.11.7",
         "draftjs-to-html": "^0.9.1",

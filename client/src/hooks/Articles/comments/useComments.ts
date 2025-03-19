@@ -25,16 +25,14 @@ export const parseComments = (comments: Comment[]): CommentJsx[] => {
 };
 
 const useComments = (articleId: string | undefined) => {
-    return useQuery(
-        ["comments", articleId],
-        () =>
+    return useQuery({
+        queryKey: ["comments", articleId],
+        queryFn: () =>
             axios
                 .get<{ comments: Comment[] }>(`/api/comment/${articleId}`)
                 .then((res) => res.data.comments),
-        {
-            select: (comments) => parseComments(comments),
-        },
-    );
+        select: (comments) => parseComments(comments),
+    });
 };
 
 export default useComments;

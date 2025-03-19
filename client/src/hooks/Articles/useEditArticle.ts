@@ -9,8 +9,8 @@ import { getErrorMessage } from "../../utils/getErrorMessage";
 
 const useEditArticle = () => {
     const queryClient = useQueryClient();
-    const editArticle = useMutation(
-        ({
+    const editArticle = useMutation({
+        mutationFn: ({
             articleId,
             newArticle,
         }: {
@@ -22,17 +22,14 @@ const useEditArticle = () => {
                     article: Article;
                 }>(`/api/article/${articleId}`, newArticle)
                 .then((res) => res.data.article),
-        {
-            onSuccess(newArticle) {
-                void queryClient.invalidateQueries([
-                    "articles",
-                    newArticle.category,
-                ]);
-            },
+        onSuccess(newArticle) {
+            void queryClient.invalidateQueries({
+                queryKey: ["articles", newArticle.category],
+            });
         },
-    );
-    return useMutation(
-        async ({
+    });
+    return useMutation({
+        mutationFn: async ({
             articleId,
             selectedImage,
             newArticle,
@@ -56,15 +53,10 @@ const useEditArticle = () => {
                 return editArticle.mutateAsync({ articleId, newArticle });
             }
         },
-        {
-            onError(error) {
-                (error as Error).message = getErrorMessage(
-                    error,
-                    "There was some error",
-                );
-            },
+        onError(error) {
+            error.message = getErrorMessage(error, "There was some error");
         },
-    );
+    });
 };
 
 export default useEditArticle;
