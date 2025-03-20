@@ -1,7 +1,7 @@
 import passport from "passport";
 import { Strategy as GitHubStrategy } from "passport-github2";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import { loginGithub, loginGoogle } from "./controllers/authController";
+import { loginGithub, loginGoogle } from "./controllers/authController.js";
 
 passport.use(
     new GitHubStrategy(

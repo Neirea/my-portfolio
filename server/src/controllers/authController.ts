@@ -5,10 +5,10 @@ import type {
     Profile as GoogleProfile,
     VerifyCallback,
 } from "passport-google-oauth20";
-import app from "../app";
-import CustomError from "../errors";
-import User from "../models/User";
-import { randomUserName } from "../utils/randomUserName";
+import app from "../app.js";
+import CustomError from "../errors/index.js";
+import User, { type User as TUser } from "../models/User.js";
+import { randomUserName } from "../utils/randomUserName.js";
 
 const clientUrl =
     process.env.NODE_ENV !== "production"
@@ -41,7 +41,7 @@ const callbackFunction = (req: Request, res: Response): void => {
         );
     }
     if (req.session) {
-        req.session.user = req.user.user;
+        req.session.user = req.user.user as TUser;
         req.session.csrfToken = crypto.randomUUID();
     }
     if (!redirect) {

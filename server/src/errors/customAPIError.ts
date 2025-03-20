@@ -1,4 +1,4 @@
-import { StatusCodes, TStatusCodes } from "../utils/httpStatusCodes";
+import { StatusCodes, type TStatusCodes } from "../utils/httpStatusCodes.js";
 
 class CustomAPIError extends Error {
     statusCode: TStatusCodes;

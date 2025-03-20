@@ -1,4 +1,4 @@
-import { Role, User } from "../models/User";
+import type { Role, User } from "../models/User.js";
 
 export type PermissionCheck<Key extends keyof Permissions> =
     | boolean

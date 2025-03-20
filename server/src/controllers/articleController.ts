@@ -3,14 +3,14 @@ import type { Request, Response } from "express";
 import type { UploadedFile } from "express-fileupload";
 import fs from "fs";
 import sanitizeHtml from "sanitize-html";
-import { redisClient } from "../db/redis";
-import CustomError from "../errors";
+import { redisClient } from "../db/redis.js";
+import CustomError from "../errors/index.js";
 import Article, {
-    UpsertArticle,
+    type UpsertArticle,
     type Article as TArticle,
-} from "../models/Article";
-import Comment from "../models/Comment";
-import { StatusCodes } from "../utils/httpStatusCodes";
+} from "../models/Article.js";
+import Comment from "../models/Comment.js";
+import { StatusCodes } from "../utils/httpStatusCodes.js";
 
 const sanitizeOptions = {
     allowedIframeHostnames: ["www.youtube.com"],

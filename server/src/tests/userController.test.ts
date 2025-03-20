@@ -18,10 +18,10 @@ jest.mock("../middleware/checkCsrf", () =>
 
 import type { NextFunction, Request, Response } from "express";
 import request from "supertest";
-import { type App } from "supertest/types";
-import app from "../app";
-import User from "../models/User";
-import * as dbHandler from "./db";
+import type { App } from "supertest/types.js";
+import app from "../app.js";
+import User from "../models/User.js";
+import * as dbHandler from "./db.js";
 
 beforeAll(async () => {
     await dbHandler.connect();

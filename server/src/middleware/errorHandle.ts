@@ -2,7 +2,7 @@ import type { ErrorRequestHandler } from "express";
 import type { UploadedFile } from "express-fileupload";
 import fs from "fs";
 import { Error as MongooseError } from "mongoose";
-import { StatusCodes } from "../utils/httpStatusCodes";
+import { StatusCodes } from "../utils/httpStatusCodes.js";
 
 type MyError = Error & {
     statusCode?: number;

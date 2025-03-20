@@ -6,10 +6,10 @@ import {
     getSingleArticle,
     updateArticle,
     uploadArticleImage,
-} from "../controllers/articleController";
-import authorizePermissions from "../middleware/authorizePermissions";
-import checkCsrf from "../middleware/checkCsrf";
-import isAuthenticated from "../middleware/isAuthenticated";
+} from "../controllers/articleController.js";
+import authorizePermissions from "../middleware/authorizePermissions.js";
+import checkCsrf from "../middleware/checkCsrf.js";
+import isAuthenticated from "../middleware/isAuthenticated.js";
 
 const router = Router();
 

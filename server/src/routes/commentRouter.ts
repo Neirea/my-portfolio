@@ -6,11 +6,11 @@ import {
     deleteCommentsCascade,
     getAllComments,
     updateComment,
-} from "../controllers/commentController";
-import authorizePermissions from "../middleware/authorizePermissions";
-import checkCsrf from "../middleware/checkCsrf";
-import isAuthenticated from "../middleware/isAuthenticated";
-import rateLimit from "../middleware/rateLimit";
+} from "../controllers/commentController.js";
+import authorizePermissions from "../middleware/authorizePermissions.js";
+import checkCsrf from "../middleware/checkCsrf.js";
+import isAuthenticated from "../middleware/isAuthenticated.js";
+import rateLimit from "../middleware/rateLimit.js";
 
 const router = Router();
 

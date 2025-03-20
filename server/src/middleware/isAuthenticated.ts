@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
-import CustomError from "../errors";
+import CustomError from "../errors/index.js";
 
 const isAuthenticated = (
     req: Request,

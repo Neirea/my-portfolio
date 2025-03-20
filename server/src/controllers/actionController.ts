@@ -1,8 +1,8 @@
 import type { Request, Response } from "express";
 import sanitizeHtml from "sanitize-html";
-import CustomError from "../errors";
-import { StatusCodes } from "../utils/httpStatusCodes";
-import sendEmail from "../utils/sendEmail";
+import CustomError from "../errors/index.js";
+import { StatusCodes } from "../utils/httpStatusCodes.js";
+import sendEmail from "../utils/sendEmail.js";
 
 const validateRecaptcha = async (token: string | null): Promise<number> => {
     const secretKey = process.env.RECAPTCHA_SECRET_KEY;

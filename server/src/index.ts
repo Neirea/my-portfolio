@@ -1,6 +1,6 @@
-import app from "./app";
-import { connectDB } from "./db/connect";
-import { redisClient } from "./db/redis";
+import app from "./app.js";
+import { connectDB } from "./db/connect.js";
+import { redisClient } from "./db/redis.js";
 
 const port = process.env.PORT || 5000;
 

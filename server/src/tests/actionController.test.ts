@@ -1,9 +1,9 @@
 jest.mock("../utils/sendEmail", () => jest.fn());
 
 import request from "supertest";
-import { type App } from "supertest/types";
-import app from "../app";
-import sendEmail from "../utils/sendEmail";
+import type { App } from "supertest/types.js";
+import app from "../app.js";
+import sendEmail from "../utils/sendEmail.js";
 
 const mockedSendEmail = sendEmail as jest.Mock;
 

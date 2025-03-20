@@ -1,13 +1,18 @@
-import { NextFunction, Request, Response, Router } from "express";
+import {
+    type NextFunction,
+    type Request,
+    type Response,
+    Router,
+} from "express";
 import passport from "passport";
-import app from "../app";
+import app from "../app.js";
 import {
     failedLogin,
     githubCallback,
     googleCallback,
     logout,
-} from "../controllers/authController";
-import isAuthenticated from "../middleware/isAuthenticated";
+} from "../controllers/authController.js";
+import isAuthenticated from "../middleware/isAuthenticated.js";
 
 const router = Router();
 

@@ -20,13 +20,13 @@ import type { NextFunction, Request, Response } from "express";
 import { Session } from "express-session";
 import mongoose from "mongoose";
 import request from "supertest";
-import { type App } from "supertest/types";
-import app from "../app";
-import Article, { type Article as TArticle } from "../models/Article";
-import Comment, { type Comment as TComment } from "../models/Comment";
-import { User as TUser } from "../models/User";
-import { MongooseDocument } from "../utils/mongoose.type";
-import * as dbHandler from "./db";
+import type { App } from "supertest/types.js";
+import app from "../app.js";
+import Article, { type Article as TArticle } from "../models/Article.js";
+import Comment, { type Comment as TComment } from "../models/Comment.js";
+import type { User as TUser } from "../models/User.js";
+import type { MongooseDocument } from "../utils/mongoose.type.js";
+import * as dbHandler from "./db.js";
 
 beforeAll(async () => {
     await dbHandler.connect();

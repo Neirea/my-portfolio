@@ -1,10 +1,10 @@
 import type { Request, Response } from "express";
 import mongoose from "mongoose";
-import CustomError from "../errors";
-import Article from "../models/Article";
-import Comment, { type Comment as TComment } from "../models/Comment";
-import { StatusCodes } from "../utils/httpStatusCodes";
-import { MongooseDocument } from "../utils/mongoose.type";
+import CustomError from "../errors/index.js";
+import Article from "../models/Article.js";
+import Comment, { type Comment as TComment } from "../models/Comment.js";
+import { StatusCodes } from "../utils/httpStatusCodes.js";
+import type { MongooseDocument } from "../utils/mongoose.type.js";
 
 export const getAllComments = async (
     req: Request,

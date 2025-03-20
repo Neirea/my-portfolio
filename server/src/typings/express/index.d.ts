@@ -5,9 +5,5 @@ declare global {
         interface User {
             user: TUser;
         }
-
-        interface Request extends Express.Request {
-            fetchedData: any;
-        }
     }
 }

@@ -3,8 +3,8 @@ import { RateLimiter } from "rate-limiter-algorithms";
 import {
     sendContactMessage,
     testRecaptcha,
-} from "../controllers/actionController";
-import rateLimit from "../middleware/rateLimit";
+} from "../controllers/actionController.js";
+import rateLimit from "../middleware/rateLimit.js";
 
 const router = Router();
 

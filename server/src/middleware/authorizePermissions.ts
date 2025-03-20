@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
-import CustomError from "../errors";
-import { hasPermission, Permissions } from "../utils/abac";
+import CustomError from "../errors/index.js";
+import { hasPermission, type Permissions } from "../utils/abac.js";
 
 const authorizePermissions = <Resource extends keyof Permissions>(
     resource: Resource,

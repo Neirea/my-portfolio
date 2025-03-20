@@ -1,6 +1,8 @@
-/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
-module.exports = {
-    preset: "ts-jest",
-    testEnvironment: "node",
-    setupFiles: ["dotenv/config"],
+export default {
+    transform: {
+        "^.+\\.tsx?$": ["ts-jest", { isolatedModules: true }],
+    },
+    moduleNameMapper: {
+        "^(\\.\\.?\\/.+)\\.js$": "$1",
+    },
 };

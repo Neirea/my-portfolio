@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { banUser, getAllUsers, showMe } from "../controllers/userController";
-import authorizePermissions from "../middleware/authorizePermissions";
-import checkCsrf from "../middleware/checkCsrf";
-import isAuthenticated from "../middleware/isAuthenticated";
+import { banUser, getAllUsers, showMe } from "../controllers/userController.js";
+import authorizePermissions from "../middleware/authorizePermissions.js";
+import checkCsrf from "../middleware/checkCsrf.js";
+import isAuthenticated from "../middleware/isAuthenticated.js";
 
 const router = Router();
 

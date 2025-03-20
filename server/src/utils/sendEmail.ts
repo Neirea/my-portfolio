@@ -1,5 +1,5 @@
 import mailer from "nodemailer";
-import SMTPTransport from "nodemailer/lib/smtp-transport";
+import type SMTPTransport from "nodemailer/lib/smtp-transport/index.js";
 
 type SendEmailProps = {
     to: string | undefined;

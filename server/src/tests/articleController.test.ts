@@ -15,18 +15,18 @@ jest.mock("../middleware/checkCsrf", () =>
     }),
 );
 
-import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
+import { type UploadApiResponse, v2 as cloudinary } from "cloudinary";
 import type { NextFunction, Request, Response } from "express";
 import { Session } from "express-session";
 import mongoose from "mongoose";
 import path from "path";
 import request from "supertest";
-import { type App } from "supertest/types";
-import app from "../app";
-import isAuthenticated from "../middleware/isAuthenticated";
-import Article, { Article as TArticle } from "../models/Article";
-import { User as TUser } from "../models/User";
-import * as dbHandler from "./db";
+import type { App } from "supertest/types.js";
+import app from "../app.js";
+import isAuthenticated from "../middleware/isAuthenticated.js";
+import Article, { type Article as TArticle } from "../models/Article.js";
+import type { User as TUser } from "../models/User.js";
+import * as dbHandler from "./db.js";
 
 jest.mock("cloudinary");
 jest.mock("../db/redis");

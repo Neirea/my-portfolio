@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
-import BadRequestError from "../errors/badRequest";
+import BadRequestError from "../errors/badRequest.js";
 
 const checkCsrf = (req: Request, res: Response, next: NextFunction): void => {
     if (req.headers["csrf-token"] !== req.session.csrfToken) {

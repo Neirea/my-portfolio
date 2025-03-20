@@ -6,7 +6,7 @@ import MongoStore from "connect-mongo";
 import cors from "cors";
 import fileUpload from "express-fileupload";
 import mongoSanitize from "express-mongo-sanitize";
-import rateLimit from "./middleware/rateLimit";
+import rateLimit from "./middleware/rateLimit.js";
 import { RateLimiter } from "rate-limiter-algorithms";
 import session from "express-session";
 import { buildCheckFunction } from "express-validator";
@@ -15,13 +15,13 @@ import passport from "passport";
 import morgan from "morgan";
 
 import "./passport";
-import errorHandlerMiddleware from "./middleware/errorHandle";
-import notFoundMiddleware from "./middleware/notFound";
-import actionRouter from "./routes/actionRouter";
-import articleRouter from "./routes/articleRouter";
-import authRouter from "./routes/authRouter";
-import commentRouter from "./routes/commentRouter";
-import userRouter from "./routes/userRouter";
+import errorHandlerMiddleware from "./middleware/errorHandle.js";
+import notFoundMiddleware from "./middleware/notFound.js";
+import actionRouter from "./routes/actionRouter.js";
+import articleRouter from "./routes/articleRouter.js";
+import authRouter from "./routes/authRouter.js";
+import commentRouter from "./routes/commentRouter.js";
+import userRouter from "./routes/userRouter.js";
 
 const app = express();
 
