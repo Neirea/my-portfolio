@@ -3,21 +3,18 @@ import sanitizeHtml from "sanitize-html";
 import CustomError from "../errors/index.js";
 import { StatusCodes } from "../utils/httpStatusCodes.js";
 import sendEmail from "../utils/sendEmail.js";
+import { appConfig } from "../utils/appConfig.js";
 
 const validateRecaptcha = async (token: string | null): Promise<number> => {
-    const secretKey = process.env.RECAPTCHA_SECRET_KEY;
-    const apiKey = process.env.RECAPTCHA_API_KEY;
-    const projectName = process.env.RECAPTCHA_PROJECT_ID;
-
     if (!token) {
         throw new CustomError.BadRequestError("Missing reCAPTCHA token");
     }
 
-    const recaptchaURL = `https://recaptchaenterprise.googleapis.com/v1/projects/${projectName}/assessments?key=${apiKey}`;
+    const recaptchaURL = `https://recaptchaenterprise.googleapis.com/v1/projects/${appConfig.recaptchaProjectName}/assessments?key=${appConfig.recaptchaAPIKey}`;
     const body = {
         event: {
             token: token,
-            siteKey: secretKey,
+            siteKey: appConfig.recaptchaSecretKey,
             expectedAction: "contact_email",
         },
     };
@@ -91,7 +88,7 @@ export const sendContactMessage = async (
 
     try {
         await sendEmail({
-            to: process.env.CONTACT_EMAIL,
+            to: appConfig.contactEmail,
             subject,
             html: cleanHtml,
         });

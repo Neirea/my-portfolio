@@ -1,16 +1,15 @@
 import app from "./app.js";
 import { connectDB } from "./db/connect.js";
 import { redisClient } from "./db/redis.js";
-
-const port = process.env.PORT || 5000;
+import { appConfig } from "./utils/appConfig.js";
 
 const start = async (): Promise<void> => {
     try {
-        await connectDB(process.env.MONGO_URL || "");
+        await connectDB(appConfig.mongoUrl!);
         await redisClient.connect();
-        if (process.env.NODE_ENV !== "production") {
-            app.listen(port, () =>
-                console.log(`Server is listening on port ${port}...`),
+        if (appConfig.nodeEnv !== "production") {
+            app.listen(appConfig.port, () =>
+                console.log(`Server is listening on port ${appConfig.port}...`),
             );
         } else {
             app.listen(8080, "0.0.0.0");

@@ -22,13 +22,14 @@ import articleRouter from "./routes/articleRouter.js";
 import authRouter from "./routes/authRouter.js";
 import commentRouter from "./routes/commentRouter.js";
 import userRouter from "./routes/userRouter.js";
+import { appConfig } from "./utils/appConfig.js";
 
 const app = express();
 
 cloudinary.config({
-    cloud_name: process.env.CLDNRY_NAME,
-    api_key: process.env.CLDNRY_API_KEY,
-    api_secret: process.env.CLDNRY_API_SECRET,
+    cloud_name: appConfig.cloudinaryName,
+    api_key: appConfig.cloudinaryAPIKey,
+    api_secret: appConfig.cloudinaryAPISecret,
 });
 
 const limiter = new RateLimiter({
@@ -43,7 +44,7 @@ app.use(helmet());
 app.use(
     cors({
         origin:
-            process.env.NODE_ENV !== "production"
+            appConfig.nodeEnv !== "production"
                 ? ["http://localhost:4173", "http://localhost:5173"]
                 : "https://www.neirea.com",
         credentials: true,
@@ -54,31 +55,27 @@ app.use(express.json());
 app.use(mongoSanitize());
 app.use(buildCheckFunction(["body", "query", "params"])());
 
-if (process.env.NODE_ENV === "development" || !process.env.NODE_ENV) {
+if (appConfig.nodeEnv === "development" || !appConfig.nodeEnv) {
     app.use(morgan("tiny"));
 }
-if (process.env.NODE_ENV !== "test") {
+if (appConfig.nodeEnv !== "test") {
     const sessionStore = new MongoStore({
-        mongoUrl: process.env.MONGO_URL,
+        mongoUrl: appConfig.mongoUrl,
         collectionName: "sessions",
     });
     app.use(
         session({
-            secret: process.env.SESSION_SECRET!,
+            secret: appConfig.sessionSecret!,
             name: "s_id",
             saveUninitialized: false,
             resave: false,
             store: sessionStore,
             cookie: {
                 httpOnly: true,
-                domain:
-                    process.env.NODE_ENV === "production"
-                        ? "neirea.com"
-                        : undefined,
-                secure: process.env.NODE_ENV === "production",
+                domain: appConfig.domain,
+                secure: appConfig.nodeEnv === "production",
                 maxAge: 1000 * 60 * 60 * 24 * 30, //30 days
-                sameSite:
-                    process.env.NODE_ENV === "production" ? true : undefined,
+                sameSite: appConfig.nodeEnv === "production",
             },
         }),
     );

@@ -9,14 +9,10 @@ import app from "../app.js";
 import CustomError from "../errors/index.js";
 import User, { type User as TUser } from "../models/User.js";
 import { randomUserName } from "../utils/randomUserName.js";
-
-const clientUrl =
-    process.env.NODE_ENV !== "production"
-        ? "http://localhost:5173"
-        : "https://www.neirea.com";
+import { appConfig } from "../utils/appConfig.js";
 
 export const failedLogin = (req: Request, res: Response): void => {
-    res.status(401).redirect(`${clientUrl}/login?error=login_failed`);
+    res.status(401).redirect(`${appConfig.clientUrl}/login?error=login_failed`);
 };
 
 export const logout = (req: Request, res: Response): void => {
@@ -45,11 +41,11 @@ const callbackFunction = (req: Request, res: Response): void => {
         req.session.csrfToken = crypto.randomUUID();
     }
     if (!redirect) {
-        res.redirect(`${clientUrl}`);
+        res.redirect(`${appConfig.clientUrl}`);
         return;
     }
 
-    res.redirect(`${clientUrl}/${redirect}`);
+    res.redirect(`${appConfig.clientUrl}/${redirect}`);
 };
 
 export const githubCallback = (req: Request, res: Response): void => {

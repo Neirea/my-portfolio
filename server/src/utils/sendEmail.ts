@@ -1,5 +1,6 @@
 import mailer from "nodemailer";
 import type SMTPTransport from "nodemailer/lib/smtp-transport/index.js";
+import { appConfig } from "./appConfig.js";
 
 type SendEmailProps = {
     to: string | undefined;
@@ -8,12 +9,12 @@ type SendEmailProps = {
 };
 
 const transporter = mailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: +process.env.EMAIL_PORT!,
+    host: appConfig.emailHost,
+    port: appConfig.emailPort,
     secure: true,
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD,
+        user: appConfig.emailUser,
+        pass: appConfig.emailPassword,
     },
 });
 
@@ -24,7 +25,7 @@ const sendEmail = async ({
 }: SendEmailProps): Promise<SMTPTransport.SentMessageInfo> => {
     const info = await transporter.sendMail({
         to,
-        from: process.env.EMAIL_USER,
+        from: appConfig.emailUser,
         subject,
         html,
     });
