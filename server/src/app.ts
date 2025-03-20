@@ -14,7 +14,7 @@ import helmet from "helmet";
 import passport from "passport";
 import morgan from "morgan";
 
-import "./passport";
+import "./passport.js";
 import errorHandlerMiddleware from "./middleware/errorHandle.js";
 import notFoundMiddleware from "./middleware/notFound.js";
 import actionRouter from "./routes/actionRouter.js";
