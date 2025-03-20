@@ -32,13 +32,9 @@ export const handleHtmlString = (
         }
 
         const currentLang =
-            languages.length > index
-                ? languages[index]
-                : codeInfo?.language
-                  ? codeInfo?.language
-                  : null;
+            languages.length > index ? languages[index] : codeInfo?.language;
         const highlightedCodeString = codeElementWithNewLines
-            ? currentLang !== null
+            ? currentLang !== undefined
                 ? hljs.highlight(codeElementWithNewLines, {
                       language: currentLang,
                   }).value
@@ -86,8 +82,8 @@ export const languageDetector = (htmlString: string): string[] => {
 
 const getChildrenElementsString = (elements: HTMLCollection): string => {
     let result = "";
-    for (let i = 0; i < elements.length; i++) {
-        result += elements[i].outerHTML;
+    for (const elem of elements) {
+        result += elem.outerHTML;
     }
     return result;
 };
@@ -99,8 +95,9 @@ const getCodeInfo = (
     if (code.indexOf("~!") !== -1 && code.indexOf("!~") !== -1) {
         language = code.substring(code.indexOf("~!") + 2, code.indexOf("!~"));
 
+        const actualCode = code.split("!~")[1] || "";
         if (hljs.listLanguages().includes(language)) {
-            return { language, code: code.split("!~")[1] };
+            return { language, code: actualCode };
         }
     }
     return undefined;

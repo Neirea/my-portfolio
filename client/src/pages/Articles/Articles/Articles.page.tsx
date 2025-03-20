@@ -34,15 +34,15 @@ const Articles = ({ type }: { type: Category }): JSX.Element => {
         if (!articles) return;
 
         const articleTags: string[] = [];
-        for (let i = 0; i < articles.length; i++) {
-            articles[i].tags.forEach((elem) => {
+        for (const article of articles) {
+            for (const tag of article.tags) {
                 if (
-                    articles[i].category === type &&
-                    articleTags.indexOf(elem) === -1
+                    article.category === type &&
+                    articleTags.indexOf(tag) === -1
                 ) {
-                    articleTags.push(elem);
+                    articleTags.push(tag);
                 }
-            });
+            }
         }
         setTags(articleTags);
     }, [type, articles]);
