@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosHeaders } from "axios";
 import {
     createContext,
@@ -19,6 +19,7 @@ export const AppProvider = ({
 }: {
     children: ReactNode;
 }): JSX.Element => {
+    const queryClient = useQueryClient();
     const osDarkMode =
         window.matchMedia &&
         window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -26,7 +27,6 @@ export const AppProvider = ({
         localStorage.getItem("darkMode") === "1" ||
         (!("darkMode" in localStorage) && osDarkMode ? true : false);
     const [darkMode, setDarkMode] = useState(isDarkMode);
-    const [user, setUser] = useState<User | undefined>(undefined);
 
     const { data, isFetched } = useQuery({
         queryKey: ["user"],
@@ -38,16 +38,13 @@ export const AppProvider = ({
     });
 
     useEffect(() => {
-        if (data) {
-            setUser(data.user);
+        if (data?.csrfToken) {
             axios.interceptors.request.use((config) => {
                 type CustomHeaders = AxiosHeaders & {
                     "csrf-token": string;
                 };
-                if (data.csrfToken) {
-                    (config.headers as CustomHeaders)["csrf-token"] =
-                        data.csrfToken;
-                }
+                (config.headers as CustomHeaders)["csrf-token"] =
+                    data.csrfToken;
 
                 return config;
             });
@@ -68,7 +65,7 @@ export const AppProvider = ({
     const logoutUser = async (): Promise<void> => {
         try {
             await axios.delete("/api/auth/logout");
-            setUser(undefined);
+            await queryClient.invalidateQueries({ queryKey: ["user"] });
         } catch (error) {
             console.error(error);
         }
@@ -78,8 +75,7 @@ export const AppProvider = ({
         <AppContext.Provider
             value={{
                 userLoading: !isFetched,
-                setUser,
-                user,
+                user: data?.user,
                 logoutUser,
                 darkMode,
                 toggleDarkMode,
