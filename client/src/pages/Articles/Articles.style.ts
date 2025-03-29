@@ -136,11 +136,17 @@ export const ArticleContentWrapper = styled.section`
             }
             iframe,
             img {
+                width: 100%;
+                height: auto;
                 margin: 1rem 0;
                 border: none;
+
+                &[alt*="native:"] {
+                    width: auto;
+                    max-width: 100%;
+                }
             }
             iframe {
-                width: 100%;
                 aspect-ratio: 16/9;
             }
             a {
@@ -395,43 +401,21 @@ export const CUArticleForm = styled(StyledForm)`
         }
     }
 
-    .html-validator {
+    .editor-body-validator {
         opacity: 0;
         width: 0;
         height: 0;
     }
 
-    .editor-wrapper {
-        margin-top: 0.5rem;
+    .editor-body {
         width: 95%;
+        min-height: 35rem;
+        margin: 0.5rem 0 1rem 0;
+        padding: 0.5rem 2.5%;
         color: black;
-        z-index: 1;
-
-        .editor-toolbar {
-            margin-bottom: 0.25rem;
-            background-color: var(--editor-color);
-        }
-        .editor-body {
-            min-height: 30rem;
-            padding: 0.5rem 2.5%;
-            border-radius: var(--border-radius);
-            border: 1px solid #f1f1f1;
-            background-color: var(--editor-color);
-        }
-    }
-
-    .public-DraftStyleDefault-block {
-        margin: 0;
-    }
-    .rdw-fontfamily-wrapper,
-    .rdw-block-wrapper {
-        width: 7.25rem;
-    }
-    .rdw-editor-toolbar {
-        position: sticky;
-        z-index: 2;
-        top: var(--header-height);
-        border-radius: 0;
-        box-shadow: 0 4px 0 var(--article-bg-color);
+        border-radius: var(--border-radius);
+        border: 1px solid #f1f1f1;
+        background-color: var(--editor-color);
+        resize: vertical;
     }
 `;

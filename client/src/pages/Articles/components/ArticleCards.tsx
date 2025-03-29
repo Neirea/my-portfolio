@@ -20,7 +20,7 @@ const ArticleCards = ({
         <>
             {articleCards.map((element, idx) => {
                 const tempDiv = document.createElement("div");
-                const contentBeforeImg = element.content.split("<img")[0] || "";
+                const contentBeforeImg = element.html?.split("<img")[0] || "";
                 tempDiv.innerHTML = contentBeforeImg.split("<pre")[0] || "";
                 const htmlContent =
                     tempDiv.textContent?.slice(0, MAX_CHARS) || "";

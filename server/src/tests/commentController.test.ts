@@ -57,8 +57,8 @@ const fakeUser: TUser = {
 const fakeArticle = {
     title: "basic article",
     content: "12312312312312313123",
+    html: "12312312312312313123",
     category: "blog",
-    code_languages: [],
     tags: ["typescript", "jsx"],
     source_link: undefined,
     demo_link: undefined,

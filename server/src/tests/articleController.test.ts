@@ -67,9 +67,9 @@ const articleData = [
     {
         title: "unsanitized content",
         content:
-            "hello darkness, my old friend!<script><div>test</div<</script>",
+            "hello darkness, my old friend!<script><div>test</div></script>",
+        html: "hello darkness, my old friend!<script><div>test</div></script>",
         category: "projects",
-        code_languages: [],
         tags: ["javascript"],
         source_link: undefined,
         demo_link: undefined,
@@ -81,8 +81,8 @@ const articleData = [
     {
         title: "basic article",
         content: "12312312312312313123",
+        html: "12312312312312313123",
         category: "blog",
-        code_languages: [],
         tags: ["typescript", "jsx"],
         source_link: undefined,
         demo_link: undefined,
@@ -94,8 +94,8 @@ const articleData = [
     {
         title: "failed to create",
         content: "123",
+        html: "123",
         category: "blog",
-        code_languages: [],
         tags: ["typescript", "jsx"],
         source_link: undefined,
         demo_link: undefined,
@@ -107,8 +107,8 @@ const articleData = [
     {
         title: "updated article",
         content: "12312312312312313123 asdasdasd",
+        html: "12312312312312313123 asdasdasd",
         category: "projects",
-        code_languages: [],
         tags: ["javascript"],
         source_link: "http://test.com/src",
         demo_link: "http://test.com/demo",
@@ -170,7 +170,7 @@ describe("createArticle", () => {
             .send(articleData[0]);
 
         const result = await Article.findOne({
-            content: "hello darkness, my old friend!",
+            html: "hello darkness, my old friend!",
         });
 
         expect(isAuthenticated).toHaveBeenCalledTimes(1);
@@ -187,7 +187,7 @@ describe("createArticle", () => {
 
         expect(mockedCloudinary.uploader.destroy).toHaveBeenCalledTimes(1);
         expect((response.body as { msg: string }).msg).toStrictEqual(
-            "Content can not be less than 10 characters",
+            "Content can not be less than 10 characters,HTML can not be less than 10 characters",
         );
         expect(response.status).toBe(400);
     });

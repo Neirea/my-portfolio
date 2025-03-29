@@ -6,29 +6,23 @@ import sanitizeHtml from "sanitize-html";
 import { redisClient } from "../db/redis.js";
 import CustomError from "../errors/index.js";
 import Article, {
-    type UpsertArticle,
     type Article as TArticle,
+    type UpsertArticle,
 } from "../models/Article.js";
 import Comment from "../models/Comment.js";
 import { StatusCodes } from "../utils/httpStatusCodes.js";
 
-const sanitizeOptions = {
+const sanitizeOptions: sanitizeHtml.IOptions = {
     allowedIframeHostnames: ["www.youtube.com"],
     allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img", "iframe"]),
     allowedAttributes: {
         iframe: ["src"],
-        a: ["href", "name", "target"],
-        img: [
-            "src",
-            "srcset",
-            "alt",
-            "title",
-            "width",
-            "height",
-            "loading",
-            "style",
-        ],
-        span: ["style"],
+        a: ["href", "title"],
+        img: ["src", "alt"],
+        span: ["class"],
+    },
+    allowedClasses: {
+        span: ["hljs-*"],
     },
 };
 
@@ -48,7 +42,9 @@ export const getAllArticles = async (
 
     const articles = await Article.find(
         !articleCategory ? {} : { category: articleCategory },
-    ).sort({ createdAt: "descending" });
+    )
+        .select("-content")
+        .sort({ createdAt: "descending" });
     if (!articles.length) {
         throw new CustomError.NotFoundError(`No ${articleCategory} found`);
     }
@@ -74,9 +70,7 @@ export const getSingleArticle = async (
 };
 
 interface CreateArticleRequest extends Request {
-    body: {
-        content: "string";
-    } & UpsertArticle;
+    body: UpsertArticle;
 }
 
 export const createArticle = async (
@@ -86,8 +80,8 @@ export const createArticle = async (
     try {
         const newArticle = {
             ...req.body,
+            html: sanitizeHtml(req.body.html, sanitizeOptions),
             userId: req.session.user?._id,
-            content: sanitizeHtml(req.body.content, sanitizeOptions),
         };
         const article = await Article.create(newArticle);
         await redisClient.del(req.body.category);
@@ -99,7 +93,6 @@ export const createArticle = async (
 };
 interface UpdateArticleRequest extends Request {
     body: {
-        content: string;
         userId: string;
     } & UpsertArticle;
 }
@@ -122,7 +115,7 @@ export const updateArticle = async (
 
     const newArticle = {
         ...req.body,
-        content: sanitizeHtml(req.body.content, sanitizeOptions),
+        html: sanitizeHtml(req.body.html, sanitizeOptions),
     };
     Object.assign(article, newArticle);
 

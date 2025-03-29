@@ -7,8 +7,8 @@ export type Article = {
     title: string;
     slug: string;
     content: string;
+    html: string;
     category: Category;
-    code_languages: string[];
     source_link: string;
     demo_link: string;
     tags: string[];
@@ -69,6 +69,7 @@ export type ArticleEditor = {
     demo_link: string;
     source_link: string;
     content: string;
+    html: string;
     image: string;
     img_id: string;
 };

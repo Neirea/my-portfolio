@@ -1,11 +1,13 @@
-import { EditorState } from "draft-js";
 import { useState, type JSX } from "react";
 import { useLocation } from "react-router";
 import useCreateArticle from "../../../hooks/Articles/useCreateArticle";
 import type { LocationState } from "../../../types/app.type";
-import type { ArticleEditor, Category } from "../../../types/article.type";
+import type {
+    ArticleCreated,
+    ArticleEditor,
+    Category,
+} from "../../../types/article.type";
 import { generateSlug } from "../../../utils/generateSlug";
-import { languageDetector } from "../../../utils/handleHtmlString";
 import EditorLayout from "../components/EditorLayout";
 
 const CreateArticle = (): JSX.Element => {
@@ -22,27 +24,24 @@ const CreateArticle = (): JSX.Element => {
         img_id: "",
         image: "",
         content: "",
+        html: "",
     });
     const [tags, setTags] = useState("");
     const [selectedImage, setSelectedImage] = useState<File | undefined>(
         undefined,
     );
     const [preview, setPreview] = useState<string | undefined>(undefined);
-    const [editorState, setEditorState] = useState<EditorState>(
-        EditorState.createEmpty(),
-    );
 
-    const handleSubmit = async (editorHTML: string): Promise<void> => {
+    const handleSubmit = async (html: string): Promise<void> => {
         const articleTags = tags.split(" ");
 
-        const createdArticle = {
+        const createdArticle: ArticleCreated = {
             ...articleValues,
+            html,
             slug: generateSlug(articleValues.title),
             tags: articleTags,
-            content: editorHTML,
             image: "",
             img_id: "",
-            code_languages: languageDetector(editorHTML),
         };
 
         await createArticle.mutateAsync({
@@ -56,8 +55,6 @@ const CreateArticle = (): JSX.Element => {
             articleValues={articleValues}
             setArticleValues={setArticleValues}
             onSubmit={handleSubmit}
-            editorState={editorState}
-            setEditorState={setEditorState}
             preview={preview}
             setPreview={setPreview}
             selectedImage={selectedImage}

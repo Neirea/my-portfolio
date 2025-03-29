@@ -73,7 +73,7 @@ const ArticlePost = ({ article }: { article: Article }): JSX.Element => {
             <div
                 className="article-text"
                 dangerouslySetInnerHTML={{
-                    __html: article.content,
+                    __html: article.html,
                 }}
             />
             <div className="article-links">

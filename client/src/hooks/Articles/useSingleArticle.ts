@@ -1,5 +1,4 @@
 import type { Article, ArticleData, Category } from "../../types/article.type";
-import { handleHtmlString } from "../../utils/handleHtmlString";
 import useArticles from "./useArticles";
 
 const useSingleArticle = (type: Category, slug: string | undefined) => {
@@ -24,10 +23,7 @@ const useSingleArticle = (type: Category, slug: string | undefined) => {
         const article = articles.find((item) => item.slug === slug);
         if (!article) return null;
 
-        return {
-            ...article,
-            content: handleHtmlString(article.content, article.code_languages),
-        };
+        return article;
     };
 
     const data = getArticle(queryInfo.data);

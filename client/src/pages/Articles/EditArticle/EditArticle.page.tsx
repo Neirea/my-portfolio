@@ -1,14 +1,15 @@
-import axios from "axios";
-import { ContentState, EditorState } from "draft-js";
-import htmlToDraft from "html-to-draftjs";
-import { useEffect, useState, type JSX } from "react";
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { useEffect, useState, type JSX } from "react";
 import { useParams } from "react-router";
 import useEditArticle from "../../../hooks/Articles/useEditArticle";
-import type { Article, ArticleEditor } from "../../../types/article.type";
-import { languageDetector } from "../../../utils/handleHtmlString";
-import EditorLayout from "../components/EditorLayout";
+import type {
+    Article,
+    ArticleEditor,
+    ArticleUpdated,
+} from "../../../types/article.type";
 import { generateSlug } from "../../../utils/generateSlug";
+import EditorLayout from "../components/EditorLayout";
 
 const EditArticle = (): JSX.Element => {
     const { articleId } = useParams();
@@ -22,13 +23,13 @@ const EditArticle = (): JSX.Element => {
         img_id: "",
         image: "",
         content: "",
+        html: "",
     });
     const [tags, setTags] = useState<string>("");
     const [selectedImage, setSelectedImage] = useState<File | undefined>(
         undefined,
     );
     const [preview, setPreview] = useState<string | undefined>(undefined);
-    const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const editArticle = useEditArticle();
 
     const {
@@ -45,16 +46,12 @@ const EditArticle = (): JSX.Element => {
 
     useEffect(() => {
         if (!article) return;
-        const contentState = ContentState.createFromBlockArray(
-            htmlToDraft(article.content).contentBlocks,
-        );
-
-        setEditorState(EditorState.createWithContent(contentState));
         setPreview(article.image);
         setArticleValues({
             title: article.title,
             slug: generateSlug(article.title),
             content: article.content,
+            html: article.html,
             category: article.category,
             image: article.image,
             img_id: article.img_id,
@@ -64,16 +61,15 @@ const EditArticle = (): JSX.Element => {
         setTags(article.tags.join(" "));
     }, [article, articleId]);
 
-    const handleSubmit = async (editorHTML: string): Promise<void> => {
+    const handleSubmit = async (html: string): Promise<void> => {
         if (!article) return;
         const articleTags = tags.split(" ");
 
-        const newArticle = {
+        const newArticle: ArticleUpdated = {
             ...articleValues,
+            html,
             userId: article.userId,
             tags: articleTags,
-            content: editorHTML,
-            code_languages: languageDetector(editorHTML),
         };
 
         await editArticle.mutateAsync({ articleId, selectedImage, newArticle });
@@ -84,8 +80,6 @@ const EditArticle = (): JSX.Element => {
             articleValues={articleValues}
             setArticleValues={setArticleValues}
             onSubmit={handleSubmit}
-            editorState={editorState}
-            setEditorState={setEditorState}
             preview={preview}
             setPreview={setPreview}
             selectedImage={selectedImage}

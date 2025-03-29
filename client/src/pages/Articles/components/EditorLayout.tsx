@@ -1,6 +1,6 @@
-import { convertToRaw, EditorState } from "draft-js";
-import draftToHtml from "draftjs-to-html";
+import { marked } from "marked";
 import {
+    useCallback,
     useEffect,
     type ChangeEvent,
     type Dispatch,
@@ -8,9 +8,8 @@ import {
     type JSX,
     type SetStateAction,
 } from "react";
-import { Editor } from "react-draft-wysiwyg";
 import { Link } from "react-router";
-import "../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import DOMPurify from "dompurify";
 import FormRow from "../../../components/FormRow";
 import {
     AdminButton,
@@ -18,8 +17,8 @@ import {
     AlertMsg,
 } from "../../../styles/common.style";
 import { CATEGORIES, type ArticleEditor } from "../../../types/article.type";
-import { useDebounce } from "../../../utils/useDebounce";
 import { handleHtmlString } from "../../../utils/handleHtmlString";
+import { useDebounce } from "../../../utils/useDebounce";
 import {
     ArticleContentWrapper,
     CUArticleForm,
@@ -46,8 +45,6 @@ const EditorLayout = ({
     articleValues,
     setArticleValues,
     onSubmit,
-    editorState,
-    setEditorState,
     preview,
     setPreview,
     selectedImage,
@@ -58,10 +55,14 @@ const EditorLayout = ({
     loading,
     alert,
 }: EditorLayoutProps): JSX.Element => {
-    const editorHTML = draftToHtml(
-        convertToRaw(editorState.getCurrentContent()),
-    );
-    const debouncedPreview = useDebounce(handleHtmlString(editorHTML, []), 500);
+    const computeHtml = useCallback(() => {
+        const html = handleHtmlString(
+            marked.parse(articleValues.content) as string,
+        );
+        return DOMPurify.sanitize(html);
+    }, [articleValues.content]);
+
+    const debouncedPreview = useDebounce(computeHtml, 500);
 
     useEffect(() => {
         if (!selectedImage) {
@@ -73,10 +74,6 @@ const EditorLayout = ({
 
         return (): void => URL.revokeObjectURL(objectUrl);
     }, [selectedImage, setPreview]);
-
-    const onEditorStateChange = (state: EditorState): void => {
-        setEditorState(state);
-    };
 
     const handleChange = (
         e: ChangeEvent<
@@ -99,7 +96,7 @@ const EditorLayout = ({
 
     const handleSubmit = (e: FormEvent): void => {
         e.preventDefault();
-        void onSubmit(editorHTML);
+        void onSubmit(debouncedPreview);
     };
 
     if (success) {
@@ -186,58 +183,24 @@ const EditorLayout = ({
                 </div>
                 {alert instanceof Error && <AlertMsg>{alert.message}</AlertMsg>}
                 <input
-                    type="html-validator"
-                    className="html-validator"
+                    type="editor-body-validator"
+                    className="editor-body-validator"
                     pattern=".{10,}"
                     title="Must have equal or more than 10 characters"
                     required
-                    value={editorHTML}
-                    onChange={() => {}}
+                    value={articleValues.content}
+                    onChange={() => undefined}
                 />
-                <Editor
-                    editorState={editorState}
-                    toolbarClassName="editor-toolbar"
-                    wrapperClassName="editor-wrapper"
-                    editorClassName="editor-body"
-                    toolbar={{
-                        options: [
-                            "inline",
-                            "blockType",
-                            "list",
-                            "textAlign",
-                            "colorPicker",
-                            "link",
-                            "embedded",
-                            "emoji",
-                            "image",
-                        ],
-                        inline: {
-                            monospace: undefined,
-                        },
-                        blockType: {
-                            options: [
-                                "Normal",
-                                "H3",
-                                "H4",
-                                "Code",
-                                "Blockquote",
-                            ],
-                        },
-                        list: {
-                            options: ["unordered", "ordered"],
-                        },
-                        image: {
-                            defaultSize: {
-                                height: "auto",
-                                width: "100%",
-                            },
-                            alt: { present: true, mandatory: true },
-                        },
-                    }}
-                    onEditorStateChange={onEditorStateChange}
+                <textarea
+                    className="editor-body"
+                    value={articleValues.content}
+                    onChange={(e) =>
+                        setArticleValues({
+                            ...articleValues,
+                            content: e.target.value,
+                        })
+                    }
                 />
-
-                <br />
                 <AdminButton type="submit" disabled={loading}>
                     {loading ? "Loading..." : "Save"}
                 </AdminButton>

@@ -4,8 +4,8 @@ export type Article = {
     title: string;
     slug: string;
     content: string;
+    html: string;
     category: "blog" | "project";
-    code_languages: string[];
     source_link: string | undefined;
     demo_link: string | undefined;
     tags: string[];
@@ -25,6 +25,7 @@ export type UpsertArticle = {
     demo_link: string;
     source_link: string;
     content: string;
+    html: string;
     image: string;
     img_id: string;
     tags: string[];
@@ -49,12 +50,16 @@ const ArticleSchema = new Schema(
             required: [true, "Please provide content of an article"],
             minlength: [10, "Content can not be less than 10 characters"],
         },
+        html: {
+            type: String,
+            required: [true, "Please provide html content of an article"],
+            minlength: [10, "HTML can not be less than 10 characters"],
+        },
         category: {
             type: String,
             required: [true, "Please provide category"],
             enum: ["blog", "projects"],
         },
-        code_languages: { type: [{ type: String }], default: [] },
         source_link: {
             type: String,
         },
