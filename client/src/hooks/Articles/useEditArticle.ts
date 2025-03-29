@@ -17,14 +17,12 @@ const useEditArticle = () => {
             articleId: string | undefined;
             newArticle: ArticleUpdated;
         }) =>
-            axios
-                .put<{
-                    article: Article;
-                }>(`/api/article/${articleId}`, newArticle)
-                .then((res) => res.data.article),
-        onSuccess(newArticle) {
+            axios.put<{
+                article: Article;
+            }>(`/api/article/${articleId}`, newArticle),
+        onSuccess(res) {
             void queryClient.invalidateQueries({
-                queryKey: ["articles", newArticle.category],
+                queryKey: ["articles", res.data.article.category],
             });
         },
     });
@@ -39,8 +37,11 @@ const useEditArticle = () => {
             newArticle: ArticleUpdated;
         }) => {
             if (!selectedImage) {
-                editArticle.mutate({ articleId, newArticle });
-                return editArticle.data;
+                const { data } = await editArticle.mutateAsync({
+                    articleId,
+                    newArticle,
+                });
+                return data;
             } else {
                 const data = new FormData();
                 data.append("image", selectedImage);

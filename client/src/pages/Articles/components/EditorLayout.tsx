@@ -30,9 +30,7 @@ import {
 type EditorLayoutProps = {
     articleValues: ArticleEditor;
     setArticleValues: Dispatch<SetStateAction<ArticleEditor>>;
-    onSubmit: (value: string) => void;
-    editorState: EditorState;
-    setEditorState: Dispatch<SetStateAction<EditorState>>;
+    onSubmit: (html: string) => Promise<void>;
     preview: string | undefined;
     setPreview: Dispatch<SetStateAction<string | undefined>>;
     selectedImage: File | undefined;
@@ -101,7 +99,7 @@ const EditorLayout = ({
 
     const handleSubmit = (e: FormEvent): void => {
         e.preventDefault();
-        onSubmit(editorHTML);
+        void onSubmit(editorHTML);
     };
 
     if (success) {

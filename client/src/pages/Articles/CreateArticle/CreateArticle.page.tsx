@@ -32,7 +32,7 @@ const CreateArticle = (): JSX.Element => {
         EditorState.createEmpty(),
     );
 
-    const handleSubmit = (editorHTML: string): void => {
+    const handleSubmit = async (editorHTML: string): Promise<void> => {
         const articleTags = tags.split(" ");
 
         const createdArticle = {
@@ -45,7 +45,10 @@ const CreateArticle = (): JSX.Element => {
             code_languages: languageDetector(editorHTML),
         };
 
-        createArticle.mutate({ selectedImage, newArticle: createdArticle });
+        await createArticle.mutateAsync({
+            selectedImage,
+            newArticle: createdArticle,
+        });
     };
 
     return (

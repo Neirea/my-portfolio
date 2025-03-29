@@ -11,12 +11,10 @@ const useCreateArticle = () => {
     const queryClient = useQueryClient();
     const createArticle = useMutation({
         mutationFn: (newArticle: ArticleCreated) =>
-            axios
-                .post<{ article: Article }>("/api/article/", newArticle)
-                .then((res) => res.data.article),
-        onSuccess(newArticle) {
+            axios.post<{ article: Article }>("/api/article/", newArticle),
+        onSuccess(res) {
             void queryClient.invalidateQueries({
-                queryKey: ["articles", newArticle.category],
+                queryKey: ["articles", res.data.article.category],
             });
         },
     });

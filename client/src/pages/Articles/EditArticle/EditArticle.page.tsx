@@ -64,7 +64,7 @@ const EditArticle = (): JSX.Element => {
         setTags(article.tags.join(" "));
     }, [article, articleId]);
 
-    const handleSubmit = (editorHTML: string): void => {
+    const handleSubmit = async (editorHTML: string): Promise<void> => {
         if (!article) return;
         const articleTags = tags.split(" ");
 
@@ -76,7 +76,7 @@ const EditArticle = (): JSX.Element => {
             code_languages: languageDetector(editorHTML),
         };
 
-        editArticle.mutate({ articleId, selectedImage, newArticle });
+        await editArticle.mutateAsync({ articleId, selectedImage, newArticle });
     };
 
     return (
