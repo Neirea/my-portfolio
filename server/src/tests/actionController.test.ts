@@ -1,14 +1,14 @@
-jest.mock("../utils/sendEmail", () => jest.fn());
-
 import request from "supertest";
 import type { App } from "supertest/types.js";
+import { describe, expect, test, vi, type Mock } from "vitest";
 import app from "../app.js";
 import sendEmail from "../utils/sendEmail.js";
 
-const mockedSendEmail = sendEmail as jest.Mock;
+vi.mock("../utils/sendEmail", () => ({ default: vi.fn() }));
+const mockedSendEmail = sendEmail as Mock;
 
-const fetchMock = (value: Record<string, any>): jest.Mock<any, any, any> =>
-    jest
+const fetchMock = (value: Record<string, any>): Mock =>
+    vi
         .fn()
         .mockReturnValueOnce(
             Promise.resolve({ json: () => Promise.resolve(value) }),

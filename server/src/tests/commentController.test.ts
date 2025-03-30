@@ -1,32 +1,40 @@
-jest.mock("../middleware/isAuthenticated", () =>
-    jest.fn((req: Request, res: Response, next: NextFunction) => {
-        req.session = {} as Session;
-        req.session.user = {
-            _id: fakeUser._id,
-            name: fakeUser.name,
-            roles: ["admin"],
-        } as TUser;
-        next();
-    }),
-);
-
-jest.mock("../middleware/checkCsrf", () =>
-    jest.fn((req: Request, res: Response, next: NextFunction) => {
-        next();
-    }),
-);
-
 import type { NextFunction, Request, Response } from "express";
 import { Session } from "express-session";
 import mongoose from "mongoose";
 import request from "supertest";
 import type { App } from "supertest/types.js";
+import {
+    afterAll,
+    afterEach,
+    beforeAll,
+    describe,
+    expect,
+    test,
+    vi,
+} from "vitest";
 import app from "../app.js";
 import Article, { type Article as TArticle } from "../models/Article.js";
 import Comment, { type Comment as TComment } from "../models/Comment.js";
 import type { User as TUser } from "../models/User.js";
 import type { MongooseDocument } from "../utils/mongoose.type.js";
 import * as dbHandler from "./db.js";
+
+vi.mock("../middleware/isAuthenticated", () => ({
+    default: vi.fn((req: Request, res: Response, next: NextFunction): void => {
+        req.session = {} as Session;
+        req.session.user = {
+            _id: new mongoose.Types.ObjectId("5dbff32e367a343830cd2f46"),
+            name: "fake admin",
+            roles: ["admin"],
+        } as TUser;
+        next();
+    }),
+}));
+vi.mock("../middleware/checkCsrf", () => ({
+    default: vi.fn((req: Request, res: Response, next: NextFunction): void => {
+        next();
+    }),
+}));
 
 beforeAll(async () => {
     await dbHandler.connect();
@@ -41,7 +49,7 @@ afterAll(async () => {
 });
 
 const fakeUser: TUser = {
-    _id: new mongoose.Types.ObjectId("5dbff32e367a343830cd2f46"),
+    _id: new mongoose.Types.ObjectId("5dbff32e367a343830cd2f47"),
     platform_id: 12345,
     platform_name: "Fake",
     platform_type: "google",

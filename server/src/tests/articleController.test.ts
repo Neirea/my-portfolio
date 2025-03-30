@@ -1,5 +1,30 @@
-jest.mock("../middleware/isAuthenticated", () =>
-    jest.fn((req: Request, res: Response, next: NextFunction) => {
+import { type UploadApiResponse, v2 as cloudinary } from "cloudinary";
+import type { NextFunction, Request, Response } from "express";
+import { Session } from "express-session";
+import mongoose from "mongoose";
+import path from "path";
+import request from "supertest";
+import type { App } from "supertest/types.js";
+import {
+    type Mock,
+    type Mocked,
+    afterAll,
+    afterEach,
+    beforeAll,
+    beforeEach,
+    describe,
+    expect,
+    test,
+    vi,
+} from "vitest";
+import app from "../app.js";
+import isAuthenticated from "../middleware/isAuthenticated.js";
+import Article, { type Article as TArticle } from "../models/Article.js";
+import type { User as TUser } from "../models/User.js";
+import * as dbHandler from "./db.js";
+
+vi.mock("../middleware/isAuthenticated", () => ({
+    default: vi.fn((req: Request, res: Response, next: NextFunction): void => {
         req.session = {} as Session;
         req.session.user = {
             _id: fakeUser._id,
@@ -8,40 +33,26 @@ jest.mock("../middleware/isAuthenticated", () =>
         } as TUser;
         next();
     }),
-);
-jest.mock("../middleware/checkCsrf", () =>
-    jest.fn((req: Request, res: Response, next: NextFunction) => {
+}));
+vi.mock("../middleware/checkCsrf", () => ({
+    default: vi.fn((req: Request, res: Response, next: NextFunction): void => {
         next();
     }),
-);
-
-import { type UploadApiResponse, v2 as cloudinary } from "cloudinary";
-import type { NextFunction, Request, Response } from "express";
-import { Session } from "express-session";
-import mongoose from "mongoose";
-import path from "path";
-import request from "supertest";
-import type { App } from "supertest/types.js";
-import app from "../app.js";
-import isAuthenticated from "../middleware/isAuthenticated.js";
-import Article, { type Article as TArticle } from "../models/Article.js";
-import type { User as TUser } from "../models/User.js";
-import * as dbHandler from "./db.js";
-
-jest.mock("cloudinary");
-jest.mock("../db/redis");
-const mockedCloudinary = cloudinary as jest.Mocked<typeof cloudinary>;
+}));
+vi.mock("cloudinary");
+vi.mock("../db/redis");
+const mockedCloudinary = cloudinary as Mocked<typeof cloudinary>;
 
 beforeAll(async () => {
     await dbHandler.connect();
 });
 
 beforeEach(() => {
-    mockedCloudinary.uploader.destroy = jest.fn();
+    mockedCloudinary.uploader.destroy = vi.fn();
 });
 
 afterEach(async () => {
-    (mockedCloudinary.uploader.destroy as jest.Mock).mockReset();
+    (mockedCloudinary.uploader.destroy as Mock).mockReset();
     await dbHandler.clearDatabase();
 });
 
@@ -241,7 +252,7 @@ describe("uploadArticleImage", () => {
             public_id: "456",
         } as UploadApiResponse;
 
-        mockedCloudinary.uploader.upload = jest.fn(() => {
+        mockedCloudinary.uploader.upload = vi.fn(() => {
             return Promise.resolve(result);
         });
 

@@ -1,27 +1,37 @@
-jest.mock("../middleware/isAuthenticated", () =>
-    jest.fn((req: Request, res: Response, next: NextFunction) => {
-        next();
-    }),
-);
-jest.mock("../middleware/authorizePermissions", () =>
-    jest.fn(() => {
-        return (req: Request, res: Response, next: NextFunction): void => {
-            next();
-        };
-    }),
-);
-jest.mock("../middleware/checkCsrf", () =>
-    jest.fn((req: Request, res: Response, next: NextFunction) => {
-        next();
-    }),
-);
-
 import type { NextFunction, Request, Response } from "express";
+import type { Session } from "express-session";
+import mongoose from "mongoose";
 import request from "supertest";
 import type { App } from "supertest/types.js";
+import {
+    afterAll,
+    afterEach,
+    beforeAll,
+    describe,
+    expect,
+    test,
+    vi,
+} from "vitest";
 import app from "../app.js";
-import User from "../models/User.js";
+import User, { type User as TUser } from "../models/User.js";
 import * as dbHandler from "./db.js";
+
+vi.mock("../middleware/isAuthenticated", () => ({
+    default: vi.fn((req: Request, res: Response, next: NextFunction): void => {
+        req.session = {} as Session;
+        req.session.user = {
+            _id: new mongoose.Types.ObjectId("5dbff32e367a343830cd2f46"),
+            name: "fake admin",
+            roles: ["admin"],
+        } as TUser;
+        next();
+    }),
+}));
+vi.mock("../middleware/checkCsrf", () => ({
+    default: vi.fn((req: Request, res: Response, next: NextFunction): void => {
+        next();
+    }),
+}));
 
 beforeAll(async () => {
     await dbHandler.connect();
@@ -35,15 +45,18 @@ afterAll(async () => {
     await dbHandler.closeDatabase();
 });
 
-const fakeUser = {
-    platform_id: "12345",
-    platform_name: "google",
+const fakeUser: TUser = {
+    _id: new mongoose.Types.ObjectId("5dbff32e367a343830cd2f47"),
+    platform_id: 12345,
+    platform_name: "Fake",
+    platform_type: "google",
     name: "fake user",
-    roles: ["user"],
+    roles: ["admin"],
     avatar_url: "http://some_image",
     isBanned: false,
-    createdAt: Date.now(),
-    updatedAt: Date.now(),
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    __v: 0,
 };
 
 describe("banUser", () => {
