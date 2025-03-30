@@ -3,7 +3,7 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import useArticles from "../../hooks/Articles/useArticles";
 import { MoreButton } from "../../styles/common.style";
 import { socialMediaLinks } from "../../utils/data";
-import hljs from "../../utils/hljsLangs";
+// import hljs from "../../utils/hljsLangs";
 import ArticleCards from "../Articles/components/ArticleCards";
 import {
     FooterWrapper,
@@ -22,12 +22,17 @@ const Home = (): JSX.Element => {
         )
         .slice(0, 4);
 
-    const codeText =
-        'const aboutMe = {\n   background: "6 years in e-Sports",\n   specialty:  "web development",\n   favorites: ["Typescript", "Go"],\n}';
+    // const codeText =
+    //     'const aboutMe = {\n   background: "6 years in e-Sports",\n   specialty:  "web development",\n   favorites: ["Typescript", "Go"],\n}';
+    // const formatCode = (text: string): string => {
+    //     return hljs.highlight(text, { language: "javascript" }).value;
+    // };
 
-    const formatCode = (text: string): string => {
-        return hljs.highlight(text, { language: "javascript" }).value;
-    };
+    const codeHtml = `<span class="hljs-keyword">const</span> aboutMe = {
+    <span class="hljs-attr">background</span>: <span class="hljs-string">"6 years in e-Sports"</span>,
+    <span class="hljs-attr">specialty</span>:  <span class="hljs-string">"web development"</span>,
+    <span class="hljs-attr">favorites</span>: [<span class="hljs-string">"Typescript"</span>, <span class="hljs-string">"Go"</span>],
+}</pre>`;
 
     return (
         <>
@@ -92,7 +97,7 @@ const Home = (): JSX.Element => {
                             <pre
                                 className="home-editor-code"
                                 dangerouslySetInnerHTML={{
-                                    __html: formatCode(codeText),
+                                    __html: codeHtml,
                                 }}
                             ></pre>
                         </div>
