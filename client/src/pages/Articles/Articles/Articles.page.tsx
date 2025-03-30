@@ -111,7 +111,7 @@ const Articles = ({ type }: { type: Category }): JSX.Element => {
             </ArticleSideMenuWrapper>
             {hasPermission(user, "articles", "create") && (
                 <NavLink
-                    className="create-article-button"
+                    className="article-editor-button"
                     to="/create-article"
                     state={{ from: location }}
                     replace

@@ -73,7 +73,6 @@ const Article = ({ type }: { type: Category }): JSX.Element => {
         <ArticlePageWrapper id="articles-wrapper-id">
             <>
                 <ArticleContentWrapper>
-                    <ArticlePost article={article} />
                     {(canUpdate || canDelete) && (
                         <div className="admin-buttons">
                             {canUpdate && (
@@ -93,6 +92,7 @@ const Article = ({ type }: { type: Category }): JSX.Element => {
                             )}
                         </div>
                     )}
+                    <ArticlePost article={article} />
                     <CommentsProvider value={{ articleId: article._id }}>
                         <Comments />
                     </CommentsProvider>

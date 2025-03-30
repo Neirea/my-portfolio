@@ -20,10 +20,10 @@ export const ArticlePageWrapper = styled.main`
         display: none;
     }
 
-    .create-article-button {
+    .article-editor-button {
         position: fixed;
         bottom: 2rem;
-        right: 2.5%;
+        right: 5%;
         z-index: 1;
     }
     @media (min-width: 1000px) {
@@ -181,10 +181,12 @@ export const ArticleContentWrapper = styled.section`
     }
 
     .admin-buttons {
+        position: fixed;
+        bottom: 2rem;
+        right: 5%;
         display: flex;
         flex-direction: row;
         justify-content: right;
-        position: relative;
         gap: 1rem;
     }
 `;
@@ -315,13 +317,6 @@ export const ArticleCardContainer = styled.div`
             gap: 1rem;
             margin-top: 0.5rem;
         }
-    }
-    .acard-admin-buttons {
-        display: flex;
-        justify-content: space-between;
-        padding: 1rem;
-        padding-top: 0;
-        gap: 1rem;
     }
 `;
 
