@@ -368,6 +368,8 @@ export const CUArticleWrapper = styled.main`
 `;
 
 export const CUArticleForm = styled(StyledForm)`
+    position: sticky;
+    top: 6rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -404,7 +406,7 @@ export const CUArticleForm = styled(StyledForm)`
 
     .editor-body {
         width: 95%;
-        min-height: 35rem;
+        min-height: 32rem;
         margin: 0.5rem 0 1rem 0;
         padding: 0.5rem 2.5%;
         color: black;
