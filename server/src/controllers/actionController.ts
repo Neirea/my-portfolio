@@ -98,8 +98,8 @@ export const sendContactMessage = async (
         });
     } catch (error) {
         console.error(error);
-        res.status(StatusCodes.BAD_REQUEST).json({
-            msg: "Failed to send an email",
-        });
+        throw new CustomError.ServiceUnavailableError(
+            "Failed to send an email",
+        );
     }
 };

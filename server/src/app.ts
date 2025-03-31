@@ -43,10 +43,7 @@ app.use(rateLimit(limiter));
 app.use(helmet());
 app.use(
     cors({
-        origin:
-            appConfig.nodeEnv !== "production"
-                ? ["http://localhost:4173", "http://localhost:5173"]
-                : "https://www.neirea.com",
+        origin: appConfig.clientUrl,
         credentials: true,
     }),
 );
