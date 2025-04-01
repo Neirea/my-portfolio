@@ -3,13 +3,15 @@ import type { Request, Response } from "express";
 import type { UploadedFile } from "express-fileupload";
 import fs from "fs";
 import sanitizeHtml from "sanitize-html";
+import type { z } from "zod";
 import { redisClient } from "../db/redis.js";
 import CustomError from "../errors/index.js";
-import Article, {
-    type Article as TArticle,
-    type UpsertArticle,
-} from "../models/Article.js";
+import Article, { type Article as TArticle } from "../models/Article.js";
 import Comment from "../models/Comment.js";
+import type {
+    articleCreateBodySchema,
+    articleUpdateBodySchema,
+} from "../schemas/articleSchemas.js";
 import { StatusCodes } from "../utils/httpStatusCodes.js";
 
 const sanitizeOptions: sanitizeHtml.IOptions = {
@@ -70,7 +72,7 @@ export const getSingleArticle = async (
 };
 
 interface CreateArticleRequest extends Request {
-    body: UpsertArticle;
+    body: z.infer<typeof articleCreateBodySchema>;
 }
 
 export const createArticle = async (
@@ -92,9 +94,7 @@ export const createArticle = async (
     }
 };
 interface UpdateArticleRequest extends Request {
-    body: {
-        userId: string;
-    } & UpsertArticle;
+    body: z.infer<typeof articleUpdateBodySchema>;
 }
 
 export const updateArticle = async (

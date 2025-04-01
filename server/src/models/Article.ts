@@ -18,19 +18,6 @@ export type Article = {
     __v: number;
 };
 
-export type UpsertArticle = {
-    title: string;
-    slug: string;
-    category: "blog" | "project";
-    demo_link: string;
-    source_link: string;
-    content: string;
-    html: string;
-    image: string;
-    img_id: string;
-    tags: string[];
-};
-
 const ArticleSchema = new Schema(
     {
         title: {

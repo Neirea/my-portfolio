@@ -1,8 +1,8 @@
 import { type UploadApiResponse, v2 as cloudinary } from "cloudinary";
 import type { NextFunction, Request, Response } from "express";
+import type { UploadedFile } from "express-fileupload";
 import { Session } from "express-session";
 import mongoose from "mongoose";
-import path from "path";
 import request from "supertest";
 import type { App } from "supertest/types.js";
 import {
@@ -153,11 +153,13 @@ describe("getAllArticles", () => {
 
 describe("getSingleArticle", () => {
     test("no article Id found", async () => {
-        const response = await request(app as App).get("/api/article/123");
+        const response = await request(app as App).get(
+            "/api/article/5dbff32e367a343830cd2f48",
+        );
 
         expect(response.status).toBe(404);
         expect((response.body as { msg: string }).msg).toStrictEqual(
-            "No item found with id : 123",
+            "No article with id : 5dbff32e367a343830cd2f48",
         );
     });
     test("article with Id found", async () => {
@@ -246,7 +248,11 @@ describe("deleteArticle", () => {
 
 describe("uploadArticleImage", () => {
     test("should upload image", async () => {
-        const fakeImage = path.resolve(__dirname, __filename);
+        const fakeImage = {
+            name: "fake-image.jpg",
+            mimetype: "image/jpeg",
+            data: Buffer.from("fake-image-data-here"),
+        } as UploadedFile;
         const result = {
             secure_url: "123",
             public_id: "456",
@@ -258,7 +264,10 @@ describe("uploadArticleImage", () => {
 
         const response = await request(app as App)
             .post("/api/article/upload")
-            .attach("image", fakeImage);
+            .attach("image", fakeImage.data, {
+                filename: fakeImage.name,
+                contentType: fakeImage.mimetype,
+            });
         expect(response.status).toBe(200);
         expect(
             (response.body as { image: { src: string; img_id: string } }).image

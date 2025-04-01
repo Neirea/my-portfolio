@@ -1,8 +1,20 @@
 import type { Request, Response } from "express";
 import mongoose from "mongoose";
+import type { z } from "zod";
 import CustomError from "../errors/index.js";
 import Article from "../models/Article.js";
 import Comment, { type Comment as TComment } from "../models/Comment.js";
+import type {
+    commentsCreateBodySchema,
+    commentsCreateParamsSchema,
+    commentsDeleteManyParamsSchema,
+    commentsDeleteManyQuerySchema,
+    commentsDeleteParamsSchema,
+    commentsDeleteQuerySchema,
+    commentsUpdateBodySchema,
+    commentsUpdateParamsSchema,
+    commentsUpdateQuerySchema,
+} from "../schemas/commentsSchemas.js";
 import { StatusCodes } from "../utils/httpStatusCodes.js";
 import type { MongooseDocument } from "../utils/mongoose.type.js";
 
@@ -21,10 +33,8 @@ export const getAllComments = async (
 };
 
 interface CreateCommentRequest extends Request {
-    body: {
-        message: string;
-        parentId: string;
-    };
+    params: z.infer<typeof commentsCreateParamsSchema>;
+    body: z.infer<typeof commentsCreateBodySchema>;
 }
 
 export const createComment = async (
@@ -67,10 +77,9 @@ export const createComment = async (
 };
 
 interface UpdateCommentRequest extends Request {
-    body: {
-        message: string;
-        parentId: string;
-    };
+    query: z.infer<typeof commentsUpdateQuerySchema>;
+    params: z.infer<typeof commentsUpdateParamsSchema>;
+    body: z.infer<typeof commentsUpdateBodySchema>;
 }
 
 export const updateComment = async (
@@ -79,7 +88,7 @@ export const updateComment = async (
 ): Promise<void> => {
     const { message } = req.body;
     const id = req.params.id;
-    const authorId = req.query.authorId as string | undefined;
+    const authorId = req.query.authorId;
     const comment = await fetchComment(id, authorId);
 
     comment.editedAt = new Date();
@@ -88,12 +97,17 @@ export const updateComment = async (
     res.status(StatusCodes.OK).json({ comment });
 };
 
+interface DeleteCommentRequest extends Request {
+    query: z.infer<typeof commentsDeleteQuerySchema>;
+    params: z.infer<typeof commentsDeleteParamsSchema>;
+}
+
 export const deleteComment = async (
-    req: Request,
+    req: DeleteCommentRequest,
     res: Response,
 ): Promise<void> => {
     const id = req.params.id;
-    const authorId = req.query.authorId as string | undefined;
+    const authorId = req.query.authorId;
     const comment = await fetchComment(id, authorId);
 
     if (!comment.replies.length) {
@@ -108,12 +122,17 @@ export const deleteComment = async (
     res.status(StatusCodes.OK).json({ comment });
 };
 
+interface DeleteManyCommentRequest extends Request {
+    query: z.infer<typeof commentsDeleteManyQuerySchema>;
+    params: z.infer<typeof commentsDeleteManyParamsSchema>;
+}
+
 export const deleteCommentsCascade = async (
-    req: Request,
+    req: DeleteManyCommentRequest,
     res: Response,
 ): Promise<void> => {
     const id = req.params.id;
-    const authorId = req.query.authorId as string | undefined;
+    const authorId = req.query.authorId;
     const comment = await fetchComment(id, authorId);
 
     const parseReplies = (
@@ -136,15 +155,9 @@ export const deleteCommentsCascade = async (
 };
 
 const fetchComment = async (
-    id: string | undefined,
-    authorId: string | undefined,
+    id: string,
+    authorId: string,
 ): Promise<MongooseDocument<TComment>> => {
-    if (!id || !authorId) {
-        throw new CustomError.BadRequestError(
-            "Comment id or/and authorId are missing",
-        );
-    }
-
     const comment = await Comment.findOne({ _id: id, "user.id": authorId });
 
     if (!comment) {

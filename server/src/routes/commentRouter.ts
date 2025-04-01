@@ -11,6 +11,18 @@ import authorizePermissions from "../middleware/authorizePermissions.js";
 import checkCsrf from "../middleware/checkCsrf.js";
 import isAuthenticated from "../middleware/isAuthenticated.js";
 import rateLimit from "../middleware/rateLimit.js";
+import { validateData } from "../middleware/validateData.js";
+import {
+    commentsCreateBodySchema,
+    commentsCreateParamsSchema,
+    commentsDeleteManyParamsSchema,
+    commentsDeleteManyQuerySchema,
+    commentsDeleteParamsSchema,
+    commentsDeleteQuerySchema,
+    commentsGetAllParamsSchema,
+    commentsUpdateBodySchema,
+    commentsUpdateParamsSchema,
+} from "../schemas/commentsSchemas.js";
 
 const router = Router();
 
@@ -27,11 +39,20 @@ router
             isAuthenticated,
             rateLimit(limiter),
             authorizePermissions("comments", "create"),
+            validateData({
+                params: commentsCreateParamsSchema,
+                body: commentsCreateBodySchema,
+            }),
             checkCsrf,
         ],
         createComment,
     )
-    .get(getAllComments);
+    .get(
+        validateData({
+            params: commentsGetAllParamsSchema,
+        }),
+        getAllComments,
+    );
 
 router
     .route("/:articleId/:id")
@@ -40,6 +61,10 @@ router
             isAuthenticated,
             rateLimit(limiter),
             authorizePermissions("comments", "update"),
+            validateData({
+                params: commentsUpdateParamsSchema,
+                body: commentsUpdateBodySchema,
+            }),
             checkCsrf,
         ],
         updateComment,
@@ -48,20 +73,26 @@ router
         [
             isAuthenticated,
             authorizePermissions("comments", "delete"),
+            validateData({
+                params: commentsDeleteParamsSchema,
+                query: commentsDeleteQuerySchema,
+            }),
             checkCsrf,
         ],
         deleteComment,
     );
 
-router
-    .route("/:articleId/d_all/:id")
-    .delete(
-        [
-            isAuthenticated,
-            authorizePermissions("comments", "deleteCascade"),
-            checkCsrf,
-        ],
-        deleteCommentsCascade,
-    );
+router.route("/:articleId/d_all/:id").delete(
+    [
+        isAuthenticated,
+        authorizePermissions("comments", "deleteCascade"),
+        validateData({
+            params: commentsDeleteManyParamsSchema,
+            query: commentsDeleteManyQuerySchema,
+        }),
+        checkCsrf,
+    ],
+    deleteCommentsCascade,
+);
 
 export default router;

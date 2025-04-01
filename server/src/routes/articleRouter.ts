@@ -10,6 +10,14 @@ import {
 import authorizePermissions from "../middleware/authorizePermissions.js";
 import checkCsrf from "../middleware/checkCsrf.js";
 import isAuthenticated from "../middleware/isAuthenticated.js";
+import { validateData } from "../middleware/validateData.js";
+import {
+    articleDeleteParamsSchema,
+    articleGetSingleParamsSchema,
+    articleUpdateBodySchema,
+    articleUpdateParamsSchema,
+    uploadedArticleImageFileSchema,
+} from "../schemas/articleSchemas.js";
 
 const router = Router();
 
@@ -34,6 +42,7 @@ router
         [
             isAuthenticated,
             authorizePermissions("articles", "create"),
+            validateData({ files: uploadedArticleImageFileSchema }),
             checkCsrf,
         ],
         uploadArticleImage,
@@ -41,11 +50,18 @@ router
 
 router
     .route("/:id")
-    .get(getSingleArticle)
+    .get(
+        validateData({ params: articleGetSingleParamsSchema }),
+        getSingleArticle,
+    )
     .put(
         [
             isAuthenticated,
             authorizePermissions("articles", "update"),
+            validateData({
+                params: articleUpdateParamsSchema,
+                body: articleUpdateBodySchema,
+            }),
             checkCsrf,
         ],
         updateArticle,
@@ -54,6 +70,9 @@ router
         [
             isAuthenticated,
             authorizePermissions("articles", "delete"),
+            validateData({
+                params: articleDeleteParamsSchema,
+            }),
             checkCsrf,
         ],
         deleteArticle,

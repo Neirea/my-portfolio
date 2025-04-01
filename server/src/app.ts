@@ -1,15 +1,12 @@
 import "express-async-errors";
-
 import express from "express";
 import { v2 as cloudinary } from "cloudinary";
 import MongoStore from "connect-mongo";
 import cors from "cors";
 import fileUpload from "express-fileupload";
-import mongoSanitize from "express-mongo-sanitize";
 import rateLimit from "./middleware/rateLimit.js";
 import { RateLimiter } from "rate-limiter-algorithms";
 import session from "express-session";
-import { buildCheckFunction } from "express-validator";
 import helmet from "helmet";
 import passport from "passport";
 import morgan from "morgan";
@@ -49,8 +46,6 @@ app.use(
 );
 app.use(fileUpload({ useTempFiles: true }));
 app.use(express.json());
-app.use(mongoSanitize());
-app.use(buildCheckFunction(["body", "query", "params"])());
 
 if (appConfig.nodeEnv === "development" || !appConfig.nodeEnv) {
     app.use(morgan("tiny"));
