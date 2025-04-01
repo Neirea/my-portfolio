@@ -36,6 +36,15 @@ vi.mock("../middleware/checkCsrf", () => ({
     }),
 }));
 
+vi.mock("../middleware/rateLimit", () => ({
+    default: vi.fn(
+        () =>
+            (req: Request, res: Response, next: NextFunction): void => {
+                next();
+            },
+    ),
+}));
+
 beforeAll(async () => {
     await dbHandler.connect();
 });
@@ -119,6 +128,46 @@ describe("createComment", () => {
             responseBody.comment._id,
         );
     });
+    test("should return 404 if article does not exist", async () => {
+        const response = await request(app as App)
+            .post(`/api/comment/5dbff32e367a343830cd2f48`)
+            .send({
+                message: "This is a comment",
+                parentId: null,
+            });
+
+        expect(response.status).toBe(404);
+        expect(response.body).toStrictEqual({
+            msg: "No article with id : 5dbff32e367a343830cd2f48",
+        });
+    });
+    test("should return 400 if required fields are missing", async () => {
+        const { article } = await createArticleUserComment();
+
+        const response = await request(app as App)
+            .post(`/api/comment/${article._id.toString()}`)
+            .send({});
+
+        expect(response.status).toBe(400);
+        expect(response.body).toStrictEqual({
+            msg: "body.message: Required\nbody.parentId: Required",
+        });
+    });
+    test("should return 404 if parent comment does not exist", async () => {
+        const { article } = await createArticleUserComment();
+
+        const response = await request(app as App)
+            .post(`/api/comment/${article._id.toString()}`)
+            .send({
+                message: "This is a reply",
+                parentId: "5dbff32e367a343830cd2f48",
+            });
+
+        expect(response.status).toBe(404);
+        expect(response.body).toStrictEqual({
+            msg: "No parent comment with id : 5dbff32e367a343830cd2f48",
+        });
+    });
 });
 
 describe("getAllComments", () => {
@@ -164,6 +213,22 @@ describe("updateComment", () => {
             (response.body as { comment: TComment }).comment.message,
         ).toStrictEqual("updated comment");
     });
+    test("should return 404 if comment does not exist", async () => {
+        const { article } = await createArticleUserComment();
+
+        const commentId = "5dbff32e367a343830cd2f49";
+
+        const response = await request(app as App)
+            .patch(
+                `/api/comment/${article._id.toString()}/${commentId}?authorId=${fakeUser._id.toString()}`,
+            )
+            .send({ message: "Updated message" });
+
+        expect(response.status).toBe(404);
+        expect(response.body).toStrictEqual({
+            msg: `Comment not found with id: ${commentId}`,
+        });
+    });
 });
 
 describe("deleteComment", () => {
@@ -174,9 +239,9 @@ describe("deleteComment", () => {
             `/api/comment/${article._id.toString()}/${comment._id.toString()}?authorId=${fakeUser._id.toString()}`,
         );
         expect(response.status).toBe(200);
-        expect((response.body as { msg: string }).msg).toStrictEqual(
-            "Success! Comment was deleted",
-        );
+        expect(response.body).toStrictEqual({
+            msg: "Success! Comment was deleted",
+        });
     });
     test("should delete comment that has replies", async () => {
         const { article, comment } = await createArticleUserComment();
@@ -198,6 +263,20 @@ describe("deleteComment", () => {
             (response.body as { comment: TComment }).comment.message,
         ).toStrictEqual("");
     });
+    test("should return 404 if comment does not exist", async () => {
+        const { article } = await createArticleUserComment();
+
+        const commentId = "5dbff32e367a343830cd2f49";
+
+        const response = await request(app as App).delete(
+            `/api/comment/${article._id.toString()}/${commentId}?authorId=${fakeUser._id.toString()}`,
+        );
+
+        expect(response.status).toBe(404);
+        expect(response.body).toStrictEqual({
+            msg: `Comment not found with id: ${commentId}`,
+        });
+    });
 });
 
 describe("deleteCommentsAdmin", () => {
@@ -218,5 +297,19 @@ describe("deleteCommentsAdmin", () => {
         const comments = await Comment.find({});
         expect(response.status).toBe(200);
         expect(comments.length).toBe(0);
+    });
+    test("should return 404 if comment does not exist", async () => {
+        const { article } = await createArticleUserComment();
+
+        const commentId = "5dbff32e367a343830cd2f49";
+
+        const response = await request(app as App).delete(
+            `/api/comment/${article._id.toString()}/d_all/${commentId}?authorId=${fakeUser._id.toString()}`,
+        );
+
+        expect(response.status).toBe(404);
+        expect(response.body).toStrictEqual({
+            msg: `Comment not found with id: ${commentId}`,
+        });
     });
 });

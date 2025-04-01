@@ -66,14 +66,10 @@ describe("banUser", () => {
         const response = await request(app as App).delete(
             `/api/user/${user._id.toString()}`,
         );
-        expect((response.body as { msg: string }).msg).toStrictEqual(
-            "User was banned",
-        );
+        expect(response.body).toStrictEqual({ msg: "User was banned" });
         const another = await request(app as App).delete(
             `/api/user/${user._id.toString()}`,
         );
-        expect((another.body as { msg: string }).msg).toStrictEqual(
-            "User was unbanned",
-        );
+        expect(another.body).toStrictEqual({ msg: "User was unbanned" });
     });
 });

@@ -135,9 +135,7 @@ describe("getAllArticles", () => {
         const response = await request(app as App).get("/api/article/projects");
 
         expect(response.status).toBe(404);
-        expect((response.body as { msg: string }).msg).toStrictEqual(
-            "No projects found",
-        );
+        expect(response.body).toStrictEqual({ msg: "No projects found" });
     });
     test("should return blogs", async () => {
         const result = await Article.create(articleData[1]);
@@ -149,6 +147,12 @@ describe("getAllArticles", () => {
             (response.body as { articles: TArticle[] }).articles[0]?._id,
         ).toStrictEqual(createdId);
     });
+    test("should return 404 if no articles exist in the category", async () => {
+        const response = await request(app as App).get("/api/article/blog");
+
+        expect(response.status).toBe(404);
+        expect(response.body).toStrictEqual({ msg: "No blog found" });
+    });
 });
 
 describe("getSingleArticle", () => {
@@ -158,9 +162,9 @@ describe("getSingleArticle", () => {
         );
 
         expect(response.status).toBe(404);
-        expect((response.body as { msg: string }).msg).toStrictEqual(
-            "No article with id : 5dbff32e367a343830cd2f48",
-        );
+        expect(response.body).toStrictEqual({
+            msg: "No article with id : 5dbff32e367a343830cd2f48",
+        });
     });
     test("article with Id found", async () => {
         const result = await Article.create(articleData[1]);
@@ -199,9 +203,9 @@ describe("createArticle", () => {
             .send(articleData[2]);
 
         expect(mockedCloudinary.uploader.destroy).toHaveBeenCalledTimes(1);
-        expect((response.body as { msg: string }).msg).toStrictEqual(
-            "Content can not be less than 10 characters,HTML can not be less than 10 characters",
-        );
+        expect(response.body).toStrictEqual({
+            msg: "Content can not be less than 10 characters,HTML can not be less than 10 characters",
+        });
         expect(response.status).toBe(400);
     });
 });
@@ -228,6 +232,16 @@ describe("updateArticle", () => {
         expect(mockedCloudinary.uploader.destroy).toHaveBeenCalledTimes(0);
         expect(response.status).toBe(400);
     });
+    test("should return 404 if article to update does not exist", async () => {
+        const response = await request(app as App)
+            .put("/api/article/5dbff32e367a343830cd2f48")
+            .send(articleData[3]);
+
+        expect(response.status).toBe(404);
+        expect(response.body).toStrictEqual({
+            msg: "No article with id : 5dbff32e367a343830cd2f48",
+        });
+    });
 });
 
 describe("deleteArticle", () => {
@@ -240,9 +254,32 @@ describe("deleteArticle", () => {
         );
         expect(response.status).toBe(200);
         expect(cloudinary.uploader.destroy).toHaveBeenCalledTimes(1);
-        expect((response.body as { msg: string }).msg).toStrictEqual(
-            "Success! Article is removed",
+        expect(response.body).toStrictEqual({
+            msg: "Success! Article is removed",
+        });
+    });
+    test("should return 404 if article to delete does not exist", async () => {
+        const response = await request(app as App).delete(
+            "/api/article/5dbff32e367a343830cd2f48",
         );
+
+        expect(response.status).toBe(404);
+        expect(response.body).toStrictEqual({
+            msg: "No article with id : 5dbff32e367a343830cd2f48",
+        });
+    });
+    test("should return 500 if cloudinary fails during deletion", async () => {
+        mockedCloudinary.uploader.destroy = vi.fn(() => {
+            throw new Error("Cloudinary error");
+        });
+
+        const createdArticle = await Article.create(articleData[0]);
+        const response = await request(app as App).delete(
+            `/api/article/${createdArticle._id.toString()}`,
+        );
+
+        expect(response.status).toBe(500);
+        expect(response.body).toStrictEqual({ msg: "Cloudinary error" });
     });
 });
 
@@ -273,5 +310,13 @@ describe("uploadArticleImage", () => {
             (response.body as { image: { src: string; img_id: string } }).image
                 .src,
         ).toStrictEqual(result.secure_url);
+    });
+    test("should return 400 if no image is attached", async () => {
+        const response = await request(app as App).post("/api/article/upload");
+
+        expect(response.status).toBe(400);
+        expect(response.body).toStrictEqual({
+            msg: "files: Image was not attached",
+        });
     });
 });
