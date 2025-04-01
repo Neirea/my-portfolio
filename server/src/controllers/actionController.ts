@@ -86,6 +86,10 @@ export const sendContactMessage = async (
     const { subject, msg } = req.body;
     const cleanHtml = sanitizeHtml(msg);
 
+    if (cleanHtml === "") {
+        throw new CustomError.BadRequestError("Message content is invalid");
+    }
+
     try {
         await sendEmail({
             to: appConfig.contactEmail,

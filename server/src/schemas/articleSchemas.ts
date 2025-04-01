@@ -34,13 +34,18 @@ export const articleUpdateParamsSchema = z
 
 export const articleDeleteParamsSchema = articleUpdateParamsSchema;
 
-export const uploadedArticleImageFileSchema = z.object({
-    image: z.object({
-        name: z.string().min(1),
-        mimetype: z.string().regex(/^image\/(jpeg|png|gif|webp)$/),
-        size: z.number().max(10 * 1024 * 1024), // 10MB
-        data: z.instanceof(Buffer),
-        tempFilePath: z.string().min(1),
-        encoding: z.string(),
-    }),
-});
+export const uploadedArticleImageFileSchema = z
+    .object({
+        image: z.object({
+            name: z.string().min(1),
+            mimetype: z.string().regex(/^image\/(jpeg|png|gif|webp)$/),
+            size: z.number().max(10 * 1024 * 1024), // 10MB
+            data: z.instanceof(Buffer),
+            tempFilePath: z.string().min(1),
+            encoding: z.string(),
+        }),
+    })
+    .optional()
+    .refine((data) => data?.image !== undefined, {
+        message: "Image was not attached",
+    });

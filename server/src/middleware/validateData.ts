@@ -16,13 +16,12 @@ export const validateData = (schemaMapping: UserReqInput) => {
             } catch (error) {
                 if (error instanceof ZodError) {
                     for (const err of error.errors) {
-                        const message = `${key}.${err.path.join("...")}: ${err.message}`;
+                        const message = `${key}${err.path.length > 0 ? "." : ""}${err.path.join(".")}: ${err.message}`;
                         validationErrors.push(message);
                     }
                 } else {
                     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-                        message:
-                            "An unexpected error occurred during validation.",
+                        msg: "An unexpected error occurred during validation.",
                     });
                     return;
                 }
@@ -31,7 +30,7 @@ export const validateData = (schemaMapping: UserReqInput) => {
 
         if (validationErrors.length > 0) {
             res.status(StatusCodes.BAD_REQUEST).json({
-                message: validationErrors.join("\n"),
+                msg: validationErrors.join("\n"),
             });
             return;
         }
