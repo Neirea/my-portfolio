@@ -1,4 +1,4 @@
-import type { JSX } from "react";
+import { useEffect, type JSX } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import LoadingSpinner from "../../../components/LoadingSpinner";
 import { CommentsProvider } from "../../../hooks/Articles/comments/useCommentsContext";
@@ -65,7 +65,13 @@ const Article = ({ type }: { type: Category }): JSX.Element => {
         );
     }
 
-    if (!article) {
+    useEffect(() => {
+        if (!articleLoading && !article) {
+            void navigate("/not-found");
+        }
+    }, [articleLoading]);
+
+    if (articleLoading || !article) {
         return <LoadingSpinner />;
     }
 
