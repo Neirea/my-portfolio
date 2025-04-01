@@ -1,4 +1,3 @@
-import "express-async-errors";
 import express from "express";
 import { v2 as cloudinary } from "cloudinary";
 import MongoStore from "connect-mongo";
