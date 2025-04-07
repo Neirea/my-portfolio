@@ -1,12 +1,12 @@
 import {
     type Dispatch,
-    type MutableRefObject,
+    type RefObject,
     type SetStateAction,
     useEffect,
 } from "react";
 
 export const useOutsideClick = (
-    ref: MutableRefObject<HTMLElement | null>,
+    ref: RefObject<HTMLElement | null>,
     set: Dispatch<SetStateAction<any>>,
 ): void => {
     useEffect(() => {

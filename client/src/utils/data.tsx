@@ -18,13 +18,13 @@ export const socialMediaLinks = [
         name: "email",
         link: "mailto:neirea@ukr.net",
     },
-];
+] as const;
 export const menuItems = [
     { name: "HOME", link: "/" },
     { name: "BLOG", link: "/blog" },
     { name: "PROJECTS", link: "/projects" },
     { name: "CONTACT", link: "/contact" },
-];
+] as const;
 export const recaptchaKey = import.meta.env.VITE_RECAPTCHA_CLIENT as string;
 export const serverUrl = import.meta.env.VITE_SERVER_URL as string;
 export const posthogHost = import.meta.env.VITE_PUBLIC_POSTHOG_HOST as string;
