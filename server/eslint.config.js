@@ -5,7 +5,7 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
     {
-        ignores: ["eslint.config.mjs", "jest.config.js"],
+        ignores: ["eslint.config.js"],
     },
     eslint.configs.recommended,
     ...tseslint.configs.recommendedTypeChecked,
@@ -14,7 +14,6 @@ export default tseslint.config(
         languageOptions: {
             globals: {
                 ...globals.node,
-                ...globals.jest,
             },
             ecmaVersion: 5,
             sourceType: "module",
