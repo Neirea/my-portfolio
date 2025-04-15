@@ -7,7 +7,7 @@ My portfolio/blog website built with MERN stack and Typescript.
 -   Dark/Light themes
 -   Authentication with Github/Google
 -   Nested comments support for users
--   Text editor for blogs & project articles
+-   Markdown text editor for blogs & project articles
 
 ## Client technologies:
 
@@ -28,5 +28,5 @@ My portfolio/blog website built with MERN stack and Typescript.
 
 -   Express with Typescript
 -   Mongoose to manage MongoDB
--   Jest for testing
+-   Vitest for testing
 -   Redis for caching
