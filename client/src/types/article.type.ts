@@ -74,11 +74,10 @@ export type ArticleEditor = {
     img_id: string;
 };
 
-export type ArticleCreated = ArticleEditor & {
+export interface ArticleCreated extends ArticleEditor {
     tags: string[];
-};
+}
 
-export type ArticleUpdated = ArticleEditor & {
+export interface ArticleUpdated extends ArticleCreated {
     userId: string;
-    tags: string[];
-};
+}

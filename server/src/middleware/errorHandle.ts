@@ -4,11 +4,11 @@ import fs from "fs";
 import { Error as MongooseError } from "mongoose";
 import { StatusCodes } from "../utils/httpStatusCodes.js";
 
-type MyError = Error & {
+interface MyError extends Error {
     statusCode?: number;
     code?: number;
     keyValue: Record<string, any>;
-};
+}
 
 const errorHandlerMiddleware: ErrorRequestHandler = (
     err: MyError,

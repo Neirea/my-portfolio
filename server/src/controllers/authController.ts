@@ -101,11 +101,11 @@ export const loginGoogle = (
     })();
 };
 
-type GithubUserProfile = GithubProfile & {
+interface GithubUserProfile extends GithubProfile {
     _json: {
         [key: string]: string;
     };
-};
+}
 
 export const loginGithub = (
     accessToken: string | undefined,
