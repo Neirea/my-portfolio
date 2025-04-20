@@ -10,6 +10,7 @@ import plaintext from "highlight.js/lib/languages/plaintext";
 import sql from "highlight.js/lib/languages/sql";
 import typescript from "highlight.js/lib/languages/typescript";
 import yaml from "highlight.js/lib/languages/yaml";
+import lua from "highlight.js/lib/languages/lua";
 
 hljs.registerLanguage("css", css);
 hljs.registerLanguage("markdown", markdown);
@@ -22,5 +23,6 @@ hljs.registerLanguage("yaml", yaml);
 hljs.registerLanguage("typescript", typescript);
 hljs.registerLanguage("dockerfile", dockerfile);
 hljs.registerLanguage("go", go);
+hljs.registerLanguage("lua", lua);
 
 export default hljs;
