@@ -62,7 +62,7 @@ const Home = (): JSX.Element => {
                             </div>
                         </h3>
                         <p className="home-bottom-text">
-                            a Software Engineer who likes to make life simpler
+                            a software engineer fueled by perpetual curiosity
                         </p>
                         <div className="home-top-links">
                             {socialMediaLinks.map((item, index) => {
