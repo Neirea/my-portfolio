@@ -1,6 +1,6 @@
 export const appConfig = {
     nodeEnv: process.env.NODE_ENV,
-    port: process.env.PORT || 5000,
+    port: Number(process.env.PORT) || 8080,
     cloudinaryName: process.env.CLDNRY_NAME,
     cloudinaryAPIKey: process.env.CLDNRY_API_KEY,
     cloudinaryAPISecret: process.env.CLDNRY_API_SECRET,

@@ -12,7 +12,7 @@ const start = async (): Promise<void> => {
                 console.log(`Server is listening on port ${appConfig.port}...`),
             );
         } else {
-            app.listen(8080, "0.0.0.0");
+            app.listen(appConfig.port, "0.0.0.0");
         }
     } catch (error) {
         console.error(error);
