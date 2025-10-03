@@ -3,7 +3,7 @@ import { z, ZodError } from "zod";
 import { StatusCodes } from "../utils/httpStatusCodes.js";
 
 type UserReqInput = Partial<
-    Record<"params" | "query" | "body" | "files", z.ZodType<any>>
+    Record<"params" | "query" | "body" | "files", z.ZodType>
 >;
 
 export const validateData = (schemaMapping: UserReqInput) => {
@@ -15,7 +15,7 @@ export const validateData = (schemaMapping: UserReqInput) => {
                 schema.parse(data);
             } catch (error) {
                 if (error instanceof ZodError) {
-                    for (const err of error.errors) {
+                    for (const err of error.issues) {
                         const message = `${key}${err.path.length > 0 ? "." : ""}${err.path.join(".")}: ${err.message}`;
                         validationErrors.push(message);
                     }
