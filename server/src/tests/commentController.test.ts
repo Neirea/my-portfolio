@@ -148,9 +148,10 @@ describe("createComment", () => {
             .post(`/api/comment/${article._id.toString()}`)
             .send({});
 
+        console.log(response.body);
         expect(response.status).toBe(400);
         expect(response.body).toStrictEqual({
-            msg: "body.message: Required\nbody.parentId: Required",
+            msg: "body.message: Invalid input: expected string, received undefined\nbody.parentId: Invalid input: expected string, received undefined",
         });
     });
     test("should return 404 if parent comment does not exist", async () => {
