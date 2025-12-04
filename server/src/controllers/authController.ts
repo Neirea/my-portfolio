@@ -63,11 +63,12 @@ export const loginGoogle = (
     done: VerifyCallback,
 ): void => {
     void (async (): Promise<void> => {
+        const { id, name, displayName, _json } = profile;
+        const profile_id = Number(id);
         let user = await User.findOne({
-            platform_id: profile.id,
+            platform_id: profile_id,
             platform_type: "google",
         });
-        const { id, name, displayName, _json } = profile;
 
         if (user) {
             let changed = false;
@@ -89,7 +90,7 @@ export const loginGoogle = (
         } else {
             const isFirstAccount = (await User.countDocuments({})) === 0;
             user = await User.create({
-                platform_id: id,
+                platform_id: profile_id,
                 platform_name: name?.givenName || randomUserName(),
                 platform_type: "google",
                 name: displayName || randomUserName(),
@@ -114,11 +115,12 @@ export const loginGithub = (
     done: (err: any, id?: unknown) => void,
 ): void => {
     void (async (): Promise<void> => {
+        const { id, username, displayName, _json } = profile;
+        const profile_id = Number(id);
         let user = await User.findOne({
-            platform_id: profile.id,
+            platform_id: profile_id,
             platform_type: "github",
         });
-        const { id, username, displayName, _json } = profile;
 
         if (user) {
             let changed = false;
@@ -140,7 +142,7 @@ export const loginGithub = (
         } else {
             const isFirstAccount = (await User.countDocuments({})) === 0;
             user = await User.create({
-                platform_id: id,
+                platform_id: profile_id,
                 platform_name: username || randomUserName(),
                 platform_type: "github",
                 name: displayName || randomUserName(),

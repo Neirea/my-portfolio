@@ -74,6 +74,8 @@ const fakeUser: TUser = {
     __v: 0,
 };
 
+type TCreateArticle = Omit<TArticle, "_id" | "createdAt" | "updatedAt" | "__v">;
+
 const articleData = [
     {
         title: "unsanitized content",
@@ -128,7 +130,7 @@ const articleData = [
         userId: fakeUser._id,
         slug: "project 2",
     },
-];
+] as const satisfies TCreateArticle[];
 
 describe("getAllArticles", () => {
     test("no projects found", async () => {
