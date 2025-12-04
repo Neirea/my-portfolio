@@ -5,7 +5,7 @@ export type Article = {
     slug: string;
     content: string;
     html: string;
-    category: "blog" | "project";
+    category: "blog" | "projects";
     source_link: string | undefined;
     demo_link: string | undefined;
     tags: string[];
