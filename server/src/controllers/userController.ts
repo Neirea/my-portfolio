@@ -25,7 +25,7 @@ export const banUser = async (req: Request, res: Response): Promise<void> => {
 
     if (!user) {
         throw new CustomError.NotFoundError(
-            `No user with id : ${req.params.id}`,
+            `No user with id : ${userId as string}`,
         );
     }
 

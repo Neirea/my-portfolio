@@ -65,7 +65,7 @@ export const getSingleArticle = async (
     const article = await Article.findOne({ _id: articleId });
     if (!article) {
         throw new CustomError.NotFoundError(
-            `No article with id : ${articleId}`,
+            `No article with id : ${articleId as string}`,
         );
     }
     res.status(StatusCodes.OK).json({ article });
@@ -107,7 +107,7 @@ export const updateArticle = async (
 
     if (!article) {
         throw new CustomError.NotFoundError(
-            `No article with id : ${articleId}`,
+            `No article with id : ${articleId as string}`,
         );
     }
 
@@ -147,7 +147,7 @@ export const deleteArticle = async (
     const article = await Article.findOne({ _id: articleId });
     if (!article) {
         throw new CustomError.NotFoundError(
-            `No article with id : ${articleId}`,
+            `No article with id : ${articleId as string}`,
         );
     }
     await cloudinary.uploader.destroy(article.img_id);
