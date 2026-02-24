@@ -6,7 +6,7 @@ export const handleDate = (date: string, editedAt?: string): string => {
     const oneHour = 1000 * 60 * 60;
     const oneMinute = 1000 * 60;
 
-    let resultDate = "";
+    let resultDate;
 
     if (timeDifference < oneMinute) {
         resultDate = Math.floor(timeDifference / 1000) + " sec. ago";
