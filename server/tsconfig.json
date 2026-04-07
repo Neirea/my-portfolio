@@ -12,6 +12,7 @@
         "noImplicitOverride": true,
         "module": "NodeNext",
         "lib": ["ESNext"],
-        "outDir": "./build"
+        "outDir": "./build",
+        "rootDir": "./src"
     }
 }
