@@ -1,5 +1,5 @@
 # stage 1
-FROM node:20 as builder
+FROM node:24 as builder
 WORKDIR /portfolio
 COPY package*.json ./
 RUN npm ci
@@ -8,7 +8,7 @@ RUN npm run build
 RUN npm prune --omit=dev
 
 # stage 2
-FROM node:20-alpine
+FROM node:24-alpine
 ENV NODE_ENV production
 WORKDIR /portfolio
 
