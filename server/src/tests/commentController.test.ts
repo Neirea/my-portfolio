@@ -71,7 +71,7 @@ const fakeUser: TUser = {
     __v: 0,
 };
 
-const fakeArticle = {
+const fakeArticle: Partial<TArticle> = {
     title: "basic article",
     content: "12312312312312313123",
     html: "12312312312312313123",
