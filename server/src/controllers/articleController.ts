@@ -32,7 +32,9 @@ export const getAllArticles = async (
     req: Request,
     res: Response,
 ): Promise<void> => {
-    const articleCategory = req.url.toString().replace("/", "");
+    const articleCategory = req.url
+        .toString()
+        .replace("/", "") as TArticle["category"];
 
     const cachedArticles = await redisClient.get(articleCategory);
     if (cachedArticles) {
