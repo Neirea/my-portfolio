@@ -19,8 +19,7 @@ export type User = {
 };
 
 export type PermissionCheck<Key extends keyof Permissions> =
-    | boolean
-    | ((user: User, data: Permissions[Key]["dataType"]) => boolean);
+    boolean | ((user: User, data: Permissions[Key]["dataType"]) => boolean);
 
 export type RolesWithPermissions = {
     [R in Role]: Partial<{
